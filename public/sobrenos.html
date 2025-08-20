@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós - Monitora</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgb(227, 227, 227);
+      min-height: 100vh; 
+    }
+
+    .container-pai {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px; 
+      justify-content: center;
+    }
+
+    .container-filho {
+      width: 150px;
+      height: 200px;
+      background-color: rgb(255, 255, 255);
+      border-radius: 10px;
+      box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, background-color 0.3s ease;
+
+      display: flex;
+      flex-direction: column; 
+      justify-content: space-evenly;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .container-filho img {
+      width: 80px; 
+      height: auto;
+    }
+
+    .container-filho:hover {
+      cursor: pointer;
+      transform: scale(1.05);
+    }
+
+    .container-filho h2 {
+      font-size: 1rem;
+      margin: 10px 0 0 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+    <div class = "container">
+        <div class="container-pai">
+            <div class="container-filho">
+                <img src="../public/Images/M - PNG.png" alt="">
+                <h2>Nome: Beatriz</h2>
+            </div>
+                    <div class="container-filho">
+                <img src="../public/Images/M - PNG.png" alt="">
+                <h2>Nome: Bruno</h2>
+            </div>
+                    <div class="container-filho">
+                <img src="../public/Images/M - PNG.png" alt="">
+                <h2>Nome: Pedro</h2>
+            </div>
+                    <div class="container-filho">
+                <img src="../public/Images/M - PNG.png" alt="">
+                <h2>Nome: João</h2>
+            </div>
+                    <div class="container-filho">
+                <img src="../public/Images/M - PNG.png" alt="">
+                <h2>Nome: Thiago</h2>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
