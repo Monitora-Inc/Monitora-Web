@@ -1,6 +1,6 @@
 # Monitora
 
-![Logo](./public/Images/M%20-%20PNG.png)
+<img src="./public/Images/M%20-%20PNG.png" alt="Logo" width="200">
 
 Monitoramento de servidores.
 
