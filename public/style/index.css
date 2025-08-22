@@ -22,7 +22,7 @@ body {
     width: 90%;
     display: flex;
     border-radius: 1rem;
-    margin-top: 1rem;
+    margin-top: 1.6rem;
     margin-left: 5%;
     height: 4rem;
 }
@@ -64,7 +64,7 @@ body {
 }
 
 .Hero {
-  margin-top: 5%;
+  margin-top: 8%;
 }
 
 .text-base {
@@ -75,3 +75,13 @@ body {
   width: 50%;
 }
 
+.btn.btn-danger {
+  margin-left: 7%;
+  margin-top: 1%;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  color: #ffffff; 
+  background-color: #B81D24;
+  width: 10rem;
+  border-radius: 1rem;
+}
