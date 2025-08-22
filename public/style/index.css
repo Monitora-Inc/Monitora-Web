@@ -19,20 +19,25 @@ body {
 .navbar {
     position: relative; /* necessário para referência do posicionamento absoluto */
     background-color: #F5F5F1;
-    width: 80%;
+    width: 90%;
     display: flex;
-    border-radius: 2rem;
+    border-radius: 1rem;
     margin-top: 1rem;
-    margin-left: 10%;
+    margin-left: 5%;
+    height: 4rem;
+}
+
+.logo {
+  margin-left: 120%;
 }
 
 .innerbar {
-    position: absolute; /* É o jeito para mudar o tamanho da inner sem alterar o da navbar externa*/
-    top: 50%; /* centraliza verticalmente */
+    position: absolute; 
+    top: 50%; 
     left: 25%; 
     transform: translateY(-50%);
     background-color: white;
-    height: 3rem; /* altura maior */
+    height: 2.5rem;
     width: 50%; 
     border-radius: 10px;
     z-index: 1;
@@ -45,16 +50,17 @@ body {
 }
 
 .texto_nav {
-    margin-top: 0.2rem;
     margin-right: 5%;
     margin-left: 5%;
+    color: inherit;
+    text-decoration: none;
 }
 
 .title {
   color: white;
   font-family: 'Bebas Neue', sans-serif;
   font-size: 6rem;
-  margin-left: 10%;
+  margin-left: 7%;
 }
 
 .Hero {
@@ -65,7 +71,7 @@ body {
   color: white;
   font-family: 'Inter', sans-serif;
   font-size: 2rem;
-  margin-left: 10%;
+  margin-left: 7%;
   width: 50%;
 }
 
