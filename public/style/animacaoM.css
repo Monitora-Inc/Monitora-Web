@@ -1,0 +1,173 @@
+html, body{
+    margin: 0;
+}
+.bg{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #221f1f;
+    color: #f5f5f1;
+    overflow: hidden;
+    animation: animacao-moni-out 0.3s linear forwards;
+    animation-delay: 2.4s;
+    position: absolute;
+    z-index: 10000000000000;
+}
+
+.monitora{
+    position: relative;
+    width: 380px;
+    height: 400px;
+    overflow: hidden;
+    transform: scale(1);
+    animation: animacao-moni 0.8s ease-in forwards;  
+    /* animation: animacao-moni-out 2s ease-out forwards; */
+    animation-delay: 0.4s ;
+}
+
+.monitora{ 
+    animation: animacao-moni-out 10s linear forwards;
+    animation-delay: 10s;
+}
+
+.m-1{
+    background-color: #b81d24;
+    height: 400px;
+    width: 80px;
+    position: absolute;
+    animation: animacao-pernas-top 0.6s linear forwards;
+    left: -20px;
+}
+
+.m-3{
+    background-color: #b81d24;
+    height: 400px;
+    width: 80px;
+    position: absolute;
+    right: -20px;
+    animation: animacao-pernas-bot 0.6s linear forwards;
+    animation-delay: 1.9s;
+    bottom: 400px;
+}
+
+.m-3::after{
+    content: "";
+    height: 10px;
+    width: 130px;
+    position: absolute;
+    background-color: #221f1f;
+    bottom: -5px;
+    left: -25px;
+    transform: rotateZ(5deg);
+}
+
+.m-1::after{
+    content: "";
+    height: 7px;
+    width: 130px;
+    position: absolute;
+    background-color: #221f1f;
+    bottom: -5px;
+    right: -25px;
+    transform: rotateZ(-3deg);
+}
+
+.m-2{
+    background-color: transparent;
+    height: 520px;
+    width: 95px;
+    position: absolute;
+    transform: rotateZ(-20deg);
+    top: -100px;
+    left: 40px;
+    box-shadow: 4px 4px 15px #00000085;
+}
+
+.m-2 .filler{
+    background-color: #e50914;
+    height: 0px;
+    animation: animacao-filler 0.6s linear forwards;
+    animation-delay: 0.6s;
+}
+
+.m-4 .filler {
+    background-color: #e50914;
+    height: 0px;
+    width: 100%;
+    position: absolute; 
+    bottom: 0; 
+    animation: animacao-filler 0.7s linear forwards;
+    animation-delay: 1.2s;
+}
+
+
+.m-4{
+    background-color: transparent;
+    height: 520px;
+    width: 95px;
+    position: absolute;
+    transform: rotateZ(20deg);
+    top: -100px;
+    right: 40px;
+    box-shadow: 4px 4px 15px #00000085;
+
+}
+
+@keyframes animacao-moni{
+    0%{
+        transform:scale(1)
+    }
+    100%{
+        transform:scale(1.4);
+        display: none ;
+        content: "";
+        z-index: -1;
+
+    }
+}
+
+@keyframes animacao-moni-out{
+    0%{
+        opacity: 1;
+    }
+
+    100%{
+        opacity: 0;
+        display: none ;
+        content: "";
+        z-index: -1;
+    }
+}
+
+@keyframes animacao-pernas-top{
+    0%{
+        top: 400px;
+    }
+
+    100%{
+        top: 0px;
+    }
+}
+
+@keyframes animacao-filler{
+    0%{
+        height: 0px;
+    }
+
+    100%{
+        height: 520px;
+    }
+}
+
+
+@keyframes animacao-pernas-bot{
+    0%{
+        bottom: 400px;
+    }
+
+    100%{
+        bottom: 0px;
+    }
+}
