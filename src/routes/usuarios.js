@@ -3,7 +3,7 @@ var router = express.Router();
 
 var usuarioController = require("../controllers/usuarioController");
 
-router.get("/autenticar/:login/:senha", function(req, res) {
+router.get("/autenticar/:email/:senha", function(req, res) {
     usuarioController.autenticar(req, res);
 });
 

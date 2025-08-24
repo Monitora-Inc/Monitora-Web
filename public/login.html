@@ -53,6 +53,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100" onsubmit="login()">Entrar</button>
+                        <div id="erroLogin"></div>
                     </form>
                 </div>
             </div>
@@ -94,6 +95,9 @@
         let usuarioEmail = await floatingEmail.value;
         let usuarioSenha = await floatingPassword.value;
 
+        console.log(usuarioEmail);
+        console.log(usuarioSenha);
+
         let respostaLogin = await fetch(`/usuarios/autenticar/${usuarioEmail}/${usuarioSenha}`, {
             method: 'GET',
             headers: {
@@ -103,16 +107,19 @@
 
         if(!respostaLogin.ok) {
             respostaLogin.text().then(texto => {
-                console.error(texto);
+                erroLogin.innerHTML = `<p>${texto}</p>`;
             });
+
             return;
         }
 
         let jsonLogin = await respostaLogin.json();
 
-        sessionStorage.EMAIL_USUARIO = json.email;
-        sessionStorage.NOME_USUARIO = json.nome;
-        sessionStorage.ID_USUARIO = json.idUsuario;
+        console.log(jsonLogin);
+
+        sessionStorage.EMAIL_USUARIO = jsonLogin.email;
+        sessionStorage.NOME_USUARIO = jsonLogin.nome;
+        sessionStorage.ID_USUARIO = jsonLogin.idUsuario;
 
         window.location = "dashboard.html";
     }
