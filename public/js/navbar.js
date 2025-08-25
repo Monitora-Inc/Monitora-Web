@@ -3,17 +3,38 @@ navbar.innerHTML = `
     <div>
         <h1>Navegação</h1>
         <div class="collapseSection">
-            <div class="collapseTitulo" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <div onclick="virarSeta(setaDashboards)" class="collapseTitulo" data-bs-toggle="collapse" href="#collapseDashboards" role="button" aria-expanded="false" aria-controls="collapseDashboards">
                 <img src="../Images/home.svg">
                 <h2>Dashboards</h2>
-                <img src="../Images/chevron_right.svg" class="setaBaixo">
+                <img src="../Images/chevron_right.svg" class="" id="setaDashboards">
             </div>
-            <div class="collapse" id="collapseExample">
+            <div class="collapse" id="collapseDashboards">
                 <div class="collapsePages">
-                    <h3>Estatísticas</h3>
-                    <h3>Gráficos</h3>
+                    <a href="dashboard.html" class="link-underline link-underline-opacity-0"><h3 role="button">Estatísticas</h3></a>
+                    <h3 role="button">Gráficos</h3>
+                </div>
+            </div>
+        </div>
+        <div class="collapseSection">
+            <div onclick="virarSeta(setaServers)" class="collapseTitulo" data-bs-toggle="collapse" href="#collapseServers" role="button" aria-expanded="false" aria-controls="collapseServers">
+                <img src="../Images/serverIcon.svg">
+                <h2>Servidores</h2>
+                <img src="../Images/chevron_right.svg" class="setaBaixo" id="setaServers">
+            </div>
+            <div class="collapse" id="collapseServers">
+                <div class="collapsePages">
+                    <h3 role="button">Configurações</h3>
+                    <a href="servidores.html" class="link-underline link-underline-opacity-0"><h3 role="button">Adicionar Servidor</h3></a>
                 </div>
             </div>
         </div>
     </div>
 `;
+
+function virarSeta(idSeta) {
+    if(idSeta.classList.contains('rotate-90')) {
+        idSeta.classList.remove('rotate-90');
+    } else {
+        idSeta.classList.add('rotate-90')
+    }
+}

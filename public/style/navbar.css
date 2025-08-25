@@ -5,6 +5,11 @@
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
+    text-decoration: none;
+}
+
+.links {
+    text-decoration: none;
 }
 
 #navbar {
@@ -19,7 +24,7 @@
 
 #navbar .logo {
     width: 30%;
-    height: 12%;
+    height: 11%;
     padding-top: 20px;
     align-self: center;
     margin-bottom: 40px;
