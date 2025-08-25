@@ -103,25 +103,59 @@ body {
 
 .tela-cards{
   display: flex;
-  width: 95vw;
+  width: 100vw;
   height: 123vh;
   justify-content: center;
   align-items: center;
 }
 
 .tela-cards .cards-container{
-  width: 75%;
-  border: 2px solid red;
-  top: 50px;
+  display: flex;
+  width: 95%;
   height: 40%;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+
 }
 
-.cards{
+.flipcard{
+position: relative;
+width: 355px;
+height: 225px;
+}
+.frenteFlip, .costasFlip{
+position: absolute;
+top: 0;
+left: 0;
+background-color: purple;
+width: 100%;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 40px;
+transition: transform 0.6s;
+backface-visibility: hidden;
+border-radius: 12px;
 
 }
 
+.costasFlip{
+background-color: purple;
+transform: rotateY(180deg);
+}
+
+
+.flipcard:hover .costasFlip{
+transform: rotateY(0deg);
+}
+
+.flipcard:hover .frenteFlip{
+transform: rotateY(-180deg);
+}
 .terceira-tela{
-  width: 95vw;
+  width: 100vw;
   height: 100vh;
   background-color: green;
 }
