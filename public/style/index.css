@@ -13,7 +13,6 @@ body {
     background-size: cover;      /* cobre toda a tela */
     background-repeat: no-repeat; /* não repete a imagem */
 
-
 }
 
 .navbar {
@@ -100,3 +99,28 @@ body {
   padding-left: 25%;
 }
 
+
+.tela-cards{
+  display: flex;
+  width: 95vw;
+  height: 123vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.tela-cards .cards-container{
+  width: 75%;
+  border: 2px solid red;
+  top: 50px;
+  height: 40%;
+}
+
+.cards{
+
+}
+
+.terceira-tela{
+  width: 95vw;
+  height: 100vh;
+  background-color: green;
+}
