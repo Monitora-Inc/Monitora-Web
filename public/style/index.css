@@ -12,6 +12,7 @@ body {
     background-image: url('../Images/background_principal.png'); /* ajuste o caminho conforme necessário */
     background-size: cover;      /* cobre toda a tela */
     background-repeat: no-repeat; /* não repete a imagem */
+    overflow-x: hidden;
 
 }
 
