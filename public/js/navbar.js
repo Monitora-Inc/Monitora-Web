@@ -6,6 +6,7 @@ navbar.innerHTML = `
             <div class="collapseTitulo" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                 <img src="../Images/home.svg">
                 <h2>Dashboards</h2>
+                <img src="../Images/chevron_right.svg" class="setaBaixo">
             </div>
             <div class="collapse" id="collapseExample">
                 <div class="collapsePages">
