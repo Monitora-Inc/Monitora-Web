@@ -166,3 +166,29 @@ transform: rotateY(-180deg);
   height: 100vh;
   background-color: green;
 }
+
+.scroller {
+  max-width: 50rem;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 1rem 0;
+  border-radius: 1rem;
+}
+
+.scroller_inner {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  min-width: max-content;
+  padding: 0 2rem;
+}
+
+.scroller[data-animate=true] .scroller_inner {
+  animation: scroll 20s linear infinite;
+}
+
+@keyframes scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
