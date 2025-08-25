@@ -21,10 +21,11 @@
     <!-- Importando bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 
-    <!-- Meu CSS -->
-    <link rel="stylesheet" href="style/index.css">
+  <!-- Meu CSS -->
+  <link rel="stylesheet" href="style/index.css">
 
-     
+  <!-- Escrita "em tempo real" -->
+  <script src="js/texto_animado.js"></script>
 </head> 
 
 <body>
@@ -52,14 +53,16 @@
 
       <div class="innerbar">
           <div class="hidden lg:flex lg:gap-x-12 bar">
-              <a href="#" class="text-sm/6 font-semibold text-gray-900 texto_nav">Home</a>
-              <a href="#" class="text-sm/6 font-semibold text-gray-900 texto_nav">Soluções</a>
-              <a href="#" class="text-sm/6 font-semibold text-gray-900 texto_nav">Sobre</a>
+              <a href="#" class="text-sm/6 text-gray-900 texto_nav">Home</a>
+              <a href="#" class="text-sm/6 text-gray-900 texto_nav">Soluções</a>
+              <a href="#" class="text-sm/6 text-gray-900 texto_nav">Sobre</a>
           </div>
       </div>
 
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="login.html" class="text-sm/6 font-semibold text-gray-900 texto_nav">Log in <span aria-hidden="true">&rarr;</span></a>
+          <div class="login">
+            <a href="login.html" class="text-sm/6 text-gray-900 login-text">Log in<span aria-hidden="true">&rarr;</span></a>
+          </div>
         </div>
       </nav>
 
@@ -82,12 +85,12 @@
               <div class="mt-6 flow-root">
                 <div class="-my-6 divide-y divide-gray-500/10">
                   <div class="space-y-2 py-6">
-                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50 texto_nav">Home</a>
-                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50 texto_nav">Soluções</a>
-                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50 texto_nav">Sobre</a>
+                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Home</a>
+                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Soluções</a>
+                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Sobre</a>
                   </div>
                   <div class="py-6">
-                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50 texto_nav">Log in</a>
+                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Log in</a>
                   </div>
                 </div>
               </div>
@@ -105,7 +108,6 @@
 
       <p class="text-base">Acompanhe em tempo real o uso de CPU, memória e armazenamento, garantindo máxima performance e estabilidade nos servidores</p>
 
-      <button type="button" class="btn btn-danger">Entenda</button>
 
 
 
