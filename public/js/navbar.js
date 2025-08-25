@@ -3,10 +3,10 @@ navbar.innerHTML = `
     <div>
         <h1>Navegação</h1>
         <div class="collapseSection">
-            <div class="collapseTitulo" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <div onclick="mudarSeta(setaDashboard)" class="collapseTitulo" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                 <img src="../Images/home.svg">
                 <h2>Dashboards</h2>
-                <img src="../Images/chevron_right.svg" class="setaBaixo">
+                <img src="../Images/chevron_right.svg" class="setaBaixo" id="setaDashboard">
             </div>
             <div class="collapse" id="collapseExample">
                 <div class="collapsePages">

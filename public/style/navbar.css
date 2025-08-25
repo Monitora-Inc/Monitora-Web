@@ -43,6 +43,7 @@
 
 #navbar .collapseSection .collapseTitulo .setaBaixo {
     margin-left: 10px;
+    /* transform: rotateY(90deg); */
 }
 
 #navbar .collapseSection .collapseTitulo h2{
