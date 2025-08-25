@@ -9,7 +9,7 @@
 }
 
 body {
-    background-image: url('../Images/BG1blur.png'); /* ajuste o caminho conforme necessário */
+    background-image: url('../Images/background_principal.png'); /* ajuste o caminho conforme necessário */
     background-size: cover;      /* cobre toda a tela */
     background-repeat: no-repeat; /* não repete a imagem */
 
@@ -81,21 +81,22 @@ body {
 }
 
 .login {
-  background-color: #B81D24;
+  background-color: #0B4293;
   height: 2rem;
   display: flex;
-  width: 5rem;
+  width: 6rem;
   margin-right: 5%;
   color: white;
   text-align: center;
   align-items: center;
   border-radius: 0.5rem;
+  height: 2.2rem;
 }
 
 .login-text {
   text-decoration: none;
   color: white;
-  padding-left: 20%;
+  padding-left: 25%;
 }
 
 
