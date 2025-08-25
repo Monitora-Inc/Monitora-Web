@@ -54,7 +54,8 @@ body {
     color: inherit;
     text-decoration: none;
     font-weight: 600;
-    font-family: bebas neue, sans-serif;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
 }
 
 .title {
@@ -98,6 +99,8 @@ body {
   text-decoration: none;
   color: white;
   padding-left: 25%;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
 }
 
 
