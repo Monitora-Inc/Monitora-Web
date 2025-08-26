@@ -1,0 +1,22 @@
+.page-content {
+    margin-left: 13vw;
+    padding: 40px;
+}
+
+.new-servers {
+    width: 250px;
+    height: 300px;
+    border-style: dashed;
+    border-width: 2px;
+    border-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 25px;
+}
+
+.new-servers img {
+    width: 50%;
+}

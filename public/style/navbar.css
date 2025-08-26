@@ -36,6 +36,13 @@
     margin-bottom: 10px;
 }
 
+#navbar .categoriaSection {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-bottom: 20px;
+}
+
 #navbar .collapseSection {
     
 }
@@ -46,13 +53,9 @@
     gap: 10px;
 }
 
-#navbar .collapseSection .collapseTitulo .setaBaixo {
-    margin-left: 10px;
-    /* transform: rotateY(90deg); */
-}
-
 #navbar .collapseSection .collapseTitulo h2{
     margin-top: 10px;
+    margin-bottom: 10px;
     color: #ffffff;
     font-size: 17px;
     font-weight: 500;
