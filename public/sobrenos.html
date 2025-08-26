@@ -1,87 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre Nós - Monitora</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: rgb(227, 227, 227);
-      min-height: 100vh; 
-    }
-
-    .container-pai {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px; 
-      justify-content: center;
-    }
-
-    .container-filho {
-      width: 150px;
-      height: 200px;
-      background-color: rgb(255, 255, 255);
-      border-radius: 10px;
-      box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
-      transition: transform 0.3s ease, background-color 0.3s ease;
-
-      display: flex;
-      flex-direction: column; 
-      justify-content: space-evenly;
-      align-items: center;
-      padding: 10px;
-    }
-
-    .container-filho img {
-      width: 80px; 
-      height: auto;
-    }
-
-    .container-filho:hover {
-      cursor: pointer;
-      transform: scale(1.05);
-    }
-
-    .container-filho h2 {
-      font-size: 1rem;
-      margin: 10px 0 0 0;
-      text-align: center;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre Nós - Monitora</title>
+  <link rel="stylesheet" href="./style/sobrenos.css">
 </head>
-<body>
-    <div class = "container">
-        <div class="container-pai">
-            <div class="container-filho">
-                <img src="../public/Images/M - PNG.png" alt="">
-                <h2>Nome: Beatriz</h2>
-            </div>
-                    <div class="container-filho">
-                <img src="../public/Images/M - PNG.png" alt="">
-                <h2>Nome: Bruno</h2>
-            </div>
-                    <div class="container-filho">
-                <img src="../public/Images/M - PNG.png" alt="">
-                <h2>Nome: Pedro</h2>
-            </div>
-                    <div class="container-filho">
-                <img src="../public/Images/M - PNG.png" alt="">
-                <h2>Nome: João</h2>
-            </div>
-                    <div class="container-filho">
-                <img src="../public/Images/M - PNG.png" alt="">
-                <h2>Nome: Thiago</h2>
-            </div>
-        </div>
 
+<body>
+  <section class="quem-somos">
+    <h3>Quem Somos</h3>
+    <p>
+      Somos uma empresa especializada em <span>monitoramento de hardware</span>, com foco em garantir a máxima
+      eficiência e segurança em grandes plataformas de streaming como a <span>Netflix</span>.
+    </p>
+
+    <div class="quem-somos-cards">
+      <div class="card">
+        <img src="https://img.icons8.com/ios-filled/100/ffffff/computer.png" alt="Monitoramento">
+        <h3>Especialistas em Hardware</h3>
+        <p>Acompanhamos em tempo real o desempenho e a saúde dos servidores para garantir estabilidade e alta
+          performance.</p>
+      </div>
+
+      <div class="card">
+        <img src="https://img.icons8.com/ios-filled/100/ffffff/idea.png" alt="Excelência">
+        <h3>Foco na Excelência</h3>
+        <p>Nossas soluções são desenhadas para atender necessidades específicas 24/7, assegurando qualidade contínua.
+        </p>
+      </div>
+
+      <div class="card">
+        <img src="https://img.icons8.com/ios-filled/100/ffffff/settings.png" alt="Inovação">
+        <h3>Por que Existimos</h3>
+        <p>Criamos a empresa para prevenir falhas, otimizar recursos e reduzir custos, garantindo uma experiência sem
+          interrupções.</p>
+      </div>
     </div>
+  </section>
+
+  <section id="missao">
+    <h3>Missão, Visão e Valores</h3>
+
+    <div class="missao-grid">
+      <article class="missao-item">
+        <span class="missao-cabecalho">MISSÃO</span>
+        <h4 class="missao-title">Estabilidade no streaming</h4>
+        <p>
+          Monitorar em tempo real CPU, RAM e Disco com alertas inteligentes e
+          dashboards claras para garantir disponibilidade e performance contínuas.
+        </p>
+      </article>
+
+      <article class="missao-item">
+        <span class="missao-cabecalho">VISÃO</span>
+        <h4 class="missao-title">Referência em observabilidade</h4>
+        <p>
+          Ser a plataforma preferida para equipes de streaming na América Latina,
+          reconhecida por confiabilidade, escalabilidade e experiência do cliente.
+        </p>
+      </article>
+
+      <article class="missao-item">
+        <span class="missao-cabecalho">VALORES</span>
+        <h4 class="missao-title">Nosso DNA</h4>
+        <p>
+          • Inovação contínua<br>
+          • Transparência de dados<br>
+          • Colaboração<br>
+          • Excelência operacional<br>
+          • Segurança & Privacidade
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="team">
+    <h3>Nossa Equipe</h3>
+    <div class="perfis">
+      <div class="perfil">
+        <img src="../public/Images/Colaboradores/beatriz.jpg" alt="Beatriz">
+        <span>Beatriz</span>
+      </div>
+      <div class="perfil">
+        <img src="../public/Images/Colaboradores/bruno.jpg" alt="Bruno">
+        <span>Bruno</span>
+      </div>
+      <div class="perfil">
+        <img src="../public/Images/Colaboradores/pedro.jpg" alt="Pedro">
+        <span>Pedro</span>
+      </div>
+      <div class="perfil">
+        <img src="../public/Images/Colaboradores/joao.jpg" alt="João">
+        <span>João</span>
+      </div>
+      <div class="perfil">
+        <img src="../public/Images/Colaboradores/bruno.jpg" alt="Thiago">
+        <span>Thiago</span>
+      </div>
+    </div>
+  </section>
 </body>
+
 </html>
