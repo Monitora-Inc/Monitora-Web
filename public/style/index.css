@@ -120,7 +120,9 @@ body {
   height: 100vh;
   justify-content: center;
   align-items: center;
-  background-color: #0B4293;
+  background-image: url(../Images/background-cards.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
   flex-direction: column;
   inset: 0;
   overflow: hidden;
