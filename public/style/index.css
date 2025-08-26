@@ -112,31 +112,33 @@ body {
 .tela-cards{
   display: flex;
   width: 100vw;
-  height: 123vh;
+  height: 100vh;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .tela-cards .cards-container{
   display: flex;
-  width: 95%;
+  width: 100%;
   height: 40%;
   justify-content: space-around;
-  align-items: center;
+  align-items: flex-end;
   position: relative;
 
 }
 
 .flipcard{
 position: relative;
-width: 355px;
-height: 225px;
+width: 500px;
+height: 400px;
 }
+
 .frenteFlip, .costasFlip{
 position: absolute;
 top: 0;
 left: 0;
-background-color: purple;
+background-color: #0B4293;
 width: 100%;
 height: 100%;
 display: flex;
@@ -150,8 +152,14 @@ border-radius: 12px;
 }
 
 .costasFlip{
-background-color: purple;
+background-color: #0B4293;
 transform: rotateY(180deg);
+}
+
+.frenteFlip img{
+  width: 160px;
+  height: 150px;
+  
 }
 
 
@@ -162,6 +170,21 @@ transform: rotateY(0deg);
 .flipcard:hover .frenteFlip{
 transform: rotateY(-180deg);
 }
+
+.frenteFlip{
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+  color: #F5F5F1;
+}
+
+.costasFlip{
+  color: #F5F5F1;
+  font-size: 26px;
+ text-align: center;
+ flex-direction: column;
+}
+
 .terceira-tela{
   width: 100vw;
   height: 100vh;
