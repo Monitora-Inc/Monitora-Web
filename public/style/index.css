@@ -10,16 +10,7 @@
   }
 }
 
-body {
-  background-image: url('../Images/background_principal.png');
-  /* ajuste o caminho conforme necessário */
-  background-size: cover;
-  /* cobre toda a tela */
-  background-repeat: no-repeat;
-  /* não repete a imagem */
-  overflow-x: hidden;
 
-}
 
 .navbar {
   position: relative;
@@ -31,6 +22,7 @@ body {
   margin-top: 1.6rem;
   margin-left: 5%;
   height: 5rem;
+  z-index: 10000000000;
 }
 
 .logo {
@@ -80,7 +72,11 @@ body {
   flex-direction: column;
   align-items: center;
   z-index: -10000;
-
+  background-image: url('../Images/background_principal.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  overflow-x: hidden;
 }
 
 .text-base {
@@ -127,117 +123,6 @@ body {
   inset: 0;
   overflow: hidden;
 }
-
-.bolha-container{
-  position: absolute;
-  width: 200vw;
-  height: 200vh;
-  overflow: hidden;
-  inset: 0;
-}
-
-.bolha {
-  position: absolute;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: rgba(25,49, 207,0.2);
-  border: 1px solid rgba(25,49, 207, 0.2);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-box-shadow: rgba(10, 20, 80, 0.6) 0 -20px 25px 0 inset,
-  rgba(10, 20, 80, 0.6) 0 -40px 30px 0 inset,
-  rgba(10, 20, 80, 0.6) 0 -80px 25px 0 inset,
-  rgba(10, 20, 80, 0.6) 0 2px 1px,
-  rgba(10, 20, 80, 0.6) 0 4px 2px,
-  rgba(10, 20, 80, 0.6) 0 8px 4px,
-  rgba(10, 20, 80, 0.6) 0 16px 8px,
-  rgba(10, 20, 80, 0.6) 0 32px 16px;
-
-  z-index: 1000;
-  bottom: -150px;
-  animation: bolha-ani 20s cubic-bezier(0.6, 0.8, 0.9, 0.35) infinite;
-}
-
-.bolha:nth-child(1) {
-  left: 10%;
-  width: 120px;
-  animation-delay: 0s;
-  animation-duration: 28s;
-}
-
-.bolha:nth-child(2) {
-  left: 40%;
-  width: 80px;
-  animation-delay: 4s;
-  animation-duration: 22s;
-}
-
-.bolha:nth-child(3) {
-  left: 70%;
-  width: 60px;
-  animation-delay: 10s;
-  animation-duration: 30s;
-}
-
-.bolha:nth-child(4) {
-  left: 25%;
-  width: 150px;
-  animation-delay: 8s;
-  animation-duration: 26s;
-}
-
-.bolha:nth-child(5) {
-  left: 85%;
-  width: 100px;
-  animation-delay: 6s;
-  animation-duration: 24s;
-}
-
-.bolha:nth-child(6) {
-  left: 55%;
-  width: 70px;
-  animation-delay: 12s;
-  animation-duration: 20s;
-}
-
-.bolha:nth-child(7) {
-  left: 5%;
-  width: 90px;
-  animation-delay: 3s;
-  animation-duration: 18s;
-}
-
-.bolha:nth-child(8) {
-  left: 65%;
-  width: 160px;
-  animation-delay: 14s;
-  animation-duration: 25s;
-}
-
-.bolha:nth-child(9) {
-  left: 35%;
-  width: 50px;
-  animation-delay: 18s;
-  animation-duration: 15s;
-}
-
-.bolha:nth-child(10) {
-  left: 95%;
-  width: 110px;
-  animation-delay: 20s;
-  animation-duration: 30s;
-}
-
-@keyframes bolha-ani{
-  0%{
-    transform: translateY(0) rotate(0deg);
-  }
-
-  100%{
-    transform: translateY(-900px) rotate(360deg);
-  }
-}
-
 
 
 .tela-cards .cards-container {
