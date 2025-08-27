@@ -79,6 +79,10 @@
   overflow-x: hidden;
 }
 
+.texto-hero {
+  margin-top: 11%;
+}
+
 .text-base {
   color: white;
   font-family: 'Inter', sans-serif;
@@ -239,7 +243,14 @@
 .subtitulo {
   color: white;
   font-family: 'Inter', sans-serif;
-  font-size: 2rem;
+  font-size: 1.8rem;
   text-align: center;
-  margin-top: 13rem;
+  margin-top: 12.6rem;
+}
+
+.linha-azul {
+  width: 100%;
+  height: 0.5rem;
+  background-color: #0B4293;
+  margin-top: 1.5rem;
 }
