@@ -13,8 +13,7 @@
 
 
 .navbar {
-  position: relative;
-  /* necessário para referência do posicionamento absoluto */
+  position: absolute;
   background-color: #F5F5F1;
   width: 90%;
   display: flex;
@@ -252,5 +251,4 @@
   width: 100%;
   height: 0.5rem;
   background-color: #0B4293;
-  margin-top: 1.5rem;
 }
