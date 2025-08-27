@@ -9,6 +9,16 @@ function adicionarServidor(uuid, modeloCPU, qtdRam, qtdDisco, sistemaOperacional
     return database.executar(instrucaoSql);
 }
 
+function buscarServidorUUID(uuid) {
+    let instrucaoSql = `
+        SELECT * FROM Servidor
+        WHERE uuid = '${uuid}'
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
-    adicionarServidor
+    adicionarServidor,
+    buscarServidorUUID
 }

@@ -13,6 +13,15 @@ function adicionarServidor(req, res) {
     });
 }
 
+function buscarServidorUUID(req, res) {
+    let uuid = req.params.uuid;
+
+    servidorModel.buscarServidorUUID(uuid).then((resultado) => {
+        res.status(200).json(resultado);
+    });
+}
+
 module.exports = {
-    adicionarServidor
+    adicionarServidor,
+    buscarServidorUUID
 }
