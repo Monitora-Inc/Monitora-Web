@@ -18,7 +18,31 @@ function buscarServidorUUID(uuid) {
     return database.executar(instrucaoSql);
 }
 
+function atualizarServidor(uuid, modeloCPU, qtdRam, qtdDisco, sistemaOperacional) {
+    let instrucaoSql = `
+        UPDATE Servidor
+        SET modeloCPU = '${modeloCPU}',
+            qtdRam = '${qtdRam}',
+            qtdDisco = '${qtdDisco}',
+            sistemaOperacional = '${sistemaOperacional}'
+        WHERE uuid = '${uuid}';
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+function excluirServidor(uuid) {
+    let instrucaoSql = `
+        DELETE FROM Servidor
+        WHERE uuid = '${uuid}';
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     adicionarServidor,
-    buscarServidorUUID
+    buscarServidorUUID,
+    atualizarServidor,
+    excluirServidor
 }
