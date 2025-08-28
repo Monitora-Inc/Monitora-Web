@@ -301,9 +301,9 @@ body {
   background-color: #ffffff;
   border-radius: 0.5rem 0rem 0rem 0.5rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  height: 28.1rem;
+  height: 28.15rem;
   width: 34rem;
-  margin-left: 22%;
+  margin-left: 21%;
 }
 
 .bloco-direita iframe {
@@ -329,6 +329,13 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 15rem;
+  height: 13rem;
+}
+
+.bloquinhos a {
+  text-decoration: none;
+  color: inherit;  
 }
 
 .titulo-contato, .descricao-contato {
