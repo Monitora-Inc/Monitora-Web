@@ -2,24 +2,27 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitora - Index</title>
-    
-    
-    <!-- Icone -->
-    <link rel="icon" href="Images/Logo Azul.png" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monitora - Index</title>
 
-    <!-- Importando a fonte -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
 
-    <!-- Importando tailwind -->
-     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- Icone -->
+  <link rel="icon" href="Images/Logo Azul.png" type="image/x-icon">
 
-    <!-- Importando bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  <!-- Importando a fonte -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Oswald:wght@200..700&display=swap"
+    rel="stylesheet">
+
+  <!-- Importando tailwind -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- Importando bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 
   <!-- Meu CSS -->
   <link rel="stylesheet" href="style/index.css">
@@ -29,7 +32,7 @@
   <!-- Carrosel das logos -->
   <script src="js/carrosel.js"></script>
 
-</head> 
+</head>
 
 <body>
   <div class="bg-white">
@@ -44,21 +47,23 @@
           </a>
         </div>
         <div class="flex lg:hidden">
-          <button type="button" command="show-modal" commandfor="mobile-menu" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+          <button type="button" command="show-modal" commandfor="mobile-menu"
+            class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
             <span class="sr-only">Open main menu</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
+              aria-hidden="true" class="size-6">
               <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </button>
         </div>
 
-      <div class="innerbar">
+        <div class="innerbar">
           <div class="hidden lg:flex lg:gap-x-12 bar">
-              <a href="./index.html" class="text-sm/6 text-gray-900 texto_nav">Home</a>
-              <a href="./servidores.html" class="text-sm/6 text-gray-900 texto_nav">Soluções</a>
-              <a href="./sobrenos.html" class="text-sm/6 text-gray-900 texto_nav">Sobre</a>
+            <a href="./index.html" class="text-sm/6 text-gray-900 texto_nav">Home</a>
+            <a href="./servidores.html" class="text-sm/6 text-gray-900 texto_nav">Soluções</a>
+            <a href="./sobrenos.html" class="text-sm/6 text-gray-900 texto_nav">Sobre</a>
           </div>
-      </div>
+        </div>
 
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
           <div class="login">
@@ -70,15 +75,18 @@
       <el-dialog>
         <dialog id="mobile-menu" class="backdrop:bg-transparent lg:hidden">
           <div tabindex="0" class="fixed inset-0 focus:outline-none">
-            <el-dialog-panel class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+            <el-dialog-panel
+              class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
               <div class="flex items-center justify-between">
                 <a href="#" class="-m-1.5 p-1.5">
                   <span class="sr-only">Your Company</span>
                   <img src="Images/Logo Azul.png" alt="" class="h-8 w-auto" />
                 </a>
-                <button type="button" command="close" commandfor="mobile-menu" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+                <button type="button" command="close" commandfor="mobile-menu"
+                  class="-m-2.5 rounded-md p-2.5 text-gray-700">
                   <span class="sr-only">Close menu</span>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
+                    aria-hidden="true" class="size-6">
                     <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
                 </button>
@@ -86,12 +94,17 @@
               <div class="mt-6 flow-root">
                 <div class="-my-6 divide-y divide-gray-500/10">
                   <div class="space-y-2 py-6">
-                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Home</a>
-                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Soluções</a>
-                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Sobre</a>
+                    <a href="#"
+                      class="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Home</a>
+                    <a href="#"
+                      class="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Soluções</a>
+                    <a href="#"
+                      class="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Sobre</a>
                   </div>
                   <div class="py-6">
-                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Log in</a>
+                    <a href="#"
+                      class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Log
+                      in</a>
                   </div>
                 </div>
               </div>
@@ -102,11 +115,12 @@
       <!-- (FIM) Construção da NavBar -->
 
       <!-- (COMEÇO) Hero section -->
-       <div class="Hero">
+      <div class="Hero">
         <div class="texto-hero">
           <h1 class="title">PODER NOS DADOS</h1>
           <h1 class="title">CONFIABILIDADE NO STREAMING</h1>
-          <p class="text-base">Acompanhe em tempo real o uso de CPU, memória e armazenamento, garantindo máxima performance e estabilidade nos servidores</p>
+          <p class="text-base">Acompanhe em tempo real o uso de CPU, memória e armazenamento, garantindo máxima
+            performance e estabilidade nos servidores</p>
         </div>
 
 
@@ -114,7 +128,8 @@
         <div class="scroller">
           <ul class="lista-logos scroller_inner">
             <li><img src="Images/logo_netflix.png" alt="Netflix" style="height:50px;" class="logo-img"></li>
-            <li><img src="Images/pv_logo_white._CB548637580_.png" alt="Prime Video" style="height:50px;" class="logo-img"></li>
+            <li><img src="Images/pv_logo_white._CB548637580_.png" alt="Prime Video" style="height:50px;"
+                class="logo-img"></li>
             <li><img src="Images/Max_logo.svg (1).png" alt="Max" style="height:50px;" class="logo-img"></li>
             <li><img src="Images/disney.png" alt="Disney+" style="height:50px;" class="logo-img"></li>
             <li><img src="Images/Star+_logo.svg (1).png" alt="Star Plus" style="height:50px;" class="logo-img"></li>
@@ -126,137 +141,234 @@
 
 
 
-<!-- Construcao tela cards -->
-    <section class="tela-cards">
-      <div class="cards-container">
-      <div class="flipcard">
-        <div class="frenteFlip">
-          <img src="Images/cpuIon.png" alt="">
-          <p>
-            Monitoramento de CPU
-          </p>
+      <!-- Construcao segunda tela -->
+      <section>
+        <main>
+          <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+            <div class="carousel-indicators"> <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0"
+                class="" aria-label="Slide 1"></button> <button type="button" data-bs-target="#myCarousel"
+                data-bs-slide-to="1" aria-label="Slide 2" class="active" aria-current="true"></button> <button
+                type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button> </div>
+            <div class="carousel-inner">
+              <div class="carousel-item"> <svg aria-hidden="true" class="bd-placeholder-img " height="100%"
+                  preserveAspectRatio="xMidYMid slice" width="100%" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
+                </svg>
+                <div class="container">
+                  <div class="carousel-caption text-start">
+                    <h1>Example headline.</h1>
+                    <p class="opacity-75">Some representative placeholder content for the first slide of the carousel.
+                    </p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item active"> <svg aria-hidden="true" class="bd-placeholder-img " height="100%"
+                  preserveAspectRatio="xMidYMid slice" width="100%" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
+                </svg>
+                <div class="container">
+                  <div class="carousel-caption">
+                    <h1>Another example headline.</h1>
+                    <p>Some representative placeholder content for the second slide of the carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item"> <svg aria-hidden="true" class="bd-placeholder-img " height="100%"
+                  preserveAspectRatio="xMidYMid slice" width="100%" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
+                </svg>
+                <div class="container">
+                  <div class="carousel-caption text-end">
+                    <h1>One more for good measure.</h1>
+                    <p>Some representative placeholder content for the third slide of this carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+                  </div>
+                </div>
+              </div>
+            </div> <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel"
+              data-bs-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+                class="visually-hidden">Previous</span> </button> <button class="carousel-control-next" type="button"
+              data-bs-target="#myCarousel" data-bs-slide="next"> <span class="carousel-control-next-icon"
+                aria-hidden="true"></span> <span class="visually-hidden">Next</span> </button>
+          </div> <!-- Marketing messaging and featurettes
+  ================================================== -->
+          <!-- Wrap the rest of the page in another container to center all the content. -->
+          <div class="container marketing"> <!-- Three columns of text below the carousel -->
+            <div class="row">
+              <div class="col-lg-4"> <svg aria-label="Placeholder" class="bd-placeholder-img rounded-circle"
+                  height="140" preserveAspectRatio="xMidYMid slice" role="img" width="140"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <title>Placeholder</title>
+                  <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
+                </svg>
+                <h2 class="fw-normal">Heading</h2>
+                <p>Some representative placeholder content for the three columns of text below the carousel. This is the
+                  first column.</p>
+                <p><a class="btn btn-secondary" href="#">View details »</a></p>
+              </div><!-- /.col-lg-4 -->
+              <div class="col-lg-4"> <svg aria-label="Placeholder" class="bd-placeholder-img rounded-circle"
+                  height="140" preserveAspectRatio="xMidYMid slice" role="img" width="140"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <title>Placeholder</title>
+                  <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
+                </svg>
+                <h2 class="fw-normal">Heading</h2>
+                <p>Another exciting bit of representative placeholder content. This time, we've moved on to the second
+                  column.</p>
+                <p><a class="btn btn-secondary" href="#">View details »</a></p>
+              </div><!-- /.col-lg-4 -->
+              <div class="col-lg-4"> <svg aria-label="Placeholder" class="bd-placeholder-img rounded-circle"
+                  height="140" preserveAspectRatio="xMidYMid slice" role="img" width="140"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <title>Placeholder</title>
+                  <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
+                </svg>
+                <h2 class="fw-normal">Heading</h2>
+                <p>And lastly this, the third column of representative placeholder content.</p>
+                <p><a class="btn btn-secondary" href="#">View details »</a></p>
+              </div><!-- /.col-lg-4 -->
+            </div><!-- /.row --> <!-- START THE FEATURETTES -->
+            <hr class="featurette-divider">
+            <div class="row featurette">
+              <div class="col-md-7">
+                <h2 class="featurette-heading fw-normal lh-1">First featurette heading. <span
+                    class="text-body-secondary">It’ll blow your mind.</span></h2>
+                <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting
+                  prose here.</p>
+              </div>
+              <div class="col-md-5"> <svg aria-label="Placeholder: 500x500"
+                  class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" height="500"
+                  preserveAspectRatio="xMidYMid slice" role="img" width="500" xmlns="http://www.w3.org/2000/svg">
+                  <title>Placeholder</title>
+                  <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect><text x="50%" y="50%"
+                    fill="var(--bs-secondary-color)" dy=".3em">500x500</text>
+                </svg> </div>
+            </div>
+            <hr class="featurette-divider">
+            <div class="row featurette">
+              <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading fw-normal lh-1">Oh yeah, it’s that good. <span
+                    class="text-body-secondary">See for yourself.</span></h2>
+                <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how
+                  this layout would work with some actual real-world content in place.</p>
+              </div>
+              <div class="col-md-5 order-md-1"> <svg aria-label="Placeholder: 500x500"
+                  class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" height="500"
+                  preserveAspectRatio="xMidYMid slice" role="img" width="500" xmlns="http://www.w3.org/2000/svg">
+                  <title>Placeholder</title>
+                  <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect><text x="50%" y="50%"
+                    fill="var(--bs-secondary-color)" dy=".3em">500x500</text>
+                </svg> </div>
+            </div>
+            <hr class="featurette-divider">
+            <div class="row featurette">
+              <div class="col-md-7">
+                <h2 class="featurette-heading fw-normal lh-1">And lastly, this one. <span
+                    class="text-body-secondary">Checkmate.</span></h2>
+                <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really
+                  intended to be actually read, simply here to give you a better view of what this would look like with
+                  some actual content. Your content.</p>
+              </div>
+              <div class="col-md-5"> <svg aria-label="Placeholder: 500x500"
+                  class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" height="500"
+                  preserveAspectRatio="xMidYMid slice" role="img" width="500" xmlns="http://www.w3.org/2000/svg">
+                  <title>Placeholder</title>
+                  <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect><text x="50%" y="50%"
+                    fill="var(--bs-secondary-color)" dy=".3em">500x500</text>
+                </svg> </div>
+            </div>
+            <hr class="featurette-divider"> <!-- /END THE FEATURETTES -->
+          </div><!-- /.container --> <!-- FOOTER -->
+          <footer class="container">
+            <p class="float-end"><a href="#">Back to top</a></p>
+            <p>© 2017–2025 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+          </footer>
+        </main>
+      </section>
+
+      <!-- fim da segunda tela  -->
+
+      <div class="linha-azul"></div>
+
+      <section class="terceira-tela">
+
+        <h1 class="inner-title">CONTATE-NOS</h1>
+
+        <div class="barra-branca-pequena"></div>
+
+        <p class="texto-contatenos">Conectamos equipes e serviços por meio de monitoramento inteligente, garantindo que
+          seu streaming funcione sem interrupções.</p>
+
+        <div class="bloco-geral">
+
+          <!-- LADO ESQUERDO -->
+          <div class="bloco-esquerda">
+
+            <div class="parte-superior">
+              <div class="bloquinhos">
+                <img src="Images/instagram.png" alt="Ícone endereço" class="icone-contato">
+                <div class="texto-contato">
+                  <h4 class="titulo-contato">ENDEREÇO:</h4>
+                  <p class="descricao-contato">121 Rock Street, 21 Avenue,<br>New York, NY 92103-9000</p>
+                </div>
+              </div>
+
+              <div class="bloquinhos">
+                <img src="Images/instagram.png" alt="Ícone email" class="icone-contato">
+                <div class="texto-contato">
+                  <h4 class="titulo-contato">EMAIL:</h4>
+                  <p class="descricao-contato">
+                    <a href="mailto:hello@company.com">hello@company.com</a><br>
+                    <a href="mailto:support@company.com">support@company.com</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="parte-inferior">
+              <div class="bloquinhos">
+                <img src="Images/instagram.png" alt="Ícone telefone" class="icone-contato">
+                <div class="texto-contato">
+                  <h4 class="titulo-contato">NOS LIGUE:</h4>
+                  <p class="descricao-contato">
+                    1 (234) 567-891<br>
+                    1 (234) 987-654
+                  </p>
+                </div>
+              </div>
+
+              <div class="bloquinhos">
+                <img src="Images/instagram.png" alt="Ícone contato" class="icone-contato">
+                <div class="texto-contato">
+                  <h4 class="titulo-contato">CONTATE-NOS:</h4>
+                  <p class="descricao-contato">
+                    Contacte-nos para um orçamento, dúvidas<br>
+                    ou para fazer parte da equipe.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- LADO DIREITO -->
+          <div class="bloco-direita">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14626.805334908211!2d-46.582988799999995!3d-23.579167849999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59d2b063f663%3A0xc567c0d16d0bc582!2sS%C3%A3o%20Paulo%20Tech%20School!5e0!3m2!1spt-BR!2sbr!4v1756345251941!5m2!1spt-BR!2sbr"
+              width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>"
+
+          </div>
+
         </div>
-        <div class="costasFlip">
-          <h1>
-            CPU
-          </h1>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae labore ab rerum modi quibusdam dolores,
-          </p>
-        </div>
-    </div>
-    <div class="flipcard">
-        <div class="frenteFlip">
-          <img src="Images/hdIcon.png" alt="">
-          <p>
-            Monitoramento de Disco
-          </p>
-        </div>
-        <div class="costasFlip">  
-          <h1>
-            Disco
-          </h1>
-           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae labore ab rerum modi quibusdam dolores,
-          </p>
-        </div>
-    </div>
-    <div class="flipcard">
-        <div class="frenteFlip">
-          <img src="Images/RAMIcon.png" alt="">
-         <p>
-         Monitoramento de RAM
-          </p>
-        </div>
-        <div class="costasFlip">  
-          <h1>
-            Memória
-          </h1>
-           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae labore ab rerum modi quibusdam dolores,
-          </p>
-        </div>
-    </div>
-      </div>
-
-    </section>
-    <!-- fim da tela cards -->
-
-    <div class="linha-azul"></div>
-
-    <section class="terceira-tela">
-
-    <h1 class="inner-title">CONTATE-NOS</h1>
-
-    <div class="barra-branca-pequena"></div>
-
-    <p class="texto-contatenos">Conectamos equipes e serviços por meio de monitoramento inteligente, garantindo que seu streaming funcione sem interrupções.</p>
-
-<div class="bloco-geral">
-  
-  <!-- LADO ESQUERDO -->
-  <div class="bloco-esquerda">
-
-    <div class="parte-superior">
-      <div class="bloquinhos">
-        <img src="Images/instagram.png" alt="Ícone endereço" class="icone-contato">
-        <div class="texto-contato">
-          <h4 class="titulo-contato">ENDEREÇO:</h4>
-          <p class="descricao-contato">121 Rock Street, 21 Avenue,<br>New York, NY 92103-9000</p>
-        </div>
-      </div>
-
-      <div class="bloquinhos">
-        <img src="Images/instagram.png" alt="Ícone email" class="icone-contato">
-        <div class="texto-contato">
-          <h4 class="titulo-contato">EMAIL:</h4>
-          <p class="descricao-contato">
-            <a href="mailto:hello@company.com">hello@company.com</a><br>
-            <a href="mailto:support@company.com">support@company.com</a>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="parte-inferior">
-    <div class="bloquinhos">
-      <img src="Images/instagram.png" alt="Ícone telefone" class="icone-contato">
-      <div class="texto-contato">
-        <h4 class="titulo-contato">NOS LIGUE:</h4>
-        <p class="descricao-contato">
-          1 (234) 567-891<br>
-          1 (234) 987-654
-        </p>
-      </div>
-    </div>
-
-    <div class="bloquinhos">
-      <img src="Images/instagram.png" alt="Ícone contato" class="icone-contato">
-      <div class="texto-contato">
-        <h4 class="titulo-contato">CONTATE-NOS:</h4>
-        <p class="descricao-contato">
-          Contacte-nos para um orçamento, dúvidas<br>
-          ou para fazer parte da equipe.
-        </p>
-      </div>
-    </div>
-    </div>
-
-  </div>
-
-  <!-- LADO DIREITO -->
-  <div class="bloco-direita">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14626.805334908211!2d-46.582988799999995!3d-23.579167849999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59d2b063f663%3A0xc567c0d16d0bc582!2sS%C3%A3o%20Paulo%20Tech%20School!5e0!3m2!1spt-BR!2sbr!4v1756345251941!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>" 
-    
-  </div>
-
-</div>
-    
 
 
 
 
-    </section>
+
+      </section>
 
 
 
