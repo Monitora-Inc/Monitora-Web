@@ -1,12 +1,23 @@
 .page-content {
+    width: 100 - 12.5vw;
+    height: 100vh;
     margin-left: 13vw;
     padding: 40px;
+    background-color: #f8f9fd;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
-.new-servers {
-    width: 250px;
-    height: 300px;
-    border-style: dashed;
+.headers {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.body-card {
+    width: 350px;
+    height: 200px;
     border-width: 2px;
     border-color: black;
     display: flex;
@@ -15,8 +26,36 @@
     align-items: center;
     text-align: center;
     gap: 25px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.new-servers {
+    width: 92%;
+    height: 90%;
+    border-style: dashed;
+    border-color: #e5e8eb;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.body-card h1 {
+    font-size: 30px;
+    color: #8d989d;
 }
 
 .new-servers img {
-    width: 50%;
+    width: 25%;
+}
+
+.input-group {
+    width: 30%;
+    border: none;
+}
+
+#top-search {
+    border: none;
 }

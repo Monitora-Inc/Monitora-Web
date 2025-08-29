@@ -9,7 +9,7 @@ function adicionarServidor(req, res) {
     let idEmpresa = req.body.idEmpresa;
 
     servidorModel.adicionarServidor(uuid, modeloCPU, qtdRam, qtdDisco, sistemaOperacional, idEmpresa).then((resultado) => {
-        res.status(200).json(resultado);
+        res.status(200).send("✅ Servidor cadastrado com sucesso!");
     });
 }
 
@@ -33,7 +33,7 @@ function atualizarServidor(req, res) {
     let sistemaOperacional = req.body.sistemaOperacional;
 
     servidorModel.atualizarServidor(uuid, modeloCPU, qtdRam, qtdDisco, sistemaOperacional).then((resultado) => {
-        res.status(200).json(resultado);
+        res.status(200).send("✅ Servidor atualizado com sucesso!");
     });
 }
 
@@ -42,7 +42,7 @@ function excluirServidor(req, res) {
 
     servidorModel.excluirServidor(uuid).then((resultado) => {
         res.status(200).json(resultado);
-    })
+    });
 }
 
 module.exports = {
