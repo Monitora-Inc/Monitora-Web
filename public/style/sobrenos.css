@@ -11,7 +11,8 @@
     }
 
     body {
-      background-color: #aacfff;
+      background: #070063;
+      background: linear-gradient(155deg, rgba(7, 0, 99, 1) 0%, rgba(9, 9, 121, 1) 56%, rgba(11, 0, 227, 1) 100%);
     }
 
     .navbar {
@@ -94,15 +95,19 @@
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(1.8rem, 5vw, 2.6rem);
       margin: 0 0 1rem 0;
-      color: #0B4293;
+      color: #ffffff;
       text-align: center;
     }
 
     /* QUEM SOMOS */
     .quem-somos {
-      background: #aacfff;
+      background: #070063;
+      background: linear-gradient(155deg, rgba(7, 0, 99, 1) 0%, rgba(9, 9, 121, 1) 56%, rgba(11, 0, 227, 1) 100%);
       text-align: center;
-      padding: clamp(48px, 6vw, 80px) 20px;
+    }
+
+    .quem-somos-box {
+      padding: clamp(28px, 6vw, 40px) 20px;
     }
 
     .quem-somos p {
@@ -110,12 +115,12 @@
       margin: 0 auto 32px;
       font-size: clamp(1rem, 2.6vw, 1.15rem);
       line-height: 1.6;
-      color: #0c0c0c;
+      color: #ffffff;
     }
 
     .quem-somos span {
       font-weight: 700;
-      color: #0B4293;
+      color: #92beff;
     }
 
     .quem-somos-cards {
@@ -146,77 +151,22 @@
 
     .card h3 {
       margin-bottom: 10px;
-      color: #000;
+      color: #000000;
       font-size: clamp(1.05rem, 2.8vw, 1.2rem);
     }
 
     .card p {
       font-size: clamp(.95rem, 2.5vw, 1rem);
       line-height: 1.5;
-    }
-
-    .card:hover {
-      outline: 2px solid #007bff;
-    }
-
-    /* MISSAO, VISAO, VALORES */
-    #missao {
-      padding: clamp(48px, 6vw, 80px) 6%;
-      background: #ffffff;
-    }
-
-    #missao h3 {
-      margin-bottom: 22px;
-    }
-
-    .missao-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .missao-item {
-      background: #cfcfcf;
-      border-radius: 12px;
-      padding: clamp(18px, 3vw, 24px);
-      transition: border-color .25s, transform .25s;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, .06);
-    }
-
-    .missao-item:hover {
-      border-color: #007bff;
-      transform: translateY(-2px);
-    }
-
-    .missao-cabecalho {
-      display: block;
-      font-size: .78rem;
-      letter-spacing: .12em;
-      color: #0B4293;
-      margin-bottom: 6px;
-      font-weight: 700;
-    }
-
-    .missao-title {
-      font-size: clamp(1.15rem, 3.6vw, 1.35rem);
-      line-height: 1.25;
-      margin-bottom: 8px;
       color: #000000;
-    }
-
-    #missao p {
-      color: #000000;
-      font-size: clamp(.95rem, 2.6vw, 1rem);
-      line-height: 1.55;
     }
 
     /* EQUIPE */
     #team {
       text-align: center;
       padding: clamp(48px, 6vw, 80px) 20px;
-      background: #aacfff;
+      background: #7a8bfa;
+      background: linear-gradient(180deg, rgba(122, 139, 250, 1) 0%, rgba(46, 46, 179, 1) 51%, rgba(0, 6, 179, 1) 100%);
     }
 
     .perfis {
@@ -237,7 +187,7 @@
       height: clamp(90px, 24vw, 120px);
       object-fit: cover;
       border-radius: 8px;
-      transition: transform 0.3s, border 0.3s;
+      transition: transform easy 0.3s;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
     }
 
@@ -251,7 +201,7 @@
       margin-top: 10px;
       font-weight: 700;
       font-size: clamp(.95rem, 2.8vw, 1.05rem);
-      color: #0B4293;
+      color: #ffffff;
     }
 
     @media (max-width: 900px) {
