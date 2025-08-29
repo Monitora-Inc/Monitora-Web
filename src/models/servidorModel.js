@@ -40,9 +40,19 @@ function excluirServidor(uuid) {
     return database.executar(instrucaoSql);
 }
 
+function buscarServidores(idEmpresa) {
+    let instrucaoSql = `
+        SELECT * FROM Servidor
+        WHERE fKEmpresa = '${idEmpresa}';
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     adicionarServidor,
     buscarServidorUUID,
     atualizarServidor,
-    excluirServidor
+    excluirServidor,
+    buscarServidores
 }

@@ -24,8 +24,8 @@ navbar.innerHTML = `
                 </div>
                 <div class="collapse" id="collapseServers">
                     <div class="collapsePages">
-                        <h3 role="button">Configurações</h3>
-                        <a href="servidores.html" class="link-underline link-underline-opacity-0"><h3 role="button">Adicionar Servidor</h3></a>
+                        <h3 role="button">Informações Gerais</h3>
+                        <a href="servidores.html" class="link-underline link-underline-opacity-0"><h3 role="button">Configurar Servidores</h3></a>
                     </div>
                 </div>
             </div>

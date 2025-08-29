@@ -19,4 +19,8 @@ router.delete("/excluirServidor/:uuid", function(req, res) {
     servidorController.excluirServidor(req, res);
 });
 
+router.get("/buscarServidores/:idEmpresa", function(req, res) {
+    servidorController.buscarServidores(req, res);
+});
+
 module.exports = router;

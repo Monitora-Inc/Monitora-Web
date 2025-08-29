@@ -45,9 +45,18 @@ function excluirServidor(req, res) {
     });
 }
 
+function buscarServidores(req, res) {
+    let idEmpresa = req.params.idEmpresa;
+
+    servidorModel.buscarServidores(idEmpresa).then((resultado) => {
+        res.status(200).json(resultado);
+    });
+}
+
 module.exports = {
     adicionarServidor,
     buscarServidorUUID,
     atualizarServidor,
-    excluirServidor
+    excluirServidor,
+    buscarServidores
 }
