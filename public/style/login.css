@@ -47,7 +47,7 @@ body {
 }
 
 .container button {
-    background-color: black;
+    background-color: rgb(1, 1, 117);
     color: #fff;
     font-size: 12px;
     padding: 10px 45px;
@@ -141,13 +141,13 @@ body {
     height: 100%;
     overflow: hidden;
     transition: all 0.6s ease-in-out;
-    border-radius: 150px 0 0 100px;
+    /*border-radius: 150px 0 0 100px;*/
     z-index: 1000;
 }
 
 .container.active .toggle-container {
     transform: translateX(-100%);
-    border-radius: 0 150px 100px 0;
+   /* border-radius: 0 150px 100px 0;*/
 }
 
 .toggle {
@@ -211,6 +211,7 @@ body {
     appearance: none; 
     -webkit-appearance: none; 
     -moz-appearance: none; 
+
 }
 
 .container select::-ms-expand {
