@@ -66,12 +66,16 @@ body {
 .image-side {
   width: 50%;
   background: linear-gradient(135deg, black, black);
+  display: flex;
+  justify-content: center;
+  align-items: center; 
 }
 
 .image-side img {
-  max-width: 80%;
-  height: auto;
+  width: 50%; 
+  height: auto; 
 }
+
 
 #erroLogin {
   color: #dc3545;
