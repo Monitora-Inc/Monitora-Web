@@ -12,6 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
 
+
 </head>
 
 <body>
@@ -21,10 +22,34 @@
 
     <div class="page-content">
         <div class="headers">
-            <div class="body-card add-server-card" role="button">
+            <div class="body-card add-server-card" role="button" data-bs-toggle="modal"
+                data-bs-target="#addServerModal">
                 <div class="new-servers">
                     <img src="Images/serverUploadIcon.svg">
                     <h1>Adicionar Servidor</h1>
+                </div>
+            </div>
+            <div class="modal fade" id="addServerModal" tabindex="-1" aria-labelledby="addServerModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addServerModalLabel">Adicionar Servidor</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Fechar"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <p></p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-primary">Salvar alterações</button>
+                        </div>
+
+                    </div>
                 </div>
             </div>
             <div class="body-card info-card" role="">
@@ -42,7 +67,7 @@
             </div>
         </div>
         <div class="filtros">
-            
+
         </div>
         <form>
             <div class="input-group">
@@ -59,6 +84,8 @@
                 </div>
             </div>
         </form>
+        <div id="cardsServers">
+        </div>
     </div>
 </body>
 

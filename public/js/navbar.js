@@ -35,6 +35,10 @@ navbar.innerHTML = `
 
 `;
 
+if(sessionStorage.ID_EMPRESA == 1) {
+    
+}
+
 function virarSeta(idSeta) {
     if(idSeta.classList.contains('rotate-90')) {
         idSeta.classList.remove('rotate-90');

@@ -36,11 +36,11 @@
                 <h1>Entrar</h1>
                 <span>Digite seu e-mail e senha para acessar</span>
 
-                <input type="email" placeholder="E-mail" required>
-                <input type="password" placeholder="Senha" required>
+                <input type="email" placeholder="E-mail" required id="iptEmail">
+                <input type="password" placeholder="Senha" required id="iptSenha">
                 <a href="#">Esqueceu sua senha?</a>
                 
-                <button type="submit">Entrar</button>
+                <button type="submit" onclick="login()">Entrar</button>
             </form>
         </div>
 
@@ -89,8 +89,8 @@
     })();
 
     async function login() {
-        let usuarioEmail = await floatingEmail.value;
-        let usuarioSenha = await floatingPassword.value;
+        let usuarioEmail = await iptEmail.value;
+        let usuarioSenha = await iptSenha.value;
 
         console.log(usuarioEmail);
         console.log(usuarioSenha);

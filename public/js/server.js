@@ -1,5 +1,7 @@
 carregarServidores();
 
+
+
 async function carregarServidores() {
     let respostaServidores = await fetch(`/servidores/buscarServidores/${sessionStorage.ID_EMPRESA}`, {
         method: 'GET',
@@ -19,4 +21,13 @@ async function carregarServidores() {
     let jsonServidores = await respostaServidores.json();
 
     totalServidores.innerHTML = jsonServidores.length;
+
+    jsonServidores.forEach(servidor => {
+        cardsServers.innerHTML += `
+            <div class="card-server">
+                <h1>Servidor 1</h1>
+                <p>${servidor.uuid}</p>
+            </div>
+        `;
+    });
 }

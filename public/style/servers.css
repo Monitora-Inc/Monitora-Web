@@ -85,7 +85,7 @@
 }
 
 .input-group {
-    width: 25%;
+    width: 30%;
     height: 50px;
     border: none;
     background-color: #ffffff;
@@ -124,4 +124,19 @@ form #server-search:hover {
 .uil {
   font-size: 18px;
   color: white; 
+}
+
+#cardsServers {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card-server {
+    width: 49%;
+    height: 100px;
+    background-color: #ffffff;
+    padding: 20px;
 }
