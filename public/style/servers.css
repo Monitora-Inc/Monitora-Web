@@ -78,8 +78,6 @@
     gap: 10px;
 }
 
-
-
 .new-servers img {
     width: 25%;
 }
@@ -136,7 +134,26 @@ form #server-search:hover {
 
 .card-server {
     width: 49%;
-    height: 100px;
     background-color: #ffffff;
     padding: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.crud-buttons {
+    position: absolute;
+    top: 30px;
+    right: 30px; 
+    display: flex;
+    gap: 8px; 
+}
+
+.crud-buttons img {
+    width: 30px;
+}
+
+#delete-icon {
+    color: red;
 }

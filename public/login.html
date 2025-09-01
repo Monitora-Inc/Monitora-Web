@@ -36,11 +36,11 @@
                 <h1>Entrar</h1>
                 <span>Digite seu e-mail e senha para acessar</span>
 
-                <input type="email" placeholder="E-mail" required id="iptEmail">
-                <input type="password" placeholder="Senha" required id="iptSenha">
+                <input type="email" placeholder="E-mail" id="iptEmail">
+                <input type="password" placeholder="Senha" id="iptSenha">
                 <a href="#">Esqueceu sua senha?</a>
                 
-                <button type="submit" onclick="login()">Entrar</button>
+                <button type="button" onclick="login()">Entrar</button>
             </form>
         </div>
 
@@ -92,13 +92,13 @@
         let usuarioEmail = await iptEmail.value;
         let usuarioSenha = await iptSenha.value;
 
-        console.log(usuarioEmail);
-        console.log(usuarioSenha);
+        await console.log(usuarioEmail);
+        await console.log(usuarioSenha);
 
         let respostaLogin = await fetch(`/usuarios/autenticar/${usuarioEmail}/${usuarioSenha}`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application-json' 
+                'Content-Type': 'application/json' 
             }
         });
 
