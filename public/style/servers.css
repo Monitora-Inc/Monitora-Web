@@ -158,3 +158,6 @@ form #server-search:hover {
     background-color: rgb(240, 86, 86);
 }
 
+.logout {
+    justify-self: flex;
+}

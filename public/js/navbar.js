@@ -60,6 +60,12 @@ navbar.innerHTML += `
             </div>
         </div>
     </div>
+    <div class="collapseSection logout" onclick="desconectar()">
+        <div class="collapseTitulo" role="button" aria-expanded="false">
+            <img src="../Images/logoutIcon.svg">
+            <h2>Desconectar</h2>
+        </div>
+    </div>
 `;
 
 function virarSeta(idSeta) {
@@ -68,4 +74,13 @@ function virarSeta(idSeta) {
     } else {
         idSeta.classList.add('rotate-90')
     }
+}
+
+function desconectar() {
+    sessionStorage.EMAIL_USUARIO = null;
+    sessionStorage.NOME_USUARIO = null;
+    sessionStorage.ID_USUARIO = null;
+    sessionStorage.ID_EMPRESA = null;
+
+    window.location = "index.html";
 }
