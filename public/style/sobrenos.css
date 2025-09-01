@@ -179,16 +179,31 @@
 
     .perfil {
       text-align: center;
-      width: clamp(120px, 30vw, 160px);
+      width: clamp(140px, 32vw, 200px);
+      /* deixa a caixa maior */
     }
 
     .perfil img {
-      width: clamp(90px, 24vw, 120px);
-      height: clamp(90px, 24vw, 120px);
+      width: clamp(130px, 26vw, 160px);
+      /* aumenta a imagem */
+      height: clamp(130px, 26vw, 160px);
       object-fit: cover;
       border-radius: 8px;
-      transition: transform easy 0.3s;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+      transition: transform ease 0.3s;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      display: block;
+      margin: 0 auto;
+      /* centraliza horizontalmente */
+    }
+
+    .perfil span {
+      display: block;
+      margin-top: 12px;
+      font-weight: 700;
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      color: #ffffff;
+      text-align: center;
+      /* garante que o nome fique alinhado ao centro */
     }
 
     .perfil img:hover {
@@ -196,13 +211,6 @@
       border: 2px solid #007bff;
     }
 
-    .perfil span {
-      display: block;
-      margin-top: 10px;
-      font-weight: 700;
-      font-size: clamp(.95rem, 2.8vw, 1.05rem);
-      color: #ffffff;
-    }
 
     @media (max-width: 900px) {
 
