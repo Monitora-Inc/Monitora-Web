@@ -154,6 +154,7 @@ form #server-search:hover {
     width: 30px;
 }
 
-#delete-icon {
-    color: red;
+.deletar-server-btn {
+    background-color: rgb(240, 86, 86);
 }
+

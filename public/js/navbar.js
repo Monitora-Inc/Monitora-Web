@@ -36,8 +36,31 @@ navbar.innerHTML = `
 `;
 
 if(sessionStorage.ID_EMPRESA == 1) {
-    
+    navbar.innerHTML += `
+        <div class="collapseSection">
+            <div class="collapseTitulo" role="button" aria-expanded="false">
+                <img src="../Images/empresaIcon.svg">
+                <h2>Empresas</h2>
+            </div>
+        </div>
+    `;
 }
+
+navbar.innerHTML += `
+    <div class="collapseSection">
+        <div onclick="virarSeta(setaUsuarios)" class="collapseTitulo" data-bs-toggle="collapse" href="#collapseUsuarios" role="button" aria-expanded="false" aria-controls="collapseUsuarios">
+            <img src="../Images/userIcon.svg">
+            <h2>Usuários</h2>
+            <img src="../Images/chevron_right.svg" class="setaBaixo" id="setaUsuarios">
+        </div>
+        <div class="collapse" id="collapseUsuarios">
+            <div class="collapsePages">
+                <h3 role="button">Usuários</h3>
+                <a href="servidores.html" class="link-underline link-underline-opacity-0"><h3 role="button">Cargos</h3></a>
+            </div>
+        </div>
+    </div>
+`;
 
 function virarSeta(idSeta) {
     if(idSeta.classList.contains('rotate-90')) {

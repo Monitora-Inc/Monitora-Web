@@ -60,7 +60,7 @@ async function carregarServidores() {
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-primary" onclick="deletarServidor('${servidor.uuid}')">Deletar Servidor</button>
+                            <button type="button" class="btn btn-primary deletar-server-btn" onclick="deletarServidor('${servidor.uuid}')">Deletar Servidor</button>
                         </div>
 
                     </div>
