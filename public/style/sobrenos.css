@@ -59,14 +59,6 @@
       font-size: 1rem;
     }
 
-    .title {
-      color: white;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 8rem;
-      text-align: center;
-      margin-left: 0;
-    }
-
     .login {
       background-color: #0B4293;
       height: 2rem;
@@ -89,9 +81,9 @@
       font-family: 'Inter', sans-serif;
     }
 
-    .quem-somos h3,
-    #missao h3,
-    #team h3 {
+    /*Final NavBar*/
+
+    .quem-somos h3 {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(1.8rem, 5vw, 2.6rem);
       margin: 0 0 1rem 0;
@@ -101,9 +93,13 @@
 
     /* QUEM SOMOS */
     .quem-somos {
-      background: #070063;
-      background: linear-gradient(155deg, rgba(7, 0, 99, 1) 0%, rgba(9, 9, 121, 1) 56%, rgba(11, 0, 227, 1) 100%);
+      background-image: url(../Images/fotoservidor-azul.png);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      overflow-x: hidden;
       text-align: center;
+      border-bottom: 8px solid #0B4293;
     }
 
     .quem-somos-box {
@@ -111,6 +107,7 @@
     }
 
     .quem-somos p {
+      font-family: 'Inter', sans-serif;
       max-width: 900px;
       margin: 0 auto 32px;
       font-size: clamp(1rem, 2.6vw, 1.15rem);
@@ -119,8 +116,10 @@
     }
 
     .quem-somos span {
+      font-family: 'Inter', sans-serif;
       font-weight: 700;
-      color: #92beff;
+      font-size: clamp(1.4rem, 2.6vw, 1.15rem);
+      color: #3076df;
     }
 
     .quem-somos-cards {
@@ -156,6 +155,7 @@
     }
 
     .card p {
+      font-family: 'Inter', sans-serif;
       font-size: clamp(.95rem, 2.5vw, 1rem);
       line-height: 1.5;
       color: #000000;
@@ -165,8 +165,15 @@
     #team {
       text-align: center;
       padding: clamp(48px, 6vw, 80px) 20px;
-      background: #7a8bfa;
-      background: linear-gradient(180deg, rgba(122, 139, 250, 1) 0%, rgba(46, 46, 179, 1) 51%, rgba(0, 6, 179, 1) 100%);
+      background-color: #F5F5F1;
+    }
+
+    #team h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      margin: 0 0 1rem 0;
+      color: #000000;
+      text-align: center;
     }
 
     .perfis {
@@ -180,12 +187,10 @@
     .perfil {
       text-align: center;
       width: clamp(140px, 32vw, 200px);
-      /* deixa a caixa maior */
     }
 
     .perfil img {
       width: clamp(130px, 26vw, 160px);
-      /* aumenta a imagem */
       height: clamp(130px, 26vw, 160px);
       object-fit: cover;
       border-radius: 8px;
@@ -193,49 +198,44 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
       display: block;
       margin: 0 auto;
-      /* centraliza horizontalmente */
     }
 
     .perfil span {
+      font-family: 'Inter', sans-serif;
       display: block;
       margin-top: 12px;
       font-weight: 700;
       font-size: clamp(1rem, 3vw, 1.2rem);
-      color: #ffffff;
+      color: #000000;
       text-align: center;
-      /* garante que o nome fique alinhado ao centro */
     }
 
     .perfil img:hover {
       transform: scale(1.05);
-      border: 2px solid #007bff;
+      border: 2px solid #0B4293;
     }
 
 
     @media (max-width: 900px) {
 
-      .quem-somos-cards,
-      .missao-grid {
+      .quem-somos-cards {
         grid-template-columns: 1fr 1fr;
       }
     }
 
     @media (max-width: 600px) {
 
-      .quem-somos-cards,
-      .missao-grid {
+      .quem-somos-cards {
         grid-template-columns: 1fr;
       }
 
       .quem-somos,
-      #missao,
       #team {
         padding-left: 16px;
         padding-right: 16px;
       }
 
-      .card,
-      .missao-item {
+      .card {
         padding: 16px;
       }
     }
