@@ -1,6 +1,5 @@
 carregarServidores();
-
-
+    
 async function carregarServidores() {
     let respostaServidores = await fetch(`/servidores/buscarServidores/${sessionStorage.ID_EMPRESA}`, {
         method: 'GET',
@@ -30,7 +29,8 @@ async function carregarServidores() {
                 </div>
                 <div class="title">
                     <h1>Servidor 1</h1>
-                    <h6>${servidor.uuid}</h6>
+                    <p>${servidor.uuid}</p>
+                    <p>${servidor.sistemaOperacional}</p>
                 </div>
                 <div>
                     <h2>CPU</h2>

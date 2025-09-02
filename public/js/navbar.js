@@ -1,3 +1,7 @@
+if(!sessionStorage.EMAIL_USUARIO || !sessionStorage.ID_EMPRESA || !sessionStorage.ID_USUARIO || !sessionStorage.NOME_USUARIO) {
+    window.location = "index.html";
+}
+
 navbar.innerHTML = `
     <img src="../Images/Logo Maior - PNG.png" class="logo">
     <div class="categoriaSection">
@@ -40,7 +44,7 @@ if(sessionStorage.ID_EMPRESA == 1) {
         <div class="collapseSection">
             <div class="collapseTitulo" role="button" aria-expanded="false">
                 <img src="../Images/empresaIcon.svg">
-                <h2>Empresas</h2>
+                <a href="empresas.html" class="link-underline link-underline-opacity-0"><h2>Empresas</h2></a>
             </div>
         </div>
     `;
@@ -55,8 +59,8 @@ navbar.innerHTML += `
         </div>
         <div class="collapse" id="collapseUsuarios">
             <div class="collapsePages">
-                <h3 role="button">Usuários</h3>
-                <a href="servidores.html" class="link-underline link-underline-opacity-0"><h3 role="button">Cargos</h3></a>
+                <a href="usuarios.html" class="link-underline link-underline-opacity-0"><h3 role="button">Usuários</h3></a>
+                <a href="cargos.html" class="link-underline link-underline-opacity-0"><h3 role="button">Cargos</h3></a>
             </div>
         </div>
     </div>
@@ -77,10 +81,7 @@ function virarSeta(idSeta) {
 }
 
 function desconectar() {
-    sessionStorage.EMAIL_USUARIO = null;
-    sessionStorage.NOME_USUARIO = null;
-    sessionStorage.ID_USUARIO = null;
-    sessionStorage.ID_EMPRESA = null;
+    sessionStorage.clear();
 
     window.location = "index.html";
 }

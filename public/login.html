@@ -17,17 +17,13 @@
                 <h1>Criar Conta</h1>
                 <span>Preencha os dados abaixo para se cadastrar</span>
 
-                <input type="text" placeholder="Nome da Empresa" required>
-                <input type="text" placeholder="CNPJ" required>
-                <input type="email" placeholder="E-mail" required>
-                <select required>
-                    <option value="">Selecione o Cargo</option>
-                    <option value="admin">Admin</option>
-                    <option value="user">Usuário</option>
-                </select>
-                <input type="password" placeholder="Senha" required>
+                <input type="text" placeholder="Nome da Empresa" id="iptNomeEmpresa">
+                <input type="text" placeholder="CNPJ" id="iptCNPJ">
+                <input type="email" placeholder="E-mail" id="iptEmailCadastro">
+                <input type="password" placeholder="Senha" id="iptSenhaCadastro">
                 
-                <button type="submit">Inscrever</button>
+                <button type="button" onclick="cadastro()">Inscrever</button>
+                <p id="avisoCadastro"></p>
             </form>
         </div>
 
@@ -67,27 +63,6 @@
 </html>
 
 <script>
-    //Script de validação dos formulários bootstrap
-    (() => {
-        'use strict'
-
-        const forms = document.querySelectorAll('.needs-validation')
-
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                } else {
-                    event.preventDefault();
-                    login();
-                }
-
-                form.classList.add('was-validated');
-            }, false);
-        });
-    })();
-
     async function login() {
         let usuarioEmail = await iptEmail.value;
         let usuarioSenha = await iptSenha.value;
@@ -120,5 +95,68 @@
         sessionStorage.ID_EMPRESA = jsonLogin.fkEmpresa;
 
         window.location = "dashboard.html";
+    }
+
+    async function cadastro() {
+        avisoCadastro.innerHTML = ``;
+        
+        let nomeEmpresa = iptNomeEmpresa.value;
+        let CNPJ = iptCNPJ.value;
+        let emailUsuario = iptEmailCadastro.value;
+        let senhaUsuario = iptSenhaCadastro.value;
+    
+        if(!nomeEmpresa || !CNPJ || !emailUsuario || !senhaUsuario) {
+            avisoCadastro.innerHTML = `Todos os campos precisam ser preenchidos!`;
+            return;
+        }
+
+        if(!/^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$/.test(CNPJ)) {
+            avisoCadastro.innerHTML = `CNPJ inválido!`;
+            return;
+        }
+
+        let validacaoEmail = emailUsuario.indexOf('@') < emailUsuario.indexOf('.com');
+        if(!validacaoEmail) {
+            avisoCadastro.innerHTML = `Email inválido!`;
+            return;
+        }
+
+        let validacaoSenha = 0;
+
+        if(senhaUsuario.length < 8) {
+            avisoCadastro.innerHTML += `A senha deve conter ao menos 8 caracteres<br>`;
+            validacaoSenha = 1;
+        }
+
+        if(!/[a-z]+/.test(senhaUsuario)) {
+            avisoCadastro.innerHTML += `A senha deve conter ao menos uma letra minúscula<br>`;
+            validacaoSenha = 1;
+        }
+
+        if(!/[A-Z]+/.test(senhaUsuario)) {
+            avisoCadastro.innerHTML += `A senha deve conter ao menos uma letra maiúscula<br>`;
+            validacaoSenha = 1;
+        }
+
+        if(!/[@!#$%*]+/.test(senhaUsuario)) {
+            avisoCadastro.innerHTML += `A senha deve conter ao menos um caractere especial<br>`;
+            validacaoSenha = 1;
+        }
+
+        if(validacaoSenha == 1) {
+            return;
+        }
+
+        let respostaCadastro = await fetch(`/usuarios/cadastro`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nomeEmpresaServer: 
+                emailServer: emailUsuario,
+                
+            })
+        });
     }
 </script>

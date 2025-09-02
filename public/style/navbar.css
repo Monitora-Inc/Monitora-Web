@@ -66,3 +66,7 @@
     font-size: 14px;
     margin: 10px 0px 0px 35px;
 }
+
+.logout {
+    justify-self: flex-end;
+}

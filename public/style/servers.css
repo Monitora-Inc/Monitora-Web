@@ -157,7 +157,3 @@ form #server-search:hover {
 .deletar-server-btn {
     background-color: rgb(240, 86, 86);
 }
-
-.logout {
-    justify-self: flex;
-}
