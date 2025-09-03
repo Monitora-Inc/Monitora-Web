@@ -21,6 +21,7 @@
 
                 <input type="text" placeholder="Nome da Empresa" id="iptNomeEmpresa">
                 <input type="text" placeholder="CNPJ" id="iptCNPJ">
+                <input type="text" placeholder="Nome do Usuário" id="iptNomeCadastro">
                 <input type="email" placeholder="E-mail" id="iptEmailCadastro">
                 <input type="password" placeholder="Senha" id="iptSenhaCadastro">
                 
@@ -104,10 +105,11 @@
         
         let nomeEmpresa = iptNomeEmpresa.value;
         let CNPJ = iptCNPJ.value;
+        let nomeUsuario = iptNomeCadastro.value;
         let emailUsuario = iptEmailCadastro.value;
         let senhaUsuario = iptSenhaCadastro.value;
     
-        if(!nomeEmpresa || !CNPJ || !emailUsuario || !senhaUsuario) {
+        if(!nomeEmpresa || !CNPJ || !emailUsuario || !senhaUsuario || !nomeUsuario) {
             avisoCadastro.innerHTML = `Todos os campos precisam ser preenchidos!`;
             return;
         }
@@ -149,16 +151,55 @@
             return;
         }
 
-        let respostaCadastro = await fetch(`/usuarios/cadastro`, {
+        let respostaCadastroEmpresa = await fetch(`/empresas/cadastrarEmpresa`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                nomeEmpresaServer: 
-                emailServer: emailUsuario,
-                
+                nomeEmpresaServer: nomeEmpresa,
+                cnpjServer: CNPJ
             })
         });
+
+        if(!respostaCadastroEmpresa.ok) {
+            respostaCadastroEmpresa.text().then((texto) => {
+                console.log(texto);
+            });
+
+            return;
+        }
+
+        let jsonEmpresa = await respostaCadastroEmpresa.json();
+        console.log(jsonEmpresa);
+
+        let fkEmpresa = jsonEmpresa.insertId;
+
+        let respostaCadastroUsuario = await fetch(`/usuarios/cadastrar`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nomeUsuarioServer: nomeUsuario,
+                emailUsuarioServer: emailUsuario,
+                senhaUsuarioServer: senhaUsuario,
+                fkEmpresaServer: fkEmpresa,
+                ativoServer: 0,
+                fkCargoServer: 1,
+                isAdminServer: 1
+            })
+        });
+
+        if(!respostaCadastroUsuario.ok) {
+            respostaCadastroUsuario.text().then((texto) => {
+                console.log(texto);
+            });
+
+            return;
+        }
+
+        window.location = "index.html";
+
     }
 </script>

@@ -19,6 +19,21 @@ function autenticar(req, res) {
     });
 }
 
+function cadastrarUsuario(req, res) {
+    let nome = req.body.nomeUsuarioServer;
+    let email = req.body.emailUsuarioServer;
+    let senha = req.body.senhaUsuarioServer;
+    let fkEmpresa = req.body.fkEmpresaServer;
+    let ativo = req.body.ativoServer;
+    let fkCargo = req.body.fkCargoServer;
+    let isAdmin = req.body.isAdminServer;
+
+    usuarioModel.cadastrarUsuario(nome, email, senha, ativo, fkEmpresa, fkCargo, isAdmin).then((resultado) => {
+        res.status(200).send('Cadastro realizado com sucesso!');
+    })
+}
+
 module.exports = {
-    autenticar
+    autenticar,
+    cadastrarUsuario
 }

@@ -7,4 +7,8 @@ router.get("/autenticar/:email/:senha", function(req, res) {
     usuarioController.autenticar(req, res);
 });
 
+router.post("/cadastrar", function(req, res) {
+    usuarioController.cadastrarUsuario(req, res);
+});
+
 module.exports = router;
