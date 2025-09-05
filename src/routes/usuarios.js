@@ -11,4 +11,8 @@ router.post("/cadastrar", function(req, res) {
     usuarioController.cadastrarUsuario(req, res);
 });
 
+router.get("/buscarUsuarios/:fkEmpresa", function(req, res) {
+    usuarioController.buscarUsuarios(req, res);
+});
+
 module.exports = router;

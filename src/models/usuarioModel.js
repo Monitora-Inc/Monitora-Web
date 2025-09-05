@@ -19,7 +19,17 @@ function cadastrarUsuario(nome, email, senha, ativo, fkEmpresa, fkCargo, isAdmin
     return database.executar(instrucaoSql);
 }
 
+function buscarUsuarios(fkEmpresa) {
+    let instrucaoSql = `
+        SELECT * FROM Usuario
+        WHERE fkEmpresa = ${fkEmpresa};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     autenticar,
-    cadastrarUsuario
+    cadastrarUsuario,
+    buscarUsuarios
 }

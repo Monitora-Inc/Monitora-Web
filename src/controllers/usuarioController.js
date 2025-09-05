@@ -33,7 +33,16 @@ function cadastrarUsuario(req, res) {
     })
 }
 
+function buscarUsuarios(req, res) {
+    let fkEmpresa = req.params.fkEmpresa;
+
+    usuarioModel.buscarUsuarios(fkEmpresa).then((resultado) => {
+        res.json(resultado);
+    });
+}
+
 module.exports = {
     autenticar,
-    cadastrarUsuario
+    cadastrarUsuario,
+    buscarUsuarios
 }
