@@ -122,8 +122,11 @@
     .quem-somos span {
       font-family: 'Inter', sans-serif;
       font-weight: 700;
-      font-size: clamp(1.4rem, 2.6vw, 1.15rem);
-      color: #3076df;
+      font-size: clamp(1rem, 2.6vw, 1.4rem);
+      background-color: rgba(255, 255, 255, 0.6);
+      color: #000;
+      padding: 2px 6px;
+      border-radius: 4px;
     }
 
     .quem-somos-cards {
