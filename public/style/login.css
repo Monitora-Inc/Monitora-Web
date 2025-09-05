@@ -272,6 +272,7 @@ button {
     color: rgb(231, 101, 101);
     font-weight: 300;
 }
+
 .voltar-link {
     position: absolute;
     bottom: 25px;
@@ -295,7 +296,7 @@ button {
     margin-right: 6px;
 }
 .voltar-icon-img {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
     margin-right: 8px;
 }
