@@ -24,7 +24,7 @@ body {
     position: relative;
     overflow: hidden;
     width: 768px;
-    max-width: 100%;
+    max-width: 150%;
     min-height: 480px;
 }
 
@@ -271,4 +271,31 @@ button {
     font-size: 14px;
     color: rgb(231, 101, 101);
     font-weight: 300;
+}
+.voltar-link {
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    z-index: 9999; 
+}
+
+.voltar-link:hover {
+    color: #0000aa;
+}
+
+.voltar-icon {
+    font-size: 18px;
+    margin-right: 6px;
+}
+.voltar-icon-img {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
 }
