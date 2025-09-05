@@ -60,6 +60,10 @@ body {
   font-size: 1rem;
 }
 
+.texto_nav:hover {
+  color: rgb(112, 112, 112);
+}
+
 .title {
   color: white;
   font-family: 'Bebas Neue', sans-serif;

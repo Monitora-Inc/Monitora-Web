@@ -43,10 +43,6 @@
       z-index: 1;
     }
 
-    .innerbar a:hover {
-      color: rgb(118, 118, 118);
-    }
-
     .bar {
       display: flex;
       justify-content: center;
@@ -61,6 +57,10 @@
       font-weight: 600;
       font-family: 'Inter', sans-serif;
       font-size: 1rem;
+    }
+
+    .texto_nav:hover {
+      color: rgb(112, 112, 112);
     }
 
     .login {
