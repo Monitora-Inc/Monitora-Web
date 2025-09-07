@@ -157,3 +157,7 @@ form #server-search:hover {
 .deletar-server-btn {
     background-color: rgb(240, 86, 86);
 }
+
+#lista-empresas, #empresas-nao-aprovadas {
+    margin-right: 17%;
+}
