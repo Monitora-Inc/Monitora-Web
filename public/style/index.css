@@ -92,7 +92,10 @@ body {
 .texto-hero {
   margin-top: 15%;
 }
-
+.titulo-2{
+  font-family: 'Bebas Neue', sans-serif;
+  
+}
 .text-base {
   color: white;
   font-family: 'Inter', sans-serif;
