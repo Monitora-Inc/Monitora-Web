@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 
-var aprovarCadastroController = require("../controllers/aprovarCadastro");
+var aprovarCadastroController = require("../controllers/aprovarCadastroController");
 
 router.get("/empresas", function(req, res) {
     aprovarCadastroController.listarEmpresasNaoAprovadas(req, res);
