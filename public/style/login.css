@@ -23,9 +23,9 @@ body {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     position: relative;
     overflow: hidden;
-    width: 768px;
-    max-width: 150%;
-    min-height: 480px;
+    width: 85vw; 
+    max-width: 1000px;
+    min-height: 600px;
 }
 
 .container p {
@@ -299,4 +299,27 @@ button {
     width: 24px;
     height: 24px;
     margin-right: 8px;
+}
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .form-container {
+        width: 100%;
+        position: relative;
+        transform: translateX(0) !important;
+        opacity: 1 !important;
+        z-index: auto !important;
+    }
+
+    .toggle-container {
+        display: none;
+    }
+
+    .container.active .sign-in,
+    .container.active .sign-up {
+        transform: translateX(0);
+    }
 }
