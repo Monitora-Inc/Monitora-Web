@@ -289,7 +289,6 @@ body {
 @media (max-width: 1024px) {
   .bloco-geral {
     flex-direction: column;
-    gap: 2rem;
   }
   .bloco-esquerda, 
   .bloco-direita {
@@ -331,4 +330,17 @@ body {
 .footer a:hover {
   color: #fff;
   text-decoration: underline;
+}
+
+@media (max-width: 500px) {
+  .bloco-direita{
+    width: 165%;
+  }
+  .bloco-esquerda{
+  border-radius: 0rem 0rem 0rem 0rem !important;
+  }
+  .footer-section {
+  margin-top: 26rem;
+  }
+
 }
