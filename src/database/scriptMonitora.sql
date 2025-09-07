@@ -61,3 +61,7 @@ SELECT * FROM Servidor
 WHERE fkEmpresa = 1;
 
 SELECT * FROM Usuario;
+SELECT * FROM Empresa;
+
+SELECT * FROM Cargo
+WHERE fkEmpresa = 1;	

@@ -86,5 +86,15 @@ async function deletarServidor(uuid) {
         return;
     }
 
-    carregarServidores();
+    window.location.reload();
+}
+
+function trocarInstrucoes(id) {
+    let idRemove = id == 'linux' ? 'windows' : 'linux';
+    
+    document.getElementById(id).classList.add('ativo');
+    document.getElementById(`instrucoes-${id}`).classList.remove('hide');
+
+    document.getElementById(idRemove).classList.remove('ativo'); 
+    document.getElementById(`instrucoes-${idRemove}`).classList.add('hide');
 }
