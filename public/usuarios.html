@@ -71,46 +71,10 @@
             </div>
         </form>
 
-        <section id="empresas-nao-aprovadas" class="container mt-5">
-            <h2>Empresas aguardando aprovação</h2>
-            <ul id="lista-empresas" style="list-style:none; padding:0;"></ul>
-        </section>
+
         <div id="cardsServers"></div>
     </div>
 
-    <script>
-    function carregarEmpresasNaoAprovadas() {
-        fetch("/aprovarCadastro/empresas")
-          .then(res => res.json())
-          .then(empresas => {
-            const lista = document.getElementById("lista-empresas")
-            lista.innerHTML = ""
-            for (let i = 0; i < empresas.length; i++) {
-              const empresa = empresas[i]
-              lista.innerHTML += `
-                <li style="margin-bottom:1rem;">
-                  <div style="display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:0.5rem;box-shadow:0 2px 8px #0001;padding:1rem;">
-                    <div>
-                      <strong>${empresa.nome}</strong><br>
-                      <span>CNPJ: ${empresa.cnpj}</span><br>
-                      <span>Status: <span style="color:#d9534f;">Pendente</span></span>
-                    </div>
-                    <button onclick="aprovarEmpresa(${empresa.idEmpresa})" class="btn btn-success" title="Aprovar">✔</button>
-                  </div>
-                </li>
-              `
-            }
-          })
-    }
-
-    function aprovarEmpresa(idEmpresa) {
-        fetch(`/aprovarCadastro/empresa/${idEmpresa}`, { method: "PUT" })
-          .then(carregarEmpresasNaoAprovadas)
-    }
-
-    carregarEmpresasNaoAprovadas();
-
-    </script>
     <script src="js/navbar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
