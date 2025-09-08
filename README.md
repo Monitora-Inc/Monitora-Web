@@ -1,20 +1,18 @@
 # Monitora
 
-<img src="./public/Images/M%20-%20PNG.png" alt="Logo" width="200">
+<img src="./public/Images/Logo Azul.png" alt="Logo" width="200">
 
-Monitoramento de servidores.
+Monitoramento de servidores em plataformas de serviço de streaming.
 
 ## 📋 Objetivo do Projeto
 
-
-### Funcionalidades
-
+Desenvolver uma solução de monitoramento eficiente para os servidores utilizados por plataformas de streaming, com o objetivo de identificar e resolver falhas, otimizar a performance dos serviços e garantir alta disponibilidade para os usuários finais.
 
 ### Software
 
 - **Site:** HTML, CSS e JavaScript;
-- **Backend:** ;
-- **Armazenamento de Dados:** ;
+- **Backend:** Web-data-viz;
+- **Armazenamento de Dados:** 
 - **Ferramentas de Design:** Canva e Figma;
 - **IDE:** Visual Studio Code;
 - **Versionamento de Código:** Git e Github.
