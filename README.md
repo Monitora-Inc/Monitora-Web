@@ -1,6 +1,6 @@
 # Monitora
 
-<img src="./public/Images/Logo Azul.png" alt="Logo" width="200">
+<img src="./public/Images/Logo Azul.png" alt="Logo" width="400">
 
 Monitoramento de servidores em plataformas de serviço de streaming.
 
@@ -12,9 +12,9 @@ Desenvolver uma solução de monitoramento eficiente para os servidores utilizad
 
 - **Site:** HTML, CSS e JavaScript;
 - **Backend:** Web-data-viz;
-- **Armazenamento de Dados:** 
+- **Armazenamento de Dados:** MySQL;
 - **Ferramentas de Design:** Canva e Figma;
-- **IDE:** Visual Studio Code;
+- **IDE:** Visual Studio Code, IntelliJ;
 - **Versionamento de Código:** Git e Github.
 
 Desenvolvido por Equipe Monitora para o Projeto de Pesquisa e Inovação da Sprint 4 do Curso de Bacharelado em Ciência da Computação na SPTECH.
