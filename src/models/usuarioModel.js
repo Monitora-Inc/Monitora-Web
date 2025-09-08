@@ -28,8 +28,19 @@ function buscarUsuarios(fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+function aprovarUsuarioAdmin(fkEmpresa) {
+    let instrucaoSql = `
+        UPDATE Usuario
+        SET ativo = 1
+        WHERE fkEmpresa = ${fkEmpresa};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     autenticar,
     cadastrarUsuario,
-    buscarUsuarios
+    buscarUsuarios,
+    aprovarUsuarioAdmin
 }

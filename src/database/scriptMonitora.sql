@@ -75,7 +75,7 @@ INSERT INTO Usuario(nome, email, senha, ativo, fkEmpresa, fkCargo, isAdmin) VALU
 SELECT * FROM Servidor
 WHERE fkEmpresa = 1;
 
-SELECT * FROM Usuario;
+SELECT * FROM Usuario;	
 SELECT * FROM Empresa;
 
 SELECT * FROM Cargo

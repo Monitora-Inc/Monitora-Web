@@ -42,8 +42,17 @@ function buscarUsuarios(req, res) {
     });
 }
 
+function aprovarUsuarioAdmin(req, res) {
+    let fkEmpresa = req.params.fkEmpresa;
+
+    usuarioModel.aprovarUsuarioAdmin(fkEmpresa).then((resultado) => {
+        res.json(resultado);
+    });
+}
+
 module.exports = {
     autenticar,
     cadastrarUsuario,
-    buscarUsuarios
+    buscarUsuarios,
+    aprovarUsuarioAdmin
 }
