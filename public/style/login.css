@@ -267,7 +267,7 @@ button {
     margin-top: 20px;
 }
 
-#avisoCadastro {
+.aviso {
     font-size: 14px;
     color: rgb(231, 101, 101);
     font-weight: 300;
@@ -322,4 +322,16 @@ button {
     .container.active .sign-up {
         transform: translateX(0);
     }
+}
+
+#erroLogin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#erroLogin img{
+    width: 30px;
+    height:30px;
 }

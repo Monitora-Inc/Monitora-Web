@@ -26,7 +26,7 @@
                 <input type="password" placeholder="Senha" id="iptSenhaCadastro">
                 
                 <button type="button" onclick="cadastro()">Inscrever</button>
-                <p id="avisoCadastro"></p>
+                <p id="avisoCadastro" class="aviso"></p>
             </form>
         </div>
 
@@ -40,6 +40,7 @@
                 <a href="#">Esqueceu sua senha?</a>
                 
                 <button type="button" onclick="login()">Entrar</button>
+                <p id="erroLogin" class="aviso"></p>
             </form>
         </div>
 
@@ -71,11 +72,14 @@
 
 <script>
     async function login() {
+        erroLogin.innerHTML = ``;
+
         let usuarioEmail = await iptEmail.value;
         let usuarioSenha = await iptSenha.value;
 
-        await console.log(usuarioEmail);
-        await console.log(usuarioSenha);
+        if(!usuarioEmail || !usuarioSenha) {
+            avisoLogin.innerHTML = `Preencha todos os campos!`;
+        }
 
         let respostaLogin = await fetch(`/usuarios/autenticar/${usuarioEmail}/${usuarioSenha}`, {
             method: 'GET',
@@ -94,7 +98,10 @@
 
         let jsonLogin = await respostaLogin.json();
 
-        console.log(jsonLogin);
+        if(jsonLogin.ativo == 0) {
+            erroLogin.innerHTML = `<img src="/assets/loginAlert.png"><p>Sua empresa ainda não foi aprovada</p>`;
+            return;
+        }
 
         sessionStorage.EMAIL_USUARIO = jsonLogin.email;
         sessionStorage.NOME_USUARIO = jsonLogin.nome;
