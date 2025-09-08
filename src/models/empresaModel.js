@@ -9,6 +9,16 @@ function cadastrarEmpresa(nome, cnpj) {
     return database.executar(instrucaoSql);
 }
 
+function negarEmpresa(idEmpresa) {
+    let instrucaoSql = `
+        DELETE FROM Empresa
+        WHERE idEmpresa = ${idEmpresa};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
-    cadastrarEmpresa
+    cadastrarEmpresa,
+    negarEmpresa
 }

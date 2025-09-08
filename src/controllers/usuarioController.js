@@ -50,9 +50,18 @@ function aprovarUsuarioAdmin(req, res) {
     });
 }
 
+function negarUsuarioAdmin(req, res) {
+    let fkEmpresa = req.params.fkEmpresa;
+
+    usuarioModel.negarUsuarioAdmin(fkEmpresa).then((resultado) => {
+        res.json(resultado);
+    });
+}
+
 module.exports = {
     autenticar,
     cadastrarUsuario,
     buscarUsuarios,
-    aprovarUsuarioAdmin
+    aprovarUsuarioAdmin,
+    negarUsuarioAdmin
 }

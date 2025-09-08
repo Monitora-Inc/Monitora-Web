@@ -19,4 +19,8 @@ router.put("/aprovarUsuarioAdmin/:fkEmpresa", function(req, res) {
     usuarioController.aprovarUsuarioAdmin(req, res);
 });
 
+router.delete("/negarUsuarioAdmin/:fkEmpresa", function(req, res) {
+    usuarioController.negarUsuarioAdmin(req, res);
+});
+
 module.exports = router;

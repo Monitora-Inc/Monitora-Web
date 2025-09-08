@@ -38,9 +38,19 @@ function aprovarUsuarioAdmin(fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+function negarUsuarioAdmin(fkEmpresa) {
+    let instrucaoSql = `
+        DELETE FROM Usuario
+        WHERE fkEmpresa = ${fkEmpresa};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     autenticar,
     cadastrarUsuario,
     buscarUsuarios,
-    aprovarUsuarioAdmin
+    aprovarUsuarioAdmin,
+    negarUsuarioAdmin
 }

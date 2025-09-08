@@ -158,6 +158,10 @@ form #server-search:hover {
     background-color: rgb(240, 86, 86);
 }
 
+.btn-negar {
+    font-size: 30px;
+}
+
 #lista-empresas, #empresas-nao-aprovadas {
     margin-right: 17%;
 }

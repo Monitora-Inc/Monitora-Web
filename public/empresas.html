@@ -61,7 +61,10 @@
                       <span>CNPJ: ${empresa.cnpj}</span><br>
                       <span>Status: <span style="color:#d9534f;">Pendente</span></span>
                     </div>
-                    <button onclick="aprovarEmpresa(${empresa.idEmpresa})" class="btn btn-success" title="Aprovar">✔</button>
+                    <div>
+                      <button onclick="aprovarEmpresa(${empresa.idEmpresa})" class="btn btn-success" title="Aprovar">✔</button>
+                      <button onclick="negarEmpresa(${empresa.idEmpresa})" class="btn btn-danger btn-negar" title="Negar">×</button>
+                    </div>
                   </div>
                 </li>
               `
@@ -93,6 +96,40 @@
 
           return;
         })
+      }
+
+      carregarEmpresasNaoAprovadas();
+    }
+
+    async function negarEmpresa(idEmpresa) {
+      let resultadoNegarUsuarioAdmin = await fetch(`/usuarios/negarUsuarioAdmin/${idEmpresa}`, {
+        method: 'DELETE',
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      if(!resultadoNegarUsuarioAdmin.ok) {
+        resultadoNegarUsuarioAdmin.text().then((texto) => {
+          console.log(texto);
+
+          return;
+        });
+      }
+
+      let resultadoNegarEmpresa = await fetch(`/empresas/negarEmpresa/${idEmpresa}`, {
+        method: 'DELETE',
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      if(!resultadoNegarEmpresa.ok) {
+        resultadoNegarEmpresa.text().then((texto) => {
+          console.log(texto);
+
+          return;
+        });
       }
 
       carregarEmpresasNaoAprovadas();

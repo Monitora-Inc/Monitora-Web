@@ -7,4 +7,8 @@ router.post("/cadastrarEmpresa", function(req, res) {
     empresaController.cadastrarEmpresa(req, res);
 });
 
+router.delete("/negarEmpresa/:idEmpresa", function(req, res) {
+    empresaController.negarEmpresa(req, res);
+});
+
 module.exports = router;

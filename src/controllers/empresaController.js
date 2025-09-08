@@ -9,6 +9,15 @@ function cadastrarEmpresa(req, res) {
     });
 }
 
+function negarEmpresa(req, res) {
+    let idEmpresa = req.params.idEmpresa;
+
+    empresaModel.negarEmpresa(idEmpresa).then((resultado) => {
+        res.json(resultado);
+    });
+}
+
 module.exports = {
-    cadastrarEmpresa
+    cadastrarEmpresa,
+    negarEmpresa
 }

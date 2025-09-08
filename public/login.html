@@ -78,7 +78,9 @@
         let usuarioSenha = await iptSenha.value;
 
         if(!usuarioEmail || !usuarioSenha) {
-            avisoLogin.innerHTML = `Preencha todos os campos!`;
+            erroLogin.innerHTML = `Preencha todos os campos!`;
+
+            return;
         }
 
         let respostaLogin = await fetch(`/usuarios/autenticar/${usuarioEmail}/${usuarioSenha}`, {
