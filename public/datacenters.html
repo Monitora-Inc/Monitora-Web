@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servidores</title>
+    <link rel="stylesheet" href="style/navbar.css">
+    <link rel="stylesheet" href="style/usuarios.css">
+    <link rel="stylesheet" href="style/filtros.css">
+</head>
+
+<body>
+    <nav id="id_navbar"></nav>
+    <div id="id_info_kpis"></div>
+
+    
+    <div class="page_content">
+        <!-- Info-card -->
+        <div class="headers">
+            <div class="card_adicionar">
+                <img src="./assets/icons/icone_datacenters.svg" alt="">
+                <h2>Adicionar Data Centers</h2>
+            </div>
+            <div class="info-card">
+                <h2>Total Data Centers:</h2>
+                <h1 id="totalUsuarios">0</h1>
+            </div>
+        </div>
+
+        <!-- Filtros de persquisa -->
+        <div class="filtros">
+            <select id="id_filter" onchange="">
+                <option value="" selected>Todos os cargos</option>
+            </select>
+            <input type="search" placeholder="Digite para pesquisar">
+        </div>
+    </div>
+</body>
+</html>
+ <script src="js/navbar.js"></script>

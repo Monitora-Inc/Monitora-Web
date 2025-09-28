@@ -1,72 +1,269 @@
+/* Importa a fonte Montserrat do Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
+/* Reset global + estilo base */
 * {
-    font-family: "Montserrat", sans-serif;
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-    text-decoration: none;
+    font-family: "Montserrat", sans-serif; /* Define Montserrat como fonte padrão */
+    margin: 0px; /* Remove margens padrão */
+    padding: 0px; /* Remove espaçamentos padrão */
+    box-sizing: border-box; /* Inclui borda e padding no cálculo do tamanho */
+    text-decoration: none; /* Remove sublinhado de links */
 }
 
-.links {
-    text-decoration: none;
-}
 
-#navbar {
-    width: 12.5vw;
+/* Classe vazia reservada para futuros links */
+.links {}
+
+/* ---------- ÍCONES ---------- */
+.icone_perfil           {background-image: url('../assets/icons/icone_perfil.svg');}
+.icone_dashboard        {background-image: url('../assets/icons/icone_home.svg');}
+.icone_servidores       {background-image: url('../assets/icons/icone_servidores.svg');}
+.icone_datacenters      {background-image: url('../assets/icons/icone_datacenters.svg');}
+.icone_logs             {background-image: url('../assets/icons/icone_logs.svg');}
+.icone_usuarios         {background-image: url('../assets/icons/icone_usuarios.svg');}
+.icone_configuracoes    {background-image: url('../assets/icons/icone_configuracoes.svg');}
+.icone_sair             {background-image: url('../assets/icons/icone_sair.svg');}
+.icone_suporte          {background-image: url('../assets/icons/icone_suporte.svg');}
+
+/* ---------- ESTILO GERAL ---------- */
+body {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(180deg, #181A28 75.1%, #2F3871 100%); /* Fundo escuro da página */
     height: 100vh;
-    position: fixed;
-    background-color: #313a46;
-    display: flex;
-    flex-direction: column;
-    padding-left: 20px;
 }
 
-#navbar .logo {
-    width: 30%;
-    height: 11%;
-    padding-top: 20px;
+/* ---------- NAVBAR LATERAL ---------- */
+nav {
+    background-color: #252238; /* Fundo azul */
+    position: fixed; /* Fixa no lado esquerdo da tela */
+    display: flex;
+    flex-direction: column; /* Ícones ficam em coluna */
+    align-items: center; /* Centraliza no eixo horizontal */
+    padding-top: 12vh; /* Espaço no topo */
+    padding-bottom: 3vh; /* Espaço inferior */
+    height: 100vh; /* Ocupa altura total da tela */
+    gap: 2vw; /* Espaçamento entre itens */
+    width: 4vw; /* Largura estreita */
+}
+
+/* Estilo dos ícones dentro da navbar */
+.icones_navbar a {
+    width: 2vw;
+    height: 2vw;
     align-self: center;
-    margin-bottom: 40px;
+    transition: ease-in-out 0.3s; /* Animação suave */
+    background-size: 80%; /* Ícone proporcional */
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-#navbar h1 {
-    color: #7b8898;
-    font-size: 16px;
-    margin-bottom: 10px;
+/* Efeito ao passar o mouse sobre os ícones */
+.icones_navbar a:hover {
+    background-color: #231883; /* Fundo azul claro */
+    width: 2.8vw; /* Ícone cresce */
+    height: 2.8vw;
+    padding: 0.3vw; /* Dá espaçamento */
+    border-radius: 0.2vw; /* Bordas arredondadas */
 }
 
-#navbar .categoriaSection {
+/* Container dos ícones principais */
+nav .icones_navbar {
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    margin-bottom: 20px;
+    gap: 2vw;
 }
 
-#navbar .collapseSection {
-    
+/* Ícones inferiores (como sair/suporte) ficam no final */
+nav .icones_navbar_inferiores {
+    justify-content: end;
+    height: 100%;
 }
 
-#navbar .collapseSection .collapseTitulo {
+/* Logo da navbar */
+nav .logo {
+    background-image: url('../assets/logos/logo_vetorizada.svg');
+    background-size: contain;
+    width: 1.5vw;
+    height: 1.5vw;
+    align-self: center;
+}
+
+/* ---------- TOOLTIP NAVBAR ---------- */
+.tooltipNav {
+  position: relative;
+  display: inline-block;
+  height: 1.2vw;
+}
+
+/* Texto escondido do tooltip */
+.tooltipNav .tooltiptextNav {
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
-}
-
-#navbar .collapseSection .collapseTitulo h2{
-    margin-top: 10px;
-    margin-bottom: 10px;
+    visibility: hidden; /* Escondido por padrão */
+    position: absolute;
+    top: +0.5vw;
+    left: 145%; /* Lado direito do ícone */
+    z-index: 999; /* Fica acima de tudo */
+    width: 0px; /* Inicia "fechado" */
+    padding: 0px 1vw;
+    border-radius: 5px;
+    background-color: #1E1948;
     color: #ffffff;
-    font-size: 17px;
-    font-weight: 500;
+    text-align: center;
+    font-size: 0px;
 }
 
-.collapsePages h3{
-    color: #7b8898;
-    font-size: 14px;
-    margin: 10px 0px 0px 35px;
+/* Tooltip aparece no hover */
+.tooltipNav:hover .tooltiptextNav {
+  visibility: visible;
+  width: 12vw;
+  height: 2vw;
+  font-size: 1vw;
+  transition: .4s ease;
 }
 
-.logout {
-    justify-self: flex-end;
+/* ---------- TOOLTIP KPI ---------- */
+.tooltipKPI {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
 }
+
+/* Texto escondido do tooltip dos KPIs */
+.tooltipKPI .tooltiptextKPI {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    position: absolute;
+    top: +120.5%; /* Abaixo do elemento */
+    z-index: 999;
+    width: 0px;
+    padding: 0px 1vw;
+    border-radius: 5px;
+    background-color: #1E1948;
+    color: #ffffff;
+    text-align: center;
+    font-size: 0px;
+}
+
+/* Tooltip dos KPIs aparece no hover */
+.tooltipKPI:hover .tooltiptextKPI {
+  visibility: visible;
+  width: 12vw;
+  height: 3vw;
+  font-size: 1vw;
+  transition: .4s ease;
+  font-weight: 400;
+}
+
+/* ---------- KPIs SERVIDORES ---------- */
+
+/* Container geral de informações */
+#id_info_kpis {
+    display: flex;
+    width: 100vw;
+    height: 2vw;
+    position: fixed;
+    margin-left: 5.7vw; /* Espaço para não colidir com navbar */
+    margin-top: 1.4vw;
+    font-size: 0.6vw;
+}
+
+/* Bloco KPI de servidores */
+.kpi_servidores {
+    display: flex;
+    cursor: pointer;
+}
+
+/* Efeito hover no texto dos KPIs */
+.kpi_servidores:hover h1 {
+    background-color: #393A4E;
+    transition: ease-in-out 0.3s;
+}
+/* Efeito hover no texto dos KPIs */
+.kpi_servidores:hover h1 {
+    background-color: #393A4E;
+    transition: ease-in-out 0.3s;
+}
+
+/* Efeito hover no texto dos KPIs */
+.kpi_servidores:hover h1 {
+    background-color: #1b1c27;
+    transition: ease-in-out 0.3s;
+}
+
+/* Ícone lateral do KPI */
+.kpi_servidores img {
+    background-color: #05095C;
+    width: 2.5vw;
+    padding: 0.5vw;
+    border-radius: 10px 0px 0px 10px; /* Bordas arredondadas à esquerda */
+}
+
+/* Texto do KPI */
+.kpi_servidores h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #323239;
+    color: white;
+    font-size: 1;
+    width: 2.5vw;
+    border-radius: 0px 10px 10px 0px; /* Bordas arredondadas à direita */
+}
+
+/* Container dos status */
+.kpi_servidores_status {
+    display: flex;
+    margin-left: 2vw;
+}
+
+/* Ícone dos status */
+.kpi_servidores_status img {
+    background-color: #05095C;
+    width: 2.5vw;
+    height: 2.5vw;
+    padding: 0.5vw;
+    border-radius: 10px 0px 0px 10px;
+}
+
+/* Status de servidores críticos */
+.kpi_servidores_status .servidores_criticos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(222, 80, 80);
+    width: 2.5vw;
+    height: 2.5vw;
+    color: rgb(88, 35, 35);
+    cursor: pointer;
+}
+
+/* Efeito hover nos críticos */
+.kpi_servidores_status .servidores_criticos:hover {
+    background-color: rgb(112, 50, 50);
+    color: rgb(255, 255, 255);
+    transition: ease-in-out 0.3s;
+}
+
+/* Status de servidores em alerta */
+.kpi_servidores_status .servidores_alertas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(239, 208, 96);
+    width: 2.5vw;
+    height: 2.5vw;
+    color: rgb(128, 121, 74);
+    border-radius: 0px 10px 10px 0px;
+    cursor: pointer;
+}
+
+/* Efeito hover nos alertas */
+.kpi_servidores_status .servidores_alertas:hover {
+    background-color: rgb(141, 119, 29);
+    color: rgb(255, 255, 255);
+    transition: ease-in-out 0.3s;
+}
+
