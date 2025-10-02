@@ -1,0 +1,76 @@
+.perfil {
+    height: 35vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.perfil_container{
+    display: flex;
+    padding: 2vw;
+    background-color: rgb(5, 31, 102);
+    color: white;
+    width: 50vw;
+    border-radius: 0.3vw;
+}
+
+.perfil_container img {
+    width: 14vw;
+    min-height: 14vw;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 0.3vw;
+    cursor: pointer;
+    transition: ease-in-out 0.3s;
+}
+
+.perfil_container img:hover {
+    filter: brightness(50%);
+    border: solid 5px rgb(255, 255, 255);
+}
+
+.perfil_container .perfil_informacoes {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 2vw;
+    width: 100%;
+}
+
+.perfil_container .perfil_informacoes h1{
+    font-size: 3vw;
+    -webkit-text-size-adjust:none;
+}
+
+.perfil_container .perfil_informacoes h2{
+    color: blue;
+    font-size: 1.7vw;
+}
+
+.perfil_container .perfil_informacoes h3{
+    font-size: 1vw;
+    font-weight: 400;
+}
+
+.perfil_container .perfil_informacoes h4{
+    font-size: 1vw;
+    font-weight: 400;
+    padding-bottom: 1vw;
+}
+
+.perfil_container button {
+    background-color: rgb(3, 77, 173);
+    color: white;
+    font-size: 1vw;
+    border: none;
+    padding: 0.6vw;
+    width: 100%;
+    border-radius: 0.2vw;
+    cursor: pointer;
+    transition: ease-in-out 0.3s;
+}
+
+.perfil_container button:hover {
+    background-color: rgb(22, 22, 90);
+    font-size: 1.05vw;
+}

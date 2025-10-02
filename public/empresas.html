@@ -2,147 +2,123 @@
 <html lang="pt-br">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Empresas</title>
-  <link rel="stylesheet" href="style/navbar.css">
-  <link href="https://cdn.jsdelivr.net/npm/fastbootstrap@2.2.0/dist/css/fastbootstrap.min.css" rel="stylesheet"
-    integrity="sha256-V6lu+OdYNKTKTsVFBuQsyIlDiRWiOmtC8VQ8Lzdm2i4=" crossorigin="anonymous">
-  <link rel="stylesheet" href="style/servers.css">
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=edit" />
-  <link rel="icon" href="Images/Logo Azul.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servidores</title>
+    <link rel="icon" href="./assets/logos/logo_vetorizada.svg" type="image/x-icon">
+    <link rel="stylesheet" href="style/sidebar.css">
+    <link rel="stylesheet" href="style/filtros.css">
+    <link rel="stylesheet" href="style/essencial.css">
+    <link rel="stylesheet" href="style/tela_empresas.css">
 </head>
 
 <body>
-  <div id="navbar"></div>
+  <nav id="id_sidebar"></nav>
+  <div id="id_info_kpis"></div>
+  <div id="popup_screen"></div>
 
-  <div class="page-content">
-    <div class="filtros"></div>
-    <form>
-      <div class="input-group">
-        <span class="ri-search-line search-icon"></span>
-        <input type="search" class="form-control dropdown-toggle" placeholder="Pesquisar..." id="server-search">
-        <button class="input-group-text btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          <i class="uil uil-sort-amount-down"></i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-end">
-          <a class="dropdown-item" href="#">Due Date</a>
-          <a class="dropdown-item" href="#">Added Date</a>
-          <a class="dropdown-item" href="#">Assignee</a>
+    
+    <div class="page_content">
+        <!-- Filtros de persquisa -->
+        <div class="filtros">
+            <select id="id_filter" onchange="">
+                <option value="" selected>Todos os cargos</option>
+            </select>
+            <input type="search" placeholder="Digite para pesquisar">
         </div>
-      </div>
-    </form>
+        
+        <!-- Lista de servidores -->
+         <h2 class="lista_titulo">Empresas</h2>
+         <div class="container_cards_empresas">
+            <div class="card_empresa">
+                <!-- Informações da Empresa -->
+                <div id="id_card_empresa_informacoes">
+                    <div id="id_nomeEmpresa">Tech Solutions LTDA</div>
+                    <div id="id_cnpjEmpresa">CNPJ: 11.222.333/0001-44</div>
+                    <div id="id_statusEmpresa">Status: <span>Pendente</span></div>
+                </div>
 
-    <section id="empresas-nao-aprovadas" class="container mt-5">
-      <h2>Empresas aguardando aprovação</h2>
-      <ul id="lista-empresas" style="list-style:none; padding:0;"></ul>
-    </section>
-    <div id="cardsServers"></div>
-  </div>
+                <!-- Botões -->
+                <div id="id_card_empresa_botoes">
+                    <button class="botao_aprovar">O</button>
+                    <button class="botao_rejeitar">X</button>
+                </div>
+            </div>
+            <div class="card_empresa">
+                <!-- Informações da Empresa -->
+                <div id="id_card_empresa_informacoes">
+                    <div id="id_nomeEmpresa">Tech Solutions LTDA</div>
+                    <div id="id_cnpjEmpresa">CNPJ: 11.222.333/0001-44</div>
+                    <div id="id_statusEmpresa">Status: <span>Pendente</span></div>
+                </div>
 
-  <script>
-    function carregarEmpresasNaoAprovadas() {
-      fetch("/aprovarCadastro/empresas")
-        .then(res => res.json())
-        .then(empresas => {
-          const lista = document.getElementById("lista-empresas")
-          lista.innerHTML = ""
-          for (let i = 0; i < empresas.length; i++) {
-            const empresa = empresas[i]
-            lista.innerHTML += `
-                <li style="margin-bottom:1rem;">
-                  <div style="display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:0.5rem;box-shadow:0 2px 8px #0001;padding:1rem;">
-                    <div>
-                      <strong>${empresa.nome}</strong><br>
-                      <span>CNPJ: ${empresa.cnpj}</span><br>
-                      <span>Status: <span style="color:#d9534f;">Pendente</span></span>
-                    </div>
-                    <div>
-                      <button onclick="aprovarEmpresa(${empresa.idEmpresa})" class="btn btn-success" title="Aprovar">✔</button>
-                      <button onclick="negarEmpresa(${empresa.idEmpresa})" class="btn btn-danger btn-negar" title="Negar">×</button>
-                    </div>
-                  </div>
-                </li>
-              `
-          }
-        })
-    }
+                <!-- Botões -->
+                <div id="id_card_empresa_botoes">
+                    <button class="botao_aprovar">O</button>
+                    <button class="botao_rejeitar">X</button>
+                </div>
+            </div>
+            <div class="card_empresa">
+                <!-- Informações da Empresa -->
+                <div id="id_card_empresa_informacoes">
+                    <div id="id_nomeEmpresa">Tech Solutions LTDA</div>
+                    <div id="id_cnpjEmpresa">CNPJ: 11.222.333/0001-44</div>
+                    <div id="id_statusEmpresa">Status: <span>Pendente</span></div>
+                </div>
 
-    async function aprovarEmpresa(idEmpresa) {
-      let resultadoaAprovarEmpresa = await fetch(`/aprovarCadastro/empresa/${idEmpresa}`, { method: "PUT" });
+                <!-- Botões -->
+                <div id="id_card_empresa_botoes">
+                    <button class="botao_aprovar">O</button>
+                    <button class="botao_rejeitar">X</button>
+                </div>
+            </div>
+            <div class="card_empresa">
+                <!-- Informações da Empresa -->
+                <div id="id_card_empresa_informacoes">
+                    <div id="id_nomeEmpresa">Tech Solutions LTDA</div>
+                    <div id="id_cnpjEmpresa">CNPJ: 11.222.333/0001-44</div>
+                    <div id="id_statusEmpresa">Status: <span>Pendente</span></div>
+                </div>
 
-      if(!resultadoaAprovarEmpresa.ok) {
-        resultadoaAprovarEmpresa.text().then((texto) => {
-          console.log(texto);
+                <!-- Botões -->
+                <div id="id_card_empresa_botoes">
+                    <button class="botao_aprovar">O</button>
+                    <button class="botao_rejeitar">X</button>
+                </div>
+            </div>
+                        <div class="card_empresa">
+                <!-- Informações da Empresa -->
+                <div id="id_card_empresa_informacoes">
+                    <div id="id_nomeEmpresa">Tech Solutions LTDA</div>
+                    <div id="id_cnpjEmpresa">CNPJ: 11.222.333/0001-44</div>
+                    <div id="id_statusEmpresa">Status: <span>Pendente</span></div>
+                </div>
 
-          return;
-        })
-      }
+                <!-- Botões -->
+                <div id="id_card_empresa_botoes">
+                    <button class="botao_aprovar">O</button>
+                    <button class="botao_rejeitar">X</button>
+                </div>
+            </div>
+                        <div class="card_empresa">
+                <!-- Informações da Empresa -->
+                <div id="id_card_empresa_informacoes">
+                    <div id="id_nomeEmpresa">Tech Solutions LTDA</div>
+                    <div id="id_cnpjEmpresa">CNPJ: 11.222.333/0001-44</div>
+                    <div id="id_statusEmpresa">Status: <span>Pendente</span></div>
+                </div>
 
-      let resultadoAprovarUsuarioAdmin = await fetch(`/usuarios/aprovarUsuarioAdmin/${idEmpresa}`, {
-        method: 'PUT',
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
+                <!-- Botões -->
+                <div id="id_card_empresa_botoes">
+                    <button class="botao_aprovar">O</button>
+                    <button class="botao_rejeitar">X</button>
+                </div>
+            </div>
 
-      if(!resultadoAprovarUsuarioAdmin.ok) {
-        resultadoAprovarUsuarioAdmin.text().then((texto) => {
-          console.log(texto);
+         </div>
 
-          return;
-        })
-      }
-
-      carregarEmpresasNaoAprovadas();
-    }
-
-    async function negarEmpresa(idEmpresa) {
-      let resultadoNegarUsuarioAdmin = await fetch(`/usuarios/negarUsuarioAdmin/${idEmpresa}`, {
-        method: 'DELETE',
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-
-      if(!resultadoNegarUsuarioAdmin.ok) {
-        resultadoNegarUsuarioAdmin.text().then((texto) => {
-          console.log(texto);
-
-          return;
-        });
-      }
-
-      let resultadoNegarEmpresa = await fetch(`/empresas/negarEmpresa/${idEmpresa}`, {
-        method: 'DELETE',
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-
-      if(!resultadoNegarEmpresa.ok) {
-        resultadoNegarEmpresa.text().then((texto) => {
-          console.log(texto);
-
-          return;
-        });
-      }
-
-      carregarEmpresasNaoAprovadas();
-    }
-
-    carregarEmpresasNaoAprovadas();
-
-  </script>
-  <script src="js/navbar.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"></script>
-
+    </div>
 </body>
-
 </html>
+<script src="js/sidebar.js"></script>
+<script src="js/popups.js"></script>

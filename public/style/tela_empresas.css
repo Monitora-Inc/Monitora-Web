@@ -1,0 +1,60 @@
+.container_cards_empresas {
+    width: 99%;
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+    max-height: 69vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.container_cards_empresas .card_empresa {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(54, 54, 54);
+    padding: 1vw;
+    font-size: 0.8vw;
+    border-radius: 0.3vw;
+}
+
+.container_cards_empresas .card_empresa #id_card_empresa_informacoes #id_nomeEmpresa {
+    font-weight: 700;
+}
+
+.container_cards_empresas .card_empresa #id_card_empresa_informacoes span {
+    color: red;
+}
+
+
+.container_cards_empresas .card_empresa #id_card_empresa_botoes{
+    display: flex;
+    gap: 0.5vw;
+}
+
+.container_cards_empresas .card_empresa #id_card_empresa_botoes button{
+    width: 3vw;
+    height: 100%;
+    border: none;
+    border-radius: 0.5vw;
+    cursor: pointer;
+    font-size: 0.8vw;
+}
+
+.container_cards_empresas .card_empresa #id_card_empresa_botoes .botao_aprovar{
+    background-color: green;
+    transition: ease-in-out 0.3s;
+}
+
+.container_cards_empresas .card_empresa #id_card_empresa_botoes .botao_aprovar:hover{
+    background-color: rgb(13, 75, 13);
+}
+
+.container_cards_empresas .card_empresa #id_card_empresa_botoes .botao_rejeitar{
+    background-color: red;
+    transition: ease-in-out 0.3s;
+}
+
+.container_cards_empresas .card_empresa #id_card_empresa_botoes .botao_rejeitar:hover{
+    background-color: rgb(75, 13, 13);
+}
+

@@ -1,3 +1,15 @@
+/*
+  /$$$$$$  /$$       /$$           /$$                          
+ /$$__  $$|__/      | $$          | $$                          
+| $$  \__/ /$$  /$$$$$$$  /$$$$$$ | $$$$$$$   /$$$$$$   /$$$$$$ 
+|  $$$$$$ | $$ /$$__  $$ /$$__  $$| $$__  $$ |____  $$ /$$__  $$
+ \____  $$| $$| $$  | $$| $$$$$$$$| $$  \ $$  /$$$$$$$| $$  \__/
+ /$$  \ $$| $$| $$  | $$| $$_____/| $$  | $$ /$$__  $$| $$      
+|  $$$$$$/| $$|  $$$$$$$|  $$$$$$$| $$$$$$$/|  $$$$$$$| $$      
+ \______/ |__/ \_______/ \_______/|_______/  \_______/|__/                                                                   
+*/
+
+
 /* Importa a fonte Montserrat do Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
@@ -22,18 +34,18 @@
 .icone_logs             {background-image: url('../assets/icons/icone_logs.svg');}
 .icone_usuarios         {background-image: url('../assets/icons/icone_usuarios.svg');}
 .icone_configuracoes    {background-image: url('../assets/icons/icone_configuracoes.svg');}
-.icone_sair             {background-image: url('../assets/icons/icone_sair.svg');}
+.icone_sair             {background-image: url('../assets/icons/icone_sair.svg'); cursor: pointer;}
 .icone_suporte          {background-image: url('../assets/icons/icone_suporte.svg');}
 
 /* ---------- ESTILO GERAL ---------- */
 body {
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(180deg, #181A28 75.1%, #2F3871 100%); /* Fundo escuro da página */
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(180deg, #302f35 75.1%, #41424d 100%); /* Fundo escuro da página */
     height: 100vh;
 }
 
 /* ---------- NAVBAR LATERAL ---------- */
 nav {
-    background-color: #252238; /* Fundo azul */
+    background-color: #110080; /* Fundo azul */
     position: fixed; /* Fixa no lado esquerdo da tela */
     display: flex;
     flex-direction: column; /* Ícones ficam em coluna */
@@ -43,6 +55,7 @@ nav {
     height: 100vh; /* Ocupa altura total da tela */
     gap: 2vw; /* Espaçamento entre itens */
     width: 4vw; /* Largura estreita */
+    z-index: 1000;
 }
 
 /* Estilo dos ícones dentro da navbar */
@@ -58,7 +71,7 @@ nav {
 
 /* Efeito ao passar o mouse sobre os ícones */
 .icones_navbar a:hover {
-    background-color: #231883; /* Fundo azul claro */
+    background-color: #2963b9; /* Fundo azul claro */
     width: 2.8vw; /* Ícone cresce */
     height: 2.8vw;
     padding: 0.3vw; /* Dá espaçamento */
@@ -87,6 +100,20 @@ nav .logo {
     align-self: center;
 }
 
+#perfil_foto {
+    padding-top: 0.1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#perfil_foto img{
+    display: flex;
+    object-fit: cover;
+    width: 2vw;
+    height: 2vw;
+    border-radius: 5vw;
+}
 /* ---------- TOOLTIP NAVBAR ---------- */
 .tooltipNav {
   position: relative;
@@ -107,7 +134,7 @@ nav .logo {
     width: 0px; /* Inicia "fechado" */
     padding: 0px 1vw;
     border-radius: 5px;
-    background-color: #1E1948;
+    background-color: #123b88;
     color: #ffffff;
     text-align: center;
     font-size: 0px;
@@ -141,7 +168,7 @@ nav .logo {
     width: 0px;
     padding: 0px 1vw;
     border-radius: 5px;
-    background-color: #1E1948;
+    background-color: #274eb8;
     color: #ffffff;
     text-align: center;
     font-size: 0px;
@@ -157,7 +184,16 @@ nav .logo {
   font-weight: 400;
 }
 
-/* ---------- KPIs SERVIDORES ---------- */
+/*
+ /$$   /$$ /$$$$$$$  /$$$$$$          
+| $$  /$$/| $$__  $$|_  $$_/          
+| $$ /$$/ | $$  \ $$  | $$    /$$$$$$$
+| $$$$$/  | $$$$$$$/  | $$   /$$_____/
+| $$  $$  | $$____/   | $$  |  $$$$$$ 
+| $$\  $$ | $$        | $$   \____  $$
+| $$ \  $$| $$       /$$$$$$ /$$$$$$$/
+|__/  \__/|__/      |______/|_______/ 
+                                                                                               */
 
 /* Container geral de informações */
 #id_info_kpis {
@@ -168,6 +204,7 @@ nav .logo {
     margin-left: 5.7vw; /* Espaço para não colidir com navbar */
     margin-top: 1.4vw;
     font-size: 0.6vw;
+    z-index: 999;
 }
 
 /* Bloco KPI de servidores */

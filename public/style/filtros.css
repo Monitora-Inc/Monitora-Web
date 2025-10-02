@@ -7,18 +7,19 @@
 
 .filtros select{
     min-width: 21.45%;
-    background-color: #393A4E;
+    background-color: #444444;
     border: none;
     border-radius: 0.3vw;
     margin-right: 1vw;
     padding-left: 0.8vw;
     font-size: 0.8vw;
-    color: white;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
 }
 
 .filtros input {
     width: 100%;
-    background-color: #393A4E;
+    background-color: #444444;
     border: none;
     border-radius: 0.3vw;
     padding-left: 0.8vw;

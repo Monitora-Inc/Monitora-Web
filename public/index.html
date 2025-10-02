@@ -1,13 +1,309 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/navbar.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monitora - Home</title>
+
+
+  <!-- Icone -->
+  <link rel="icon" href="Images/Logo Azul.png" type="image/x-icon">
+
+  <!-- Importando a fonte -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Oswald:wght@200..700&display=swap"
+    rel="stylesheet">
+
+  <!-- Importando tailwind -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- Importando bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+
+  <!-- Meu CSS -->
+  <link rel="stylesheet" href="style/index.css">
+
+  <!-- Escrita "em tempo real" -->
+  <script src="js/texto_animado.js"></script>
+  <!-- Carrosel das logos -->
+  <script src="js/carrosel.js"></script>
+
 </head>
+
 <body>
-  <nav id="id_navbar"></nav>
-  <div id="id_info_kpis"></div>
+  <div class="bg-white">
+    <header class="absolute inset-x-0 top-0 z-50">
+
+      <!-- (COMEÇO) Construção da NavBar -->
+      <nav aria-label="Global" class="flex items-center justify-between p-6 lg:px-8 navbar">
+        <div class="flex lg:flex-1">
+          <a href="#" class="-m-1.5 p-1.5">
+            <span class="sr-only">Your Company</span>
+            <img src="Images/Logo Azul.png" alt="" class="h-8 w-auto logo" />
+          </a>
+        </div>
+        <div class="flex lg:hidden">
+          <button type="button" command="show-modal" commandfor="mobile-menu"
+            class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+            <span class="sr-only">Open main menu</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
+              aria-hidden="true" class="size-6">
+              <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="innerbar">
+          <div class="hidden lg:flex lg:gap-x-12 bar">
+            <a href="./index.html" class="text-sm/6 text-gray-900 texto_nav">Home</a>
+            <a href="#section-solucao" class="text-sm/6 text-gray-900 texto_nav">Soluções</a>
+            <a href="./sobrenos.html" class="text-sm/6 text-gray-900 texto_nav">Sobre</a>
+          </div>
+        </div>
+
+        <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+          <div class="login">
+            <a href="login.html" class="text-sm/6 text-gray-900 login-text">Log in</a>
+          </div>
+        </div>
+      </nav>
+
+      <el-dialog>
+        <dialog id="mobile-menu" class="backdrop:bg-transparent lg:hidden">
+          <div tabindex="0" class="fixed inset-0 focus:outline-none">
+            <el-dialog-panel
+              class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+              <div class="flex items-center justify-between">
+                <a href="#" class="-m-1.5 p-1.5">
+                  <span class="sr-only">Your Company</span>
+                  <img src="Images/Logo Azul.png" alt="" class="h-8 w-auto" />
+                </a>
+                <button type="button" command="close" commandfor="mobile-menu"
+                  class="-m-2.5 rounded-md p-2.5 text-gray-700">
+                  <span class="sr-only">Close menu</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
+                    aria-hidden="true" class="size-6">
+                    <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+              </div>
+              <div class="mt-6 flow-root">
+                <div class="-my-6 divide-y divide-gray-500/10">
+                  <div class="space-y-2 py-6">
+                    <a href="./index.html"
+                      class="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Home</a>
+                    <a href="./index.html#section-solucao"
+                      class="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Soluções</a>
+                    <a href="./sobrenos.html"
+                      class="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Sobre</a>
+                  </div>
+                  <div class="py-6">
+                    <a href="./login.html"
+                      class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 text-gray-900 hover:bg-gray-50 texto_nav">Log
+                      in</a>
+                  </div>
+                </div>
+              </div>
+            </el-dialog-panel>
+          </div>
+        </dialog>
+      </el-dialog>
+      <!-- (FIM) Construção da NavBar -->
+
+      <!-- (COMEÇO) Hero section -->
+      <div class="Hero">
+        <div class="texto-hero">
+          <h1 class="title">PODER NOS DADOS</h1>
+          <h1 class="title">CONFIABILIDADE NO STREAMING</h1>
+          <p class="text-base">Acompanhe em tempo real o uso de CPU, memória e armazenamento, garantindo máxima
+            performance e estabilidade nos servidores</p>
+        </div>
+
+
+        <h2 class="subtitulo">As maiores empresas já contam com a Monitora</h2>
+        <div class="scroller">
+          <ul class="lista-logos scroller_inner">
+            <li><img src="Images/logo_netflix.png" alt="Netflix" style="height:50px;" class="logo-img"></li>
+            <li><img src="Images/pv_logo_white._CB548637580_.png" alt="Prime Video" style="height:50px;"
+                class="logo-img"></li>
+            <li><img src="Images/Max_logo.svg (1).png" alt="Max" style="height:50px;" class="logo-img"></li>
+            <li><img src="Images/disney.png" alt="Disney+" style="height:50px;" class="logo-img"></li>
+            <li><img src="Images/Star+_logo.svg (1).png" alt="Star Plus" style="height:50px;" class="logo-img"></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="linha-azul"></div>
+
+
+
+      <!-- Construcao segunda tela -->
+      <section class="segunda-tela" id="section-solucao">
+        <main>
+
+          <h1 class="featurette-heading text-center p-6 display-2 titulo-2">O que monitoramos?</h1>
+          <div class="container-fluid px-5 marketing my-5">
+            <div class="row text-center justify-content-between">
+
+
+              <div class="col-lg-4 d-flex flex-column align-items-center">
+                <img src="Images/cpuIon.png" class="bd-placeholder-img rounded custom-border mb-2 p-3" width="190"
+                  height="180" preserveAspectRatio="xMidYMid slice" role="img" alt="CPU Icon">
+                <h2 class="fw-normal">CPU</h2>
+                <p>A CPU é o centro de processamento do servidor. A Monitora acompanha o uso em tempo real para evitar
+                  sobrecargas, travamentos e garantir um desempenho estável do streaming.</p>
+              </div><!-- /.col-lg-4 -->
+
+              <div class="col-lg-4 d-flex flex-column align-items-center">
+                <img src="Images/hdIcon.png" class="bd-placeholder-img rounded custom-border mb-2 p-3" width="190"
+                  height="180" preserveAspectRatio="xMidYMid slice" role="img" alt="HD Icon">
+                <h2 class="fw-normal">Disco</h2>
+                <p>O disco armazena e acessa os dados usados no serviço. Monitoramos espaço e velocidade para evitar
+                  lentidão, falhas e interrupções no acesso aos conteúdos.</p>
+              </div><!-- /.col-lg-4 -->
+
+              <div class="col-lg-4 d-flex flex-column align-items-center">
+                <img src="Images/RAMIcon.png" class="bd-placeholder-img rounded custom-border mb-2 p-3" width="190"
+                  height="180" preserveAspectRatio="xMidYMid slice" role="img" alt="RAM Icon">
+                <h2 class="fw-normal">Memória</h2>
+                <p>A RAM permite que os processos rodem com agilidade. Com a Monitora, identificamos excesso de uso ou
+                  falhas de memória, mantendo o sistema leve e responsivo.</p>
+              </div><!-- /.col-lg-4 -->
+
+            </div><!-- /.row -->
+
+            <!-- START THE FEATURETTES -->
+           
+            <hr class="featurette-divider my-5 custom-border-divider">
+
+            <div class="row featurette">
+              <div class="col-md-7">
+                <h1 class="featurette-heading titulo-2">
+                  Benefícios do uso da Monitora: <span class="text-muted"></span>
+                </h1>
+                <p class="lead fs-3">
+                  A Monitora é uma ferramenta que garante maior estabilidade, segurança e desempenho para servidores de
+                  streaming. Monitoramos recursos críticos como CPU, RAM e disco, prevenindo falhas e otimizando a
+                  operação. Entre os principais benefícios estão a redução de problemas inesperados, agilidade na
+                  resolução de falhas, melhor uso da infraestrutura e suporte à escalabilidade. Com relatórios e alertas
+                  inteligentes, também ajuda na tomada de decisões técnicas e estratégicas.
+                </p>
+              </div>
+              <div class="col-md-5">
+                <img src="Images/imagemteste.png" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
+                  height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                  preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <title>Placeholder</title>
+                  <rect width="100%" height="100%" fill="#eee"></rect>
+                  <text x="50%" y="50%" fill="#aaa" dy=".3em" text-anchor="middle"></text>
+                </svg>
+              </div>
+            </div>
+          </div><!-- /.container -->
+        </main>
+      </section>
+
+      <!-- fim da segunda tela  -->
+
+      <div class="linha-azul"></div>
+
+
+      <section class="terceira-tela">
+
+        <h1 class="inner-title">CONTATE-NOS</h1>
+
+        <div class="barra-branca-pequena"></div>
+
+        <p class="texto-contatenos">Conectamos equipes e serviços por meio de monitoramento inteligente, garantindo que
+          seu streaming funcione sem interrupções.</p>
+
+        <div class="bloco-geral">
+
+          <!-- LADO ESQUERDO -->
+          <div class="bloco-esquerda">
+
+            <div class="parte-superior">
+              <div class="bloquinhos">
+                <img src="Images/endereco.png" alt="Ícone endereço" class="icone-contato">
+                <div class="texto-contato">
+                  <h4 class="titulo-contato">ENDEREÇO</h4>
+                  <p class="descricao-contato">Rua Haddock Lobo, 595<br>São Paulo, SP 01414-001</p>
+                </div>
+              </div>
+
+              <div class="bloquinhos">
+                <img src="Images/o-email.png" alt="Ícone email" class="icone-contato">
+                <div class="texto-contato">
+                  <h4 class="titulo-contato">EMAIL</h4>
+                  <p class="descricao-contato">
+                    <a href="mailto:pedro@monitora.com">monitora@sptech.school</a><br>
+                    <a href="mailto:support@monitora.com">support@monitora.com</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="parte-inferior">
+              <div class="bloquinhos">
+                <img src="Images/telefone.png" alt="Ícone telefone" class="icone-contato">
+                <div class="texto-contato">
+                  <h4 class="titulo-contato">NOS LIGUE</h4>
+                  <p class="descricao-contato">
+                    +55 11 96525-7258<br>
+                    +55 11 99865-4321
+                  </p>
+                </div>
+              </div>
+
+              <div class="bloquinhos">
+                <div class="texto-contato">
+                  <h4 class="titulo-contato">CONTATE-NOS</h4>
+                  <p class="descricao-contato">
+                    Contacte-nos para um orçamento, dúvidas<br>
+                    ou suporte técnico.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- LADO DIREITO -->
+          <div class="bloco-direita">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14626.805334908211!2d-46.582988799999995!3d-23.579167849999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59d2b063f663%3A0xc567c0d16d0bc582!2sS%C3%A3o%20Paulo%20Tech%20School!5e0!3m2!1spt-BR!2sbr!4v1756345251941!5m2!1spt-BR!2sbr"
+              width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>"
+
+          </div>
+        </div>
+      </section>
+
+    <section class="footer-section">
+  <footer class="footer">
+    <div class="footer-left">
+      <p>monitora.contato@sptech.school</p>
+      <p>Rua Haddock Lobo, 595 - SP</p>
+    </div>
+
+    <div class="footer-center">
+      <a href="#top">
+        <img src="Images/Logo Azul.png" alt="Logo da Empresa" class="footer-logo">
+      </a>
+    </div>
+
+    <div class="footer-right">
+      <p><a href="#">Política de Privacidade</a></p>
+      <p><a href="#">Termos de Uso</a></p>
+    </div>
+  </footer>
+</section>
+
+
 </body>
+
 </html>
-<script src="js/navbar.js"></script>

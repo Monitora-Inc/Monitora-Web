@@ -5,20 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servidores</title>
-    <link rel="stylesheet" href="style/navbar.css">
-    <link rel="stylesheet" href="style/usuarios.css">
+    <link rel="icon" href="./assets/logos/logo_vetorizada.svg" type="image/x-icon">
+    <link rel="stylesheet" href="style/sidebar.css">
+    <link rel="stylesheet" href="style/essencial.css">
+    <link rel="stylesheet" href="style/tela_usuarios.css">
     <link rel="stylesheet" href="style/filtros.css">
+    <link rel="stylesheet" href="style/popup.css">
 </head>
 
 <body>
-    <nav id="id_navbar"></nav>
+    <nav id="id_sidebar"></nav>
     <div id="id_info_kpis"></div>
+    <div id="popup_screen"></div>
 
-    
+
     <div class="page_content">
         <!-- Info-card -->
         <div class="headers">
-            <div class="card_adicionar">
+            <div class="card_adicionar" onclick="popup_cadastrar_usuario()">
                 <img src="./assets/icons/icone_usuarioAdicionar.svg" alt="">
                 <h2>Adicionar Usuário</h2>
             </div>
@@ -38,140 +42,32 @@
 
         <!-- Lista de Usuários -->
 
-  <div class="container_usuarios">
-    <div class="usuarios_infos">
-      <div class="usuario_info_foto">
-        Foto
-      </div>
-      <div class="usuario_info_nome">
-        Nome
-      </div>
-      <div class="usuario_info_cargo">
-        Cargo
-      </div>
-      <div class="usuario_info_email">
-        Email
-      </div>
-      <div class="usuario_info_telefone">
-        Telefone
-      </div>
-      <div class="usuario_info_dataCadastro">
-        Data de Cadastro
-      </div>
-    </div>
-    <div class="lista_usuarios">
-    <div class="card_usuario">
-        <div id="usuario_foto">
-            <img src="./assets/icons/icone_perfil.svg" alt="">
+        <div class="container_usuarios">
+            <div class="usuarios_infos">
+                <div class="usuario_info_foto">Foto</div>
+                <div class="usuario_info_nome">Nome</div>
+                <div class="usuario_info_cargo">Cargo</div>
+                <div class="usuario_info_email">Email</div>
+                <div class="usuario_info_telefone">Telefone</div>
+                <div class="usuario_info_dataCadastro">Data de Cadastro</div>
+            </div>
+            <div class="lista_usuarios">
+                <div class="card_usuario" id="1" onclick="popup_usuario(this, this.id)">
+                    <div id="usuario_foto">
+                        <img src="./assets/fotosPerfil/fotoPerfil.png" alt="">
+                    </div>
+                    <p id="usuario_nome">Baltazar Bernado</p>
+                    <p id="usuario_cargo">Usuário</p>
+                    <p id="usuario_email">baltazarbernado@gmail.com</p>
+                    <p id="usuario_telefone">1191710375</p>
+                    <p id="usuario_dataCadastro">24/07/2025</p>
+                </div>
+
+            </div>
         </div>
-        <p id="usuario_nome">João Analisterson</p>
-        <p id="usuario_cargo">Usuário</p>
-        <p id="usuario_email">joaoanalista@gmail.com</p>
-        <p id="usuario_telefone">1191710375</p>
-        <p id="usuario_dataCadastro">24/07/2025</p>
-    </div>
-        <div class="card_usuario">
-        <div id="usuario_foto">
-            <img src="./assets/icons/icone_perfil.svg" alt="">
-        </div>
-        <p id="usuario_nome">João Analisterson</p>
-        <p id="usuario_cargo">Usuário</p>
-        <p id="usuario_email">joaoanalista@gmail.com</p>
-        <p id="usuario_telefone">1191710375</p>
-        <p id="usuario_dataCadastro">24/07/2025</p>
-    </div>
-        <div class="card_usuario">
-        <div id="usuario_foto">
-            <img src="./assets/icons/icone_perfil.svg" alt="">
-        </div>
-        <p id="usuario_nome">João Analisterson</p>
-        <p id="usuario_cargo">Usuário</p>
-        <p id="usuario_email">joaoanalista@gmail.com</p>
-        <p id="usuario_telefone">1191710375</p>
-        <p id="usuario_dataCadastro">24/07/2025</p>
-    </div>
-        <div class="card_usuario">
-        <div id="usuario_foto">
-            <img src="./assets/icons/icone_perfil.svg" alt="">
-        </div>
-        <p id="usuario_nome">João Analisterson</p>
-        <p id="usuario_cargo">Usuário</p>
-        <p id="usuario_email">joaoanalista@gmail.com</p>
-        <p id="usuario_telefone">1191710375</p>
-        <p id="usuario_dataCadastro">24/07/2025</p>
-    </div>
-        <div class="card_usuario">
-        <div id="usuario_foto">
-            <img src="./assets/icons/icone_perfil.svg" alt="">
-        </div>
-        <p id="usuario_nome">João Analisterson</p>
-        <p id="usuario_cargo">Usuário</p>
-        <p id="usuario_email">joaoanalista@gmail.com</p>
-        <p id="usuario_telefone">1191710375</p>
-        <p id="usuario_dataCadastro">24/07/2025</p>
-    </div>
-        <div class="card_usuario">
-        <div id="usuario_foto">
-            <img src="./assets/icons/icone_perfil.svg" alt="">
-        </div>
-        <p id="usuario_nome">João Analisterson</p>
-        <p id="usuario_cargo">Usuário</p>
-        <p id="usuario_email">joaoanalista@gmail.com</p>
-        <p id="usuario_telefone">1191710375</p>
-        <p id="usuario_dataCadastro">24/07/2025</p>
-    </div>
-        <div class="card_usuario">
-        <div id="usuario_foto">
-            <img src="./assets/icons/icone_perfil.svg" alt="">
-        </div>
-        <p id="usuario_nome">João Analisterson</p>
-        <p id="usuario_cargo">Usuário</p>
-        <p id="usuario_email">joaoanalista@gmail.com</p>
-        <p id="usuario_telefone">1191710375</p>
-        <p id="usuario_dataCadastro">24/07/2025</p>
-    </div>
-        <div class="card_usuario">
-        <div id="usuario_foto">
-            <img src="./assets/icons/icone_perfil.svg" alt="">
-        </div>
-        <p id="usuario_nome">João Analisterson</p>
-        <p id="usuario_cargo">Usuário</p>
-        <p id="usuario_email">joaoanalista@gmail.com</p>
-        <p id="usuario_telefone">1191710375</p>
-        <p id="usuario_dataCadastro">24/07/2025</p>
-    </div>
-        <div class="card_usuario">
-        <div id="usuario_foto">
-            <img src="./assets/icons/icone_perfil.svg" alt="">
-        </div>
-        <p id="usuario_nome">João Analisterson</p>
-        <p id="usuario_cargo">Usuário</p>
-        <p id="usuario_email">joaoanalista@gmail.com</p>
-        <p id="usuario_telefone">1191710375</p>
-        <p id="usuario_dataCadastro">24/07/2025</p>
-    </div>
-        <div class="card_usuario">
-        <div id="usuario_foto">
-            <img src="./assets/icons/icone_perfil.svg" alt="">
-        </div>
-        <p id="usuario_nome">João Analisterson</p>
-        <p id="usuario_cargo">Usuário</p>
-        <p id="usuario_email">joaoanalista@gmail.com</p>
-        <p id="usuario_telefone">1191710375</p>
-        <p id="usuario_dataCadastro">24/07/2025</p>
-    </div>
-        <div class="card_usuario">
-        <div id="usuario_foto">
-            <img src="./assets/icons/icone_perfil.svg" alt="">
-        </div>
-        <p id="usuario_nome">João Analisterson</p>
-        <p id="usuario_cargo">Usuário</p>
-        <p id="usuario_email">joaoanalista@gmail.com</p>
-        <p id="usuario_telefone">1191710375</p>
-        <p id="usuario_dataCadastro">24/07/2025</p>
-    </div>
-    </div>
     </div>
 </body>
+
 </html>
- <script src="js/navbar.js"></script>
+<script src="js/sidebar.js"></script>
+<script src="js/popups.js"></script>
