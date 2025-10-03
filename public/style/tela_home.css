@@ -1,0 +1,70 @@
+.container_servidores {
+    margin-top: 1vw;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: 1vw;
+    font-weight: 300;
+
+}
+
+.servidor_info_estado, #servidor_estado                         {width: 5%;}
+.servidor_info_nome, #servidor_nome                             {width: 20%;}
+.servidor_info_nivel_de_risco, #servidor_nivel_de_risco         {width: 10%;}
+.servidor_info_recursos_em_risco, #servidor_recursos_em_risco   {width: 20%;}
+.servidor_info_localizacao, #servidor_localizacao               {width: 30%;}
+.servidor_info_data_center, #servidor_data_center               {width: 15%;}
+
+.container_servidores .servidores_info {
+    display: flex;
+    justify-content: space-between;
+    width: 98.5%;
+    text-align: center;
+    padding-bottom: 0.5vw;
+}     
+
+.lista_servidores{
+    overflow: scroll;
+    width: 99%;
+    overflow-x: hidden;
+    max-height: 27vw;
+}
+
+.card_servidor {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #252d92;
+    padding-top: 0.2vw;
+    padding-bottom: 0.2vw;
+    align-items: center;
+    font-size: 0.8vw;
+    text-align: center;
+    margin-top: 0.5vw;
+    border-radius: 0.3vw;
+    cursor: pointer;
+    transition: ease-in-out 0.3s;
+}
+
+.card_servidor:hover{
+    background-color: #1c1c25;
+}
+
+.card_servidor #servidor_estado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card_servidor img {
+    padding: 0.4vw;
+    width: 2vw;
+    height: 2vw;
+}
+
+.card_servidor img {
+    padding: 0.4vw;
+    width: 2vw;
+    height: 2vw;
+}
+

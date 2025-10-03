@@ -34,6 +34,7 @@
 .icone_logs             {background-image: url('../assets/icons/icone_logs.svg');}
 .icone_usuarios         {background-image: url('../assets/icons/icone_usuarios.svg');}
 .icone_configuracoes    {background-image: url('../assets/icons/icone_configuracoes.svg');}
+.icone_empresas         {background-image: url('../assets/icons/icone_empresas.svg');}
 .icone_sair             {background-image: url('../assets/icons/icone_sair.svg'); cursor: pointer;}
 .icone_suporte          {background-image: url('../assets/icons/icone_suporte.svg');}
 
@@ -94,6 +95,7 @@ nav .icones_navbar_inferiores {
 /* Logo da navbar */
 nav .logo {
     background-image: url('../assets/logos/logo_vetorizada.svg');
+    mix-blend-mode: white;
     background-size: contain;
     width: 1.5vw;
     height: 1.5vw;

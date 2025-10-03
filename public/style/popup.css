@@ -37,17 +37,6 @@
     color: white;
 }
 
-.popup_container .instrucoes {
-    width: 86%;
-    padding: 2vw;
-    border: dashed 1px white;
-    margin-top: 1vw;
-}
-
-.popup_container .instrucoes a{
-    color: rgb(0, 174, 255);
-}
-
 .popup_container h1{
     margin-top: 3vw;
     font-size: 1.7vw;

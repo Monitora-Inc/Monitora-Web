@@ -187,6 +187,64 @@ function popup_adicionar_servidor(){
         </div>`;  
 }
 
+function popup_servidor_informacoes(){
+ popup_screen.innerHTML = `        
+    <div class="popup_container">
+            <div class="popup_servidor_informacoes">
+
+            <input type="text" id="servidor_nome" placeholder="Digite o nome do servidor" value="Servidor 1">
+                    <span class="servidor_label">UUID:</span>
+                    <div id="servidor_uuid">fxvd1vcx23f323543</div>
+
+                    <span class="servidor_label">Sistema Operacional:</span>
+                    <div id="servidor_sistema_operacional">Windows 10 Pro</div>
+
+                    <span class="servidor_label">Data Center:</span>
+                    <div id="servidor_datacenter">
+                    <select id="id_filter" onchange="" disabled>
+                        <option value="" selected>Data Center 1</option>
+                        <option value="" >Data Center 2</option>
+                    </select>
+                    </div>
+                    <span class="servidor_label">Localização:</span>
+                    <div id="servidor_datacenter">Rua Haddock Lobo, 595 - Cerqueira César, São Paulo - SP, Brasil</div>
+
+                    <!-- Parametrização -->
+                    <div class="servidor_parametrizacao">
+                        <h1>CPU</h1>
+                        <h2>% de uso para notificações de estado de alerta</h2>
+                        <input type="number">
+                        <h2>% de uso para notificações de estado critíco</h2>
+                        <input type="number">
+                        <h1>RAM</h1>
+                        <h2>% de uso para notificações de estado de alerta</h2>
+                        <input type="number">
+                        <h2>% de uso para notificações de estado critíco</h2>
+                        <input type="number">
+                        <h1>Disco</h1>
+                        <h2>% de uso para notificações de estado de alerta</h2>
+                        <input type="number">
+                        <h2>% de uso para notificações de estado critíco</h2>
+                        <input type="number">
+                        <h1>Rede</h1>
+                        <h2>Valor de ms para notificações de estado de alerta</h2>
+                        <input type="number">
+                        <h2>Valor de ms para notificações de estado critíco</h2>
+                        <input type="number">
+                    </div>
+
+                <!-- Mensagem de Erro -->
+                <div id="mensagem_erro"></div>
+        
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="fechar_popup()">Fechar</button>
+                </div>
+            </div>
+        </div>`;  
+}
+
 /*
  /$$$$$$$$        /$$                       /$$                 /$$   /$$                                         /$$                    
 |__  $$__/       | $$                      | $$                | $$  | $$                                        |__/                    
@@ -282,7 +340,7 @@ function popup_usuario(usuario_card, usuario_id)  {
     popup_screen.innerHTML = `        
     <div class="popup_container">
         <div class="popup">
-            <img src="${foto}" alt="" onclick="popup_editar_foto()">
+            <img src="${foto}" alt="">
             <h1>${nome}</h1>
             <h2>Cargo:</h2>
             <h3>${cargo}</h3>

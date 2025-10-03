@@ -47,6 +47,9 @@ id_sidebar.innerHTML = `
       <a href="" class="tooltipNav icone_configuracoes" onclick="fechar_popups()">
             <span class="tooltiptextNav"">Configurações</span>
       </a>
+      <a href="./empresas.html" class="tooltipNav icone_empresas" onclick="fechar_popups()">
+            <span class="tooltiptextNav">Empresas</span>
+      </a>
       <a class="tooltipNav icone_sair" onclick="popup_sair()">
             <span class="tooltiptextNav">Sair</span>
       </a>
