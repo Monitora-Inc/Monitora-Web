@@ -71,3 +71,61 @@
 </html>
 <script src="js/sidebar.js"></script>
 <script src="js/popups.js"></script>
+<script>
+    function funcao_adicionar() {
+        mensagem_erro.innerHTML = '';
+        let userNome = ipt_nome.value;
+        let userSobrenome = ipt_sobrenome.value;
+        let userCargo = ipt_cargo.value;
+        let userEmail = ipt_email.value;
+        let userSenha = ipt_senha.value;
+        let userConfirmarSenha = ipt_confirmar_senha.value;
+        let userTelefone = ipt_telefone.value;
+
+        if(!userNome || !userSobrenome || !userCargo || !userEmail || !userSenha || !userConfirmarSenha || !userTelefone) {
+            mensagem_erro.innerHTML = `Todos os campos precisam ser preenchidos!`;
+            return;
+        }
+        
+        let validacaoEmail = userEmail.indexOf('@') != -1;
+        if(!validacaoEmail) {
+            mensagem_erro.innerHTML = `Email inválido!`;
+            return;
+        }
+
+        let regexTelefoneBR = /^\(?([1-9]{2})\)?\s?9?\d{4}[-\s]?\d{4}$/;
+        if(!regexTelefoneBR.test(userTelefone)) {
+            mensagem_erro.innerHTML = `Número de telefone inválido!`;
+        }
+
+        let validacaoSenha = 0;
+
+        if(userSenha.length < 8) {
+            mensagem_erro.innerHTML = `A senha deve conter ao menos 8 caracteres<br>`;
+            validacaoSenha = 1;
+        }
+
+        if(!/[a-z]+/.test(userSenha)) {
+            mensagem_erro.innerHTML = `A senha deve conter ao menos uma letra minúscula<br>`;
+            validacaoSenha = 1;
+        }
+
+        if(!/[A-Z]+/.test(userSenha)) {
+            mensagem_erro.innerHTML = `A senha deve conter ao menos uma letra maiúscula<br>`;
+            validacaoSenha = 1;
+        }
+
+        if(!/[@!#$%*]+/.test(userSenha)) {
+            mensagem_erro.innerHTML = `A senha deve conter ao menos um caractere especial<br>`;
+            validacaoSenha = 1;
+        }
+
+        if(validacaoSenha == 1) {
+            return;
+        }
+
+        if(userSenha != userConfirmarSenha) {
+            mensagem_erro.innerHTML = `Os campos 'Senha' e 'Confirmar Senha' devem ser iguais.`
+        }
+    }
+</script>
