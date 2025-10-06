@@ -10,10 +10,11 @@ function autenticar(email, senha) {
     return database.executar(instrucaoSql);
 }
 
-function cadastrarUsuario(nome, email, senha, ativo, fkEmpresa, fkCargo, isAdmin) {
+// function cadastrarUsuario(nome, email, senha, ativo, fkEmpresa, fkCargo, isAdmin) --> Assinatura original da função
+function cadastrarUsuario(nome, sobrenome, email, senha, fkEmpresa, fkCargo, telefone) {
     let instrucaoSql = `
-        INSERT INTO Usuario(nome, email, senha, fkEmpresa, ativo, fkCargo, isAdmin) VALUES
-            ('${nome}', '${email}', '${senha}', ${fkEmpresa}, ${ativo}, ${fkCargo}, ${isAdmin});
+        INSERT INTO Usuario(nome, sobrenome, email, senha, fkEmpresa, fkCargo, telefone) VALUES
+            ('${nome}', '${sobrenome}', '${email}', '${senha}', ${fkEmpresa}, ${fkCargo}, '${telefone}');
     `;
 
     return database.executar(instrucaoSql);

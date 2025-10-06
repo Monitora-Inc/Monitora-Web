@@ -22,14 +22,17 @@ function autenticar(req, res) {
 
 function cadastrarUsuario(req, res) {
     let nome = req.body.nomeUsuarioServer;
+    let sobrenome = req.body.sobrenomeUsuarioServer;
+    let telefone = req.body.telefoneUsuarioServer;
     let email = req.body.emailUsuarioServer;
     let senha = req.body.senhaUsuarioServer;
     let fkEmpresa = req.body.fkEmpresaServer;
-    let ativo = req.body.ativoServer;
+    //let ativo = req.body.ativoServer; --> Deixei comentado pois no banco já há default. Importante rever.
     let fkCargo = req.body.fkCargoServer;
-    let isAdmin = req.body.isAdminServer;
+    //let isAdmin = req.body.isAdminServer; --> Importante rever.
 
-    usuarioModel.cadastrarUsuario(nome, email, senha, ativo, fkEmpresa, fkCargo, isAdmin).then((resultado) => {
+    //Assinatura original da função --> usuarioModel.cadastrarUsuario(nome, sobrenome, email, senha, ativo, fkEmpresa, fkCargo, telefone)
+    usuarioModel.cadastrarUsuario(nome, sobrenome, email, senha, fkEmpresa, fkCargo, telefone).then((resultado) => {
         res.status(200).send('Cadastro realizado com sucesso!');
     })
 }
