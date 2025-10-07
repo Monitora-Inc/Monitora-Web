@@ -22,7 +22,9 @@ function cadastrarUsuario(nome, sobrenome, email, senha, fkEmpresa, fkCargo, tel
 
 function buscarUsuarios(fkEmpresa) {
     let instrucaoSql = `
-        SELECT * FROM Usuario
+        SELECT u.idUsuario, u.nome, u.sobrenome, c.nome_cargo, u.email, u.telefone, cast(u.data_cadastro AS DATE) as data_cadastro 
+        FROM Usuario u
+        INNER JOIN cargos c on u.fkcargo = c.idCargo 
         WHERE fkEmpresa = ${fkEmpresa};
     `;
 
