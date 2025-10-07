@@ -191,6 +191,7 @@
                     <p id="usuario_dataCadastro">${dataFormatada}</p>
                 </div>`
             }
+            totalUsuarios.innerHTML = dadosUsuarios.length;
         }).catch(function (resposta) {
             console.log(`#ERRO: ${resposta}`);
         });
