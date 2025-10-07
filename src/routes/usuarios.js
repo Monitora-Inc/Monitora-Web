@@ -15,6 +15,10 @@ router.get("/buscarUsuarios/:fkEmpresa", function(req, res) {
     usuarioController.buscarUsuarios(req, res);
 });
 
+router.get("/listarCargos", function(req, res) {
+    usuarioController.listarCargos(req, res);
+});
+
 router.put("/aprovarUsuarioAdmin/:fkEmpresa", function(req, res) {
     usuarioController.aprovarUsuarioAdmin(req, res);
 });

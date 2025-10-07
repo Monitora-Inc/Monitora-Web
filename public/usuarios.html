@@ -175,7 +175,7 @@
             return response.json();
         }).then(function (dadosUsuarios) {
             console.log(dadosUsuarios);
-            for(let i = 0; i < dadosUsuarios.length; i++) {
+            for (let i = 0; i < dadosUsuarios.length; i++) {
                 let data = dadosUsuarios[i].data_cadastro.split('T');
                 let partes = data[0].split('-');
                 let dataFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;

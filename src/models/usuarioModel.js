@@ -31,6 +31,14 @@ function buscarUsuarios(fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+function listarCargos() {
+    let instrucaoSql = `
+    SELECT idCargo, nome_cargo FROM Cargos;
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 function aprovarUsuarioAdmin(fkEmpresa) {
     let instrucaoSql = `
         UPDATE Usuario
@@ -54,6 +62,7 @@ module.exports = {
     autenticar,
     cadastrarUsuario,
     buscarUsuarios,
+    listarCargos,
     aprovarUsuarioAdmin,
     negarUsuarioAdmin
 }

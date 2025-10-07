@@ -44,7 +44,7 @@ function sair() {
    |__/ \_______/|__/ \_______/       \_______/ \_______/      |__/      \_______/|__/      |__/      |__/|__/
 */
 
-function popup_confirmar_senha(){
+function popup_confirmar_senha() {
     popup_screen.innerHTML = `        
     <div class="popup_container">
         <div class="popup">
@@ -66,7 +66,7 @@ function popup_confirmar_senha(){
                 <button onclick="fechar_popup()">Cancelar</button>
             </div>
         </div>
-    </div>`; 
+    </div>`;
 }
 
 function popup_editar_informacoes() {
@@ -159,8 +159,8 @@ function popup_editar_foto() {
                                                                                                                                                                                                                                                                                                   
 */
 
-function popup_adicionar_servidor(){
- popup_screen.innerHTML = `        
+function popup_adicionar_servidor() {
+    popup_screen.innerHTML = `        
     <div class="popup_container">
             <div class="popup">
                 <h1>Adicionar Servidor</h1>
@@ -184,11 +184,11 @@ function popup_adicionar_servidor(){
                     <button onclick="fechar_popup()">Fechar</button>
                 </div>
             </div>
-        </div>`;  
+        </div>`;
 }
 
-function popup_servidor_informacoes(){
- popup_screen.innerHTML = `        
+function popup_servidor_informacoes() {
+    popup_screen.innerHTML = `        
     <div class="popup_container">
             <div class="popup_servidor_informacoes">
 
@@ -242,7 +242,7 @@ function popup_servidor_informacoes(){
                     <button onclick="fechar_popup()">Fechar</button>
                 </div>
             </div>
-        </div>`;  
+        </div>`;
 }
 
 /*
@@ -325,17 +325,18 @@ function popup_cadastrar_usuario() {
                 </div>
             </div>
         </div>`;
+    listarCargos();
 }
 
-function popup_usuario(usuario_card, usuario_id)  {
-  let foto = usuario_card.querySelector("#usuario_foto img").src;
-  let nome = usuario_card.querySelector("#usuario_nome").innerText;
-  let cargo = usuario_card.querySelector("#usuario_cargo").innerText;
-  let email = usuario_card.querySelector("#usuario_email").innerText;
-  let telefone = usuario_card.querySelector("#usuario_telefone").innerText;
-  let dataCadastro = usuario_card.querySelector("#usuario_dataCadastro").innerText;
+function popup_usuario(usuario_card, usuario_id) {
+    let foto = usuario_card.querySelector("#usuario_foto img").src;
+    let nome = usuario_card.querySelector("#usuario_nome").innerText;
+    let cargo = usuario_card.querySelector("#usuario_cargo").innerText;
+    let email = usuario_card.querySelector("#usuario_email").innerText;
+    let telefone = usuario_card.querySelector("#usuario_telefone").innerText;
+    let dataCadastro = usuario_card.querySelector("#usuario_dataCadastro").innerText;
 
-  console.log("Informações do usuário:" + foto, nome, cargo, email, telefone, dataCadastro);
+    console.log("Informações do usuário:" + foto, nome, cargo, email, telefone, dataCadastro);
 
     popup_screen.innerHTML = `        
     <div class="popup_container">
@@ -361,5 +362,24 @@ function popup_usuario(usuario_card, usuario_id)  {
             </div>
         </div>
     </div>`;
+}
+
+function listarCargos() {
+    fetch(`/usuarios/listarCargos`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (response) {
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
+        return response.json();
+    }).then(function (dadosCargos) {
+        console.log(dadosCargos);
+        for (let i = 0; i < dadosCargos.length; i++) {
+            ipt_cargo.innerHTML += `<option value="${dadosCargos[i].idCargo}">${dadosCargos[i].nome_cargo}</option>`;
+        }
+    })
 }
 

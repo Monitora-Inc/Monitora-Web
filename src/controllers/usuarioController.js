@@ -45,6 +45,12 @@ function buscarUsuarios(req, res) {
     });
 }
 
+function listarCargos(req, res) {
+    usuarioModel.listarCargos().then((resultado) => {
+        res.json(resultado);
+    });
+}
+
 function aprovarUsuarioAdmin(req, res) {
     let fkEmpresa = req.params.fkEmpresa;
 
@@ -65,6 +71,7 @@ module.exports = {
     autenticar,
     cadastrarUsuario,
     buscarUsuarios,
+    listarCargos,
     aprovarUsuarioAdmin,
     negarUsuarioAdmin
 }
