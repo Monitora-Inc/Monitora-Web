@@ -344,7 +344,10 @@ function popup_usuario(usuario_card, usuario_id) {
             <img src="${foto}" alt="">
             <h1>${nome}</h1>
             <h2>Cargo:</h2>
-            <h3>${cargo}</h3>
+            <select id="cargo_select" onchange="editar_cargo()">
+                <option value="Administrador" ${cargo === "Administrador" ? "selected" : ""}>Administrador</option>
+                <option value="Usuário" ${cargo === "Usuário" ? "selected" : ""}>Usuário</option>
+            </select>
             <h2>Email:</h2>
             <h3>${email}</h3>
             <h2>Celular:</h2>
@@ -358,10 +361,19 @@ function popup_usuario(usuario_card, usuario_id) {
 
             <!-- Botões -->
             <div class="btns_popup">
+                <button onclick="deletar_usuario()">Deletar Usuário</button>
                 <button onclick="fechar_popup()">Fechar</button>
             </div>
         </div>
     </div>`;
+}
+
+function editar_cargo(){
+    
+}
+
+function deletar_usuario(){
+
 }
 
 function listarCargos() {
