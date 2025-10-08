@@ -19,6 +19,10 @@ router.get("/listarCargos", function(req, res) {
     usuarioController.listarCargos(req, res);
 });
 
+router.delete("/deletarUsuario/:usuario_id", function(req, res) {
+    usuarioController.deletarUsuario(req, res);
+});
+
 router.put("/aprovarUsuarioAdmin/:fkEmpresa", function(req, res) {
     usuarioController.aprovarUsuarioAdmin(req, res);
 });

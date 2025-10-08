@@ -39,6 +39,15 @@ function listarCargos() {
     return database.executar(instrucaoSql);
 }
 
+function deletarUsuario(usuario_id) {
+    let instrucaoSql = `
+    DELETE FROM usuario
+    WHERE idUsuario = ${usuario_id};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 function aprovarUsuarioAdmin(fkEmpresa) {
     let instrucaoSql = `
         UPDATE Usuario
@@ -63,6 +72,7 @@ module.exports = {
     cadastrarUsuario,
     buscarUsuarios,
     listarCargos,
+    deletarUsuario,
     aprovarUsuarioAdmin,
     negarUsuarioAdmin
 }

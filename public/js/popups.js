@@ -23,6 +23,20 @@ function popup_sair() {
         </div>`;
 }
 
+function popup_deletar(usuario_id) {
+    popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Deseja deletar esse usuário?</h1>
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="deletar_usuario(${usuario_id})">Sim</button>
+                    <button onclick="fechar_popup()">Não</button>
+                </div>
+            </div>
+        </div>`;
+}
+
 function fechar_popup() {
     popup_screen.innerHTML = ``;
 }
@@ -361,7 +375,7 @@ function popup_usuario(usuario_card, usuario_id) {
 
             <!-- Botões -->
             <div class="btns_popup">
-                <button onclick="deletar_usuario()">Deletar Usuário</button>
+                <button onclick="popup_deletar(${usuario_id})">Deletar Usuário</button>
                 <button onclick="fechar_popup()">Fechar</button>
             </div>
         </div>
@@ -372,8 +386,21 @@ function editar_cargo(){
     
 }
 
-function deletar_usuario(){
-
+function deletar_usuario(usuario_id){
+    fetch(`/usuarios/deletarUsuario/${usuario_id}`, {
+        method: 'DELETE',
+    }).then(function (response) {
+        if (response.ok) {
+            console.log(`Usuário ID ${usuario_id} deletado com sucesso!`);
+            
+            location.reload(); 
+        } else {
+            console.error(`Falha ao deletar o usuário ${usuario_id}. Status: ${response.status}`);
+        }
+    })
+    .catch(function (error) {
+        console.error("Erro de rede:", error);
+    });
 }
 
 function listarCargos() {
