@@ -23,6 +23,10 @@ router.delete("/deletarUsuario/:usuario_id", function(req, res) {
     usuarioController.deletarUsuario(req, res);
 });
 
+router.put("/editarCargo", function(req, res) {
+    usuarioController.editarCargo(req, res);
+})
+
 router.put("/aprovarUsuarioAdmin/:fkEmpresa", function(req, res) {
     usuarioController.aprovarUsuarioAdmin(req, res);
 });

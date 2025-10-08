@@ -59,6 +59,15 @@ function deletarUsuario(req, res) {
     });
 }
 
+function editarCargo(req, res) {
+    let usuario_id = req.body.usuario_id;
+    let cargo_id = req.body.cargo_id;
+
+    usuarioModel.editarCargo(usuario_id, cargo_id).then((resultado) => {
+        res.json(resultado);
+    });
+}
+
 function aprovarUsuarioAdmin(req, res) {
     let fkEmpresa = req.params.fkEmpresa;
 
@@ -81,6 +90,7 @@ module.exports = {
     buscarUsuarios,
     listarCargos,
     deletarUsuario,
+    editarCargo,
     aprovarUsuarioAdmin,
     negarUsuarioAdmin
 }

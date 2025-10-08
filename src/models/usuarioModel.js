@@ -48,6 +48,16 @@ function deletarUsuario(usuario_id) {
     return database.executar(instrucaoSql);
 }
 
+function editarCargo(usuario_id, cargo_id) {
+    let instrucaoSql = `
+    UPDATE usuario
+    SET fkCargo = ${cargo_id}
+    WHERE idUsuario = ${usuario_id};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 function aprovarUsuarioAdmin(fkEmpresa) {
     let instrucaoSql = `
         UPDATE Usuario
@@ -73,6 +83,7 @@ module.exports = {
     buscarUsuarios,
     listarCargos,
     deletarUsuario,
+    editarCargo,
     aprovarUsuarioAdmin,
     negarUsuarioAdmin
 }
