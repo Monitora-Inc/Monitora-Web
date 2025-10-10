@@ -12,7 +12,7 @@ function autenticar(email, senha) {
 
 function cadastrarUsuario(nome, email, senha, ativo, fkEmpresa, fkCargo, isAdmin) {
     let instrucaoSql = `
-        INSERT INTO Usuario(nome, email, senha, fkEmpresa, ativo, fkCargo, isAdmin) VALUES
+        INSERT INTO Usuarios(nome, email, senha, fkEmpresa, ativo, fkCargo, isAdmin) VALUES
             ('${nome}', '${email}', '${senha}', ${fkEmpresa}, ${ativo}, ${fkCargo}, ${isAdmin});
     `;
 
