@@ -10,9 +10,10 @@ function autenticar(email, senha) {
     return database.executar(instrucaoSql);
 }
 
-function cadastrarUsuario(nome, email, senha, ativo, fkEmpresa, fkCargo, isAdmin) {
+// function cadastrarUsuario(nome, email, senha, ativo, fkEmpresa, fkCargo, isAdmin) --> Assinatura original da função
+function cadastrarUsuario(nome, sobrenome, email, senha, fkEmpresa, fkCargo, telefone) {
     let instrucaoSql = `
-        INSERT INTO Usuario(nome, email, senha, fkEmpresa, ativo, fkCargo, isAdmin) VALUES
+        INSERT INTO Usuarios(nome, email, senha, fkEmpresa, ativo, fkCargo, isAdmin) VALUES
             ('${nome}', '${email}', '${senha}', ${fkEmpresa}, ${ativo}, ${fkCargo}, ${isAdmin});
     `;
 
@@ -21,8 +22,37 @@ function cadastrarUsuario(nome, email, senha, ativo, fkEmpresa, fkCargo, isAdmin
 
 function buscarUsuarios(fkEmpresa) {
     let instrucaoSql = `
-        SELECT * FROM Usuario
+        SELECT u.idUsuario, u.nome, u.sobrenome, c.nome_cargo, u.email, u.telefone, cast(u.data_cadastro AS DATE) as data_cadastro 
+        FROM Usuario u
+        INNER JOIN cargos c on u.fkcargo = c.idCargo 
         WHERE fkEmpresa = ${fkEmpresa};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+function listarCargos() {
+    let instrucaoSql = `
+    SELECT idCargo, nome_cargo FROM Cargos;
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+function deletarUsuario(usuario_id) {
+    let instrucaoSql = `
+    DELETE FROM usuario
+    WHERE idUsuario = ${usuario_id};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+function editarCargo(usuario_id, cargo_id) {
+    let instrucaoSql = `
+    UPDATE usuario
+    SET fkCargo = ${cargo_id}
+    WHERE idUsuario = ${usuario_id};
     `;
 
     return database.executar(instrucaoSql);
@@ -51,6 +81,9 @@ module.exports = {
     autenticar,
     cadastrarUsuario,
     buscarUsuarios,
+    listarCargos,
+    deletarUsuario,
+    editarCargo,
     aprovarUsuarioAdmin,
     negarUsuarioAdmin
 }

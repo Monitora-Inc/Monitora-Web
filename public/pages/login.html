@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/login.css">
-    <script defer src="js/cadlogin.js"></script>
+    <link rel="stylesheet" href="../style/login.css">
+    <script defer src="../js/cadlogin.js"></script>
     <title>Monitora - Login/Cadastro</title>
 </head>
-  <!-- Icone -->
-  <link rel="icon" href="Images/Logo Azul.png" type="image/x-icon">
+<!-- Icone -->
+<link rel="icon" href="../Images/Logo Azul.png" type="image/x-icon">
 
 <body>
 
@@ -20,11 +20,11 @@
                 <span>Preencha os dados abaixo para se cadastrar</span>
 
                 <input type="text" placeholder="Nome da Empresa" id="iptNomeEmpresa">
-                <input type="text" placeholder="CNPJ" id="iptCNPJ">
+                <input type="text" placeholder="CNPJ" id="iptCNPJ" maxlength="18">
                 <input type="text" placeholder="Nome do Usuário" id="iptNomeCadastro">
                 <input type="email" placeholder="E-mail" id="iptEmailCadastro">
                 <input type="password" placeholder="Senha" id="iptSenhaCadastro">
-                
+
                 <button type="button" onclick="cadastro()">Inscrever</button>
                 <p id="avisoCadastro" class="aviso"></p>
             </form>
@@ -38,7 +38,7 @@
                 <input type="email" placeholder="E-mail" id="iptEmail">
                 <input type="password" placeholder="Senha" id="iptSenha">
                 <a href="#">Esqueceu sua senha?</a>
-                
+
                 <button type="button" onclick="login()">Entrar</button>
                 <p id="erroLogin" class="aviso"></p>
             </form>
@@ -47,23 +47,23 @@
         <div class="toggle-container">
             <div class="toggle">
                 <div class="toggle-panel toggle-left">
-                    <img src="Images/Logo Azul.png" alt="Logo" class="logo">
+                    <img src="../Images/Logo Azul.png" alt="Logo" class="logo">
                     <p>Bem-vindo de volta!</p>
                     <p>Insira seus dados para acessar todos os recursos do site</p>
                     <button id="login">Entrar</button>
                 </div>
                 <div class="toggle-panel toggle-right">
-                    <img src="Images/Logo Azul.png" alt="Logo" class="logo">
+                    <img src="../Images/Logo Azul.png" alt="Logo" class="logo">
                     <p>Olá!</p>
                     <p>Cadastre-se para acessar todos os recursos do site.</p>
                     <button id="register">Inscrever</button>
                 </div>
             </div>
         </div>
-           <a href="index.html" class="voltar-link">
-         <img src="Images/voltar.svg" alt="Ícone voltar" class="voltar-icon-img">
-        Voltar
-    </a>
+        <a href="../index.html" class="voltar-link">
+            <img src="../Images/voltar.svg" Ícone voltar" class="voltar-icon-img">
+            Voltar
+        </a>
     </div>
 
 </body>
@@ -77,7 +77,7 @@
         let usuarioEmail = await iptEmail.value;
         let usuarioSenha = await iptSenha.value;
 
-        if(!usuarioEmail || !usuarioSenha) {
+        if (!usuarioEmail || !usuarioSenha) {
             erroLogin.innerHTML = `Preencha todos os campos!`;
 
             return;
@@ -86,11 +86,11 @@
         let respostaLogin = await fetch(`/usuarios/autenticar/${usuarioEmail}/${usuarioSenha}`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json' 
+                'Content-Type': 'application/json'
             }
         });
 
-        if(!respostaLogin.ok) {
+        if (!respostaLogin.ok) {
             respostaLogin.text().then(texto => {
                 erroLogin.innerHTML = `<img src="/assets/loginAlert.png"><p>${texto}</p>`;
             });
@@ -100,7 +100,7 @@
 
         let jsonLogin = await respostaLogin.json();
 
-        if(jsonLogin.ativo == 0) {
+        if (jsonLogin.ativo == 0) {
             erroLogin.innerHTML = `<img src="/assets/loginAlert.png"><p>Sua empresa ainda não foi aprovada</p>`;
             return;
         }
@@ -110,57 +110,75 @@
         sessionStorage.ID_USUARIO = jsonLogin.idUsuario;
         sessionStorage.ID_EMPRESA = jsonLogin.fkEmpresa;
 
-        window.location = "dashboard.html";
+        window.location = "dashboards/dashboard.html";
     }
+
+    document.getElementById("iptCNPJ").addEventListener("input", function (e) {
+        let value = e.target.value.replace(/\D/g, "");
+        if (value.length > 2) {
+            value = value.replace(/^(\d{2})(\d)/, "$1.$2");
+        }
+        if (value.length > 5) {
+            value = value.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+        }
+        if (value.length > 8) {
+            value = value.replace(/\.(\d{3})(\d)/, ".$1/$2");
+        }
+        if (value.length > 12) {
+            value = value.replace(/(\d{4})(\d)/, "$1-$2");
+        }
+
+        e.target.value = value;
+    });
 
     async function cadastro() {
         avisoCadastro.innerHTML = ``;
-        
+
         let nomeEmpresa = iptNomeEmpresa.value;
         let CNPJ = iptCNPJ.value;
         let nomeUsuario = iptNomeCadastro.value;
         let emailUsuario = iptEmailCadastro.value;
         let senhaUsuario = iptSenhaCadastro.value;
-    
-        if(!nomeEmpresa || !CNPJ || !emailUsuario || !senhaUsuario || !nomeUsuario) {
+
+        if (!nomeEmpresa || !CNPJ || !emailUsuario || !senhaUsuario || !nomeUsuario) {
             avisoCadastro.innerHTML = `Todos os campos precisam ser preenchidos!`;
             return;
         }
 
-        if(!/^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$/.test(CNPJ)) {
+        if (!/^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$/.test(CNPJ)) {
             avisoCadastro.innerHTML = `CNPJ inválido!`;
             return;
         }
 
         let validacaoEmail = emailUsuario.indexOf('@') < emailUsuario.indexOf('.com');
-        if(!validacaoEmail) {
+        if (!validacaoEmail) {
             avisoCadastro.innerHTML = `Email inválido!`;
             return;
         }
 
         let validacaoSenha = 0;
 
-        if(senhaUsuario.length < 8) {
+        if (senhaUsuario.length < 8) {
             avisoCadastro.innerHTML += `A senha deve conter ao menos 8 caracteres<br>`;
             validacaoSenha = 1;
         }
 
-        if(!/[a-z]+/.test(senhaUsuario)) {
+        if (!/[a-z]+/.test(senhaUsuario)) {
             avisoCadastro.innerHTML += `A senha deve conter ao menos uma letra minúscula<br>`;
             validacaoSenha = 1;
         }
 
-        if(!/[A-Z]+/.test(senhaUsuario)) {
+        if (!/[A-Z]+/.test(senhaUsuario)) {
             avisoCadastro.innerHTML += `A senha deve conter ao menos uma letra maiúscula<br>`;
             validacaoSenha = 1;
         }
 
-        if(!/[@!#$%*]+/.test(senhaUsuario)) {
+        if (!/[@!#$%*]+/.test(senhaUsuario)) {
             avisoCadastro.innerHTML += `A senha deve conter ao menos um caractere especial<br>`;
             validacaoSenha = 1;
         }
 
-        if(validacaoSenha == 1) {
+        if (validacaoSenha == 1) {
             return;
         }
 
@@ -175,7 +193,7 @@
             })
         });
 
-        if(!respostaCadastroEmpresa.ok) {
+        if (!respostaCadastroEmpresa.ok) {
             respostaCadastroEmpresa.text().then((texto) => {
                 console.log(texto);
             });
@@ -204,7 +222,7 @@
             })
         });
 
-        if(!respostaCadastroUsuario.ok) {
+        if (!respostaCadastroUsuario.ok) {
             respostaCadastroUsuario.text().then((texto) => {
                 console.log(texto);
             });
@@ -212,7 +230,7 @@
             return;
         }
 
-        window.location = "index.html";
+        window.location = "../index.html";
 
     }
 </script>
