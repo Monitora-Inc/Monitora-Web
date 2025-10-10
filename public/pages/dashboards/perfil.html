@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
+    <link rel="stylesheet" href="../../style/sidebar.css">
+    <link rel="stylesheet" href="../../style/essencial.css">
+    <link rel="stylesheet" href="../../style/filtros.css">
+    <link rel="stylesheet" href="../../style/perfil.css">
+    <link rel="stylesheet" href="../../style/popup.css">
+</head>
+
+<body>
+    <nav id="id_sidebar"></nav>
+    <div id="id_info_kpis"></div>
+    <div id="popup_screen"></div>
+
+    <div class="page_content">
+        <div class="perfil">
+            <div class="perfil_container">
+                <img src="../../assets/fotosPerfil/fotoPerfil.png" alt="" onclick="popup_editar_foto()">
+                <div class="perfil_informacoes">
+                    <h1 id="perfil_nome">Baltazar Bernado</h1>
+                    <h2 id="perfil_cargo">Usuário</h2>
+                    <h3 id="perfil_email">baltazarbernado@gmail.com</h3>
+                    <h4 id="perfil_telefone">11961710375</h4>
+                    <button onclick="popup_confirmar_senha()">Editar Informações</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="../../js/sidebar.js"></script>
+<script src="../../js/popups.js"></script>

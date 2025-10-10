@@ -1,0 +1,64 @@
+.container_usuarios {
+    margin-top: 1vw;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: 1vw;
+    font-weight: 300;
+
+}
+
+.lista_usuarios{
+    overflow: scroll;
+    width: 99%;
+    overflow-x: hidden;
+    max-height: 27vw;
+}
+
+.container_usuarios .usuarios_infos {
+    display: flex;
+    width: 97.3%;
+    text-align: center;
+    padding-bottom: 0.5vw;
+}     
+
+.usuario_info_foto, #usuario_foto                  {width: 5%;}
+.usuario_info_nome, #usuario_nome                  {width: 15%;}
+.usuario_info_email, #usuario_cargo                {width: 20%;}
+.usuario_info_cargo, #usuario_email                {width: 20%;}
+.usuario_info_dataCadastro, #usuario_telefone      {width: 20%;}
+.usuario_info_telefone, #usuario_dataCadastro      {width: 20%;}
+
+
+.card_usuario {
+    display: flex;
+    width: 99%;
+    background-color: #252d92;
+    padding-top: 0.2vw;
+    padding-bottom: 0.2vw;
+    align-items: center;
+    font-size: 0.8vw;
+    text-align: center;
+    margin-top: 0.5vw;
+    border-radius: 0.3vw;
+    cursor: pointer;
+    transition: ease-in-out 0.3s;
+}
+
+.card_usuario:hover{
+    background-color: #1c1c25;
+}
+
+#usuario_foto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#usuario_foto img{
+    object-fit: cover;
+    object-position: center;
+    width: 2.5vw;
+    height: 2.5vw;
+    border-radius: 2vw;
+}

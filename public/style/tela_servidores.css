@@ -1,0 +1,182 @@
+/*
+ /$$       /$$             /$$              
+| $$      |__/            | $$              
+| $$       /$$  /$$$$$$$ /$$$$$$    /$$$$$$ 
+| $$      | $$ /$$_____/|_  $$_/   |____  $$
+| $$      | $$|  $$$$$$   | $$      /$$$$$$$
+| $$      | $$ \____  $$  | $$ /$$ /$$__  $$
+| $$$$$$$$| $$ /$$$$$$$/  |  $$$$/|  $$$$$$$
+|________/|__/|_______/    \___/   \_______/
+*/
+
+.cards_servidores {
+    width: 99%;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: scroll;
+    overflow-x: hidden;
+    max-height: 26vw;
+    gap: 0.5vw;
+}
+
+.card_servidor{
+    display: flex;
+    justify-content: space-evenly;
+    color: white;
+    padding: 0.5vw;
+    background-color: #393A4E;
+    width: 24.5%;
+    border-radius: 0.2vw;
+    align-items: center;
+    gap: 1vw;
+    margin-bottom: 0.1vw;
+    cursor: pointer;
+    font-size: 0.8vw;
+}
+
+.card_servidor:hover{
+    background-color: #212235;
+    transition: ease-in-out 0.3s;
+}
+
+.card_servidor img {
+    width: 1.5vw;
+    border-radius: 0.2vw;
+}
+
+
+.card_servidor #servidor_status{
+    width: 5%;
+}
+
+.card_servidor #servidor_nome{
+    width: 45%;
+}
+
+.card_servidor #servidor_nome{
+    width: 45%;
+}
+
+/* 
+ /$$$$$$$                                                  
+| $$__  $$                                                 
+| $$  \ $$ /$$$$$$   /$$$$$$  /$$   /$$  /$$$$$$   /$$$$$$$
+| $$$$$$$//$$__  $$ /$$__  $$| $$  | $$ /$$__  $$ /$$_____/
+| $$____/| $$  \ $$| $$  \ $$| $$  | $$| $$  \ $$|  $$$$$$ 
+| $$     | $$  | $$| $$  | $$| $$  | $$| $$  | $$ \____  $$
+| $$     |  $$$$$$/| $$$$$$$/|  $$$$$$/| $$$$$$$/ /$$$$$$$/
+|__/      \______/ | $$____/  \______/ | $$____/ |_______/ 
+                   | $$                | $$                
+                   | $$                | $$                
+                   |__/                |__/                
+*/
+
+.popup_container .popup_servidor_informacoes {
+    display: flex;
+    flex-direction: column;
+    padding: 1vw;
+    width: 30vw;
+    margin-right: 5vw;
+    height: fit-content;
+    background-color: #131da3cb;
+    border-radius: 0.3vw;
+    color: white;
+}
+
+.popup_container .popup_servidor_informacoes .servidor_label{
+    font-size: 0.8vw;
+    font-weight: 600;
+    color: rgb(178, 209, 209);
+    margin-top: 0.9vw;
+}
+
+.popup_container .popup_servidor_informacoes select{
+    width: 100%;
+    background-color: #080c50;
+    border: none;
+    border-radius: 0.2vw;
+    color: white;
+    padding: 0.5vw;
+}
+
+.popup_container .popup_servidor_informacoes #servidor_nome {
+    background-color: #080c50;
+    color: white;
+    border: none;
+    border-radius: 0.3vw;
+    padding: 0.5vw;
+    font-size: 1.2vw;
+    font-weight: 400;
+}
+
+.popup_container .popup_servidor_informacoes .btns_popup{
+    display: flex;
+    width: 100%;
+    padding-top: 2vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    gap: 1vw;
+}
+
+.popup_container .popup_servidor_informacoes .btns_popup a{
+    width: 100%;
+}
+
+.popup_container .popup_servidor_informacoes .btns_popup button{
+    background-color: #252d92;
+    width: 100%;
+    border: none;
+    border-radius: 0.3vw;
+    font-size: 1vw;
+    font-weight: 300;
+    padding: 0.4vw;
+    color: white;
+    margin-bottom: 0.4vw;
+    transition: ease-in-out 0.3s;
+    cursor: pointer;
+}
+
+.popup_container .popup_servidor_informacoes .btns_popup button:hover{
+    background-color: #080c50;
+    color: #30618a;
+    font-weight: 500;
+}
+
+
+.popup_container .instrucoes {
+    width: 86%;
+    padding: 2vw;
+    border: dashed 1px white;
+    margin-top: 1vw;
+}
+
+.popup_container .instrucoes a{
+    color: rgb(0, 174, 255);
+}
+
+.popup_container .popup_servidor_informacoes .servidor_parametrizacao h1{
+    font-size: 1vw;
+    padding: 0;
+    margin: 0;
+}
+
+.popup_container .popup_servidor_informacoes .servidor_parametrizacao h2{
+    font-size: 0.8vw;
+    color: rgb(180, 180, 180);
+    padding: 0;
+    margin: 0;
+}
+
+.popup_container .popup_servidor_informacoes .servidor_parametrizacao{
+    display: flex;
+    flex-direction: column;  
+}
+
+.popup_container .popup_servidor_informacoes .servidor_parametrizacao input{
+    margin-bottom: 0.2vw;
+    background-color: #080c50;
+    color: white;
+    border: none;
+    border-radius: 0.3vw;
+    padding: 0.3vw;
+}

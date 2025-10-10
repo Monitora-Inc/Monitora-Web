@@ -1,0 +1,75 @@
+.page_content {
+    margin-left: 5.8vw;
+    padding-top: 6vw;
+}
+
+.headers {
+    display: flex;
+}
+
+.card_adicionar {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: dashed 0.1vw #E0F1FF;
+    width: 20vw;
+    height:  7vw;
+    color: #E0F1FF;
+    font-size: 0.8vw;
+    transition: ease-in-out 0.3s;
+}
+
+.card_adicionar:hover {
+    background-color: rgb(28, 58, 122);
+    padding-bottom: 1vw;
+}
+
+.card_adicionar img{
+    margin-bottom: 0.8vw;
+    width: 2vw;
+}
+
+.card_adicionar h2 {
+    font-weight: 300;
+}
+
+.info-card {
+    color: #E0F1FF;
+    padding-left: 1.2vw;
+}
+.info-card h1{
+    font-size: 3vw;
+}
+
+.info-card h2{
+    font-size: 1.5vw;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #0e0e0e;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #393A4E;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.lista_titulo {
+    color: white;
+    width: 99%;
+    padding-top: 1vw;
+    padding-bottom: 0.66vw;
+    font-size: 1.6vw;
+}

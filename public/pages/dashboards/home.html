@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style/sidebar.css">
+    <link rel="stylesheet" href="../../style/essencial.css">
+    <link rel="stylesheet" href="../../style/tela_home.css">
+    <link rel="stylesheet" href="../../style/filtros.css">
+    <link rel="stylesheet" href="../../style/popup.css">
+</head>
+
+<body>
+  <nav id="id_sidebar"></nav>
+  <div id="id_info_kpis"></div>
+  <div id="popup_screen"></div>
+
+    <div class="page_content">
+        <!-- Info-card -->
+
+
+        <!-- Filtros de persquisa -->
+        <div class="filtros">
+            <select id="id_filtro" onchange="">
+                <option value="filtro_nivel_de_risco_crescente">Nível de risco (Crescente)</option>
+                <option value="filtro_nivel_de_risco_decrescente" selected>Nível de risco (Decrescente)</option>
+                <option value="filtro_critico_crescente">Critíco (Crescente)</option>
+                <option value="filtro_critico_decrescente">Critíco (Decrescente)</option>
+                <option value="filtro_alerta_crescente">Alerta (Crescente)</option>
+                <option value="filtro_alerta_decrescente">Alerta (Decrescente)</option>
+                <option value="filtro_estavel">Estável</option>
+            </select>
+            <input type="search" placeholder="Digite para pesquisar">
+        </div>
+
+        <!-- Lista de Usuários -->
+
+        <div class="container_servidores">
+            <div class="servidores_info">
+                <div class="servidor_info_estado">Estado</div>
+                <div class="servidor_info_nome">Servidor</div>
+                <div class="servidor_info_nivel_de_risco">Nível de Risco</div>
+                <div class="servidor_info_recursos_em_risco">Recursos em Risco</div>
+                <div class="servidor_info_localizacao">Localização</div>
+                <div class="servidor_info_data_center">Data Center</div>
+            </div>
+            <div class="lista_servidores">
+
+                <div class="card_servidor" id="1">
+                    <div id="servidor_estado">
+                        <img src="../../assets/icons/icone_alerta.svg" alt="">
+                    </div>
+                    <div id="servidor_nome">Servidor 1</div>
+                    <progress id="servidor_nivel_de_risco" class="servidor_barra_de_risco" value="0" max="4"></progress>
+                    <div id="servidor_recursos_em_risco">CPU, RAM e GPU, Rede e Tudo</div>
+                    <div id="servidor_localizacao">São Paulo - SP</div>
+                    <div id="servidor_data_center">Data Center 1</div>
+                </div>
+
+                <div class="card_servidor" id="2">
+                    <div id="servidor_estado">
+                        <img src="../../assets/icons/icone_critico.svg" alt="">
+                    </div>
+                    <div id="servidor_nome">Servidor 2</div>
+                    <progress id="servidor_nivel_de_risco" class="servidor_barra_de_risco" value="0" max="4"></progress>
+                    <div id="servidor_recursos_em_risco">CPU, RAM e GPU, Rede e Tudo</div>
+                    <div id="servidor_localizacao">São Paulo - SP</div>
+                    <div id="servidor_data_center">Data Center 1</div>
+                </div>
+
+                <div class="card_servidor" id="3">
+                    <div id="servidor_estado">
+                        <img src="../../assets/icons/icone_estavel.svg" alt="">
+                    </div>
+                    <div id="servidor_nome">Servidor 3</div>
+                    <progress id="servidor_nivel_de_risco" class="servidor_barra_de_risco" value="0" max="4"></progress>
+                    <div id="servidor_recursos_em_risco">CPU, RAM e GPU, Rede e Tudo</div>
+                    <div id="servidor_localizacao">São Paulo - SP</div>
+                    <div id="servidor_data_center">Data Center 1</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="../../js/sidebar.js"></script>
+<script src="../../js/popups.js"></script>
