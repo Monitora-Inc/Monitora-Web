@@ -19,10 +19,8 @@
                 <h1>Criar Conta</h1>
                 <span>Preencha os dados abaixo para se cadastrar</span>
 
-                <input type="text" placeholder="Nome da Empresa" id="iptNomeEmpresa">
                 <input type="text" placeholder="CNPJ" id="iptCNPJ" maxlength="18">
-                <input type="text" placeholder="Nome do Usuário" id="iptNomeCadastro">
-                <input type="email" placeholder="E-mail" id="iptEmailCadastro">
+                <input type="text" placeholder="Nome da Empresa" id="iptNomeEmpresa">
                 <input type="password" placeholder="Senha" id="iptSenhaCadastro">
 
                 <button type="button" onclick="cadastro()">Inscrever</button>
@@ -31,7 +29,7 @@
         </div>
 
         <div class="form-container sign-in">
-            <form>
+            <form id="mudar">
                 <h1>Entrar</h1>
                 <span>Digite seu e-mail e senha para acessar</span>
 
@@ -39,8 +37,11 @@
                 <input type="password" placeholder="Senha" id="iptSenha">
                 <a href="#">Esqueceu sua senha?</a>
 
-                <button type="button" onclick="login()">Entrar</button>
+                <button type="button" onclick="loginUsuario()">Entrar</button>
                 <p id="erroLogin" class="aviso"></p>
+
+                <h4>Deseja entrar como:</h4>
+                <button type="button" class="botaoMudanca" onclick="Empresa()">Empresa</button>
             </form>
         </div>
 
@@ -71,7 +72,87 @@
 </html>
 
 <script>
-    async function login() {
+
+    function Empresa() {
+        mudar.innerHTML = `
+        <h1>Entrar</h1>
+        <span>Digite o cnpj e senha para acessar</span>
+
+        <input type="text" placeholder="CNPJ" id="iptCNPJ" maxlength="18">
+            <input type="password" placeholder="Senha" id="iptSenha">
+        <a href="#">Esqueceu sua senha?</a>
+
+        <button type="button" onclick="loginEmpresa()">Entrar</button>
+        <p id="erroLogin" class="aviso"></p>
+
+        <h4>Deseja entrar como:</h4>
+        <button type="button" class="botaoMudanca" onclick="Usuario()">Usuario</button>
+        `;
+    }
+
+    function Usuario() {
+        mudar.innerHTML = `
+            <h1>Entrar</h1>
+            <span>Digite seu e-mail e senha para acessar</span>
+
+            <input type="email" placeholder="E-mail" id="iptEmail">
+            <input type="password" placeholder="Senha" id="iptSenha">
+            <a href="#">Esqueceu sua senha?</a>
+
+            <button type="button" onclick="loginUsuario()">Entrar</button>
+            <p id="erroLogin" class="aviso"></p>
+
+            <h4>Deseja entrar como:</h4>
+            <button type="button" class="botaoMudanca" onclick="Empresa()">Empresa</button>
+        `;
+    }
+
+
+    async function loginEmpresa() {
+        erroLogin.innerHTML = ``;
+
+        let empresaCNPJ = await iptCnpj.valuereplace(/\D/g, '');
+        let empresaSenha = await iptSenha.value;
+
+        if (!empresaCNPJ || !empresaSenha) {
+            erroLogin.innerHTML = `Preencha todos os campos!`;
+
+            return;
+        }
+
+        let respostaLogin = await fetch(`/empresa/autenticar/${empresaCNPJ}/${empresaSenha}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!respostaLogin.ok) {
+            respostaLogin.text().then(texto => {
+                erroLogin.innerHTML = `<img src="/assets/loginAlert.png"><p>${texto}</p>`;
+            });
+
+            return;
+        }
+
+        let jsonLogin = await respostaLogin.json();
+
+        if (jsonLogin.empresaAtiva == 0) {
+            erroLogin.innerHTML = `<img src="/assets/loginAlert.png"><p>Sua empresa está desativada</p>`;
+            return;
+        } else if (jsonLogin.empresaAprovada == 0) {
+            erroLogin.innerHTML = `<img src="/assets/loginAlert.png"><p>Sua empresa ainda não foi aprovada pelos administradores</p>`;
+            return;
+        }
+        sessionStorage.empresaId = jsonLogin.empresaId;
+        sessionStorage.empresaNome = jsonLogin.empresaNome;
+        sessionStorage.empresaCnpj = jsonLogin.empresaCnpj;
+        sessionStorage.empresaFoto = jsonLogin.empresaFoto;
+
+        window.location = "dashboards/dashboard.html";
+    }
+
+    async function loginUsuario() {
         erroLogin.innerHTML = ``;
 
         let usuarioEmail = await iptEmail.value;
@@ -100,19 +181,27 @@
 
         let jsonLogin = await respostaLogin.json();
 
-        if (jsonLogin.ativo == 0) {
-            erroLogin.innerHTML = `<img src="/assets/loginAlert.png"><p>Sua empresa ainda não foi aprovada</p>`;
+        if (jsonLogin.empresaAtiva == 0) {
+            erroLogin.innerHTML = `<img src="/assets/loginAlert.png"><p>Sua empresa está desativada</p>`;
+            return;
+        } else if (jsonLogin.empresaAprovada == 0) {
+            erroLogin.innerHTML = `<img src="/assets/loginAlert.png"><p>Sua empresa ainda não foi aprovada pelos administradores</p>`;
             return;
         }
-
-        sessionStorage.EMAIL_USUARIO = jsonLogin.email;
-        sessionStorage.NOME_USUARIO = jsonLogin.nome;
-        sessionStorage.ID_USUARIO = jsonLogin.idUsuario;
-        sessionStorage.ID_EMPRESA = jsonLogin.fkEmpresa;
-
+        sessionStorage.userId = jsonLogin.userId;
+        sessionStorage.userNome = jsonLogin.userNome;
+        sessionStorage.userSobrenome = jsonLogin.userSobrenome;
+        sessionStorage.userEmail = jsonLogin.userEmail;
+        sessionStorage.userTelefone = jsonLogin.userTelefone;
+        sessionStorage.fotoUser = jsonLogin.fotoUser;
+        sessionStorage.cargoId = jsonLogin.cargoId;
+        sessionStorage.cargo = jsonLogin.cargo;
+        sessionStorage.empresaId = jsonLogin.empresaId;
+        sessionStorage.empresaNome = jsonLogin.empresaNome;
         window.location = "dashboards/dashboard.html";
     }
 
+    // Máscara CNPJ
     document.getElementById("iptCNPJ").addEventListener("input", function (e) {
         let value = e.target.value.replace(/\D/g, "");
         if (value.length > 2) {
@@ -131,49 +220,44 @@
         e.target.value = value;
     });
 
-    async function cadastro() {
+    // função cadastro
+    function cadastro() {
         avisoCadastro.innerHTML = ``;
 
-        let nomeEmpresa = iptNomeEmpresa.value;
-        let CNPJ = iptCNPJ.value;
-        let nomeUsuario = iptNomeCadastro.value;
-        let emailUsuario = iptEmailCadastro.value;
-        let senhaUsuario = iptSenhaCadastro.value;
+        //cnpj sem mascara
+        let CNPJ = iptCNPJ.value.replace(/\D/g, '');
+        let nome = iptNomeEmpresa.value;
+        let senha = iptSenhaCadastro.value;
 
-        if (!nomeEmpresa || !CNPJ || !emailUsuario || !senhaUsuario || !nomeUsuario) {
+        if (!CNPJ || !nome || !senha) {
             avisoCadastro.innerHTML = `Todos os campos precisam ser preenchidos!`;
             return;
         }
 
-        if (!/^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$/.test(CNPJ)) {
+        if (CNPJ.length != 14) {
             avisoCadastro.innerHTML = `CNPJ inválido!`;
             return;
         }
 
-        let validacaoEmail = emailUsuario.indexOf('@') < emailUsuario.indexOf('.com');
-        if (!validacaoEmail) {
-            avisoCadastro.innerHTML = `Email inválido!`;
-            return;
-        }
 
         let validacaoSenha = 0;
 
-        if (senhaUsuario.length < 8) {
+        if (senha.length < 8) {
             avisoCadastro.innerHTML += `A senha deve conter ao menos 8 caracteres<br>`;
             validacaoSenha = 1;
         }
 
-        if (!/[a-z]+/.test(senhaUsuario)) {
+        if (!/[a-z]+/.test(senha)) {
             avisoCadastro.innerHTML += `A senha deve conter ao menos uma letra minúscula<br>`;
             validacaoSenha = 1;
         }
 
-        if (!/[A-Z]+/.test(senhaUsuario)) {
+        if (!/[A-Z]+/.test(senha)) {
             avisoCadastro.innerHTML += `A senha deve conter ao menos uma letra maiúscula<br>`;
             validacaoSenha = 1;
         }
 
-        if (!/[@!#$%*]+/.test(senhaUsuario)) {
+        if (!/[@!#$%*]+/.test(senha)) {
             avisoCadastro.innerHTML += `A senha deve conter ao menos um caractere especial<br>`;
             validacaoSenha = 1;
         }
@@ -181,56 +265,34 @@
         if (validacaoSenha == 1) {
             return;
         }
-
-        let respostaCadastroEmpresa = await fetch(`/empresas/cadastrarEmpresa`, {
+        // 1234#Ally
+        fetch(`/empresas/cadastrarEmpresa`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                nomeEmpresaServer: nomeEmpresa,
-                cnpjServer: CNPJ
+                nomeServer: nome,
+                cnpjServer: CNPJ,
+                senhaServer: senha
             })
-        });
-
-        if (!respostaCadastroEmpresa.ok) {
-            respostaCadastroEmpresa.text().then((texto) => {
-                console.log(texto);
-            });
-
-            return;
-        }
-
-        let jsonEmpresa = await respostaCadastroEmpresa.json();
-        console.log(jsonEmpresa);
-
-        let fkEmpresa = jsonEmpresa.insertId;
-
-        let respostaCadastroUsuario = await fetch(`/usuarios/cadastrar`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                nomeUsuarioServer: nomeUsuario,
-                emailUsuarioServer: emailUsuario,
-                senhaUsuarioServer: senhaUsuario,
-                fkEmpresaServer: fkEmpresa,
-                ativoServer: 0,
-                fkCargoServer: 1,
-                isAdminServer: 1
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+                    avisoCadastro.innerHTML += `A empresa ${nome} foi cadastrada com sucesso, aguarde a aprovação dos nossos administrador.`;
+                    setTimeout(() => {
+                        iptCNPJ.value = '';
+                        iptNomeEmpresa.value = '';
+                        iptSenhaCadastro.value = '';
+                        avisoCadastro.innerHTML = ``;
+                        container.classList.remove('active');
+                    }, 2000);
+                } else {
+                    throw "Houve um erro ao tentar realizar o cadastro!";
+                }
             })
-        });
+            .catch(erro => console.error(`#ERRO: ${erro}`));
 
-        if (!respostaCadastroUsuario.ok) {
-            respostaCadastroUsuario.text().then((texto) => {
-                console.log(texto);
-            });
-
-            return;
-        }
-
-        window.location = "../index.html";
-
+        return false;
     }
 </script>
