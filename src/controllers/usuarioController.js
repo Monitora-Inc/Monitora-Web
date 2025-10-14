@@ -7,12 +7,18 @@ function autenticar(req, res) {
     usuarioModel.autenticar(email, senha).then((resultadoAutenticar) => {
         if (resultadoAutenticar.length == 1) {
             res.json({
-                idUsuario: resultadoAutenticar[0].idUsuario,
-                email: resultadoAutenticar[0].email,
-                nome: resultadoAutenticar[0].nome,
-                senha: resultadoAutenticar[0].senha,
-                fkEmpresa: resultadoAutenticar[0].fkEmpresa,
-                ativo: resultadoAutenticar[0].ativo
+                userId: resultadoAutenticar[0].userId,
+                userNome: resultadoAutenticar[0].userNome,
+                userSobrenome: resultadoAutenticar[0].userSobrenome,
+                userEmail: resultadoAutenticar[0].userEmail,
+                userTelefone: resultadoAutenticar[0].userTelefone,
+                fotoUser: resultadoAutenticar[0].fotoUser,
+                cargoId: resultadoAutenticar[0].cargoId,
+                cargo: resultadoAutenticar[0].cargo,
+                empresaId: resultadoAutenticar[0].empresaId,
+                empresaNome: resultadoAutenticar[0].empresaNome,
+                empresaAtiva: resultadoAutenticar[0].empresaAtiva,
+                empresaAprovada: resultadoAutenticar[0].empresaAprovada
             });
         } else {
             res.status(403).send("Email e/ou senha inválido(s)");

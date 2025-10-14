@@ -12,6 +12,15 @@ function cadastrarEmpresa(nome, cnpj, senha) {
     return database.executar(instrucaoSql);
 }
 
+function autenticar(cnpj, senha) {
+    let instrucaoSql = ` 
+        SELECT idEmpresa as empresaId, nome as empresaNome, cnpj as empresaCnpj, fotoDePerfil as empresaFoto, ativo as empresaAtivo, aprovada as empresaAprovada
+        FROM empresas WHERE cnpj = ${cnpj} AND senha = ${senha};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 function negarEmpresa(idEmpresa) {
     let instrucaoSql = `
         DELETE FROM Empresa
@@ -23,5 +32,6 @@ function negarEmpresa(idEmpresa) {
 
 module.exports = {
     cadastrarEmpresa,
+    autenticar,
     negarEmpresa
 }
