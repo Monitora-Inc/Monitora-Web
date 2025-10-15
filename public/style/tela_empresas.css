@@ -2,70 +2,115 @@
     width: 99%;
     display: flex;
     flex-direction: column;
-    gap: 1vw;
+    gap: clamp(8px, 1vw, 16px);
     max-height: 69vh;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     color: white;
+    font-size: clamp(0.8rem, 0.9vw, 1rem);
 }
 
 .container_cards_empresas .card_empresa {
     display: flex;
     justify-content: space-between;
-    background-color: rgb(54, 54, 54);
-    padding: 1vw;
-    font-size: 0.8vw;
-    border-radius: 0.3vw;
+    align-items: center;
+    background-color: #072F4E;
+    padding: clamp(10px, 1vw, 20px);
+    font-size: clamp(0.8rem, 0.8vw, 1rem);
+    border-radius: clamp(4px, 0.3vw, 8px);
+    transition: ease-in-out 0.3s;
+}
+
+.container_cards_empresas .card_empresa #id_card_empresa_informacoes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(4px, 0.3vw, 8px);
 }
 
 .container_cards_empresas .card_empresa #id_card_empresa_informacoes #id_nomeEmpresa {
     font-weight: 700;
+    font-size: clamp(1rem, 1vw, 1.2rem);
 }
 
 .container_cards_empresas .card_empresa #id_card_empresa_informacoes span {
     color: red;
 }
 
-
-.container_cards_empresas .card_empresa #id_card_empresa_botoes{
+.container_cards_empresas .card_empresa #id_card_empresa_botoes {
     display: flex;
     align-items: center;
-    gap: 0.5vw;
+    gap: clamp(6px, 0.5vw, 12px);
 }
 
-.container_cards_empresas .card_empresa #id_card_empresa_botoes button{
-    width: 2.5vw;
-    height: 2.5vw;
+.container_cards_empresas .card_empresa #id_card_empresa_botoes button {
+    width: clamp(32px, 2.5vw, 48px);
+    height: clamp(32px, 2.5vw, 48px);
     border: none;
-    border-radius: 0.5vw;
+    border-radius: clamp(5px, 0.5vw, 10px);
     cursor: pointer;
-    font-size: 0.8vw;
-}
-
-.container_cards_empresas .card_empresa #id_card_empresa_botoes .botao_aprovar{
-    background-image: url("../assets/icons/icone_confirmar.svg");
-    background-color: green;
+    font-size: clamp(0.7rem, 0.8vw, 1rem);
+    background-size: 40%;
     background-repeat: no-repeat;
     background-position: center;
     transition: ease-in-out 0.3s;
-    background-size: 40%;
 }
 
+.container_cards_empresas .card_empresa #id_card_empresa_botoes .botao_aprovar {
+    background-color: green;
+    background-image: url("../assets/icons/icone_confirmar.svg");
+}
 
-.container_cards_empresas .card_empresa #id_card_empresa_botoes .botao_aprovar:hover{
+.container_cards_empresas .card_empresa #id_card_empresa_botoes .botao_aprovar:hover {
     background-color: rgb(13, 75, 13);
 }
 
-.container_cards_empresas .card_empresa #id_card_empresa_botoes .botao_rejeitar{
+.container_cards_empresas .card_empresa #id_card_empresa_botoes .botao_rejeitar {
     background-color: red;
     background-image: url("../assets/icons/icone_rejeitar.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: ease-in-out 0.3s;
-    background-size: 40%;
 }
 
-.container_cards_empresas .card_empresa #id_card_empresa_botoes .botao_rejeitar:hover{
+.container_cards_empresas .card_empresa #id_card_empresa_botoes .botao_rejeitar:hover {
     background-color: rgb(75, 13, 13);
 }
 
+
+/* --- MOBILE --- */
+@media (max-width: 768px) {
+    .container_cards_empresas {
+        gap: 4vw;
+        max-height: none;
+        overflow-y: visible;
+        font-size: 3.5vw;
+    }
+
+    .container_cards_empresas .card_empresa {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3vw;
+        padding: 4vw;
+        font-size: 3.5vw;
+        border-radius: 2vw;
+    }
+
+    .container_cards_empresas .card_empresa #id_card_empresa_informacoes {
+        gap: 1vw;
+    }
+
+    .container_cards_empresas .card_empresa #id_card_empresa_informacoes #id_nomeEmpresa {
+        font-size: 4vw;
+    }
+
+    .container_cards_empresas .card_empresa #id_card_empresa_botoes {
+        width: 100%;
+        justify-content: flex-end;
+        gap: 3vw;
+    }
+
+    .container_cards_empresas .card_empresa #id_card_empresa_botoes button {
+        width: 12vw;
+        height: 12vw;
+        border-radius: 2vw;
+        background-size: 45%;
+    }
+}

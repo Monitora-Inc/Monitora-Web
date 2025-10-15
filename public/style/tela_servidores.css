@@ -1,147 +1,168 @@
-/*
- /$$       /$$             /$$              
-| $$      |__/            | $$              
-| $$       /$$  /$$$$$$$ /$$$$$$    /$$$$$$ 
-| $$      | $$ /$$_____/|_  $$_/   |____  $$
-| $$      | $$|  $$$$$$   | $$      /$$$$$$$
-| $$      | $$ \____  $$  | $$ /$$ /$$__  $$
-| $$$$$$$$| $$ /$$$$$$$/  |  $$$$/|  $$$$$$$
-|________/|__/|_______/    \___/   \_______/
-*/
-
 .cards_servidores {
     width: 99%;
     display: flex;
     flex-wrap: wrap;
-    overflow: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     max-height: 26vw;
-    gap: 0.5vw;
+    gap: clamp(4px, 0.5vw, 10px);
 }
 
-.card_servidor{
+.card_servidor {
     display: flex;
-    justify-content: space-evenly;
-    color: white;
-    padding: 0.5vw;
-    background-color: #393A4E;
-    width: 24.5%;
-    border-radius: 0.2vw;
     align-items: center;
-    gap: 1vw;
-    margin-bottom: 0.1vw;
+    color: white;
+    padding: clamp(6px, 0.5vw, 12px);
+    background-color: #072F4E;
+    width: clamp(200px, 24.5%, 400px);
+    border-radius: clamp(3px, 0.2vw, 8px);
+    gap: clamp(6px, 1vw, 15px);
+    margin-bottom: clamp(2px, 0.1vw, 6px);
     cursor: pointer;
-    font-size: 0.8vw;
-}
-
-.card_servidor:hover{
-    background-color: #212235;
+    font-size: clamp(0.8rem, 0.8vw, 1rem);
     transition: ease-in-out 0.3s;
 }
 
-.card_servidor img {
-    width: 1.5vw;
-    border-radius: 0.2vw;
+.card_servidor:hover {
+    background-color: #080d1d;
+    padding-right: 1vw;
+}
+
+.card_servidor .servidor_informacoes {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding-left: 1rem;
+    flex: 1;
+}
+
+.card_servidor .status_checkbox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(6px, 1vw, 15px);
+}
+
+.card_servidor #servidor_estado {
+    display: flex;
+    justify-content: center;
+    width: clamp(30px, 3rem, 60px);
+}
+
+.card_servidor #servidor_estado img {
+    padding: 0.4vw;
+    width: clamp(25px, 2vw, 40px);
+    height: clamp(25px, 2vw, 40px);
+}
+
+.card_servidor #servidor_nome {
+    font-size: clamp(1rem, 1.4vw, 1.8rem);
+    padding-top: 0.3vw;
+}
+
+.card_servidor #servidor_localizacao {
+    font-size: clamp(0.7rem, 0.8vw, 1rem);
+    color: #206eaa;
+    padding-bottom: 0.4vw;
+}
+
+.card_servidor #servidor_recursos_em_risco {
+    font-size: clamp(0.8rem, 0.9vw, 1rem);
+    padding-bottom: 0.3vw;
+}
+
+.card_servidor #servidor_recursos_em_risco span {
+    font-weight: 700;
+}
+
+.card_servidor #servidor_checkbox {
+    display: flex;
+    justify-content: center;
+    width: clamp(25px, 4vw, 40px);
+}
+
+.card_servidor .servidor_status {
+    width: clamp(10px, 1vw, 16px);
+    height: clamp(10px, 1vw, 16px);
+    border-radius: 50%;
+}
+
+.card_servidor .ativo {
+    background-color: rgb(113, 160, 123);
+}
+
+.card_servidor .inativo {
+    background-color: rgb(131, 32, 32);
 }
 
 
-.card_servidor #servidor_status{
-    width: 5%;
-}
-
-.card_servidor #servidor_nome{
-    width: 45%;
-}
-
-.card_servidor #servidor_nome{
-    width: 45%;
-}
-
-/* 
- /$$$$$$$                                                  
-| $$__  $$                                                 
-| $$  \ $$ /$$$$$$   /$$$$$$  /$$   /$$  /$$$$$$   /$$$$$$$
-| $$$$$$$//$$__  $$ /$$__  $$| $$  | $$ /$$__  $$ /$$_____/
-| $$____/| $$  \ $$| $$  \ $$| $$  | $$| $$  \ $$|  $$$$$$ 
-| $$     | $$  | $$| $$  | $$| $$  | $$| $$  | $$ \____  $$
-| $$     |  $$$$$$/| $$$$$$$/|  $$$$$$/| $$$$$$$/ /$$$$$$$/
-|__/      \______/ | $$____/  \______/ | $$____/ |_______/ 
-                   | $$                | $$                
-                   | $$                | $$                
-                   |__/                |__/                
-*/
-
+/* --- POPUP --- */
 .popup_container .popup_servidor_informacoes {
     display: flex;
     flex-direction: column;
-    padding: 1vw;
-    width: 30vw;
+    padding: clamp(10px, 1vw, 20px);
+    width: clamp(250px, 30vw, 450px);
     margin-right: 5vw;
     height: fit-content;
-    background-color: #131da3cb;
-    border-radius: 0.3vw;
+    background-color: #072F4E;
+    border-radius: 0.5vw;
     color: white;
 }
 
-.popup_container .popup_servidor_informacoes .servidor_label{
-    font-size: 0.8vw;
+.popup_container .popup_servidor_informacoes .servidor_label {
+    font-size: clamp(0.8rem, 0.8vw, 1rem);
     font-weight: 600;
     color: rgb(178, 209, 209);
     margin-top: 0.9vw;
 }
 
-.popup_container .popup_servidor_informacoes select{
+.popup_container .popup_servidor_informacoes select {
     width: 100%;
-    background-color: #080c50;
+    background-color: #11466e;
     border: none;
-    border-radius: 0.2vw;
+    border-radius: 0.3vw;
     color: white;
     padding: 0.5vw;
 }
 
 .popup_container .popup_servidor_informacoes #servidor_nome {
-    background-color: #080c50;
+    background-color: transparent;
     color: white;
     border: none;
     border-radius: 0.3vw;
     padding: 0.5vw;
-    font-size: 1.2vw;
+    font-size: clamp(1rem, 1.2vw, 1.5rem);
     font-weight: 400;
 }
 
-.popup_container .popup_servidor_informacoes .btns_popup{
+.popup_container .popup_servidor_informacoes .btns_popup {
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
-    padding-top: 2vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
+    padding-top: 1vw;
     gap: 1vw;
 }
 
-.popup_container .popup_servidor_informacoes .btns_popup a{
-    width: 100%;
-}
-
-.popup_container .popup_servidor_informacoes .btns_popup button{
-    background-color: #252d92;
+.popup_container .popup_servidor_informacoes .btns_popup button {
+    background-color: #11466e;
     width: 100%;
     border: none;
     border-radius: 0.3vw;
-    font-size: 1vw;
+    font-size: clamp(0.9rem, 1vw, 1.2rem);
     font-weight: 300;
-    padding: 0.4vw;
+    padding: 0.6vw;
     color: white;
     margin-bottom: 0.4vw;
     transition: ease-in-out 0.3s;
     cursor: pointer;
 }
 
-.popup_container .popup_servidor_informacoes .btns_popup button:hover{
+.popup_container .popup_servidor_informacoes .btns_popup button:hover {
     background-color: #080c50;
     color: #30618a;
     font-weight: 500;
 }
-
 
 .popup_container .instrucoes {
     width: 86%;
@@ -150,33 +171,86 @@
     margin-top: 1vw;
 }
 
-.popup_container .instrucoes a{
+.popup_container .instrucoes a {
     color: rgb(0, 174, 255);
 }
 
-.popup_container .popup_servidor_informacoes .servidor_parametrizacao h1{
-    font-size: 1vw;
+.popup_container .popup_servidor_informacoes .servidor_parametrizacao {
+    display: flex;
+    flex-direction: column;
+}
+
+.popup_container .popup_servidor_informacoes .servidor_parametrizacao h1 {
+    font-size: clamp(0.9rem, 1vw, 1.2rem);
     padding: 0;
     margin: 0;
 }
 
-.popup_container .popup_servidor_informacoes .servidor_parametrizacao h2{
-    font-size: 0.8vw;
+.popup_container .popup_servidor_informacoes .servidor_parametrizacao h2 {
+    font-size: clamp(0.8rem, 0.9vw, 1rem);
     color: rgb(180, 180, 180);
     padding: 0;
     margin: 0;
 }
 
-.popup_container .popup_servidor_informacoes .servidor_parametrizacao{
-    display: flex;
-    flex-direction: column;  
-}
-
-.popup_container .popup_servidor_informacoes .servidor_parametrizacao input{
-    margin-bottom: 0.2vw;
-    background-color: #080c50;
+.popup_container .popup_servidor_informacoes .servidor_parametrizacao input {
+    margin-bottom: 0.5vw;
+    background-color: #11466e;
     color: white;
     border: none;
     border-radius: 0.3vw;
-    padding: 0.3vw;
+    padding: 0.4vw;
+}
+
+
+/* --- MOBILE --- */
+@media (max-width: 768px) {
+    .cards_servidores {
+        flex-direction: column;
+        max-height: none;
+        gap: 3vw;
+        overflow: visible;
+    }
+
+    .card_servidor {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 3vw;
+        font-size: 3.5vw;
+        border-radius: 2vw;
+    }
+
+    .card_servidor #servidor_estado img {
+        width: 8vw;
+        height: 8vw;
+    }
+
+    .card_servidor .servidor_status {
+        width: 4vw;
+        height: 4vw;
+    }
+
+    .popup_container .popup_servidor_informacoes {
+        width: 90%;
+        padding: 5vw;
+        margin: 0 auto;
+    }
+
+    .popup_container .popup_servidor_informacoes .btns_popup {
+        flex-direction: column;
+        padding: 0;
+        gap: 3vw;
+    }
+
+    .popup_container .popup_servidor_informacoes .btns_popup button {
+        font-size: 4vw;
+        padding: 2.5vw;
+        border-radius: 2vw;
+    }
+
+    .popup_container .instrucoes {
+        font-size: 3.5vw;
+        padding: 4vw;
+    }
 }

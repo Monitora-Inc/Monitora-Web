@@ -1,10 +1,11 @@
 .page_content {
-    margin-left: 5.8vw;
+    margin-left: 6rem;
     padding-top: 6vw;
 }
 
 .headers {
     display: flex;
+    padding-top: 2vw;
 }
 
 .card_adicionar {
@@ -13,55 +14,80 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: dashed 0.1vw #E0F1FF;
-    width: 20vw;
-    height:  7vw;
-    color: #E0F1FF;
-    font-size: 0.8vw;
+    border: dashed 0.1vw #1F547E;
+    width: clamp(200px, 30vw, 380px);
+    height: clamp(100px, 20vw, 140px);
+    color: #1F547E;
+    font-size: clamp(12px, 0.8vw, 18px);
     transition: ease-in-out 0.3s;
+    min-width: 18vw;
+    max-height: 18vw;
 }
 
 .card_adicionar:hover {
     background-color: rgb(28, 58, 122);
+    color: aliceblue;
     padding-bottom: 1vw;
 }
 
 .card_adicionar img{
-    margin-bottom: 0.8vw;
-    width: 2vw;
+    width: clamp(20px, 2vw, 40px);
 }
 
 .card_adicionar h2 {
+    padding: 1vw;
     font-weight: 300;
+    font-size: clamp(14px, 1vw, 18px);
+    text-align: center;
 }
 
+.icone_deletar {
+    width: 100%;
+    padding-right: 2vw;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+
+.icone_deletar img {
+    width: clamp(30px, 3vw, 40px);
+    height: clamp(30px, 3vw, 40px);
+}
+
+.icone_deletar img:hover {
+    background-color: #c7cffc;
+    cursor: pointer;
+    border-radius: 0.3vw;
+    padding: 10px;
+    transition: 0.3s ease-in-out;
+}
+
+
 .info-card {
-    color: #E0F1FF;
+    color: #1F547E;
     padding-left: 1.2vw;
 }
 .info-card h1{
-    font-size: 3vw;
+    font-size: clamp(24px, 3vw, 48px);
+    width: 24vw;
 }
 
 .info-card h2{
-    font-size: 1.5vw;
+    font-size: clamp(16px, 1.5vw, 24px);
 }
 
 ::-webkit-scrollbar {
   width: 10px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: #0e0e0e;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #393A4E;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
@@ -71,5 +97,17 @@
     width: 99%;
     padding-top: 1vw;
     padding-bottom: 0.66vw;
-    font-size: 1.6vw;
+    font-size: clamp(16px, 1.6vw, 24px);
+}
+
+
+@media (max-width: 768px) {
+    .page_content {
+        margin-left: 0.6rem;
+        padding-top: 7rem;  
+    }
+
+    .headers {
+        margin-top: 1.5vw;
+    }
 }

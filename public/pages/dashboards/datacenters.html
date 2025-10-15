@@ -8,7 +8,7 @@
     <link rel="icon" href="./assets/logos/logo_vetorizada.svg" type="image/x-icon">
     <link rel="stylesheet" href="../../style/sidebar.css">
     <link rel="stylesheet" href="../../style/essencial.css">
-    <link rel="stylesheet" href="../../style/tela_servidores.css">
+    <link rel="stylesheet" href="../../style/tela_datacenters.css">
     <link rel="stylesheet" href="../../style/filtros.css">
     <link rel="stylesheet" href="../../style/popup.css">
 </head>
@@ -22,22 +22,44 @@
     <div class="page_content">
         <!-- Info-card -->
         <div class="headers">
-            <div class="card_adicionar">
-                <img src="../../assets/icons/icone_datacenters.svg" alt="">
+            <div class="card_adicionar" onclick="popup_adicionar_datacenter()">
+                <img src="../../assets/icons/icone_adicionar_datacenters.svg" alt="">
                 <h2>Adicionar Data Centers</h2>
             </div>
             <div class="info-card">
                 <h2>Total Data Centers:</h2>
                 <h1 id="totalUsuarios">0</h1>
             </div>
+            <div class="icone_deletar">
+                <img src="../../assets/icons/icone_deletar.svg" alt="" onclick="popup_deletar_datacenter()">
+            </div>
         </div>
 
         <!-- Filtros de persquisa -->
         <div class="filtros">
-            <select id="id_filter" onchange="">
-                <option value="" selected>Todos os cargos</option>
+            <img class="icones_filtros icone_filtro" alt="">
+            <select id="id_filtro" onchange="">
+                <option value="filtro_ordem_alfabetica">Ordem Alfabética</option>
+                <option value="filtro_ordem_numerica">Ordem Númerica</option>
             </select>
+            <img class="icones_filtros icone_pesquisar" alt="">
             <input type="search" placeholder="Digite para pesquisar">
+        </div>
+
+        <div class="container_datacenters">
+            <div class="lista_datacenters">
+                <h1 class="lista_titulo">Data Centers</h1> 
+                
+                <div class="card_datacenter" onclick="popup_editar_datacenter()">
+                    <div id="usuario_checkbox">
+                        <input type="checkbox" class="checkbox">
+                    </div>
+                    <div class="datacenter_informacoes">
+                        <div id="datacenter_nome">Data Center 1</div>
+                        <div id="datacenter_localizacao">Rua Haddock Lobo, 595 - Cerqueira César, São Paulo - SP, 01414-001</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
@@ -45,3 +67,16 @@
 </html>
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
+<script>
+    function funcao_adicionar_datacenter(){
+        fechar_popup();
+    }
+
+    function funcao_editar_datacenter(){
+        fechar_popup();
+    }
+
+    function funcao_deletar_datacenter(){
+        fechar_popup();
+    }
+</script>

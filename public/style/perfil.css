@@ -1,76 +1,118 @@
 .perfil {
-    height: 35vw;
+    height: auto;
+    min-height: 35vw;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 3vw 0;
 }
 
-.perfil_container{
+.perfil_container {
     display: flex;
+    flex-direction: row;
     padding: 2vw;
-    background-color: rgb(5, 31, 102);
+    background-color: #072F4E;
     color: white;
-    width: 50vw;
-    border-radius: 0.3vw;
+    width: clamp(300px, 50vw, 800px);
+    border-radius: 0.6vw;
+    gap: 2vw;
 }
 
 .perfil_container img {
-    width: 14vw;
-    min-height: 14vw;
+    width: clamp(100px, 14vw, 220px);
+    height: clamp(100px, 14vw, 220px);
     object-fit: cover;
     object-position: center;
-    border-radius: 0.3vw;
+    border-radius: 0.6vw;
     cursor: pointer;
     transition: ease-in-out 0.3s;
 }
 
 .perfil_container img:hover {
     filter: brightness(50%);
-    border: solid 5px rgb(255, 255, 255);
+    border: solid 3px rgb(255, 255, 255);
 }
 
 .perfil_container .perfil_informacoes {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding-left: 2vw;
     width: 100%;
 }
 
-.perfil_container .perfil_informacoes h1{
-    font-size: 3vw;
-    -webkit-text-size-adjust:none;
+.perfil_container .perfil_informacoes h1 {
+    font-size: clamp(1.4rem, 3vw, 2.8rem);
+    -webkit-text-size-adjust: none;
 }
 
-.perfil_container .perfil_informacoes h2{
-    color: blue;
-    font-size: 1.7vw;
+.perfil_container .perfil_informacoes h2 {
+    color: #3d8bff;
+    font-size: clamp(1rem, 1.7vw, 1.8rem);
 }
 
-.perfil_container .perfil_informacoes h3{
-    font-size: 1vw;
+.perfil_container .perfil_informacoes h3,
+.perfil_container .perfil_informacoes h4 {
+    font-size: clamp(0.8rem, 1vw, 1.2rem);
     font-weight: 400;
-}
-
-.perfil_container .perfil_informacoes h4{
-    font-size: 1vw;
-    font-weight: 400;
-    padding-bottom: 1vw;
+    padding-bottom: 0.5vw;
 }
 
 .perfil_container button {
     background-color: rgb(3, 77, 173);
     color: white;
-    font-size: 1vw;
+    font-size: clamp(0.9rem, 1vw, 1.2rem);
     border: none;
-    padding: 0.6vw;
+    padding: clamp(8px, 0.6vw, 12px);
     width: 100%;
-    border-radius: 0.2vw;
+    border-radius: 0.4vw;
     cursor: pointer;
     transition: ease-in-out 0.3s;
 }
 
 .perfil_container button:hover {
     background-color: rgb(22, 22, 90);
-    font-size: 1.05vw;
+    transform: scale(1.03);
+}
+
+
+/* --- MOBILE --- */
+@media (max-width: 768px) {
+    .perfil_container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 90%;
+        padding: 5vw;
+        text-align: center;
+    }
+
+    .perfil_container img {
+        width: 40vw;
+        height: 40vw;
+        margin-bottom: 4vw;
+    }
+
+    .perfil_container .perfil_informacoes {
+        padding-left: 0;
+        align-items: center;
+    }
+
+    .perfil_container .perfil_informacoes h1 {
+        font-size: 6vw;
+    }
+
+    .perfil_container .perfil_informacoes h2 {
+        font-size: 4.5vw;
+    }
+
+    .perfil_container .perfil_informacoes h3,
+    .perfil_container .perfil_informacoes h4 {
+        font-size: 3.5vw;
+    }
+
+    .perfil_container button {
+        font-size: 3.8vw;
+        padding: 3vw;
+        border-radius: 2vw;
+    }
 }

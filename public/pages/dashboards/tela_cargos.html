@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servidores</title>
+    <link rel="icon" href="./assets/logos/logo_vetorizada.svg" type="image/x-icon">
+    <link rel="stylesheet" href="../../style/sidebar.css">
+    <link rel="stylesheet" href="../../style/essencial.css">
+    <link rel="stylesheet" href="../../style/tela_cargos.css">
+    <link rel="stylesheet" href="../../style/filtros.css">
+    <link rel="stylesheet" href="../../style/popup.css">
+</head>
+
+<body>
+  <nav id="id_sidebar"></nav>
+  <div id="id_info_kpis"></div>
+  <div id="popup_screen"></div>
+
+
+    <div class="page_content">
+        <!-- Info-card -->
+        <div class="cargos_container">
+        <div class="card">
+            <div class="header">
+                <h1>Cargos</h1>
+                <div>
+                    <img class="icon_cargo" src="../../assets/icons/icone_adicionar_cargo.svg" alt="" onclick="popup_adicionar_cargos()">
+                    <img class="icon_cargo" src="../../assets/icons/icone_deletar.svg" alt="" onclick="popup_deletar_cargos()">
+                </div>
+            </div>
+            <div class="cargos_lista">
+                <div class="card_cargo">
+                    <div id="cargo_checkbox">
+                        <input type="checkbox" class="checkbox">
+                    </div>
+                    <h2>Admnistrador</h2>
+                </div>
+                <div class="card_cargo">
+                    <div id="cargo_checkbox">
+                        <input type="checkbox" class="checkbox">
+                    </div>
+                    <h2>Analista</h2>
+                </div>
+
+
+            </div>
+        </div>
+ 
+        <!-- Permissões -->
+        <div class="card">
+            <div class="header">
+                <h1>Permissões</h1>
+            </div>
+
+            <div class="permissoes_lista">
+            <h2>Usuários</h2>
+            <div class="card_permissao">
+                <div id="adicionar_usuario">
+                    <input type="checkbox" class="checkbox" onchange="adicionarUsuario()">
+                </div>
+                <h2>Adicionar Usuário</h2>
+            </div>
+            <div class="card_permissao">
+                <div id="editar_usuario">
+                    <input type="checkbox" class="checkbox" onchange="editarUsuario()">
+                </div>
+                <h2>Editar Usuário</h2>
+            </div>
+            <div class="card_permissao">
+                <div id="excluir_usuario">
+                    <input type="checkbox" class="checkbox" onchange="excluirUsuario()">
+                </div>
+                <h2>Excluir Usuário</h2>
+            </div>
+
+            <h2>Servidor</h2>
+            <div class="card_permissao">
+                <div id="adicionar_servidor">
+                    <input type="checkbox" class="checkbox" onchange="adicionarServidor()">
+                </div>
+                <h2>Adicionar Servidor</h2>
+            </div>
+            <div class="card_permissao">
+                <div id="editar_servidor">
+                    <input type="checkbox" class="checkbox" onchange="editarServidor()">
+                </div>
+                <h2>Editar Servidor</h2>
+            </div>
+            <div class="card_permissao">
+                <div id="excluir_servidor">
+                    <input type="checkbox" class="checkbox" onchange="excluirServidor()">
+                </div>
+                <h2>Excluir Servidor</h2>
+            </div>
+
+            <h2>Data Centers</h2>
+            <div class="card_permissao">
+                <div id="adicionar_datacenter">
+                    <input type="checkbox" class="checkbox" onchange="adicionarDatacenter()">
+                </div>
+                <h2>Adicionar Data Center</h2>
+            </div>
+            <div class="card_permissao">
+                <div id="editar_datacenter">
+                    <input type="checkbox" class="checkbox" onchange="editarDatacenter()">
+                </div>
+                <h2>Editar Data Center</h2>
+            </div>
+            <div class="card_permissao">
+                <div id="excluir_datacenter">
+                    <input type="checkbox" class="checkbox" onchange="excluirDatacenter()">
+                </div>
+                <h2>Excluir Data Center</h2>
+            </div>
+
+            <h2>Cargos</h2>
+            <div class="card_permissao">
+                <div id="adicionar_cargo">
+                    <input type="checkbox" class="checkbox" onchange="adicionarCargo()">
+                </div>
+                <h2>Adicionar Cargo</h2>
+            </div>
+            <div class="card_permissao">
+                <div id="editar_cargo">
+                    <input type="checkbox" class="checkbox" onchange="editarCargo()">
+                </div>
+                <h2>Editar Cargo</h2>
+            </div>
+            <div class="card_permissao">
+                <div id="excluir_cargo">
+                    <input type="checkbox" class="checkbox" onchange="excluirCargo()">
+                </div>
+                <h2>Excluir Cargo</h2>
+</div>
+
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="../../js/sidebar.js"></script>
+<script src="../../js/popups.js"></script>
+<script>
+
+    // Selecionar um cargo
+    const cargos = document.querySelectorAll('.card_cargo');
+
+    cargos.forEach(cargo => {
+    cargo.addEventListener('click', () => {
+        cargos.forEach(c => c.classList.remove('selecionado'));
+        cargo.classList.add('selecionado');
+    });
+    });
+</script>
