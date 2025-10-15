@@ -16,8 +16,8 @@ function autenticar(email, senha) {
 // function cadastrarUsuario(nome, email, senha, ativo, fkEmpresa, fkCargo, isAdmin) --> Assinatura original da função
 function cadastrarUsuario(nome, sobrenome, email, senha, fkEmpresa, fkCargo, telefone) {
     let instrucaoSql = `
-        INSERT INTO Usuarios(nome, email, senha, fkEmpresa, ativo, fkCargo, isAdmin) VALUES
-            ('${nome}', '${email}', '${senha}', ${fkEmpresa}, ${ativo}, ${fkCargo}, ${isAdmin});
+        INSERT INTO Usuarios(nome, sobrenome, email, senha, fkEmpresa, fkCargo, telefone) VALUES
+            ('${nome}', '${sobrenome}', '${email}', '${senha}', ${fkEmpresa}, ${fkCargo}, ${telefone});
     `;
 
     return database.executar(instrucaoSql);
