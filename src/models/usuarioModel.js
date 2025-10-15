@@ -44,7 +44,7 @@ function listarCargos() {
 
 function deletarUsuario(usuario_id) {
     let instrucaoSql = `
-    DELETE FROM usuario
+    DELETE FROM usuarios
     WHERE idUsuario = ${usuario_id};
     `;
 

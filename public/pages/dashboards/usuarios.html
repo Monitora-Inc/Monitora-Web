@@ -31,7 +31,7 @@
                 <h1 id="totalUsuarios">0</h1>
             </div>
             <div class="icone_deletar">
-                <img src="../../assets/icons/icone_deletar.svg" alt="" onclick="popup_deletar_usuario()">
+               <img src="../../assets/icons/icone_deletar.svg" alt="" onclick="popup_deletar_usuario(listaIdDelete)">
             </div>
         </div>
 
@@ -51,7 +51,7 @@
             <div id="lista_usuarios" class="lista_usuarios">
                 <h2 class="lista_titulo">Usuários</h2>
                 <!-- Checkbox -->
-                <div class="card_usuario" id="1">
+                <div class="card_usuario" id="0">
 
                     <div class="usuario_card_inicio">
                         <!-- Checkbox -->
@@ -90,6 +90,8 @@
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
 <script>
+    let listaIdDelete = [];
+
     function funcao_adicionar() {
         mensagem_erro.innerHTML = '';
         let userNome = ipt_nome.value;
@@ -203,7 +205,7 @@
                     <div class="usuario_card_inicio">
                         <!-- Checkbox -->
                         <div id="usuario_checkbox">
-                        <input type="checkbox" class="checkbox">
+                        <input type="checkbox" class="checkbox" value="${dadosUsuarios[i].idUsuario}" onchange="adicionarListaDelete(this)">
                         </div>
 
                         <!-- Foto -->
@@ -227,21 +229,43 @@
                         <option value="filtro_nivel_de_risco_decrescente" selected>ADM</option>
                     </select>
                 </div>
-                <!-- <div class="card_usuario" id="${dadosUsuarios[i].idUsuario}" onclick="popup_usuario(this, this.id)">
-                    <div id="usuario_foto">
-                        <img src="./assets/fotosPerfil/fotoPerfil.png" alt="">
-                    </div>
-                    <p id="usuario_nome">${dadosUsuarios[i].nome} ${dadosUsuarios[i].sobrenome}</p>
-                    <p id="usuario_cargo">${dadosUsuarios[i].nome_cargo}</p>
-                    <p id="usuario_email">${dadosUsuarios[i].email}</p>
-                    <p id="usuario_telefone">${dadosUsuarios[i].telefone}</p>
-                    <p id="usuario_dataCadastro">${dataFormatada}</p>
-                </div> -->`
+                `
             }
             totalUsuarios.innerHTML = dadosUsuarios.length;
+            attachCheckboxListeners();
         }).catch(function (resposta) {
             console.log(`#ERRO: ${resposta}`);
         });
+    }
+
+    //Botão de deletar
+    function attachCheckboxListeners() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const imgDeletar = document.querySelector('.icone_deletar img');
+
+    if (!checkboxes.length) return; 
+    if (!imgDeletar) return;
+
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+
+        checkbox.addEventListener('change', () => {
+            const anyChecked = Array.from(document.querySelectorAll('input[type="checkbox"]')).some(cb => cb.checked);
+            imgDeletar.style.display = anyChecked ? 'block' : 'none';
+        });
+    });
+}
+
+    function adicionarListaDelete(checkbox) {
+        if (checkbox.checked) {
+            listaIdDelete.push(checkbox.value);
+        } else {
+            let indexARetirar = listaIdDelete.indexOf(checkbox.value);
+            listaIdDelete.splice(indexARetirar, 1);
+        }
+        console.log(listaIdDelete);
     }
 
     function alterar_cargo(){
@@ -249,6 +273,21 @@
     };
 
     function deletar_usuario(){
+        for (let i = 0; i < listaIdDelete.length; i++) {
+        fetch(`/usuarios/deletarUsuario/${listaIdDelete[i]}`, {
+            method: 'DELETE',
+        }).then(function (response) {
+            if (response.ok) {
+                console.log(`Usuário ID ${listaIdDelete[i]} deletado com sucesso!`);
 
+                location.reload();
+            } else {
+                console.error(`Falha ao deletar o usuário ${listaIdDelete[i]}. Status: ${response.status}`);
+            }
+        })
+            .catch(function (error) {
+                console.error("Erro de rede:", error);
+            });
+    }
     }
 </script>
