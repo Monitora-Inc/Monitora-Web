@@ -90,6 +90,72 @@
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
 <script>
+    function listarUsuarios() {
+        let idEmpresa = sessionStorage.empresaId;
+
+        fetch(`/usuarios/buscarUsuarios/${idEmpresa}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+        }).then(function (dadosUsuarios) {
+            console.log(dadosUsuarios);
+            for (let i = 0; i < dadosUsuarios.length; i++) {
+                let data = dadosUsuarios[i].data_cadastro.split('T');
+                let partes = data[0].split('-');
+                let dataFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;
+                lista_usuarios.innerHTML += `
+                <div class="card_usuario" id="${dadosUsuarios[i].idUsuario}">
+
+                    <div class="usuario_card_inicio">
+                        <!-- Checkbox -->
+                        <div id="usuario_checkbox">
+                        <input type="checkbox" class="checkbox">
+                        </div>
+
+                        <!-- Foto -->
+                        <div id="usuario_foto">
+                            <img src="../../assets/fotosPerfil/fotoPerfil.png" alt="">
+                        </div>
+
+                        <!-- Nome e Celular -->
+                        <div class="nome_contato">
+                            <p id="usuario_nome">${dadosUsuarios[i].nome} ${dadosUsuarios[i].sobrenome}</p>
+                            <p id="usuario_telefone">${dadosUsuarios[i].telefone}</p>
+                        </div>
+                    </div>
+                    
+                    
+                    <p id="usuario_email">${dadosUsuarios[i].email}</p>
+                    <p id="usuario_dataCadastro">${dataFormatada}</p>
+
+                    <select id="usuario_cargo" onchange="alterar_cargo()">
+                        <option value="filtro_nivel_de_risco_crescente">Usuário</option>
+                        <option value="filtro_nivel_de_risco_decrescente" selected>ADM</option>
+                    </select>
+                </div>
+                <!-- <div class="card_usuario" id="${dadosUsuarios[i].idUsuario}" onclick="popup_usuario(this, this.id)">
+                    <div id="usuario_foto">
+                        <img src="./assets/fotosPerfil/fotoPerfil.png" alt="">
+                    </div>
+                    <p id="usuario_nome">${dadosUsuarios[i].nome} ${dadosUsuarios[i].sobrenome}</p>
+                    <p id="usuario_cargo">${dadosUsuarios[i].nome_cargo}</p>
+                    <p id="usuario_email">${dadosUsuarios[i].email}</p>
+                    <p id="usuario_telefone">${dadosUsuarios[i].telefone}</p>
+                    <p id="usuario_dataCadastro">${dataFormatada}</p>
+                </div> -->`
+            }
+            totalUsuarios.innerHTML = dadosUsuarios.length;
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
+
     function alterar_cargo(){
 
     };
