@@ -554,7 +554,7 @@ function popup_cadastrar_usuario() {
                 </div>
             </div>
         </div>`;
-    listarCargos();
+    listarCargos(sessionStorage.empresaId);
 }
 
 function popup_deletar_usuario(listaIdDelete) {
@@ -638,8 +638,8 @@ function editar_cargo(usuario_id, cargo_id) {
         });
 }
 
-function listarCargos() {
-    fetch(`/usuarios/listarCargos`, {
+function listarCargos(idEmpresa) {
+    fetch(`/usuarios/listarCargos/${idEmpresa}`, {
         method: 'GET',
         headers: {
             "Content-Type": "application/json"

@@ -25,7 +25,7 @@ function cadastrarUsuario(nome, sobrenome, email, senha, fkEmpresa, fkCargo, tel
 
 function buscarUsuarios(fkEmpresa) {
     let instrucaoSql = `
-        SELECT u.idUsuario, u.nome, u.sobrenome, c.nome_cargo, u.email, u.telefone, cast(u.data_cadastro AS DATE) as data_cadastro 
+        SELECT u.idUsuario, u.nome, u.sobrenome, c.nome_cargo, c.idCargo, u.email, u.telefone, cast(u.data_cadastro AS DATE) as data_cadastro 
         FROM Usuarios u
         INNER JOIN cargos c on u.fkcargo = c.idCargo 
         WHERE u.fkEmpresa = ${fkEmpresa};
@@ -34,13 +34,24 @@ function buscarUsuarios(fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
-function listarCargos() {
+function listarCargos(idEmpresa) {
     let instrucaoSql = `
-    SELECT idCargo, nome_cargo FROM Cargos;
+    SELECT idCargo, nome_cargo FROM Cargos
+    WHERE fkEmpresa = ${idEmpresa};
     `;
 
     return database.executar(instrucaoSql);
 }
+
+function listarCargosEditar(idEmpresa, idCargoAtual) {
+    let instrucaoSql = `
+    SELECT idCargo, nome_cargo FROM Cargos
+    WHERE fkEmpresa = ${idEmpresa} and idCargo not like ${idCargoAtual};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 
 function deletarUsuario(usuario_id) {
     let instrucaoSql = `
@@ -85,6 +96,7 @@ module.exports = {
     cadastrarUsuario,
     buscarUsuarios,
     listarCargos,
+    listarCargosEditar,
     deletarUsuario,
     editarCargo,
     aprovarUsuarioAdmin,
