@@ -64,7 +64,7 @@ function deletarUsuario(usuario_id) {
 
 function editarCargo(usuario_id, cargo_id) {
     let instrucaoSql = `
-    UPDATE usuario
+    UPDATE usuarios
     SET fkCargo = ${cargo_id}
     WHERE idUsuario = ${usuario_id};
     `;
@@ -74,7 +74,7 @@ function editarCargo(usuario_id, cargo_id) {
 
 function aprovarUsuarioAdmin(fkEmpresa) {
     let instrucaoSql = `
-        UPDATE Usuario
+        UPDATE Usuarios
         SET ativo = 1
         WHERE fkEmpresa = ${fkEmpresa};
     `;
@@ -84,7 +84,7 @@ function aprovarUsuarioAdmin(fkEmpresa) {
 
 function negarUsuarioAdmin(fkEmpresa) {
     let instrucaoSql = `
-        DELETE FROM Usuario
+        DELETE FROM Usuarios
         WHERE fkEmpresa = ${fkEmpresa};
     `;
 
