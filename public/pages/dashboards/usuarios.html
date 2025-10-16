@@ -31,7 +31,7 @@
                 <h1 id="totalUsuarios">0</h1>
             </div>
             <div class="icone_deletar">
-                <img src="../../assets/icons/icone_deletar.svg" alt="" onclick="popup_deletar_usuario()">
+                <img src="../../assets/icons/icone_deletar.svg" alt="" onclick="popup_deletar_usuario(listaIdDelete)">
             </div>
         </div>
 
@@ -51,35 +51,35 @@
             <div id="lista_usuarios" class="lista_usuarios">
                 <h2 class="lista_titulo">Usuários</h2>
                 <!-- Checkbox -->
-                <div class="card_usuario" id="1">
+                <!-- <div class="card_usuario" id="0">
 
-                    <div class="usuario_card_inicio">
+                    <div class="usuario_card_inicio"> -->
                         <!-- Checkbox -->
-                        <div id="usuario_checkbox">
-                        <input type="checkbox" class="checkbox">
-                        </div>
+                        <!-- <div id="usuario_checkbox">
+                            <input type="checkbox" class="checkbox">
+                        </div> -->
 
                         <!-- Foto -->
-                        <div id="usuario_foto">
+                        <!-- <div id="usuario_foto">
                             <img src="../../assets/fotosPerfil/fotoPerfil.png" alt="">
-                        </div>
+                        </div> -->
 
                         <!-- Nome e Celular -->
-                        <div class="nome_contato">
+                        <!-- <div class="nome_contato">
                             <p id="usuario_nome">Baltazar Bernado</p>
                             <p id="usuario_telefone">1191710375</p>
                         </div>
-                    </div>
-                    
-                    
+                    </div> 
+
+
                     <p id="usuario_email">baltazarbernado@gmail.com</p>
                     <p id="usuario_dataCadastro">24/07/2025</p>
 
-                    <select id="usuario_cargo" onchange="alterar_cargo()">
+                    <select id="usuario_cargo" class="usuario_cargo" onchange="editar_cargo()">
                         <option value="filtro_nivel_de_risco_crescente">Usuário</option>
                         <option value="filtro_nivel_de_risco_decrescente" selected>ADM</option>
                     </select>
-                </div>
+                </div> -->
 
             </div>
         </div>
@@ -90,11 +90,244 @@
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
 <script>
-    function alterar_cargo(){
+    let listaIdDelete = [];
 
+    function funcao_adicionar() {
+        mensagem_erro.innerHTML = '';
+        let userNome = ipt_nome.value;
+        let userSobrenome = ipt_sobrenome.value;
+        let userCargo = ipt_cargo.value;
+        let userEmail = ipt_email.value;
+        let userSenha = ipt_senha.value;
+        let userConfirmarSenha = ipt_confirmar_senha.value;
+        let userTelefone = ipt_telefone.value;
+
+        if (!userNome || !userSobrenome || !userCargo || !userEmail || !userSenha || !userConfirmarSenha || !userTelefone) {
+            mensagem_erro.innerHTML = `Todos os campos precisam ser preenchidos!`;
+            return;
+        }
+
+        let validacaoEmail = userEmail.indexOf('@') != -1;
+        if (!validacaoEmail) {
+            mensagem_erro.innerHTML = `Email inválido!`;
+            return;
+        }
+
+        let regexTelefoneBR = /^\(?([1-9]{2})\)?\s?9?\d{4}[-\s]?\d{4}$/;
+        if (!regexTelefoneBR.test(userTelefone)) {
+            mensagem_erro.innerHTML = `Número de telefone inválido!`;
+        } else {
+            var userTelefoneLimpo = userTelefone.replace(/[\s()\-]/g, '');
+        }
+
+        let validacaoSenha = 0;
+
+        if (userSenha.length < 8) {
+            mensagem_erro.innerHTML = `A senha deve conter ao menos 8 caracteres<br>`;
+            validacaoSenha = 1;
+        }
+
+        if (!/[a-z]+/.test(userSenha)) {
+            mensagem_erro.innerHTML = `A senha deve conter ao menos uma letra minúscula<br>`;
+            validacaoSenha = 1;
+        }
+
+        if (!/[A-Z]+/.test(userSenha)) {
+            mensagem_erro.innerHTML = `A senha deve conter ao menos uma letra maiúscula<br>`;
+            validacaoSenha = 1;
+        }
+
+        if (!/[@!#$%*]+/.test(userSenha)) {
+            mensagem_erro.innerHTML = `A senha deve conter ao menos um caractere especial<br>`;
+            validacaoSenha = 1;
+        }
+
+        if (validacaoSenha == 1) {
+            return;
+        }
+
+        if (userSenha != userConfirmarSenha) {
+            mensagem_erro.innerHTML = `Os campos 'Senha' e 'Confirmar Senha' devem ser iguais.`
+        }
+
+        fetch(`/usuarios/cadastrar`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nomeUsuarioServer: userNome,
+                sobrenomeUsuarioServer: userSobrenome,
+                emailUsuarioServer: userEmail,
+                senhaUsuarioServer: userSenha,
+                fkEmpresaServer: sessionStorage.empresaId,
+                fkCargoServer: userCargo,
+                telefoneUsuarioServer: userTelefoneLimpo
+                //isAdminServer: 1 --> Importante rever.
+            })
+        }).then(function (resposta) {
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                mensagem_erro.innerHTML = `Usuário cadastrado com sucesso!`;
+
+                setTimeout(function () {
+                    location.reload(true);
+                }, 2000);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
+
+    function listarUsuarios() {
+        let idEmpresa = sessionStorage.empresaId;
+
+        fetch(`/usuarios/buscarUsuarios/${idEmpresa}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+        }).then(function (dadosUsuarios) {
+            console.log(dadosUsuarios);
+            for (let i = 0; i < dadosUsuarios.length; i++) {
+                let data = dadosUsuarios[i].data_cadastro.split('T');
+                let partes = data[0].split('-');
+                let dataFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;
+                lista_usuarios.innerHTML += `
+                <div class="card_usuario" id="${dadosUsuarios[i].idUsuario}">
+
+                    <div class="usuario_card_inicio">
+                        <!-- Checkbox -->
+                        <div id="usuario_checkbox">
+                        <input type="checkbox" class="checkbox" value="${dadosUsuarios[i].idUsuario}" onchange="adicionarListaDelete(this)">
+                        </div>
+
+                        <!-- Foto -->
+                        <div id="usuario_foto">
+                            <img src="../../assets/fotosPerfil/fotoPerfil.png" alt="">
+                        </div>
+
+                        <!-- Nome e Celular -->
+                        <div class="nome_contato">
+                            <p id="usuario_nome">${dadosUsuarios[i].nome} ${dadosUsuarios[i].sobrenome}</p>
+                            <p id="usuario_telefone">${dadosUsuarios[i].telefone}</p>
+                        </div>
+                    </div>
+                    
+                    
+                    <p id="usuario_email">${dadosUsuarios[i].email}</p>
+                    <p id="usuario_dataCadastro">${dataFormatada}</p>
+
+                    <select id="usuario_cargo${dadosUsuarios[i].idUsuario}" class="usuario_cargo" onchange="editar_cargo(${dadosUsuarios[i].idUsuario}, this.value)">
+                        <option value="${dadosUsuarios[i].idCargo}" selected>${dadosUsuarios[i].nome_cargo}</option>
+                    </select>
+                </div>
+                `
+                listarCargosEditar(idEmpresa, dadosUsuarios[i].idCargo, dadosUsuarios[i].idUsuario);
+            }
+            totalUsuarios.innerHTML = dadosUsuarios.length;
+            attachCheckboxListeners();
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
+
+    //Botão de deletar
+    function attachCheckboxListeners() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const imgDeletar = document.querySelector('.icone_deletar img');
+
+        if (!checkboxes.length) return;
+        if (!imgDeletar) return;
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('click', (event) => {
+                event.stopPropagation();
+            });
+
+            checkbox.addEventListener('change', () => {
+                const anyChecked = Array.from(document.querySelectorAll('input[type="checkbox"]')).some(cb => cb.checked);
+                imgDeletar.style.display = anyChecked ? 'block' : 'none';
+            });
+        });
+    }
+
+    function adicionarListaDelete(checkbox) {
+        if (checkbox.checked) {
+            listaIdDelete.push(checkbox.value);
+        } else {
+            let indexARetirar = listaIdDelete.indexOf(checkbox.value);
+            listaIdDelete.splice(indexARetirar, 1);
+        }
+        console.log(listaIdDelete);
+    }
+
+    function listarCargosEditar(idEmpresa, idCargoAtual, idSelect) {
+        fetch(`/usuarios/listarCargosEditar/${idEmpresa}/${idCargoAtual}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+        }).then(function (dadosCargos) {
+            console.log(dadosCargos);
+            for (let i = 0; i < dadosCargos.length; i++) {
+                let select = document.getElementById(`usuario_cargo${idSelect}`);
+                select.innerHTML += `<option value="${dadosCargos[i].idCargo}">${dadosCargos[i].nome_cargo}</option>`;
+            }
+        })
+    }
+
+    function editar_cargo(usuario_id, cargo_id) {
+        fetch(`/usuarios/editarCargo`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            usuario_id: usuario_id,
+            cargo_id: cargo_id
+        })
+    }).then(function (response) {
+        if (response.ok) {
+            console.log(`Usuário ID ${usuario_id} atualizado com sucesso!`);
+
+            location.reload();
+        } else {
+            console.error(`Falha ao atualizar o usuário ${usuario_id}. Status: ${response.status}`);
+        }
+    })
+        .catch(function (error) {
+            console.error("Erro de rede:", error);
+        });
     };
 
-    function deletar_usuario(){
+    function deletar_usuario() {
+        for (let i = 0; i < listaIdDelete.length; i++) {
+            fetch(`/usuarios/deletarUsuario/${listaIdDelete[i]}`, {
+                method: 'DELETE',
+            }).then(function (response) {
+                if (response.ok) {
+                    console.log(`Usuário ID ${listaIdDelete[i]} deletado com sucesso!`);
 
+                    location.reload();
+                } else {
+                    console.error(`Falha ao deletar o usuário ${listaIdDelete[i]}. Status: ${response.status}`);
+                }
+            })
+                .catch(function (error) {
+                    console.error("Erro de rede:", error);
+                });
+        }
     }
 </script>

@@ -271,7 +271,7 @@ function popup_servidor_informacoes() {
         </div>`;
 }
 
-function popup_deletar_servidores(){
+function popup_deletar_servidores() {
     popup_screen.innerHTML = `        
         <div class="popup_container">
             <div class="popup">
@@ -455,7 +455,7 @@ function popup_deletar_datacenter() {
                                                                                               \______/                        
 */
 
-function popup_deletar_cargos(){
+function popup_deletar_cargos() {
     popup_screen.innerHTML = `        
         <div class="popup_container">
             <div class="popup">
@@ -554,10 +554,10 @@ function popup_cadastrar_usuario() {
                 </div>
             </div>
         </div>`;
-    listarCargos();
+    listarCargos(sessionStorage.empresaId);
 }
 
-function popup_deletar_usuario(){
+function popup_deletar_usuario(listaIdDelete) {
     popup_screen.innerHTML = `        
         <div class="popup_container">
             <div class="popup">
@@ -567,7 +567,7 @@ function popup_deletar_usuario(){
 
                 <!-- Botões -->
                 <div class="btns_popup">
-                    <button onclick="deletar_usuario()">Sim</button>
+                    <button onclick="deletar_usuario(${listaIdDelete})">Sim</button>
                     <button onclick="fechar_popup()">Não</button>
                 </div>
             </div>
@@ -614,11 +614,11 @@ function popup_usuario(usuario_card, usuario_id) {
     </div>`;
 }
 
-function editar_cargo(usuario_id, cargo_id){
+function editar_cargo(usuario_id, cargo_id) {
     fetch(`/usuarios/editarCargo`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             usuario_id: usuario_id,
@@ -627,36 +627,19 @@ function editar_cargo(usuario_id, cargo_id){
     }).then(function (response) {
         if (response.ok) {
             console.log(`Usuário ID ${usuario_id} atualizado com sucesso!`);
-            
-            location.reload(); 
+
+            location.reload();
         } else {
             console.error(`Falha ao atualizar o usuário ${usuario_id}. Status: ${response.status}`);
         }
     })
-    .catch(function (error) {
-        console.error("Erro de rede:", error);
-    });
+        .catch(function (error) {
+            console.error("Erro de rede:", error);
+        });
 }
 
-function deletar_usuario(usuario_id){
-    fetch(`/usuarios/deletarUsuario/${usuario_id}`, {
-        method: 'DELETE',
-    }).then(function (response) {
-        if (response.ok) {
-            console.log(`Usuário ID ${usuario_id} deletado com sucesso!`);
-            
-            location.reload(); 
-        } else {
-            console.error(`Falha ao deletar o usuário ${usuario_id}. Status: ${response.status}`);
-        }
-    })
-    .catch(function (error) {
-        console.error("Erro de rede:", error);
-    });
-}
-
-function listarCargos() {
-    fetch(`/usuarios/listarCargos`, {
+function listarCargos(idEmpresa) {
+    fetch(`/usuarios/listarCargos/${idEmpresa}`, {
         method: 'GET',
         headers: {
             "Content-Type": "application/json"
@@ -676,7 +659,7 @@ function listarCargos() {
 
 
 
-function popup_adicionar_cargos(){
+function popup_adicionar_cargos() {
     popup_screen.innerHTML = `        
         <div class="popup_container">
             <div class="popup">
@@ -694,5 +677,3 @@ function popup_adicionar_cargos(){
             </div>
         </div>`;
 }
-
-
