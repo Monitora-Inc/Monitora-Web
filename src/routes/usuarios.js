@@ -15,8 +15,12 @@ router.get("/buscarUsuarios/:fkEmpresa", function(req, res) {
     usuarioController.buscarUsuarios(req, res);
 });
 
-router.get("/listarCargos", function(req, res) {
+router.get("/listarCargos/:idEmpresa", function(req, res) {
     usuarioController.listarCargos(req, res);
+});
+
+router.get("/listarCargosEditar/:idEmpresa/:idCargoAtual", function(req, res) {
+    usuarioController.listarCargosEditar(req, res);
 });
 
 router.delete("/deletarUsuario/:usuario_id", function(req, res) {

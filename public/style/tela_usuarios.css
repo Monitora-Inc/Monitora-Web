@@ -17,7 +17,7 @@
 #usuario_checkbox { width: 5%; }
 #usuario_foto { width: fit-content; }
 #nome_contato { width: 30%; }
-#usuario_cargo { width: 20%; }
+.usuario_cargo { width: 20%; }
 #usuario_email { width: 20%; }
 #usuario_dataCadastro { width: 15%; }
 
@@ -77,7 +77,7 @@
     justify-content: center;
 }
 
-#usuario_cargo {
+.usuario_cargo {
     background-color: #072F4E;
     border: 1px solid #fff;
     border-radius: clamp(3px, 0.3vw, 8px);
@@ -86,7 +86,7 @@
     padding: clamp(4px, 0.5vw, 8px);
 }
 
-#usuario_cargo:hover {
+.usuario_cargo:hover {
     cursor: pointer;
     background-color: #2e356e;
     transition: 0.3s ease-in-out;
@@ -118,7 +118,7 @@
         justify-content: center;
     }
 
-    #usuario_cargo {
+    .usuario_cargo {
         width: 100%;
         font-size: 4vw;
         padding: 3vw;

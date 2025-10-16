@@ -52,7 +52,18 @@ function buscarUsuarios(req, res) {
 }
 
 function listarCargos(req, res) {
+    let idEmpresa = req.params.idEmpresa;
+
     usuarioModel.listarCargos().then((resultado) => {
+        res.json(resultado);
+    });
+}
+
+function listarCargosEditar(req, res) {
+    let idEmpresa = req.params.idEmpresa;
+    let idCargoAtual = req.params.idCargoAtual;
+
+    usuarioModel.listarCargosEditar(idEmpresa, idCargoAtual).then((resultado) => {
         res.json(resultado);
     });
 }
@@ -95,6 +106,7 @@ module.exports = {
     cadastrarUsuario,
     buscarUsuarios,
     listarCargos,
+    listarCargosEditar,
     deletarUsuario,
     editarCargo,
     aprovarUsuarioAdmin,
