@@ -7,7 +7,7 @@ function autenticar(email, senha) {
         FROM usuarios AS u
         JOIN cargos AS c ON u.FkCargo = c.idCargo
         JOIN empresas AS e ON u.FkEmpresa = e.idEmpresa
-        WHERE u.email = '${email}' AND u.senha = '${senha}';
+        WHERE u.email = '${email}' AND u.senha = SHA2('${senha}', 512);
     `;
 
     return database.executar(instrucaoSql);
@@ -17,7 +17,7 @@ function autenticar(email, senha) {
 function cadastrarUsuario(nome, sobrenome, email, senha, fkEmpresa, fkCargo, telefone) {
     let instrucaoSql = `
         INSERT INTO Usuarios(nome, sobrenome, email, senha, fkEmpresa, fkCargo, telefone) VALUES
-            ('${nome}', '${sobrenome}', '${email}', '${senha}', ${fkEmpresa}, ${fkCargo}, ${telefone});
+            ('${nome}', '${sobrenome}', '${email}', SHA2('${senha}', 512), ${fkEmpresa}, ${fkCargo}, ${telefone});
     `;
 
     return database.executar(instrucaoSql);
