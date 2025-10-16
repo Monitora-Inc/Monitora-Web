@@ -47,6 +47,22 @@ function sair() {
     window.location = "index.html";
 }
 
+// Botão de deletar
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
+
+    checkbox.addEventListener('change', () => {
+        const imgDeletar = document.querySelector('.icone_deletar img');
+        imgDeletar.style.display = Array.from(checkboxes).some(cb => cb.checked)
+            ? 'block'
+            : 'none';
+    });
+});
+
 /*
  /$$$$$$$$        /$$                       /$$                 /$$$$$$$                      /$$$$$$  /$$ /$$
 |__  $$__/       | $$                      | $$                | $$__  $$                    /$$__  $$|__/| $$
@@ -206,13 +222,9 @@ function popup_servidor_informacoes() {
     <div class="popup_container">
             <div class="popup_servidor_informacoes">
 
-            <input type="text" id="servidor_nome" placeholder="Digite o nome do servidor" value="Servidor 1">
+                    <input type="text" id="servidor_nome" placeholder="Digite o nome do servidor" value="Servidor 1">
                     <span class="servidor_label">UUID:</span>
                     <div id="servidor_uuid">fxvd1vcx23f323543</div>
-
-                    <span class="servidor_label">Sistema Operacional:</span>
-                    <div id="servidor_sistema_operacional">Windows 10 Pro</div>
-
                     <span class="servidor_label">Data Center:</span>
                     <div id="servidor_datacenter">
                     <select id="id_filter" onchange="" disabled>
@@ -258,6 +270,209 @@ function popup_servidor_informacoes() {
             </div>
         </div>`;
 }
+
+function popup_deletar_servidores(){
+    popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Deletar Servidores?</h1>
+
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="deletar_servidores()">Sim</button>
+                    <button onclick="fechar_popup()">Não</button>
+                </div>
+            </div>
+        </div>`;
+}
+
+/*
+ /$$$$$$$$        /$$                       /$$                 /$$$$$$$              /$$                      /$$$$$$                        /$$                                  
+|__  $$__/       | $$                      | $$                | $$__  $$            | $$                     /$$__  $$                      | $$                                  
+   | $$  /$$$$$$ | $$  /$$$$$$         /$$$$$$$  /$$$$$$       | $$  \ $$  /$$$$$$  /$$$$$$    /$$$$$$       | $$  \__/  /$$$$$$  /$$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$   /$$$$$$$
+   | $$ /$$__  $$| $$ |____  $$       /$$__  $$ /$$__  $$      | $$  | $$ |____  $$|_  $$_/   |____  $$      | $$       /$$__  $$| $$__  $$|_  $$_/   /$$__  $$ /$$__  $$ /$$_____/
+   | $$| $$$$$$$$| $$  /$$$$$$$      | $$  | $$| $$$$$$$$      | $$  | $$  /$$$$$$$  | $$      /$$$$$$$      | $$      | $$$$$$$$| $$  \ $$  | $$    | $$$$$$$$| $$  \__/|  $$$$$$ 
+   | $$| $$_____/| $$ /$$__  $$      | $$  | $$| $$_____/      | $$  | $$ /$$__  $$  | $$ /$$ /$$__  $$      | $$    $$| $$_____/| $$  | $$  | $$ /$$| $$_____/| $$       \____  $$
+   | $$|  $$$$$$$| $$|  $$$$$$$      |  $$$$$$$|  $$$$$$$      | $$$$$$$/|  $$$$$$$  |  $$$$/|  $$$$$$$      |  $$$$$$/|  $$$$$$$| $$  | $$  |  $$$$/|  $$$$$$$| $$       /$$$$$$$/
+   |__/ \_______/|__/ \_______/       \_______/ \_______/      |_______/  \_______/   \___/   \_______/       \______/  \_______/|__/  |__/   \___/   \_______/|__/      |_______/                                                                                                                                                           
+*/
+
+function popup_adicionar_datacenter() {
+    popup_screen.innerHTML = `        
+    <div class="popup_container">
+            <div class="popup">
+                
+                <div class="inputs">
+                    <input type="text" id="ipt_datacenter_nome" placeholder="Digite o nome do data center" class="input_header" required>
+                    <h2>Localização</h2>
+                    <!-- País -->
+                    <div class="input-label-wrapper">
+                    <span class="input-label">País</span>
+                    </div>
+                    <input type="text" id="ipt_datacenter_pais" placeholder="Digite o nome do país" required>
+              
+                    <!-- Estado -->
+                    <div class="input-label-wrapper">
+                    <span class="input-label">Estado</span>
+                    </div>
+                    <input type="text" id="ipt_datacenter_estado" placeholder="Digite o nome do estado" required>
+
+                    <!-- Estado -->
+                    <div class="input-label-wrapper">
+                    <span class="input-label">Cidade</span>
+                    </div>
+                    <input type="text" id="ipt_datacenter_cidade" placeholder="Digite o nome da cidade" required>
+                    
+                    <!-- Cidade -->
+                    <div class="input-label-wrapper">
+                    <span class="input-label">Bairro</span>
+                    </div>
+                    <input type="text" id="ipt_datacenter_bairro" placeholder="Digite o nome do bairro" required>
+                    
+                    <!-- Bairo -->
+                    <div class="input-label-wrapper">
+                    <span class="input-label">Rua</span>
+                    </div>
+                    <input type="email" id="ipt_datacenter_rua" placeholder="Digite o nome da rua" required>
+                    
+                    <!-- Número -->
+                    <div class="input-label-wrapper">
+                    <span class="input-label">Número</span>
+                    </div>
+                    <input type="password" id="ipt_datacenter_numero" placeholder="Digite o número do local" required>
+
+                    <!-- Complemento -->
+                    <div class="input-label-wrapper">
+                    <span class="input-label">Complemento</span>
+                    </div>
+                    <input type="tel" id="ipt_datacenter_complemento" placeholder="Digite qualquer complemento" required>
+                </div>
+
+                <!-- Mensagem de Erro -->
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="funcao_adicionar_datacenter()">Cadastrar</button>
+                    <button onclick="fechar_popup()">Cancelar</button>
+                </div>
+            </div>
+        </div>`;
+}
+
+function popup_editar_datacenter() {
+    popup_screen.innerHTML = `        
+    <div class="popup_container">
+            <div class="popup">
+                
+                <div class="inputs">
+                    <input type="text" id="ipt_datacenter_nome" placeholder="Digite o nome do data center" class="input_header" required>
+                    <h2>Localização</h2>
+                    <!-- País -->
+                    <div class="input-label-wrapper">
+                    <span class="input-label">País</span>
+                    </div>
+                    <input type="text" id="ipt_datacenter_pais" placeholder="Digite o nome do país" required>
+              
+                    <!-- Estado -->
+                    <div class="input-label-wrapper">
+                    <span class="input-label">Estado</span>
+                    </div>
+                    <input type="text" id="ipt_datacenter_estado" placeholder="Digite o nome do estado" required>
+
+                    <!-- Estado -->
+                    <div class="input-label-wrapper">
+                    <span class="input-label">Cidade</span>
+                    </div>
+                    <input type="text" id="ipt_datacenter_cidade" placeholder="Digite o nome da cidade" required>
+                    
+                    <!-- Cidade -->
+                    <div class="input-label-wrapper">
+                    <span class="input-label">Bairro</span>
+                    </div>
+                    <input type="text" id="ipt_datacenter_bairro" placeholder="Digite o nome do bairro" required>
+                    
+                    <!-- Bairo -->
+                    <div class="input-label-wrapper">
+                    <span class="input-label">Rua</span>
+                    </div>
+                    <input type="email" id="ipt_datacenter_rua" placeholder="Digite o nome da rua" required>
+                    
+                    <!-- Número -->
+                    <div class="input-label-wrapper">
+                    <span class="input-label">Número</span>
+                    </div>
+                    <input type="password" id="ipt_datacenter_numero" placeholder="Digite o número do local" required>
+
+                    <!-- Complemento -->
+                    <div class="input-label-wrapper">
+                    <span class="input-label">Complemento</span>
+                    </div>
+                    <input type="tel" id="ipt_datacenter_complemento" placeholder="Digite qualquer complemento" required>
+                </div>
+
+                <!-- Mensagem de Erro -->
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="funcao_editar_datacenter()">Editar</button>
+                    <button onclick="fechar_popup()">Cancelar</button>
+                </div>
+            </div>
+        </div>`;
+}
+
+
+function popup_deletar_datacenter() {
+    popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Deletar Data Centers?</h1>
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="funcao_deletar_datacenter()">Sim</button>
+                    <button onclick="fechar_popup()">Não</button>
+                </div>
+            </div>
+        </div>`;
+}
+
+
+/*
+ /$$$$$$$$        /$$                       /$$                  /$$$$$$                                                   
+|__  $$__/       | $$                      | $$                 /$$__  $$                                                  
+   | $$  /$$$$$$ | $$  /$$$$$$         /$$$$$$$  /$$$$$$       | $$  \__/  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$
+   | $$ /$$__  $$| $$ |____  $$       /$$__  $$ /$$__  $$      | $$       |____  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/
+   | $$| $$$$$$$$| $$  /$$$$$$$      | $$  | $$| $$$$$$$$      | $$        /$$$$$$$| $$  \__/| $$  \ $$| $$  \ $$|  $$$$$$ 
+   | $$| $$_____/| $$ /$$__  $$      | $$  | $$| $$_____/      | $$    $$ /$$__  $$| $$      | $$  | $$| $$  | $$ \____  $$
+   | $$|  $$$$$$$| $$|  $$$$$$$      |  $$$$$$$|  $$$$$$$      |  $$$$$$/|  $$$$$$$| $$      |  $$$$$$$|  $$$$$$/ /$$$$$$$/
+   |__/ \_______/|__/ \_______/       \_______/ \_______/       \______/  \_______/|__/       \____  $$ \______/ |_______/ 
+                                                                                              /$$  \ $$                    
+                                                                                             |  $$$$$$/                    
+                                                                                              \______/                        
+*/
+
+function popup_deletar_cargos(){
+    popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Deletar Cargos?</h1>
+
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="deletar_cargo()">Sim</button>
+                    <button onclick="fechar_popup()">Não</button>
+                </div>
+            </div>
+        </div>`;
+}
+
+
 
 /*
  /$$$$$$$$        /$$                       /$$                 /$$   /$$                                         /$$                    
@@ -341,6 +556,24 @@ function popup_cadastrar_usuario() {
         </div>`;
     listarCargos();
 }
+
+function popup_deletar_usuario(){
+    popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Deletar Usuários?</h1>
+
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="deletar_usuario()">Sim</button>
+                    <button onclick="fechar_popup()">Não</button>
+                </div>
+            </div>
+        </div>`;
+}
+
 
 function popup_usuario(usuario_card, usuario_id) {
     let foto = usuario_card.querySelector("#usuario_foto img").src;
@@ -440,4 +673,26 @@ function listarCargos() {
         }
     })
 }
+
+
+
+function popup_adicionar_cargos(){
+    popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Adicionar Cargo</h1>
+                <div class="inputs">
+                <input type="text" id="ipt_nome" placeholder="Digite o nome do cargo" required>
+                </div>
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="adicionar_cargo()">Sim</button>
+                    <button onclick="fechar_popup()">Não</button>
+                </div>
+            </div>
+        </div>`;
+}
+
 

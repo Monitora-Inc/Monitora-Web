@@ -1,9 +1,4 @@
 // Verifica se o usuário deslogou. Se sim, o desconecta automaticamente.
-setInterval(() => {
-      if (sessionStorage.getItem("ID_USUARIO") === null) {
-      console.log("Chave não encontrada no sessionStorage");
-      window.location = "index.html";}
-}, 1000); 
 
 // Fecha popups ao navegar entre as seções
 function fechar_popups(){
@@ -25,7 +20,7 @@ id_sidebar.innerHTML = `
     <div class="icones_navbar icones_navbar_superiores">
       <a href="./perfil.html" class="tooltipNav" onclick="fechar_popups()">
             <div id="perfil_foto">
-                <img src="./assets/fotosPerfil/fotoPerfil.png" alt="">
+                <img src="../../assets/fotosPerfil/fotoPerfil.png" alt="">
             </div>
             <span class="tooltiptextNav">Perfil</span>
       </a>
@@ -50,14 +45,18 @@ id_sidebar.innerHTML = `
       <a href="./empresas.html" class="tooltipNav icone_empresas" onclick="fechar_popups()">
             <span class="tooltiptextNav">Empresas</span>
       </a>
+
+      <a href="./tela_cargos.html" class="tooltipNav icone_cargos" onclick="fechar_popups()">
+            <span class="tooltiptextNav">Cargos</span>
+      </a>
+      <a href="" class="tooltipNav icone_suporte">
+            <span class="tooltiptextNav">Suporte</span>
+      </a>
       <a class="tooltipNav icone_sair" onclick="popup_sair()">
             <span class="tooltiptextNav">Sair</span>
       </a>
     </div>
     <div class="icones_navbar icones_navbar_inferiores" onclick="fechar_popups()">
-      <a href="" class="tooltipNav icone_suporte">
-            <span class="tooltiptextNav">Suporte</span>
-      </a>
       <div class="logo"></div>
     </div>`;
 
@@ -75,13 +74,13 @@ id_sidebar.innerHTML = `
 
 id_info_kpis.innerHTML = `    
         <div class="kpi_servidores tooltipKPI">
-            <img src="./assets/icons/icone_servidores_info.svg" alt="">
+            <img src="../../assets/icons/icone_servidores_info.svg" alt="">
             <h1 id="servidores_monitorados" onclick="dashboard_servidores()">0</h1>
             <span class="tooltiptextKPI">Servidores Monitorados</span>
             </div>
 
             <div class="kpi_servidores_status">
-            <img src="./assets/icons/icone_sino_info.svg" alt="">
+            <img src="../../assets/icons/icone_sino_info.svg" alt="">
             <h1 class="servidores_criticos tooltipKPI" onclick="dashboard_home()">0
                 <span class="tooltiptextKPI">Servidores em Risco</span>
             </h1>

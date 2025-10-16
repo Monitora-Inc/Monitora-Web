@@ -1,64 +1,130 @@
 .container_usuarios {
-    margin-top: 1vw;
+    margin-top: clamp(0.5rem, 1vw, 1.5rem);
     display: flex;
     flex-direction: column;
     color: white;
-    font-size: 1vw;
+    font-size: clamp(0.8rem, 1vw, 1.2rem);
     font-weight: 300;
-
 }
 
-.lista_usuarios{
-    overflow: scroll;
-    width: 99%;
+.lista_usuarios {
+    overflow-y: auto;
     overflow-x: hidden;
-    max-height: 27vw;
+    width: 99%;
+    max-height: clamp(300px, 27vw, 600px);
 }
 
-.container_usuarios .usuarios_infos {
-    display: flex;
-    width: 97.3%;
-    text-align: center;
-    padding-bottom: 0.5vw;
-}     
-
-.usuario_info_foto, #usuario_foto                  {width: 5%;}
-.usuario_info_nome, #usuario_nome                  {width: 15%;}
-.usuario_info_email, #usuario_cargo                {width: 20%;}
-.usuario_info_cargo, #usuario_email                {width: 20%;}
-.usuario_info_dataCadastro, #usuario_telefone      {width: 20%;}
-.usuario_info_telefone, #usuario_dataCadastro      {width: 20%;}
-
+#usuario_checkbox { width: 5%; }
+#usuario_foto { width: fit-content; }
+#nome_contato { width: 30%; }
+#usuario_cargo { width: 20%; }
+#usuario_email { width: 20%; }
+#usuario_dataCadastro { width: 15%; }
 
 .card_usuario {
     display: flex;
-    width: 99%;
-    background-color: #252d92;
-    padding-top: 0.2vw;
-    padding-bottom: 0.2vw;
+    justify-content: space-between;
     align-items: center;
-    font-size: 0.8vw;
-    text-align: center;
-    margin-top: 0.5vw;
-    border-radius: 0.3vw;
-    cursor: pointer;
+    width: 100%;
+    background-color: #072F4E;
+    padding: clamp(4px, 0.5vw, 10px) clamp(8px, 1vw, 16px);
+    font-size: clamp(0.7rem, 0.8vw, 1rem);
+    margin-top: clamp(4px, 0.5vw, 10px);
+    border-radius: clamp(3px, 0.3vw, 10px);
     transition: ease-in-out 0.3s;
 }
 
-.card_usuario:hover{
-    background-color: #1c1c25;
+.usuario_card_inicio {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
 }
 
-#usuario_foto {
+.usuario_card_inicio #usuario_checkbox {
     display: flex;
     justify-content: center;
-    align-items: center;
+    width: clamp(25px, 4vw, 40px);
 }
 
-#usuario_foto img{
+.usuario_card_inicio #usuario_foto {
+    display: flex;
+    justify-content: center;
+    width: clamp(25px, 4vw, 40px);
+    margin-right: 1vw;
+    margin-left: 1vw;
+}
+
+.usuario_card_inicio #usuario_foto img {
     object-fit: cover;
     object-position: center;
-    width: 2.5vw;
-    height: 2.5vw;
-    border-radius: 2vw;
+    width: clamp(25px, 2.5vw, 50px);
+    height: clamp(25px, 2.5vw, 50px);
+    border-radius: 50%;
+}
+
+.usuario_card_inicio #usuario_nome {
+    font-weight: 600;
+    font-size: clamp(0.9rem, 1vw, 1.2rem);
+}
+
+.usuario_card_inicio #usuario_telefone {
+    font-size: clamp(0.7rem, 0.8vw, 1rem);
+}
+
+.usuario_card_inicio .nome_contato {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#usuario_cargo {
+    background-color: #072F4E;
+    border: 1px solid #fff;
+    border-radius: clamp(3px, 0.3vw, 8px);
+    font-size: clamp(0.8rem, 1vw, 1rem);
+    color: white;
+    padding: clamp(4px, 0.5vw, 8px);
+}
+
+#usuario_cargo:hover {
+    cursor: pointer;
+    background-color: #2e356e;
+    transition: 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .card_usuario {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 4vw;
+        gap: 2vw;
+        font-size: 4vw;
+    }
+
+    .usuario_card_inicio {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 3vw;
+        width: 100%;
+    }
+
+    .usuario_card_inicio #usuario_foto img {
+        width: 8vw;
+        height: 8vw;
+
+    }
+
+    .usuario_card_inicio .nome_contato {
+        justify-content: center;
+    }
+
+    #usuario_cargo {
+        width: 100%;
+        font-size: 4vw;
+        padding: 3vw;
+    }
+
+    .lista_usuarios {
+        max-height: 70vh;
+    }
 }

@@ -19,11 +19,9 @@
   <div id="popup_screen"></div>
 
     <div class="page_content">
-        <!-- Info-card -->
-
-
         <!-- Filtros de persquisa -->
         <div class="filtros">
+            <img class="icones_filtros icone_filtro" alt="">
             <select id="id_filtro" onchange="">
                 <option value="filtro_nivel_de_risco_crescente">Nível de risco (Crescente)</option>
                 <option value="filtro_nivel_de_risco_decrescente" selected>Nível de risco (Decrescente)</option>
@@ -33,55 +31,54 @@
                 <option value="filtro_alerta_decrescente">Alerta (Decrescente)</option>
                 <option value="filtro_estavel">Estável</option>
             </select>
+            <img class="icones_filtros icone_pesquisar" alt="">
             <input type="search" placeholder="Digite para pesquisar">
         </div>
 
         <!-- Lista de Usuários -->
 
         <div class="container_servidores">
-            <div class="servidores_info">
-                <div class="servidor_info_estado">Estado</div>
-                <div class="servidor_info_nome">Servidor</div>
-                <div class="servidor_info_nivel_de_risco">Nível de Risco</div>
-                <div class="servidor_info_recursos_em_risco">Recursos em Risco</div>
-                <div class="servidor_info_localizacao">Localização</div>
-                <div class="servidor_info_data_center">Data Center</div>
-            </div>
             <div class="lista_servidores">
+                <h1 class="lista_titulo">Servidores</h1> <!-- Título da Lista -->
 
-                <div class="card_servidor" id="1">
-                    <div id="servidor_estado">
-                        <img src="../../assets/icons/icone_alerta.svg" alt="">
-                    </div>
-                    <div id="servidor_nome">Servidor 1</div>
-                    <progress id="servidor_nivel_de_risco" class="servidor_barra_de_risco" value="0" max="4"></progress>
-                    <div id="servidor_recursos_em_risco">CPU, RAM e GPU, Rede e Tudo</div>
-                    <div id="servidor_localizacao">São Paulo - SP</div>
-                    <div id="servidor_data_center">Data Center 1</div>
-                </div>
-
-                <div class="card_servidor" id="2">
+                <div class="card_servidor">
                     <div id="servidor_estado">
                         <img src="../../assets/icons/icone_critico.svg" alt="">
                     </div>
-                    <div id="servidor_nome">Servidor 2</div>
-                    <progress id="servidor_nivel_de_risco" class="servidor_barra_de_risco" value="0" max="4"></progress>
-                    <div id="servidor_recursos_em_risco">CPU, RAM e GPU, Rede e Tudo</div>
-                    <div id="servidor_localizacao">São Paulo - SP</div>
-                    <div id="servidor_data_center">Data Center 1</div>
+                    <div class="servidor_informacoes">
+                        <div id="servidor_nome">Servidor 1</div>
+                        <div id="servidor_localizacao">São Paulo - SP</div>
+
+                        <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>CPU, RAM e GPU, Rede</div>
+                    </div>
+                    <span class="barra_lateral critico"></span>
                 </div>
 
-                <div class="card_servidor" id="3">
+                <div class="card_servidor">
+                    <div id="servidor_estado">
+                        <img src="../../assets/icons/icone_alerta.svg" alt="">
+                    </div>
+                    <div class="servidor_informacoes">
+                        <div id="servidor_nome">Servidor 1</div>
+                        <div id="servidor_localizacao">São Paulo - SP</div>
+
+                        <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>CPU, RAM e GPU, Rede</div>
+                    </div>
+                    <span class="barra_lateral alerta"></span>
+                </div>
+            
+                <div class="card_servidor">
                     <div id="servidor_estado">
                         <img src="../../assets/icons/icone_estavel.svg" alt="">
                     </div>
-                    <div id="servidor_nome">Servidor 3</div>
-                    <progress id="servidor_nivel_de_risco" class="servidor_barra_de_risco" value="0" max="4"></progress>
-                    <div id="servidor_recursos_em_risco">CPU, RAM e GPU, Rede e Tudo</div>
-                    <div id="servidor_localizacao">São Paulo - SP</div>
-                    <div id="servidor_data_center">Data Center 1</div>
-                </div>
+                    <div class="servidor_informacoes">
+                        <div id="servidor_nome">Servidor 1</div>
+                        <div id="servidor_localizacao">São Paulo - SP</div>
 
+                        <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>CPU, RAM e GPU, Rede</div>
+                    </div>
+                    <span class="barra_lateral estavel"></span>
+                </div>
             </div>
         </div>
     </div>

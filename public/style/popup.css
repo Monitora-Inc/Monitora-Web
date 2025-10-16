@@ -16,12 +16,12 @@
     position: fixed;
     top: 0;
     left: 0;
-    margin-left: 4vw;
     width: 100%;
     z-index: 998;
-    height: 100%; /* aqui era 100vw, corrigi */
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(180deg, #181a2898 75.1%, #145eff60 100%);/* escurece */
-    backdrop-filter: blur(6px); /* aplica blur no que está atrás */
+    height: 100%;
+    background: linear-gradient(0deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2)), linear-gradient(180deg, #181a2898 75.1%, #145eff60 100%);
+    backdrop-filter: blur(6px);
+    padding: 0 1rem;
 }
 
 .popup_container .popup {
@@ -29,42 +29,43 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 30vw;
-    margin-right: 5vw;
+    width: clamp(250px, 30vw, 500px);
+    margin: 0;
     height: fit-content;
-    background-color: #131da3cb;
-    border-radius: 0.3vw;
+    background-color: #072F4E;
+    border-radius: clamp(5px, 0.3vw, 12px);
     color: white;
 }
 
-.popup_container h1{
-    margin-top: 3vw;
-    font-size: 1.7vw;
+.popup_container h1 {
+    margin-top: clamp(1rem, 3vw, 3rem);
+    font-size: clamp(1.2rem, 1.7vw, 2rem);
     font-weight: 500;
     padding: 0;
 }
 
-.popup_container h2{
-    margin-top: 1vw;
-    font-size: 1vw;
+.popup_container h2 {
+    margin-top: clamp(0.5rem, 1vw, 1.5rem);
+    font-size: clamp(1rem, 1vw, 1.5rem);
     font-weight: 500;
-    color: rgb(127, 187, 255);
+    color: #fff;
     padding: 0;
 }
 
-.popup_container h3{
-    margin-top: 0.1vw;
-    font-size: 0.9vw;
+
+.popup_container h3 {
+    margin-top: clamp(0.2rem, 0.1vw, 0.5rem);
+    font-size: clamp(0.9rem, 0.9vw, 1.2rem);
     font-weight: 300;
     padding: 0;
 }
 
-.popup_container img{
+.popup_container img {
     object-fit: cover;
-    margin-top: 2vw;
-    width: 8vw;
-    height: 8vw;
-    border-radius: 5vw;
+    margin-top: clamp(1rem, 2vw, 2.5rem);
+    width: clamp(60px, 8vw, 120px);
+    height: clamp(60px, 8vw, 120px);
+    border-radius: 50%;
 }
 
 /* /$$$$$$                                 /$$             
@@ -81,42 +82,37 @@
 */
 
 /* Labels */
+.icone_deletar img {
+    display: none;
+}
+
 .input-label-wrapper {
-    margin-bottom: 0.3vw;
-    margin-top: 0.6vw;
+    margin-bottom: clamp(2px, 0.3vw, 5px);
+    margin-top: clamp(5px, 0.6vw, 10px);
     font-weight: 300;
-    color: #ffffff;
+    color: #fff;
     display: flex;
     justify-content: space-between;
 }
 
-.popup_container .popup .inputs{
+.popup_container .popup .inputs {
     display: flex;
     flex-direction: column;
-    padding: 2vw;
+    padding: clamp(10px, 2vw, 20px);
     width: 100%;
-    font-size: 0.8vw;
+    font-size: clamp(0.7rem, 0.8vw, 1rem);
     font-weight: 300;
 }
 
 
-.popup_container .popup .inputs input{
+.popup_container .popup .inputs input,
+.popup_container .popup .inputs select {
     background-color: #252d92;
-    padding: 0.5vw;
+    padding: clamp(5px, 0.5vw, 12px);
     border: none;
-    border-radius: 0.3vw;
+    border-radius: clamp(3px, 0.3vw, 10px);
     color: white;
-    font-size: 0.7vw;
-    font-weight: 300;
-}
-
-.popup_container .popup .inputs select{
-    background-color: #252d92;
-    padding: 0.5vw;
-    border: none;
-    border-radius: 0.3vw;
-    color: white;
-    font-size: 0.7vw;
+    font-size: clamp(0.7rem, 0.7vw, 1rem);
     font-weight: 300;
 }
 
@@ -131,36 +127,51 @@
 |_______/  \______/    \___/   \______/  \_______/|_______/ 
 */
 
-.popup_container .popup .btns_popup{
+.popup_container .popup .btns_popup {
     display: flex;
     width: 100%;
-    padding-top: 2vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
-    gap: 1vw;
+    padding: clamp(10px, 2vw, 20px);
+    gap: clamp(5px, 1vw, 15px);
 }
 
-.popup_container .popup .btns_popup a{
+.popup_container .popup .btns_popup a,
+.popup_container .popup .btns_popup button {
     width: 100%;
 }
 
-.popup_container .popup .btns_popup button{
+
+.popup_container .popup .btns_popup button {
     background-color: #252d92;
-    width: 100%;
     border: none;
-    border-radius: 0.3vw;
-    font-size: 1vw;
+    border-radius: clamp(3px, 0.3vw, 10px);
+    font-size: clamp(0.9rem, 1vw, 1.2rem);
     font-weight: 300;
-    padding: 0.4vw;
+    padding: clamp(5px, 0.4vw, 12px);
     color: white;
-    margin-bottom: 2vw;
+    margin-bottom: clamp(10px, 2vw, 20px);
     transition: ease-in-out 0.3s;
     cursor: pointer;
 }
 
-.popup_container .popup .btns_popup button:hover{
+.popup_container .popup .btns_popup button:hover {
     background-color: #080c50;
     color: #30618a;
     font-weight: 500;
 }
 
+.input_header {
+    background-color: rgba(255,0,0,0) !important;
+    padding: 0 !important;
+    font-size: clamp(1.5rem, 1vw, 2.5rem) !important;
+}
+
+@media (max-width: 768px) {
+    .popup_container .popup {
+        width: 90%;
+        padding: 2rem;
+    }
+
+    .popup_container .popup .btns_popup {
+        flex-direction: column;
+    }
+}

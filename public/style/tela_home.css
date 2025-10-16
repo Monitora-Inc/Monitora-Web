@@ -3,68 +3,166 @@
     display: flex;
     flex-direction: column;
     color: white;
-    font-size: 1vw;
+    font-size: clamp(0.7rem, 1vw, 1.2rem);
     font-weight: 300;
-
 }
 
-.servidor_info_estado, #servidor_estado                         {width: 5%;}
-.servidor_info_nome, #servidor_nome                             {width: 20%;}
-.servidor_info_nivel_de_risco, #servidor_nivel_de_risco         {width: 10%;}
-.servidor_info_recursos_em_risco, #servidor_recursos_em_risco   {width: 20%;}
-.servidor_info_localizacao, #servidor_localizacao               {width: 30%;}
-.servidor_info_data_center, #servidor_data_center               {width: 15%;}
+/*
+  /$$$$$$                            /$$                  /$$$$$$                                 /$$       /$$                    
+ /$$__  $$                          | $$                 /$$__  $$                               |__/      | $$                    
+| $$  \__/  /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$$      | $$  \__/  /$$$$$$   /$$$$$$  /$$    /$$ /$$  /$$$$$$$  /$$$$$$   /$$$$$$ 
+| $$       |____  $$ /$$__  $$ /$$__  $$ /$$_____/      |  $$$$$$  /$$__  $$ /$$__  $$|  $$  /$$/| $$ /$$__  $$ /$$__  $$ /$$__  $$
+| $$        /$$$$$$$| $$  \__/| $$  | $$|  $$$$$$        \____  $$| $$$$$$$$| $$  \__/ \  $$/$$/ | $$| $$  | $$| $$  \ $$| $$  \__/
+| $$    $$ /$$__  $$| $$      | $$  | $$ \____  $$       /$$  \ $$| $$_____/| $$        \  $$$/  | $$| $$  | $$| $$  | $$| $$      
+|  $$$$$$/|  $$$$$$$| $$      |  $$$$$$$ /$$$$$$$/      |  $$$$$$/|  $$$$$$$| $$         \  $/   | $$|  $$$$$$$|  $$$$$$/| $$      
+ \______/  \_______/|__/       \_______/|_______/        \______/  \_______/|__/          \_/    |__/ \_______/ \______/ |__/                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+*/
 
-.container_servidores .servidores_info {
-    display: flex;
-    justify-content: space-between;
-    width: 98.5%;
-    text-align: center;
-    padding-bottom: 0.5vw;
-}     
-
-.lista_servidores{
-    overflow: scroll;
-    width: 99%;
+.lista_servidores {
+    overflow-y: auto;
     overflow-x: hidden;
-    max-height: 27vw;
+    width: 99%;
+    max-height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
 }
 
 .card_servidor {
     display: flex;
     justify-content: space-between;
-    width: 100%;
-    background-color: #252d92;
-    padding-top: 0.2vw;
-    padding-bottom: 0.2vw;
     align-items: center;
-    font-size: 0.8vw;
+    flex: 1 1 clamp(250px, 22rem, 380px); /* ajusta automaticamente */
+    background-color: #072F4E;
+    font-size: clamp(0.7rem, 0.9vw, 1rem);
     text-align: center;
-    margin-top: 0.5vw;
     border-radius: 0.3vw;
     cursor: pointer;
     transition: ease-in-out 0.3s;
+    max-width: 22rem;
+    min-height: 6rem;
+    
+}
+
+.card_servidor .servidor_informacoes {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding-left: 1rem;
+    flex: 1;
 }
 
 .card_servidor:hover{
-    background-color: #1c1c25;
+    background-color: #080d1d;
+    padding-right: 1vw;
 }
+/*
+  mmmmmm                mmmm                                                       mm                         
+  ""##""               ##"""                                                      "  ""                       
+    ##     ##m####m  #######    m####m    ##m####  ####m##m   m#####m   m#####m   m####m    m####m   mm#####m 
+    ##     ##"   ##    ##      ##"  "##   ##"      ## ## ##   " mmm##  ##"    "  ##"  "##  ##mmmm##  ##mmmm " 
+    ##     ##    ##    ##      ##    ##   ##       ## ## ##  m##"""##  ##        ##    ##  ##""""""   """"##m 
+  mm##mm   ##    ##    ##      "##mm##"   ##       ## ## ##  ##mmm###  "##mmmm#  "##mm##"  "##mmmm#  #mmmmm## 
+  """"""   ""    ""    ""        """"     ""       "" "" ""   """" ""    ""#""     """"      """""    """"""  
+                                                                          mm#                                 
+
+*/
 
 .card_servidor #servidor_estado {
     display: flex;
     justify-content: center;
-    align-items: center;
+    width: 3rem;
 }
 
-.card_servidor img {
+.card_servidor #servidor_estado img {
     padding: 0.4vw;
-    width: 2vw;
-    height: 2vw;
+    width: clamp(20px, 2vw, 40px);
+    height: clamp(20px, 2vw, 40px);
 }
 
-.card_servidor img {
-    padding: 0.4vw;
-    width: 2vw;
-    height: 2vw;
+.card_servidor #servidor_nome {
+    font-size: clamp(1rem, 1.4vw, 1.8rem);
+    padding-top: 0.3vw;
 }
 
+.card_servidor #servidor_localizacao {
+    font-size: clamp(0.6rem, 0.8vw, 1rem);
+    color: #206eaa;
+    padding-bottom: 0.4vw;
+}
+
+.card_servidor #servidor_recursos_em_risco{
+    font-size: clamp(0.7rem, 0.9vw, 1rem);
+    padding-bottom: 0.3vw;
+}
+
+
+.card_servidor #servidor_recursos_em_risco span{
+    font-weight: 700;
+}
+
+/*                                                                                                               
+ mmmmmm                                                      mm                                                          mmmm     
+ ##""""##                                                    ##                    ##                                    ""##     
+ ##    ##   m#####m   ##m####   ##m####   m#####m            ##         m#####m  #######    m####m    ##m####   m#####m    ##     
+ #######    " mmm##   ##"       ##"       " mmm##            ##         " mmm##    ##      ##mmmm##   ##"       " mmm##    ##     
+ ##    ##  m##"""##   ##        ##       m##"""##            ##        m##"""##    ##      ##""""""   ##       m##"""##    ##     
+ ##mmmm##  ##mmm###   ##        ##       ##mmm###            ##mmmmmm  ##mmm###    ##mmm   "##mmmm#   ##       ##mmm###    ##mmm  
+ """""""    """" ""   ""        ""        """" ""            """"""""   """" ""     """"     """""    ""        """" ""     """"                                                                                                                              
+*/
+
+.card_servidor .barra_lateral {
+    width: clamp(4px, 0.6vw, 10px);
+    height: 100%;
+}
+
+.card_servidor .critico{
+    background-color: rgb(226, 50, 50);
+}
+
+.card_servidor .alerta{
+    background-color: rgb(209, 184, 70);
+}
+
+.card_servidor .estavel{
+    background-color: rgb(54, 194, 54);
+}
+
+
+/*                                                          
+ mmm  mmm            mm           ##     mmmm               
+ ###  ###            ##           ""     ""##               
+ ########   m####m   ##m###m    ####       ##       m####m  
+ ## ## ##  ##"  "##  ##"  "##     ##       ##      ##mmmm## 
+ ## "" ##  ##    ##  ##    ##     ##       ##      ##"""""" 
+ ##    ##  "##mm##"  ###mm##"  mmm##mmm    ##mmm   "##mmmm# 
+ ""    ""    """"    "" """    """"""""     """"     """""                                                              
+*/
+@media (max-width: 768px) {
+    .container_servidores {
+        font-size: 0.9rem;
+    }
+
+    .lista_servidores {
+        flex-direction: column;
+        max-height: none;
+        gap: 0.8rem;
+    }
+
+    .card_servidor {
+        flex-direction: row;
+        width: 100%;
+        font-size: 0.9rem;
+        max-width: 100%;
+        max-height: 6rem;
+    }
+
+    .card_servidor img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .card_servidor .barra_lateral {
+        width: 5px;
+    }
+}

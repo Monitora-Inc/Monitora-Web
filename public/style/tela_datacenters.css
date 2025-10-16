@@ -1,0 +1,107 @@
+.container_datacenters {
+    margin-top: 1vw;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: clamp(0.7rem, 1vw, 1.2rem);
+    font-weight: 300;
+}
+
+
+.container_datacenters .datacenters_info {
+    display: flex;
+    justify-content: space-between;
+    width: 98.5%;
+    text-align: center;
+    padding-bottom: 0.5vw;
+    flex-wrap: wrap; /* quebra linha se faltar espaço */
+} 
+
+.lista_datacenters {
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 99%;
+    max-height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+}
+
+.card_datacenter {
+    display: flex;
+    align-items: center;
+    flex: 1 1 clamp(250px, 22rem, 380px); /* ajusta automaticamente */
+    background-color: #072F4E;
+    font-size: clamp(0.7rem, 0.9vw, 1rem);
+    text-align: center;
+    border-radius: 0.3vw;
+    cursor: pointer;
+    transition: ease-in-out 0.3s;
+    max-width: 22rem;
+    min-height: 6rem;
+    
+}
+
+.card_datacenter .datacenter_informacoes {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding-left: 1rem;
+    flex: 1;
+}
+
+.card_datacenter:hover{
+    background-color: #080d1d;
+}
+
+.card_datacenter input {
+    padding: 0.4vw;
+    width: clamp(10px, 1vw, 40px);
+    height: clamp(10px, 1vw, 40px);
+    margin-left:1rem;
+    margin-right:1rem;
+    background: #072F4E;
+}
+
+.card_datacenter #datacenter_nome {
+    font-size: clamp(1rem, 1.4vw, 1.8rem);
+    padding-top: 0.3vw;
+    font-weight: 500;
+}
+
+.card_datacenter #datacenter_localizacao {
+    font-size: clamp(0.6rem, 0.8vw, 1rem);
+    color: #ffffff;
+    padding-bottom: 0.4vw;
+}
+
+
+
+@media (max-width: 768px) {
+    .container_datacenters {
+        font-size: 0.9rem;
+    }
+
+    .lista_datacenters {
+        flex-direction: column;
+        max-height: none;
+        gap: 0.8rem;
+    }
+
+    .card_datacenter {
+        flex-direction: row;
+        width: 100%;
+        font-size: 0.9rem;
+        max-width: 100%;
+        max-height: 6rem;
+    }
+
+    .card_datacenter input {
+        width: 15px;
+        height: 15px;
+    }
+
+    .card_datacenter .barra_lateral {
+        width: 5px;
+    }
+}

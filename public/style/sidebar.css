@@ -37,90 +37,89 @@
 .icone_empresas         {background-image: url('../assets/icons/icone_empresas.svg');}
 .icone_sair             {background-image: url('../assets/icons/icone_sair.svg'); cursor: pointer;}
 .icone_suporte          {background-image: url('../assets/icons/icone_suporte.svg');}
+.icone_cargos          {background-image: url('../assets/icons/icone_cargos.svg');}
 
 /* ---------- ESTILO GERAL ---------- */
 body {
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(180deg, #302f35 75.1%, #41424d 100%); /* Fundo escuro da página */
+    background-color: #F0F9FF;
     height: 100vh;
 }
 
 /* ---------- NAVBAR LATERAL ---------- */
 nav {
-    background-color: #110080; /* Fundo azul */
-    position: fixed; /* Fixa no lado esquerdo da tela */
+    background-color: #072F4E;
+    position: fixed;
     display: flex;
-    flex-direction: column; /* Ícones ficam em coluna */
-    align-items: center; /* Centraliza no eixo horizontal */
-    padding-top: 12vh; /* Espaço no topo */
-    padding-bottom: 3vh; /* Espaço inferior */
-    height: 100vh; /* Ocupa altura total da tela */
-    gap: 2vw; /* Espaçamento entre itens */
-    width: 4vw; /* Largura estreita */
+    flex-direction: column;
+    align-items: center;
+    padding: 3.5vh 0;
+    height: 100vh;
+    width: clamp(60px, 4vw, 100px); /* largura mínima e máxima */
     z-index: 1000;
+    transition: width 0.3s ease;
 }
 
 /* Estilo dos ícones dentro da navbar */
 .icones_navbar a {
-    width: 2vw;
-    height: 2vw;
-    align-self: center;
-    transition: ease-in-out 0.3s; /* Animação suave */
-    background-size: 80%; /* Ícone proporcional */
+    width: clamp(25px, 2vw, 45px);
+    height: clamp(25px, 2vw, 45px);
+    background-size: 70%;
     background-repeat: no-repeat;
     background-position: center;
+    transition: all 0.3s ease;
 }
 
 /* Efeito ao passar o mouse sobre os ícones */
 .icones_navbar a:hover {
-    background-color: #2963b9; /* Fundo azul claro */
-    width: 2.8vw; /* Ícone cresce */
-    height: 2.8vw;
-    padding: 0.3vw; /* Dá espaçamento */
-    border-radius: 0.2vw; /* Bordas arredondadas */
+    background-color: #105d97;
+    border-radius: 3px;
+    transform: scale(1.1);
 }
 
 /* Container dos ícones principais */
 nav .icones_navbar {
     display: flex;
     flex-direction: column;
-    gap: 2vw;
+    gap: clamp(10px, 1.5vw, 30px);
 }
 
 /* Ícones inferiores (como sair/suporte) ficam no final */
 nav .icones_navbar_inferiores {
-    justify-content: end;
-    height: 100%;
+    margin-top: auto;
 }
 
 /* Logo da navbar */
 nav .logo {
-    background-image: url('../assets/logos/logo_vetorizada.svg');
-    mix-blend-mode: white;
+    background-image: url('../assets/logos/logo_vetorizada_branca.svg');
+    background-repeat: no-repeat;
     background-size: contain;
-    width: 1.5vw;
-    height: 1.5vw;
-    align-self: center;
+    background-position: center;
+    width: clamp(10px, 2vw, 40px);
+    height: clamp(10px, 2vw, 40px);
 }
 
 #perfil_foto {
-    padding-top: 0.1vw;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #perfil_foto img{
-    display: flex;
+    width: clamp(30px, 2vw, 50px);
+    height: clamp(30px, 2vw, 50px);
+    border-radius: 50%;
     object-fit: cover;
-    width: 2vw;
-    height: 2vw;
-    border-radius: 5vw;
 }
 /* ---------- TOOLTIP NAVBAR ---------- */
 .tooltipNav {
-  position: relative;
-  display: inline-block;
-  height: 1.2vw;
+    left: 120%;
+    width: auto;
+    white-space: nowrap;
+    font-size: clamp(0.7rem, 1vw, 1rem);
+    padding: 0.5em 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Texto escondido do tooltip */
@@ -130,13 +129,12 @@ nav .logo {
     align-items: center;
     visibility: hidden; /* Escondido por padrão */
     position: absolute;
-    top: +0.5vw;
     left: 145%; /* Lado direito do ícone */
     z-index: 999; /* Fica acima de tudo */
     width: 0px; /* Inicia "fechado" */
     padding: 0px 1vw;
     border-radius: 5px;
-    background-color: #123b88;
+    background-color: #12598f;
     color: #ffffff;
     text-align: center;
     font-size: 0px;
@@ -145,9 +143,9 @@ nav .logo {
 /* Tooltip aparece no hover */
 .tooltipNav:hover .tooltiptextNav {
   visibility: visible;
-  width: 12vw;
-  height: 2vw;
-  font-size: 1vw;
+  width: 12rem;
+  height: 2rem;
+  font-size: 1rem;
   transition: .4s ease;
 }
 
@@ -170,7 +168,7 @@ nav .logo {
     width: 0px;
     padding: 0px 1vw;
     border-radius: 5px;
-    background-color: #274eb8;
+    background-color: #105d97;
     color: #ffffff;
     text-align: center;
     font-size: 0px;
@@ -179,9 +177,9 @@ nav .logo {
 /* Tooltip dos KPIs aparece no hover */
 .tooltipKPI:hover .tooltiptextKPI {
   visibility: visible;
-  width: 12vw;
-  height: 3vw;
-  font-size: 1vw;
+  width: 12rem;
+  height: 3rem;
+  font-size: 1rem;
   transition: .4s ease;
   font-weight: 400;
 }
@@ -200,44 +198,39 @@ nav .logo {
 /* Container geral de informações */
 #id_info_kpis {
     display: flex;
-    width: 100vw;
-    height: 2vw;
-    position: fixed;
-    margin-left: 5.7vw; /* Espaço para não colidir com navbar */
+    flex-wrap: wrap; /* quebra linha quando necessário */
+/* espaçamento entre KPIs */
+    align-items: center;
+    justify-content: flex-start;
+    width: calc(100% - 6rem);
+    margin-left: 6rem;
     margin-top: 1.4vw;
-    font-size: 0.6vw;
+    font-size: clamp(0.7rem, 0.9vw, 1rem);
+    position: fixed;
     z-index: 999;
 }
 
 /* Bloco KPI de servidores */
 .kpi_servidores {
     display: flex;
+    align-items: center;
     cursor: pointer;
+    margin-right: 0.5rem;
 }
 
 /* Efeito hover no texto dos KPIs */
 .kpi_servidores:hover h1 {
-    background-color: #393A4E;
-    transition: ease-in-out 0.3s;
-}
-/* Efeito hover no texto dos KPIs */
-.kpi_servidores:hover h1 {
-    background-color: #393A4E;
-    transition: ease-in-out 0.3s;
-}
-
-/* Efeito hover no texto dos KPIs */
-.kpi_servidores:hover h1 {
-    background-color: #1b1c27;
+    background-color: #072F4E;
     transition: ease-in-out 0.3s;
 }
 
 /* Ícone lateral do KPI */
 .kpi_servidores img {
-    background-color: #05095C;
-    width: 2.5vw;
-    padding: 0.5vw;
-    border-radius: 10px 0px 0px 10px; /* Bordas arredondadas à esquerda */
+    background-color: #072F4E;
+    width: clamp(30px, 2.5vw, 50px);
+    height: clamp(30px, 2.5vw, 50px);
+    padding: 0.5em;
+    border-radius: 10px 0 0 10px;/* Bordas arredondadas à esquerda */
 }
 
 /* Texto do KPI */
@@ -245,64 +238,113 @@ nav .logo {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #323239;
+    background-color: #072F4E;
     color: white;
-    font-size: 1;
-    width: 2.5vw;
-    border-radius: 0px 10px 10px 0px; /* Bordas arredondadas à direita */
+    font-size: clamp(0.8rem, 1vw, 1.2rem);
+    padding: 0 1em;
+    border-radius: 0 10px 10px 0;
+    height: clamp(30px, 2.5vw, 50px);/* Bordas arredondadas à direita */
 }
 
 /* Container dos status */
 .kpi_servidores_status {
     display: flex;
-    margin-left: 2vw;
+    align-items: center;
+
 }
+
+.kpi_servidores_status h1{
+font-size: clamp(0.8rem, 1vw, 1.2rem);
+
+}
+
 
 /* Ícone dos status */
 .kpi_servidores_status img {
-    background-color: #05095C;
-    width: 2.5vw;
-    height: 2.5vw;
-    padding: 0.5vw;
-    border-radius: 10px 0px 0px 10px;
+    background-color: #072F4E;
+    width: clamp(30px, 2.5vw, 50px);
+    height: clamp(30px, 2.5vw, 50px);
+    padding: 0.5em;
+    border-radius: 10px 0 0 10px;
 }
 
 /* Status de servidores críticos */
 .kpi_servidores_status .servidores_criticos {
+    background-color: rgb(222, 80, 80);
+    color: rgb(88, 35, 35);
+    width: clamp(30px, 2.5vw, 50px);
+    height: clamp(30px, 2.5vw, 50px);
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(222, 80, 80);
-    width: 2.5vw;
-    height: 2.5vw;
-    color: rgb(88, 35, 35);
     cursor: pointer;
+    transition: 0.3s ease-in-out;
 }
 
 /* Efeito hover nos críticos */
 .kpi_servidores_status .servidores_criticos:hover {
     background-color: rgb(112, 50, 50);
-    color: rgb(255, 255, 255);
-    transition: ease-in-out 0.3s;
+    color: white;
 }
 
 /* Status de servidores em alerta */
 .kpi_servidores_status .servidores_alertas {
+    background-color: rgb(239, 208, 96);
+    color: rgb(128, 121, 74);
+    width: clamp(30px, 2.5vw, 50px);
+    height: clamp(30px, 2.5vw, 50px);
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(239, 208, 96);
-    width: 2.5vw;
-    height: 2.5vw;
-    color: rgb(128, 121, 74);
-    border-radius: 0px 10px 10px 0px;
+    border-radius: 0 10px 10px 0;
     cursor: pointer;
+    transition: 0.3s ease-in-out;
 }
 
 /* Efeito hover nos alertas */
 .kpi_servidores_status .servidores_alertas:hover {
     background-color: rgb(141, 119, 29);
-    color: rgb(255, 255, 255);
-    transition: ease-in-out 0.3s;
+    color: white;
 }
 
+@media (max-width: 768px) {
+    nav {
+        flex-direction: row;
+        width: 100%;
+        height: clamp(60px, 10vh, 80px);
+        justify-content: space-between;
+        padding: 0.6em;
+    }
+
+    nav .icones_navbar,
+    nav .icones_navbar_inferiores {
+        flex-direction: row;
+        gap: 2vw;
+    }
+
+    .tooltipNav .tooltiptextNav, .tooltipKPI .tooltiptextKPI{
+        display: none; 
+    }
+
+    
+    #perfil_foto img {
+        width: 20px;
+        height: 20px;
+    }
+
+    nav .icones_navbar_inferiores {
+        margin-top: 0;
+    }
+
+    #id_info_kpis {
+        margin-left: 0.6rem;
+        margin-top: 5.5rem;
+        position: fixed;
+        z-index: 9000;
+    }
+
+    .kpi_servidores,
+    .kpi_servidores_status {
+        flex-direction: row;
+    }
+}
