@@ -78,8 +78,8 @@
         <h1>Entrar</h1>
         <span>Digite o cnpj e senha para acessar</span>
 
-        <input type="text" placeholder="CNPJ" id="iptCNPJ" maxlength="18">
-            <input type="password" placeholder="Senha" id="iptSenha">
+        <input type="text" placeholder="CNPJ" id="iptEmpresaCnpj" maxlength="18" onchge="mascaraCNPJ()">
+        <input type="password" placeholder="Senha" id="iptEmpresaSenha">
         <a href="#">Esqueceu sua senha?</a>
 
         <button type="button" onclick="loginEmpresa()">Entrar</button>
@@ -88,6 +88,27 @@
         <h4>Deseja entrar como:</h4>
         <button type="button" class="botaoMudanca" onclick="Usuario()">Usuario</button>
         `;
+        const cnpjInput = document.getElementById("iptEmpresaCnpj");
+        aplicarMascaraCNPJ(cnpjInput);
+    }
+    function aplicarMascaraCNPJ(input) {
+        input.addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, "");
+            if (value.length > 2) {
+                value = value.replace(/^(\d{2})(\d)/, "$1.$2");
+            }
+            if (value.length > 5) {
+                value = value.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+            }
+            if (value.length > 8) {
+                value = value.replace(/\.(\d{3})(\d)/, ".$1/$2");
+            }
+            if (value.length > 12) {
+                value = value.replace(/(\d{4})(\d)/, "$1-$2");
+            }
+
+            e.target.value = value;
+        });
     }
 
     function Usuario() {
@@ -96,7 +117,7 @@
             <span>Digite seu e-mail e senha para acessar</span>
 
             <input type="email" placeholder="E-mail" id="iptEmail">
-            <input type="password" placeholder="Senha" id="iptSenha">
+            <input type="password" placeholder="Senha" id="iptUsuarioSenha">
             <a href="#">Esqueceu sua senha?</a>
 
             <button type="button" onclick="loginUsuario()">Entrar</button>
@@ -111,8 +132,8 @@
     async function loginEmpresa() {
         erroLogin.innerHTML = ``;
 
-        let empresaCNPJ = await iptCnpj.valuereplace(/\D/g, '');
-        let empresaSenha = await iptSenha.value;
+        let empresaCNPJ = await iptEmpresaCnpj.value.replace(/\D/g, '');
+        let empresaSenha = await iptEmpresaSenha.value;
 
         if (!empresaCNPJ || !empresaSenha) {
             erroLogin.innerHTML = `Preencha todos os campos!`;
@@ -120,7 +141,7 @@
             return;
         }
 
-        let respostaLogin = await fetch(`/empresa/autenticar/${empresaCNPJ}/${empresaSenha}`, {
+        let respostaLogin = await fetch(`/empresas/autenticar/${empresaCNPJ}/${empresaSenha}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -149,14 +170,14 @@
         sessionStorage.empresaCnpj = jsonLogin.empresaCnpj;
         sessionStorage.empresaFoto = jsonLogin.empresaFoto;
 
-        window.location = "dashboards/dashboard.html";
+        window.location = "dashboards/home.html";
     }
 
     async function loginUsuario() {
         erroLogin.innerHTML = ``;
 
         let usuarioEmail = await iptEmail.value;
-        let usuarioSenha = await iptSenha.value;
+        let usuarioSenha = await iptUsuarioSenha.value;
 
         if (!usuarioEmail || !usuarioSenha) {
             erroLogin.innerHTML = `Preencha todos os campos!`;
@@ -198,7 +219,7 @@
         sessionStorage.cargo = jsonLogin.cargo;
         sessionStorage.empresaId = jsonLogin.empresaId;
         sessionStorage.empresaNome = jsonLogin.empresaNome;
-        window.location = "dashboards/dashboard.html";
+        window.location = "dashboards/home.html";
     }
 
     // Máscara CNPJ
@@ -279,7 +300,7 @@
         })
             .then(resposta => {
                 if (resposta.ok) {
-                    avisoCadastro.innerHTML += `A empresa ${nome} foi cadastrada com sucesso, aguarde a aprovação dos nossos administrador.`;
+                    avisoCadastro.innerHTML += `<div style="color: black;">A empresa ${nome} foi cadastrada com sucesso, aguarde a aprovação dos nossos administrador.</div>`;
                     setTimeout(() => {
                         iptCNPJ.value = '';
                         iptNomeEmpresa.value = '';

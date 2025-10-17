@@ -44,7 +44,7 @@ function fechar_popup() {
 function sair() {
     fechar_popup();
     sessionStorage.clear();
-    window.location = "index.html";
+    window.location = "../../index.html";
 }
 
 // Botão de deletar
@@ -210,7 +210,7 @@ function popup_adicionar_servidor() {
 
                 <!-- Botões -->
                 <div class="btns_popup">
-                    <a href="./softwareDonwload/execSoftware.jar" download><button onclick="funcao_adicionar()">Download Software</button></a>
+                    <a href="../../softwareDonwload/execSoftware.jar" download><button onclick="funcao_adicionar()">Download Software</button></a>
                     <button onclick="fechar_popup()">Fechar</button>
                 </div>
             </div>
