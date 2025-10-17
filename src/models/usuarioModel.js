@@ -3,7 +3,18 @@ var database = require("../database/config");
 function autenticar(email, senha) {
     let instrucaoSql = ` 
         SELECT
-            u.idUsuario as userId, u.nome as userNome, u.sobrenome as userSobrenome, u.email as userEmail, u.telefone as userTelefone, u.fotoUser as fotoUser, u.FkCargo as cargoId, c.nome_cargo as cargo, e.idEmpresa as empresaId, e.nome AS empresaNome, e.ativo as empresaAtiva, e.aprovada as empresaAprovada
+            u.idUsuario as userId, 
+            u.nome as userNome, 
+            u.sobrenome as userSobrenome, 
+            u.email as userEmail, 
+            u.telefone as userTelefone, 
+            u.fotoUser as fotoUser, 
+            u.FkCargo as cargoId, 
+            c.nome_cargo as cargo, 
+            e.idEmpresa as empresaId, 
+            e.nome AS empresaNome, 
+            e.ativo as empresaAtiva, 
+            e.aprovada as empresaAprovada
         FROM usuarios AS u
         JOIN cargos AS c ON u.FkCargo = c.idCargo
         JOIN empresas AS e ON u.FkEmpresa = e.idEmpresa
@@ -25,7 +36,11 @@ function cadastrarUsuario(nome, sobrenome, email, senha, fkEmpresa, fkCargo, tel
 
 function buscarUsuarios(fkEmpresa) {
     let instrucaoSql = `
-        SELECT u.idUsuario, u.nome, u.sobrenome, c.nome_cargo, c.idCargo, u.email, u.telefone, cast(u.data_cadastro AS DATE) as data_cadastro 
+        SELECT u.idUsuario, 
+        u.nome, u.sobrenome, 
+        c.nome_cargo, c.idCargo, 
+        u.email, u.telefone, 
+        cast(u.data_cadastro AS DATE) as data_cadastro 
         FROM Usuarios u
         INNER JOIN cargos c on u.fkcargo = c.idCargo 
         WHERE u.fkEmpresa = ${fkEmpresa};
@@ -36,7 +51,8 @@ function buscarUsuarios(fkEmpresa) {
 
 function listarCargos(idEmpresa) {
     let instrucaoSql = `
-    SELECT idCargo, nome_cargo FROM Cargos
+    SELECT idCargo, 
+    nome_cargo FROM Cargos
     WHERE fkEmpresa = ${idEmpresa};
     `;
 
@@ -45,7 +61,9 @@ function listarCargos(idEmpresa) {
 
 function listarCargosEditar(idEmpresa, idCargoAtual) {
     let instrucaoSql = `
-    SELECT idCargo, nome_cargo FROM Cargos
+    SELECT 
+    idCargo, 
+    nome_cargo FROM Cargos
     WHERE fkEmpresa = ${idEmpresa} and idCargo not like ${idCargoAtual};
     `;
 
