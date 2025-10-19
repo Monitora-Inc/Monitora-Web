@@ -400,13 +400,13 @@ function popup_editar_datacenter(idDataCenter, fkEndereco) {
                     <div class="input-label-wrapper">
                     <span class="input-label">Rua</span>
                     </div>
-                    <input type="email" id="ipt_datacenter_rua" placeholder="Digite o nome da rua" required>
+                    <input type="text" id="ipt_datacenter_rua" placeholder="Digite o nome da rua" required>
                     
                     <!-- Número -->
                     <div class="input-label-wrapper">
                     <span class="input-label">Número</span>
                     </div>
-                    <input type="password" id="ipt_datacenter_numero" placeholder="Digite o número do local" required>
+                    <input type="number" id="ipt_datacenter_numero" placeholder="Digite o número do local" required>
 
                     <!-- Complemento -->
                     <div class="input-label-wrapper">
