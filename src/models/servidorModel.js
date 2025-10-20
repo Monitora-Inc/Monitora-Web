@@ -1,58 +1,72 @@
 var database = require("../database/config");
 
-function adicionarServidor(uuid, modeloCPU, qtdRam, qtdDisco, sistemaOperacional, idEmpresa) {
+function adicionarServidor(nome, fkDataCenter) {
     let instrucaoSql = `
-        INSERT INTO Servidor(uuid, modeloCPU, qtdRam, qtdDisco, sistemaOperacional, fkEmpresa) VALUES
-            ('${uuid}', '${modeloCPU}', '${qtdRam}', '${qtdDisco}', '${sistemaOperacional}', '${idEmpresa}');
+        INSERT INTO servidores (nome, fkDataCenter)
+        VALUES ('${nome}', '${fkDataCenter}');
     `;
-
     return database.executar(instrucaoSql);
 }
 
-function buscarServidorUUID(uuid) {
+function atualizarServidor(idServidor, nome, fkDataCenter) {
     let instrucaoSql = `
-        SELECT * FROM Servidor
-        WHERE uuid = '${uuid}'
+        UPDATE servidores
+        SET nome = '${nome}', fkDataCenter = '${fkDataCenter}'
+        WHERE idServidor = '${idServidor}';
     `;
-
     return database.executar(instrucaoSql);
 }
 
-function atualizarServidor(uuid, modeloCPU, qtdRam, qtdDisco, sistemaOperacional) {
-    let instrucaoSql = `
-        UPDATE Servidor
-        SET modeloCPU = '${modeloCPU}',
-            qtdRam = '${qtdRam}',
-            qtdDisco = '${qtdDisco}',
-            sistemaOperacional = '${sistemaOperacional}'
-        WHERE uuid = '${uuid}';
+function excluirServidor(idServidor) {
+    let instrucaoSqlComponentes = `
+        DELETE FROM componentes_monitorados
+        WHERE servidores_idServidor = '${idServidor}';
     `;
 
+    let instrucaoSqlServidor = `
+        DELETE FROM servidores
+        WHERE idServidor = '${idServidor}';
+    `;
+
+    return database.executar(instrucaoSqlComponentes)
+        .then(() => {
+            return database.executar(instrucaoSqlServidor);
+        });
+}
+
+function listarServidores() {
+    let instrucaoSql = `
+        SELECT 
+        idServidor, 
+        nome, 
+        data_cadastro, 
+        fkDataCenter
+        FROM servidores;
+    `;
     return database.executar(instrucaoSql);
 }
 
-function excluirServidor(uuid) {
-    let instrucaoSql = `
-        DELETE FROM Servidor
-        WHERE uuid = '${uuid}';
+function adicionarParametro(limite) {
+    let sql = `
+        INSERT INTO parametros (limite)
+        VALUES ('${limite}');
     `;
-
-    return database.executar(instrucaoSql);
+    return database.executar(sql);
 }
 
-function buscarServidores(idEmpresa) {
-    let instrucaoSql = `
-        SELECT * FROM Servidor
-        WHERE fKEmpresa = '${idEmpresa}';
+function adicionarComponente(nomeComponenteId, servidorId, medidaId, parametroId) {
+    let sql = `
+        INSERT INTO componentes_monitorados (nome_componente_id, servidores_idServidor, medida_id, parametros_id)
+        VALUES ('${nomeComponenteId}', '${servidorId}', '${medidaId}', '${parametroId}');
     `;
-
-    return database.executar(instrucaoSql);
+    return database.executar(sql);
 }
 
 module.exports = {
     adicionarServidor,
-    buscarServidorUUID,
     atualizarServidor,
     excluirServidor,
-    buscarServidores
-}
+    listarServidores,
+    adicionarParametro,
+    adicionarComponente
+};

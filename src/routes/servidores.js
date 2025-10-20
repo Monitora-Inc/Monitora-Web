@@ -1,26 +1,18 @@
 var express = require("express");
 var router = express.Router();
-
 var servidorController = require("../controllers/servidorController");
 
-router.post("/adicionarServidor", function(req, res) {
-    servidorController.adicionarServidor(req, res);
+router.get("/listar/:id", function(req, res){
+    servidorController.listarServidores(req, res)}
+);
+router.post("/adicionar", function(req, res){
+    servidorController.adicionarServidor(req, res)
 });
-
-router.get("/buscarServidorUUID/:uuid", function(req, res) {
-    servidorController.buscarServidorUUID(req, res);
+router.put("/atualizar/:id", function(req, res){
+    servidorController.atualizarServidor(req, res)
 });
-
-router.put("/atualizarServidor", function(req, res) {
-    servidorController.atualizarServidor(req, res);
-});
-
-router.delete("/excluirServidor/:uuid", function(req, res) {
-    servidorController.excluirServidor(req, res);
-});
-
-router.get("/buscarServidores/:idEmpresa", function(req, res) {
-    servidorController.buscarServidores(req, res);
+router.delete("/excluir/:id", function(req, res){
+    servidorController.excluirServidor(req, res)
 });
 
 module.exports = router;
