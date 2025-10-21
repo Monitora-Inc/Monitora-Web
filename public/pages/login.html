@@ -34,7 +34,7 @@
                 <span>Digite seu e-mail e senha para acessar</span>
 
                 <input type="email" placeholder="E-mail" id="iptEmail">
-                <input type="password" placeholder="Senha" id="iptSenha">
+                <input type="password" placeholder="Senha" id="iptUsuarioSenha">
                 <a href="#">Esqueceu sua senha?</a>
 
                 <button type="button" onclick="loginUsuario()">Entrar</button>
@@ -169,8 +169,11 @@
         sessionStorage.empresaNome = jsonLogin.empresaNome;
         sessionStorage.empresaCnpj = jsonLogin.empresaCnpj;
         sessionStorage.empresaFoto = jsonLogin.empresaFoto;
-
-        window.location = "dashboards/home.html";
+        if (sessionStorage.empresaNome === "admin") {
+            window.location = "dashboards/empresas.html"
+        } else {
+            window.location = "dashboards/home.html";
+        }
     }
 
     async function loginUsuario() {
@@ -219,7 +222,13 @@
         sessionStorage.cargo = jsonLogin.cargo;
         sessionStorage.empresaId = jsonLogin.empresaId;
         sessionStorage.empresaNome = jsonLogin.empresaNome;
-        window.location = "dashboards/home.html";
+        console.log('empresaNome = ' + sessionStorage.empresaNome);
+
+        if (sessionStorage.empresaNome === "admin") {
+            window.location = "dashboards/empresas.html"
+        } else {
+            window.location = "dashboards/home.html";
+        }
     }
 
     // Máscara CNPJ
