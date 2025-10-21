@@ -16,13 +16,12 @@ function fechar_popups() {
  \______/ |__/ \_______/ \_______/|_______/  \_______/|__/      
 */
 
-if (sessionStorage.empresaNome === "admin") {
-
+if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
       id_sidebar.innerHTML = `    
             <div class="icones_navbar icones_navbar_superiores">
                   <a href="./perfil.html" class="tooltipNav" onclick="fechar_popups()">
                         <div id="perfil_foto">
-                              <img src="../../assets/fotosPerfil/fotoPerfil.png" alt="">
+                              <img src="../../assets/fotosPerfil/${sessionStorage.empresaFoto}" alt="">
                         </div>
                         <span class="tooltiptextNav">Perfil</span>
                   </a>
@@ -43,32 +42,56 @@ if (sessionStorage.empresaNome === "admin") {
                   <div class="logo"></div>
             </div>`;
 
-}
-else {
-      id_sidebar.innerHTML = `
-            < div class="icones_navbar icones_navbar_superiores" >
+} else if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser != null) {
+      id_sidebar.innerHTML = `    
+            <div class="icones_navbar icones_navbar_superiores">
                   <a href="./perfil.html" class="tooltipNav" onclick="fechar_popups()">
-                        <div id="perfil_foto"><img src="../../assets/fotosPerfil/fotoPerfil.png" alt=""></div>
+                        <div id="perfil_foto">
+                              <img src="../../assets/fotosPerfil/${sessionStorage.fotoUser}" alt="">
+                        </div>
                         <span class="tooltiptextNav">Perfil</span>
                   </a>
-                  <a href="./home.html" class="tooltipNav icone_dashboard" onclick="fechar_popups()">
-                        <span class="tooltiptextNav"">Dashboard</span>
-                  </a >
-                  <a href="./servidores.html" class="tooltipNav icone_servidores" onclick="fechar_popups()">
-                        <span class="tooltiptextNav"">Servidores</span>
-                  </a >
-                  <a href="./datacenters.html" class="tooltipNav icone_datacenters" onclick="fechar_popups()">
-                        <span class="tooltiptextNav"">Data Centers</span>
-                  </a >
-                  <a href="" class="tooltipNav icone_logs" onclick="fechar_popups()">
-                        <span class="tooltiptextNav"">Logs</span>
-                  </a >
                   <a href="./usuarios.html" class="tooltipNav icone_usuarios" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Usuários</span>
                   </a>
                   <a href="" class="tooltipNav icone_configuracoes" onclick="fechar_popups()">
                         <span class="tooltiptextNav"">Configurações</span>
-                  </a >
+                  </a>
+                  <a href="" class="tooltipNav icone_suporte">
+                        <span class="tooltiptextNav">Suporte</span>
+                  </a>
+                  <a class="tooltipNav icone_sair" onclick="popup_sair()">
+                        <span class="tooltiptextNav">Sair</span>
+                  </a>
+            </div>
+            <div class="icones_navbar icones_navbar_inferiores" onclick="fechar_popups()">
+                  <div class="logo"></div>
+            </div>`;
+} else if (sessionStorage.userNome == null) {
+      id_sidebar.innerHTML = `
+            <div class="icones_navbar icones_navbar_superiores" >
+                  <a href="./perfil.html" class="tooltipNav" onclick="fechar_popups()">
+                        <div id="perfil_foto"><img src="../../assets/fotosPerfil/${sessionStorage.empresaFoto}" alt=""></div>
+                        <span class="tooltiptextNav">Perfil</span>
+                  </a>
+                  <a href="./home.html" class="tooltipNav icone_dashboard" onclick="fechar_popups()">
+                        <span class="tooltiptextNav"">Dashboard</span>
+                  </a>
+                  <a href="./servidores.html" class="tooltipNav icone_servidores" onclick="fechar_popups()">
+                        <span class="tooltiptextNav"">Servidores</span>
+                  </a>
+                  <a href="./datacenters.html" class="tooltipNav icone_datacenters" onclick="fechar_popups()">
+                        <span class="tooltiptextNav"">Data Centers</span>
+                  </a>
+                  <a href="" class="tooltipNav icone_logs" onclick="fechar_popups()">
+                        <span class="tooltiptextNav"">Logs</span>
+                  </a>
+                  <a href="./usuarios.html" class="tooltipNav icone_usuarios" onclick="fechar_popups()">
+                        <span class="tooltiptextNav">Usuários</span>
+                  </a>
+                  <a href="" class="tooltipNav icone_configuracoes" onclick="fechar_popups()">
+                        <span class="tooltiptextNav"">Configurações</span>
+                  </a>
                   <a href="./tela_cargos.html" class="tooltipNav icone_cargos" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Cargos</span>
                   </a>
@@ -82,16 +105,44 @@ else {
             <div class="icones_navbar icones_navbar_inferiores" onclick="fechar_popups()">
                   <div class="logo"></div>
             </div>`;
-}
-
-if (sessionStorage.userNome != null) {
-      perfil_foto.innerHTML = `
-            <img src="../../assets/fotosPerfil/${sessionStorage.fotoUser}" alt="">
-      `
 } else {
-      perfil_foto.innerHTML = `
-            <img src="../../assets/fotosPerfil/${sessionStorage.empresaFoto}" alt="">
-      `
+      id_sidebar.innerHTML = `
+            <div class="icones_navbar icones_navbar_superiores" >
+                  <a href="./perfil.html" class="tooltipNav" onclick="fechar_popups()">
+                        <div id="perfil_foto"><img src="../../assets/fotosPerfil/${sessionStorage.fotoUser}" alt=""></div>
+                        <span class="tooltiptextNav">Perfil</span>
+                  </a>
+                  <a href="./home.html" class="tooltipNav icone_dashboard" onclick="fechar_popups()">
+                        <span class="tooltiptextNav"">Dashboard</span>
+                  </a>
+                  <a href="./servidores.html" class="tooltipNav icone_servidores" onclick="fechar_popups()">
+                        <span class="tooltiptextNav"">Servidores</span>
+                  </a>
+                  <a href="./datacenters.html" class="tooltipNav icone_datacenters" onclick="fechar_popups()">
+                        <span class="tooltiptextNav"">Data Centers</span>
+                  </a>
+                  <a href="" class="tooltipNav icone_logs" onclick="fechar_popups()">
+                        <span class="tooltiptextNav"">Logs</span>
+                  </a>
+                  <a href="./usuarios.html" class="tooltipNav icone_usuarios" onclick="fechar_popups()">
+                        <span class="tooltiptextNav">Usuários</span>
+                  </a>
+                  <a href="" class="tooltipNav icone_configuracoes" onclick="fechar_popups()">
+                        <span class="tooltiptextNav"">Configurações</span>
+                  </a>
+                  <a href="./tela_cargos.html" class="tooltipNav icone_cargos" onclick="fechar_popups()">
+                        <span class="tooltiptextNav">Cargos</span>
+                  </a>
+                  <a href="" class="tooltipNav icone_suporte">
+                        <span class="tooltiptextNav">Suporte</span>
+                  </a>
+                  <a class="tooltipNav icone_sair" onclick="popup_sair()">
+                        <span class="tooltiptextNav">Sair</span>
+                  </a>
+            </div>
+            <div class="icones_navbar icones_navbar_inferiores" onclick="fechar_popups()">
+                  <div class="logo"></div>
+            </div>`;
 }
 
 /*

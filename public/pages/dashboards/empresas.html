@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servidores</title>
-    <link rel="icon" href="./assets/logos/logo_vetorizada.svg" type="image/x-icon">
+    <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
     <link rel="stylesheet" href="../../style/sidebar.css">
     <link rel="stylesheet" href="../../style/filtros.css">
     <link rel="stylesheet" href="../../style/essencial.css">
@@ -13,12 +13,12 @@
     <link rel="stylesheet" href="../../style/popup.css">
 </head>
 
-<body>
-  <nav id="id_sidebar"></nav>
-  <div id="id_info_kpis"></div>
-  <div id="popup_screen"></div>
+<body onload="carregarEmpresas()">
+    <nav id="id_sidebar"></nav>
+    <div id="id_info_kpis"></div>
+    <div id="popup_screen"></div>
 
-    
+
     <div class="page_content">
         <!-- Filtros de persquisa -->
         <!-- Filtros de persquisa -->
@@ -32,27 +32,107 @@
             <input type="search" placeholder="Digite para pesquisar">
         </div>
         <!-- Lista de servidores -->
-         <h2 class="lista_titulo">Empresas</h2>
-         <div class="container_cards_empresas">
-            <div class="card_empresa">
-                <!-- Informações da Empresa -->
-                <div id="id_card_empresa_informacoes">
-                    <div id="id_nomeEmpresa">Tech Solutions LTDA</div>
-                    <div id="id_cnpjEmpresa">CNPJ: 11.222.333/0001-44</div>
-                    <div id="id_statusEmpresa">Status: <span>Pendente</span></div>
-                </div>
+        <h2 class="lista_titulo">Empresas</h2>
+        <div class="container_cards_empresas" id="cardsEmpresas">
 
-                <!-- Botões -->
-                <div id="id_card_empresa_botoes">
-                    <button class="botao_aprovar"></button>
-                    <button class="botao_rejeitar"></button>
-                </div>
-            </div>
-            </div>
-         </div>
+        </div>
+    </div>
 
     </div>
 </body>
+
 </html>
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
+
+<script>
+    function carregarEmpresas() {
+        fetch(`/empresas/buscarEmpresas`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+        }).then(function (dadosEmpresas) {
+            console.log(dadosEmpresas);
+            for (let i = 0; i < dadosEmpresas.length; i++) {
+                if (dadosEmpresas[i].aprovada == 0) {
+                    cardsEmpresas.innerHTML += `
+                    <div class="card_empresa">
+                    <div id="id_card_empresa_informacoes">
+                        <div id="id_nomeEmpresa">${dadosEmpresas[i].nome}</div>
+                        <div id="id_cnpjEmpresa">CNPJ: ${dadosEmpresas[i].cnpj}</div>
+                        <div id="id_statusEmpresa">Status: <span class="pendente">Pendente</span></div>
+                    </div>
+
+                    <div id="id_card_empresa_botoes">
+                        <button class="botao_aprovar" onclick="aprovarEmpresa(${dadosEmpresas[i].idEmpresa})"></button>
+                        <button class="botao_rejeitar" onclick="reprovarEmpresa(${dadosEmpresas[i].idEmpresa})"></button>
+                    </div>
+                </div>`
+                } else {
+                    cardsEmpresas.innerHTML += `
+                            <div class="card_empresa">
+                            <div id="id_card_empresa_informacoes">
+                                <div id="id_nomeEmpresa">${dadosEmpresas[i].nome}</div>
+                                <div id="id_cnpjEmpresa">CNPJ: ${dadosEmpresas[i].cnpj}</div>
+                                <div id="id_statusEmpresa">Status: <span class="aprovada">Aprovada</span></div>
+                            </div>
+                        
+                            <div id="id_card_empresa_botoes">
+                                <button class="botao_aprovar" onclick="aprovarEmpresa(${dadosEmpresas[i].idEmpresa})"></button>
+                                <button class="botao_rejeitar" onclick="reprovarEmpresa(${dadosEmpresas[i].idEmpresa})"></button>
+                            </div>
+                        </div>`
+                }
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
+
+    function aprovarEmpresa(id) {
+        fetch(`/empresas/autorizarEmpresa/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(function (response) {
+            if (response.ok) {
+                console.log(`Empresa ID ${id} aprovada com sucesso!`);
+
+                location.reload();
+            } else {
+                console.error(`Falha ao aprovar a empresa de id ${id}. Status: ${response.status}`);
+            }
+        })
+            .catch(function (error) {
+                console.error("Erro de rede:", error);
+            });
+    }
+
+    function reprovarEmpresa(id) {
+        fetch(`/empresas/negarEmpresa/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(function (response) {
+            if (response.ok) {
+                console.log(`Empresa ID ${id} reprovada com sucesso!`);
+
+                location.reload();
+            } else {
+                console.error(`Falha ao reprovar a empresa de id ${id}. Status: ${response.status}`);
+            }
+        })
+            .catch(function (error) {
+                console.error("Erro de rede:", error);
+            });
+    }
+
+</script>
