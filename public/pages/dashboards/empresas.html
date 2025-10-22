@@ -65,7 +65,7 @@
                     <div class="card_empresa">
                     <div id="id_card_empresa_informacoes">
                         <div id="id_nomeEmpresa">${dadosEmpresas[i].nome}</div>
-                        <div id="id_cnpjEmpresa">CNPJ: ${dadosEmpresas[i].cnpj}</div>
+                        <div id="id_cnpjEmpresa">CNPJ: ${formatarCNPJ(dadosEmpresas[i].cnpj)}</div>
                         <div id="id_statusEmpresa">Status: <span class="pendente">Pendente</span></div>
                     </div>
 
@@ -79,7 +79,7 @@
                             <div class="card_empresa">
                             <div id="id_card_empresa_informacoes">
                                 <div id="id_nomeEmpresa">${dadosEmpresas[i].nome}</div>
-                                <div id="id_cnpjEmpresa">CNPJ: ${dadosEmpresas[i].cnpj}</div>
+                                <div id="id_cnpjEmpresa">CNPJ: ${formatarCNPJ(dadosEmpresas[i].cnpj)}</div>
                                 <div id="id_statusEmpresa">Status: <span class="aprovada">Aprovada</span></div>
                             </div>
                         
@@ -93,6 +93,15 @@
         }).catch(function (resposta) {
             console.log(`#ERRO: ${resposta}`);
         });
+    }
+
+    function formatarCNPJ(cnpj) {
+        cnpj = cnpj.replace(/\D/g, ""); // remove tudo que não for número
+
+        return cnpj.replace(
+            /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,
+            "$1.$2.$3/$4-$5"
+        );
     }
 
     function aprovarEmpresa(id) {
