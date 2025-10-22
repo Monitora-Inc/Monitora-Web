@@ -11,8 +11,16 @@ router.get("/autenticar/:cnpj/:senha", function(req, res) {
     empresaController.autenticar(req, res);
 });
 
-router.delete("/negarEmpresa/:idEmpresa", function(req, res) {
+router.put("/negarEmpresa/:idEmpresa", function(req, res) {
     empresaController.negarEmpresa(req, res);
+});
+
+router.put("/autorizarEmpresa/:idEmpresa", function(req, res) {
+    empresaController.autorizarEmpresa(req, res);
+});
+
+router.get("/buscarEmpresas", function(req, res){
+    empresaController.buscarEmpresas(req, res);
 });
 
 module.exports = router;

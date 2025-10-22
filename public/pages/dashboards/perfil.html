@@ -13,22 +13,15 @@
     <link rel="stylesheet" href="../../style/popup.css">
 </head>
 
-<body>
+<body onload="infoPerfil()">
     <nav id="id_sidebar"></nav>
     <div id="id_info_kpis"></div>
     <div id="popup_screen"></div>
 
     <div class="page_content">
         <div class="perfil">
-            <div class="perfil_container">
-                <img src="../../assets/fotosPerfil/fotoPerfil.png" alt="" onclick="popup_editar_foto()">
-                <div class="perfil_informacoes">
-                    <h1 id="perfil_nome">Baltazar Bernado</h1>
-                    <h2 id="perfil_cargo">Usuário</h2>
-                    <h3 id="perfil_email">baltazarbernado@gmail.com</h3>
-                    <h4 id="perfil_telefone">11961710375</h4>
-                    <button onclick="popup_confirmar_senha()">Editar Informações</button>
-                </div>
+            <div class="perfil_container" id="perfil">
+                
             </div>
         </div>
     </div>
@@ -37,3 +30,30 @@
 </html>
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
+
+<script>
+    function infoPerfil() {
+        if (sessionStorage.userNome != null) {
+            perfil.innerHTML = `
+            <img src="../../assets/fotosPerfil/${sessionStorage.fotoUser}" alt="Foto de perfil" onclick="popup_editar_foto()">
+                <div class="perfil_informacoes">
+                    <h1 id="perfil_nome">${sessionStorage.userNome} ${sessionStorage.userSobrenome}</h1>
+                    <h2 id="perfil_cargo">${sessionStorage.cargo}</h2>
+                    <h3 id="perfil_email">${sessionStorage.userEmail}</h3>
+                    <h4 id="perfil_telefone">${sessionStorage.userTelefone}</h4>
+                    <button onclick="popup_confirmar_senha()">Editar Informações</button>
+                </div>
+            `
+        } else {
+            perfil.innerHTML = `
+            <img src="../../assets/fotosPerfil/${sessionStorage.empresaFoto}" alt="Foto de perfil" onclick="popup_editar_foto()">
+                <div class="perfil_informacoes">
+                    <h1 id="perfil_nome">${sessionStorage.empresaNome}</h1>
+                    <h2 id="perfil_cargo">Empresa<h2>
+                    <h3 id="perfil_cnpj">${sessionStorage.empresaCnpj}</h3>
+                    <button onclick="popup_confirmar_senha()">Editar Informações</button>
+                </div>
+            `
+        }
+    }
+</script>
