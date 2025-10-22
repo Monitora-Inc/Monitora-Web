@@ -54,18 +54,18 @@
                 <!-- <div class="card_usuario" id="0">
 
                     <div class="usuario_card_inicio"> -->
-                        <!-- Checkbox -->
-                        <!-- <div id="usuario_checkbox">
+                <!-- Checkbox -->
+                <!-- <div id="usuario_checkbox">
                             <input type="checkbox" class="checkbox">
                         </div> -->
 
-                        <!-- Foto -->
-                        <!-- <div id="usuario_foto">
+                <!-- Foto -->
+                <!-- <div id="usuario_foto">
                             <img src="../../assets/fotosPerfil/fotoPerfil.png" alt="">
                         </div> -->
 
-                        <!-- Nome e Celular -->
-                        <!-- <div class="nome_contato">
+                <!-- Nome e Celular -->
+                <!-- <div class="nome_contato">
                             <p id="usuario_nome">Baltazar Bernado</p>
                             <p id="usuario_telefone">1191710375</p>
                         </div>
@@ -290,26 +290,26 @@
 
     function editar_cargo(usuario_id, cargo_id) {
         fetch(`/usuarios/editarCargo`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            usuario_id: usuario_id,
-            cargo_id: cargo_id
-        })
-    }).then(function (response) {
-        if (response.ok) {
-            console.log(`Usuário ID ${usuario_id} atualizado com sucesso!`);
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                usuario_id: usuario_id,
+                cargo_id: cargo_id
+            })
+        }).then(function (response) {
+            if (response.ok) {
+                console.log(`Usuário ID ${usuario_id} atualizado com sucesso!`);
 
-            location.reload();
-        } else {
-            console.error(`Falha ao atualizar o usuário ${usuario_id}. Status: ${response.status}`);
-        }
-    })
-        .catch(function (error) {
-            console.error("Erro de rede:", error);
-        });
+                location.reload();
+            } else {
+                console.error(`Falha ao atualizar o usuário ${usuario_id}. Status: ${response.status}`);
+            }
+        })
+            .catch(function (error) {
+                console.error("Erro de rede:", error);
+            });
     };
 
     function deletar_usuario() {

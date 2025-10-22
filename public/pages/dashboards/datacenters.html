@@ -13,10 +13,10 @@
     <link rel="stylesheet" href="../../style/popup.css">
 </head>
 
-<body>
-  <nav id="id_sidebar"></nav>
-  <div id="id_info_kpis"></div>
-  <div id="popup_screen"></div>
+<body onload="listarDatacenters()">
+    <nav id="id_sidebar"></nav>
+    <div id="id_info_kpis"></div>
+    <div id="popup_screen"></div>
 
 
     <div class="page_content">
@@ -48,17 +48,9 @@
 
         <div class="container_datacenters">
             <div class="lista_datacenters">
-                <h1 class="lista_titulo">Data Centers</h1> 
-                
-                <div class="card_datacenter" onclick="popup_editar_datacenter()">
-                    <div id="usuario_checkbox">
-                        <input type="checkbox" class="checkbox">
-                    </div>
-                    <div class="datacenter_informacoes">
-                        <div id="datacenter_nome">Data Center 1</div>
-                        <div id="datacenter_localizacao">Rua Haddock Lobo, 595 - Cerqueira César, São Paulo - SP, 01414-001</div>
-                    </div>
-                </div>
+                <h1 class="lista_titulo">Data Centers</h1>
+                <div id="datacenters"></div>
+
             </div>
         </div>
     </div>
@@ -68,15 +60,204 @@
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
 <script>
-    function funcao_adicionar_datacenter(){
+    let listaIdDelete = [];
+    function listarDatacenters() {
+        let idEmpresa = sessionStorage.empresaId;
+
+        fetch(`/datacenters/buscarDatacenter/${idEmpresa}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+        }).then(function (dadosDatacenters) {
+            console.log(dadosDatacenters);
+            for (let i = 0; i < dadosDatacenters.length; i++) {
+                // let data = dadosDatacenters[i].data_cadastro.split('T');
+                // let partes = data[0].split('-');
+                // let dataFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;
+                //ENDEREÇO:
+                let endereco = `
+                ${dadosDatacenters[i].pais} - ${dadosDatacenters[i].estado} - ${dadosDatacenters[i].cidade} | ${dadosDatacenters[i].bairro} - ${dadosDatacenters[i].rua}, ${dadosDatacenters[i].numero} | ${dadosDatacenters[i].complemento}
+                `;
+                datacenters.innerHTML += `
+                
+                <div class="card_datacenter " id="${dadosDatacenters[i].idDataCenter}" onclick="popup_editar_datacenter(${dadosDatacenters[i].idDataCenter}, ${dadosDatacenters[i].FkEndereco})">
+                    <div id="usuario_checkbox">
+                        <input type="checkbox" class="checkbox" value="${dadosDatacenters[i].idDataCenter}" onchange="adicionarListaDelete(this)">
+                        </div>
+                        <div class="datacenter_informacoes">
+                            <div id="datacenter_nome">${dadosDatacenters[i].nome}</div>
+                            <div id="datacenter_localizacao">
+                                    ${endereco}
+                                    </div>
+                            </div>
+                        </div>
+                        
+                        `
+                        console.log(dadosDatacenters[i])
+            }
+            totalUsuarios.innerHTML = dadosDatacenters.length;
+            attachCheckboxListeners();
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
+    //Botão de deletar
+    function attachCheckboxListeners() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const imgDeletar = document.querySelector('.icone_deletar img');
+        console.log("Funcao Checkbox")
+        if (!checkboxes.length) return;
+        if (!imgDeletar) return;
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('click', (event) => {
+                event.stopPropagation();
+            });
+
+            checkbox.addEventListener('change', () => {
+                const anyChecked = Array.from(document.querySelectorAll('input[type="checkbox"]')).some(cb => cb.checked);
+                imgDeletar.style.display = anyChecked ? 'block' : 'none';
+            });
+        });
+    }
+    function adicionarListaDelete(checkbox) {
+        console.log("Estou adicionando cards com checkbox a lista")
+        if (checkbox.checked) {
+            listaIdDelete.push(checkbox.value);
+        } else {
+            let indexARetirar = listaIdDelete.indexOf(checkbox.value);
+            listaIdDelete.splice(indexARetirar, 1);
+        }
+        console.log(listaIdDelete);
+    }
+    function funcao_adicionar_datacenter() {
+        mensagem_erro.innerHTML = '';
+        let nomeDataCenter = ipt_datacenter_nome.value
+        let dcPais = ipt_datacenter_pais.value;
+        let dcEstado = ipt_datacenter_estado.value;
+        let dcCidade = ipt_datacenter_cidade.value;
+        let dcBairro = ipt_datacenter_bairro.value;
+        let dcRua = ipt_datacenter_rua.value;
+        let dcNum = ipt_datacenter_numero.value;
+        let dcComple = ipt_datacenter_complemento.value;
+
+        if (!nomeDataCenter || !dcPais || !dcEstado || !dcCidade || !dcBairro || !dcRua || !dcNum) {
+            mensagem_erro.innerHTML = `Todos os campos precisam ser preenchidos!`;
+            return;
+        }
+        if (!dcComple) {
+            dcComple = 'Sem complemento'
+        }
+        fetch(`/datacenters/adicionarDatacenter`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                DcNomeServer: nomeDataCenter,
+                DcPaisServer: dcPais,
+                DcEstadoServer: dcEstado,
+                DcCidadeServer: dcCidade,
+                DcBairroServer: dcBairro,
+                DcRuaServer: dcRua,
+                DcNumServer: dcNum,
+                DcComplementoServer: dcComple,
+                fkEmpresa: sessionStorage.empresaId
+
+            })
+        }).then(function (resposta) {
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                mensagem_erro.innerHTML = `Datacenter cadastrado com sucesso!`;
+
+                setTimeout(function () {
+                    location.reload(true);
+                }, 2000);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
         fechar_popup();
     }
 
-    function funcao_editar_datacenter(){
+    function funcao_editar_datacenter(idDataCenter, fkEndereco) {
+        console.log("Editar =>", idDataCenter, fkEndereco);
+        mensagem_erro.innerHTML = '';
+        let nomeDataCenter = ipt_datacenter_nome.value
+        let dcPais = ipt_datacenter_pais.value;
+        let dcEstado = ipt_datacenter_estado.value;
+        let dcCidade = ipt_datacenter_cidade.value;
+        let dcBairro = ipt_datacenter_bairro.value;
+        let dcRua = ipt_datacenter_rua.value;
+        let dcNum = ipt_datacenter_numero.value;
+        let dcComple = ipt_datacenter_complemento.value;
+
+        if (!nomeDataCenter || !dcPais || !dcEstado || !dcCidade || !dcBairro || !dcRua || !dcNum) {
+            mensagem_erro.innerHTML = `Todos os campos precisam ser preenchidos!`;
+            return;
+        }
+        if (!dcComple) {
+            dcComple = 'Sem complemento'
+        }
+        fetch(`/datacenters/atualizarDatacenter/${idDataCenter}/${fkEndereco}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                DcIdDatacenter: idDataCenter,
+                DcNomeServer: nomeDataCenter,
+                DcPaisServer: dcPais,
+                DcEstadoServer: dcEstado,
+                DcCidadeServer: dcCidade,
+                DcBairroServer: dcBairro,
+                DcRuaServer: dcRua,
+                DcNumServer: dcNum,
+                DcComplementoServer: dcComple,
+                DcfkEndereco: fkEndereco
+            })
+        }).then(function (response) {
+            if (response.ok) {
+                console.log(`Datacenter ID ${idDataCenter} atualizado com sucesso!`);
+
+                location.reload();
+            } else {
+                console.error(`Falha ao atualizar o usuário ${idDataCenter}. Status: ${response.status}`);
+            }
+        })
+            .catch(function (error) {
+                console.error("Erro de rede:", error);
+            });
         fechar_popup();
     }
 
-    function funcao_deletar_datacenter(){
+    function funcao_deletar_datacenter() {
+        console.log("Comecei a funcao de deletar")
+        for (let i = 0; i < listaIdDelete.length; i++) {
+            fetch(`/datacenters/excluirDatacenter/${listaIdDelete[i]}`, {
+                method: 'DELETE',
+            }).then(function (response) {
+                if (response.ok) {
+                    console.log(`Datacenter ID ${listaIdDelete[i]} deletado com sucesso!`);
+
+                    location.reload();
+                } else {
+                    console.error(`Falha ao deletar o datacenter ${listaIdDelete[i]}. Status: ${response.status}`);
+                }
+            })
+                .catch(function (error) {
+                    console.error("Erro de rede:", error);
+                });
+        }
         fechar_popup();
+        //Limpando lista delete
+        listaIdDelete = [];
     }
 </script>

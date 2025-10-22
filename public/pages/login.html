@@ -309,7 +309,7 @@
         })
             .then(resposta => {
                 if (resposta.ok) {
-                    avisoCadastro.innerHTML += `A empresa ${nome} foi cadastrada com sucesso, aguarde a aprovação dos nossos administrador.`;
+                    avisoCadastro.innerHTML += `<div style="color: black;">A empresa ${nome} foi cadastrada com sucesso, aguarde a aprovação dos nossos administrador.</div>`;
                     setTimeout(() => {
                         iptCNPJ.value = '';
                         iptNomeEmpresa.value = '';

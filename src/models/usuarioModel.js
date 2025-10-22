@@ -3,7 +3,18 @@ var database = require("../database/config");
 function autenticar(email, senha) {
     let instrucaoSql = ` 
         SELECT
-            u.idUsuario as userId, u.nome as userNome, u.sobrenome as userSobrenome, u.email as userEmail, u.telefone as userTelefone, u.fotoUser as fotoUser, u.FkCargo as cargoId, c.nome_cargo as cargo, e.idEmpresa as empresaId, e.nome AS empresaNome, e.ativo as empresaAtiva, e.aprovada as empresaAprovada
+            u.idUsuario as userId, 
+            u.nome as userNome, 
+            u.sobrenome as userSobrenome, 
+            u.email as userEmail, 
+            u.telefone as userTelefone, 
+            u.fotoUser as fotoUser, 
+            u.FkCargo as cargoId, 
+            c.nome_cargo as cargo, 
+            e.idEmpresa as empresaId, 
+            e.nome AS empresaNome, 
+            e.ativo as empresaAtiva, 
+            e.aprovada as empresaAprovada
         FROM usuarios AS u
         JOIN cargos AS c ON u.FkCargo = c.idCargo
         JOIN empresas AS e ON u.FkEmpresa = e.idEmpresa
@@ -36,7 +47,8 @@ function buscarUsuarios(fkEmpresa) {
 
 function listarCargos(idEmpresa) {
     let instrucaoSql = `
-    SELECT idCargo, nome_cargo FROM Cargos
+    SELECT idCargo, 
+    nome_cargo FROM Cargos
     WHERE fkEmpresa = ${idEmpresa};
     `;
 
@@ -45,7 +57,9 @@ function listarCargos(idEmpresa) {
 
 function listarCargosEditar(idEmpresa, idCargoAtual) {
     let instrucaoSql = `
-    SELECT idCargo, nome_cargo FROM Cargos
+    SELECT 
+    idCargo, 
+    nome_cargo FROM Cargos
     WHERE fkEmpresa = ${idEmpresa} and idCargo not like ${idCargoAtual};
     `;
 

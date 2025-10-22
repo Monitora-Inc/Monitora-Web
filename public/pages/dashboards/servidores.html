@@ -13,10 +13,10 @@
     <link rel="stylesheet" href="../../style/popup.css">
 </head>
 
-<body>
-  <nav id="id_sidebar"></nav>
-  <div id="id_info_kpis"></div>
-  <div id="popup_screen"></div>
+<body onload="listarServidores()">
+    <nav id="id_sidebar"></nav>
+    <div id="id_info_kpis"></div>
+    <div id="popup_screen"></div>
 
 
     <div class="page_content">
@@ -55,7 +55,7 @@
                 <div class="status_checkbox">
                     <div class="servidor_status ativo"></div>
                     <div id="servidor_checkbox">
-                    <input type="checkbox" class="checkbox">
+                        <input type="checkbox" class="checkbox">
                     </div>
                 </div>
                 <div class="servidor_informacoes">
@@ -70,7 +70,7 @@
                 <div class="status_checkbox">
                     <div class="servidor_status inativo"></div>
                     <div id="servidor_checkbox">
-                    <input type="checkbox" class="checkbox">
+                        <input type="checkbox" class="checkbox">
                     </div>
                 </div>
                 <div class="servidor_informacoes">
@@ -86,3 +86,43 @@
 </html>
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
+<script>
+    function listarServidores() {
+        let idEmpresa = sessionStorage.empresaId;
+
+        fetch(`/servidores/listar/${idEmpresa}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+        }).then(function (dadosServidores) {
+            console.log(dadosServidores);
+            const container = document.querySelector(".cards_servidores");
+            container.innerHTML = "";
+
+            for (let i = 0; i < dadosServidores.length; i++) {
+                let servidor = dadosServidores[i];
+
+                container.innerHTML += `
+                <div class="card_servidor" id="${servidor.idServidor}" onclick="popup_servidor_informacoes(${servidor.idServidor})">
+                    <div class="servidor_informacoes">
+                        <div id="servidor_nome">${servidor.nome}</div>
+                        <div id="servidor_localizacao">DataCenter ID: ${servidor.fkDataCenter}</div>
+                        <div id="servidor_id"><span>ID Servidor: </span><br>${servidor.idServidor}</div>
+                    </div>
+                </div>
+            `;
+            }
+
+            totalUsuarios.innerHTML = dadosServidores.length;
+        }).catch(function (erro) {
+            console.log(`#ERRO: ${erro}`);
+        });
+    }
+
+</script>

@@ -39,6 +39,7 @@ function popup_deletar(usuario_id) {
 
 function fechar_popup() {
     popup_screen.innerHTML = ``;
+    location.reload();
 }
 
 function sair() {
@@ -319,19 +320,19 @@ function popup_adicionar_datacenter() {
                     </div>
                     <input type="text" id="ipt_datacenter_estado" placeholder="Digite o nome do estado" required>
 
-                    <!-- Estado -->
+                    <!-- Cidade -->
                     <div class="input-label-wrapper">
                     <span class="input-label">Cidade</span>
                     </div>
                     <input type="text" id="ipt_datacenter_cidade" placeholder="Digite o nome da cidade" required>
                     
-                    <!-- Cidade -->
+                    <!-- Bairro -->
                     <div class="input-label-wrapper">
                     <span class="input-label">Bairro</span>
                     </div>
                     <input type="text" id="ipt_datacenter_bairro" placeholder="Digite o nome do bairro" required>
                     
-                    <!-- Bairo -->
+                    <!-- Rua -->
                     <div class="input-label-wrapper">
                     <span class="input-label">Rua</span>
                     </div>
@@ -341,7 +342,7 @@ function popup_adicionar_datacenter() {
                     <div class="input-label-wrapper">
                     <span class="input-label">Número</span>
                     </div>
-                    <input type="password" id="ipt_datacenter_numero" placeholder="Digite o número do local" required>
+                    <input type="number" id="ipt_datacenter_numero" placeholder="Digite o número do local" required>
 
                     <!-- Complemento -->
                     <div class="input-label-wrapper">
@@ -362,7 +363,8 @@ function popup_adicionar_datacenter() {
         </div>`;
 }
 
-function popup_editar_datacenter() {
+function popup_editar_datacenter(idDataCenter, fkEndereco) {
+    console.log("popup_editar_datacenter =>", idDataCenter, fkEndereco);
     popup_screen.innerHTML = `        
     <div class="popup_container">
             <div class="popup">
@@ -398,13 +400,13 @@ function popup_editar_datacenter() {
                     <div class="input-label-wrapper">
                     <span class="input-label">Rua</span>
                     </div>
-                    <input type="email" id="ipt_datacenter_rua" placeholder="Digite o nome da rua" required>
+                    <input type="text" id="ipt_datacenter_rua" placeholder="Digite o nome da rua" required>
                     
                     <!-- Número -->
                     <div class="input-label-wrapper">
                     <span class="input-label">Número</span>
                     </div>
-                    <input type="password" id="ipt_datacenter_numero" placeholder="Digite o número do local" required>
+                    <input type="number" id="ipt_datacenter_numero" placeholder="Digite o número do local" required>
 
                     <!-- Complemento -->
                     <div class="input-label-wrapper">
@@ -418,7 +420,7 @@ function popup_editar_datacenter() {
 
                 <!-- Botões -->
                 <div class="btns_popup">
-                    <button onclick="funcao_editar_datacenter()">Editar</button>
+                    <button onclick="funcao_editar_datacenter(${idDataCenter}, ${fkEndereco})">Editar</button>
                     <button onclick="fechar_popup()">Cancelar</button>
                 </div>
             </div>

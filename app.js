@@ -21,6 +21,7 @@ var empresaRouter = require("./src/routes/empresas");
 var servidorRouter = require("./src/routes/servidores");
 var cargoRouter = require("./src/routes/cargos");
 var aprovarCadastro = require("./src/routes/aprovarCadastro");
+var datacentersRouter = require("./src/routes/datacenters")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -32,6 +33,7 @@ app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
 app.use("/empresas", empresaRouter);
 app.use("/servidores", servidorRouter);
+app.use("/datacenters", datacentersRouter)
 app.use("/cargos", cargoRouter);
 app.use("/aprovarCadastro", aprovarCadastro);
 
