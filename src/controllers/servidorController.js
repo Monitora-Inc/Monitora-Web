@@ -1,42 +1,19 @@
 var servidorModel = require("../models/servidorModel");
 
+//funcao de adicão de dados servidor
 function adicionarServidor(req, res) {
     let nome = req.body.nome;
     let fkDataCenter = req.body.fkDataCenter;
-    let limite = req.body.limite; // limite da CPU, por exemplo
-    let nomeComponenteId = req.body.nomeComponenteId;
-    let medidaId = req.body.medidaId;
 
-    // 1️⃣ Inserir servidor
-    servidorModel.adicionarServidor(nome, fkDataCenter)
-    .then(resultadoServidor => {
-        let idServidor = resultadoServidor.insertId;
-
-        // 2️⃣ Inserir parâmetro (limite)
-        servidorModel.adicionarParametro(limite)
-        .then(resultadoParametro => {
-            let idParametro = resultadoParametro.insertId;
-
-            // 3️⃣ Inserir componente
-            servidorModel.adicionarComponente(nomeComponenteId, idServidor, medidaId, idParametro)
-            .then(() => {
-                res.status(201).send("✅ Servidor e componente cadastrados com sucesso!");
-            })
-            .catch(erro => {
-                console.error(erro);
-                res.status(500).send("Erro ao cadastrar componente.");
-            });
-        })
+        servidorModel.adicionarServidor(nome, fkDataCenter)
+        .then(() => res.status(200).send("✅ Servidor cadastrado com sucesso!"))
         .catch(erro => {
             console.error(erro);
-            res.status(500).send("Erro ao cadastrar parâmetro.");
+            res.status(500).send("Erro ao cadastrar servidor.");
         });
-    })
-    .catch(erro => {
-        console.error(erro);
-        res.status(500).send("Erro ao cadastrar servidor.");
-    });
 }
+
+//Funcão de edicão de dados do servidor
 
 function atualizarServidor(req, res) {
     let idServidor = req.params.id;
@@ -51,6 +28,11 @@ function atualizarServidor(req, res) {
         });
 }
 
+
+
+
+
+//Não está excluindo, parametro vindo como undefined
 function excluirServidor(req, res) {
     let idServidor = req.params.id;
 
@@ -63,7 +45,9 @@ function excluirServidor(req, res) {
 }
 
 function listarServidores(req, res) {
-    servidorModel.listarServidores()
+    let idEmpresa = req.params.id;
+
+    servidorModel.listarServidores(idEmpresa)
         .then(resultado => res.status(200).json(resultado))
         .catch(erro => {
             console.error(erro);
