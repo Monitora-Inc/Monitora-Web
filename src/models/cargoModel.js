@@ -18,7 +18,17 @@ function adicionarCargo(fkEmpresa, nomeCargo) {
     return database.executar(instrucaoSql);
 }
 
+function deletarCargo(cargoId) {
+    let instrucaoSql = `
+        DELETE FROM cargos
+        WHERE idCargo = ${cargoId};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarCargos,
-    adicionarCargo
+    adicionarCargo,
+    deletarCargo
 }

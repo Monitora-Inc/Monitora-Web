@@ -17,7 +17,16 @@ function adicionarCargo(req, res) {
     });
 }
 
+function deletarCargo(req, res) {
+    let cargoId = req.params.cargoId;
+
+    cargoModel.deletarCargo(cargoId).then((resultado) => {
+        res.json(resultado);
+    });
+}
+
 module.exports = {
     buscarCargos,
-    adicionarCargo
+    adicionarCargo,
+    deletarCargo
 }

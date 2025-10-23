@@ -29,7 +29,7 @@
                         <img class="icon_cargo" src="../../assets/icons/icone_adicionar_cargo.svg" alt=""
                             onclick="popup_adicionar_cargos()">
                         <img class="icon_cargo" src="../../assets/icons/icone_deletar.svg" alt=""
-                            onclick="popup_deletar_cargos()">
+                            onclick="popup_deletar_cargos(listaIdDelete)">
                     </div>
                 </div>
                 <div class="cargos_lista" id="listaCargos">
@@ -159,6 +159,18 @@
         });
     });
 
+    let listaIdDelete = [];
+
+    function adicionarListaDelete(checkbox) {
+        if (checkbox.checked) {
+            listaIdDelete.push(checkbox.value);
+        } else {
+            let indexARetirar = listaIdDelete.indexOf(checkbox.value);
+            listaIdDelete.splice(indexARetirar, 1);
+        }
+        console.log(listaIdDelete);
+    }
+
     function listarCargos() {
         let empresaId = sessionStorage.empresaId;
 
@@ -178,12 +190,35 @@
                 listaCargos.innerHTML += `
                     <div class="card_cargo">
                         <div id="cargo_checkbox">
-                            <input type="checkbox" class="checkbox" value="${dadosCargos[i].idCargo}">
+                            <input type="checkbox" class="checkbox" value="${dadosCargos[i].idCargo}" onchange="adicionarListaDelete(this)">
                         </div>
                         <h2>${dadosCargos[i].nome_cargo}</h2>
                     </div>
                 `
             }
         })
+    }
+
+    function deletar_cargo() {
+        if (listaIdDelete.length === 0) {
+            mensagem_erro.innerHTML = "Selecione um ou mais cargos para deletar!";
+        }
+
+        for (let i = 0; i < listaIdDelete.length; i++) {
+            fetch(`/cargos/deletarCargo/${listaIdDelete[i]}`, {
+                method: 'DELETE',
+            }).then(function (response) {
+                if (response.ok) {
+                    console.log(`Usuário ID ${listaIdDelete[i]} deletado com sucesso!`);
+
+                    location.reload();
+                } else {
+                    console.error(`Falha ao deletar o usuário ${listaIdDelete[i]}. Status: ${response.status}`);
+                }
+            })
+                .catch(function (error) {
+                    console.error("Erro de rede:", error);
+                });
+        }
     }
 </script>

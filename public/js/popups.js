@@ -457,24 +457,69 @@ function popup_deletar_datacenter() {
                                                                                               \______/                        
 */
 
-function popup_deletar_cargos() {
+function popup_adicionar_cargos() {
     popup_screen.innerHTML = `        
         <div class="popup_container">
             <div class="popup">
-                <h1>Deletar Cargos?</h1>
-
+                <h1>Adicionar Cargo</h1>
+                <div class="inputs">
+                <input type="text" id="ipt_nome" placeholder="Digite o nome do cargo" required>
+                </div>
                 <div id="mensagem_erro"></div>
 
                 <!-- Botões -->
                 <div class="btns_popup">
-                    <button onclick="deletar_cargo()">Sim</button>
+                    <button onclick="adicionar_cargo()">Sim</button>
                     <button onclick="fechar_popup()">Não</button>
                 </div>
             </div>
         </div>`;
 }
 
+function adicionar_cargo() {
+    let empresaId = sessionStorage.empresaId;
+    let nomeCargo = ipt_nome.value;
 
+    fetch(`/cargos/adicionarCargo`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkEmpresa: empresaId,
+            nomeCargo: nomeCargo
+        })
+    }).then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+            mensagem_erro.innerHTML = `Cargo criado com sucesso!`;
+
+            setTimeout(function () {
+                location.reload(true);
+            }, 2000);
+        }
+    }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+    });
+}
+
+function popup_deletar_cargos(listaIdDelete) {
+    popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Deletar cargos selecionados?</h1>
+
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="deletar_cargo(${listaIdDelete})">Sim</button>
+                    <button onclick="fechar_popup()">Não</button>
+                </div>
+            </div>
+        </div>`;
+}
 
 /*
  /$$$$$$$$        /$$                       /$$                 /$$   /$$                                         /$$                    
@@ -657,53 +702,4 @@ function listarCargos(idEmpresa) {
             ipt_cargo.innerHTML += `<option value="${dadosCargos[i].idCargo}">${dadosCargos[i].nome_cargo}</option>`;
         }
     })
-}
-
-
-
-function popup_adicionar_cargos() {
-    popup_screen.innerHTML = `        
-        <div class="popup_container">
-            <div class="popup">
-                <h1>Adicionar Cargo</h1>
-                <div class="inputs">
-                <input type="text" id="ipt_nome" placeholder="Digite o nome do cargo" required>
-                </div>
-                <div id="mensagem_erro"></div>
-
-                <!-- Botões -->
-                <div class="btns_popup">
-                    <button onclick="adicionar_cargo()">Sim</button>
-                    <button onclick="fechar_popup()">Não</button>
-                </div>
-            </div>
-        </div>`;
-}
-
-function adicionar_cargo() {
-    let empresaId = sessionStorage.empresaId;
-    let nomeCargo = ipt_nome.value;
-
-    fetch(`/cargos/adicionarCargo`, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            fkEmpresa: empresaId,
-            nomeCargo: nomeCargo
-        })
-    }).then(function (resposta) {
-        console.log("resposta: ", resposta);
-
-        if (resposta.ok) {
-            mensagem_erro.innerHTML = `Cargo criado com sucesso!`;
-
-            setTimeout(function () {
-                location.reload(true);
-            }, 2000);
-        }
-    }).catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-    });
 }
