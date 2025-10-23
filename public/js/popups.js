@@ -49,20 +49,26 @@ function sair() {
 }
 
 // Botão de deletar
-const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+function attachCheckboxListeners() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    if (!checkboxes.length) return;
 
-checkboxes.forEach((checkbox) => {
-    checkbox.addEventListener('click', (event) => {
-        event.stopPropagation();
-    });
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
 
-    checkbox.addEventListener('change', () => {
-        const imgDeletar = document.querySelector('.icone_deletar img');
-        imgDeletar.style.display = Array.from(checkboxes).some(cb => cb.checked)
-            ? 'block'
-            : 'none';
+        checkbox.addEventListener('change', () => {
+            const imgDeletar = document.querySelector('.icone_deletar img');
+            if (!imgDeletar) return; // proteção contra null
+
+            const anyChecked = Array.from(document.querySelectorAll('input[type="checkbox"]'))
+                .some(cb => cb.checked);
+
+            imgDeletar.style.display = anyChecked ? 'block' : 'none';
+        });
     });
-});
+}
 
 /*
  /$$$$$$$$        /$$                       /$$                 /$$$$$$$                      /$$$$$$  /$$ /$$
@@ -515,6 +521,60 @@ function popup_deletar_cargos(listaIdDelete) {
                 <!-- Botões -->
                 <div class="btns_popup">
                     <button onclick="deletar_cargo(${listaIdDelete})">Sim</button>
+                    <button onclick="fechar_popup()">Não</button>
+                </div>
+            </div>
+        </div>`;
+}
+
+function popup_alterar_permissoes(idCargo, listaPermissoesAdicionar, listaPermissoesRetirar) {
+    console.log(idCargo)
+    console.log(listaPermissoesAdicionar)
+    console.log(listaPermissoesRetirar)
+    if (idCargo == 0) {
+        popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Selecione um cargo.</h1>
+
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="fechar_popup()">Fechar</button>
+                </div>
+            </div>
+        </div>`;
+        return;
+    }
+
+    if (listaPermissoesAdicionar.length === 0 && listaPermissoesRetirar.length === 0) {
+        popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Faça alterações nas permissões.</h1>
+
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="fechar_popup()">Fechar</button>
+                </div>
+            </div>
+        </div>`;
+        return;
+    }
+
+    popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Deseja alterar as permissões?</h1>
+
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="alterar_permissoes(${idCargo}, ${listaPermissoesAdicionar}, ${listaPermissoesRetirar})">Sim</button>
                     <button onclick="fechar_popup()">Não</button>
                 </div>
             </div>

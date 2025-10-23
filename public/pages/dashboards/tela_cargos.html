@@ -53,7 +53,7 @@
                 <div class="header">
                     <h1>Permissões</h1>
                     <select id="selectCargoAtualizar">
-                        <option value="" disabled selected>Escolha um cargo para atualizar...</option>
+                        <option value="0" disabled selected>Escolha um cargo para atualizar...</option>
                     </select>
                 </div>
 
@@ -61,39 +61,45 @@
                     <h2>Usuários</h2>
                     <div class="card_permissao">
                         <div id="adicionar_usuario">
-                            <input type="checkbox" class="checkbox" onchange="adicionarUsuario()">
+                            <input type="checkbox" class="checkbox" value="1" onchange="adicionarListaPermissoes(this)">
                         </div>
                         <h2>Adicionar Usuário</h2>
                     </div>
                     <div class="card_permissao">
                         <div id="editar_usuario">
-                            <input type="checkbox" class="checkbox" onchange="editarUsuario()">
+                            <input type="checkbox" class="checkbox" value="2" onchange="adicionarListaPermissoes(this)">
                         </div>
                         <h2>Editar Usuário</h2>
                     </div>
                     <div class="card_permissao">
                         <div id="excluir_usuario">
-                            <input type="checkbox" class="checkbox" onchange="excluirUsuario()">
+                            <input type="checkbox" class="checkbox" value="3" onchange="adicionarListaPermissoes(this)">
                         </div>
                         <h2>Excluir Usuário</h2>
+                    </div>
+                    <div class="card_permissao">
+                        <div id="excluir_usuario">
+                            <input type="checkbox" class="checkbox" value="4" onchange="adicionarListaPermissoes(this)">
+                        </div>
+                        <h2>Editar Perfil</h2>
                     </div>
 
                     <h2>Servidor</h2>
                     <div class="card_permissao">
                         <div id="adicionar_servidor">
-                            <input type="checkbox" class="checkbox" onchange="adicionarServidor()">
+                            <input type="checkbox" class="checkbox" value="5" onchange="adicionarListaPermissoes(this)">
                         </div>
                         <h2>Adicionar Servidor</h2>
                     </div>
                     <div class="card_permissao">
                         <div id="editar_servidor">
-                            <input type="checkbox" class="checkbox" onchange="editarServidor()">
+                            <input type="checkbox" class="checkbox" value="6" onchange="adicionarListaPermissoes(this)">
                         </div>
                         <h2>Editar Servidor</h2>
                     </div>
                     <div class="card_permissao">
                         <div id="excluir_servidor">
-                            <input type="checkbox" class="checkbox" onchange="excluirServidor()">
+                            <input type="checkbox" class="checkbox" value="7" onchange="adicionarListaPermissoes(this)">
                         </div>
                         <h2>Excluir Servidor</h2>
                     </div>
@@ -101,19 +107,19 @@
                     <h2>Data Centers</h2>
                     <div class="card_permissao">
                         <div id="adicionar_datacenter">
-                            <input type="checkbox" class="checkbox" onchange="adicionarDatacenter()">
+                            <input type="checkbox" class="checkbox" value="8" onchange="adicionarListaPermissoes(this)">
                         </div>
                         <h2>Adicionar Data Center</h2>
                     </div>
                     <div class="card_permissao">
                         <div id="editar_datacenter">
-                            <input type="checkbox" class="checkbox" onchange="editarDatacenter()">
+                            <input type="checkbox" class="checkbox" value="9" onchange="adicionarListaPermissoes(this)">
                         </div>
                         <h2>Editar Data Center</h2>
                     </div>
                     <div class="card_permissao">
                         <div id="excluir_datacenter">
-                            <input type="checkbox" class="checkbox" onchange="excluirDatacenter()">
+                            <input type="checkbox" class="checkbox" value="10" onchange="adicionarListaPermissoes(this)">
                         </div>
                         <h2>Excluir Data Center</h2>
                     </div>
@@ -121,24 +127,24 @@
                     <h2>Cargos</h2>
                     <div class="card_permissao">
                         <div id="adicionar_cargo">
-                            <input type="checkbox" class="checkbox" onchange="adicionarCargo()">
+                            <input type="checkbox" class="checkbox" value="11" onchange="adicionarListaPermissoes(this)">
                         </div>
                         <h2>Adicionar Cargo</h2>
                     </div>
                     <div class="card_permissao">
                         <div id="editar_cargo">
-                            <input type="checkbox" class="checkbox" onchange="editarCargo()">
+                            <input type="checkbox" class="checkbox" value="12" onchange="adicionarListaPermissoes(this)">
                         </div>
                         <h2>Editar Cargo</h2>
                     </div>
                     <div class="card_permissao">
                         <div id="excluir_cargo">
-                            <input type="checkbox" class="checkbox" onchange="excluirCargo()">
+                            <input type="checkbox" class="checkbox" value="13" onchange="adicionarListaPermissoes(this)">
                         </div>
                         <h2>Excluir Cargo</h2>
                     </div>
                 </div>
-                <button>Confirmar alterações</button>
+                <button onclick="popup_alterar_permissoes(selectCargoAtualizar.value, listaPermissoesAdicionar, listaPermissoesRetirar)">Confirmar alterações</button>
             </div>
         </div>
     </div>
@@ -169,6 +175,27 @@
             listaIdDelete.splice(indexARetirar, 1);
         }
         console.log(listaIdDelete);
+    }
+
+    let listaPermissoesAdicionar = [];
+    let listaPermissoesRetirar = [];
+
+    function adicionarListaPermissoes(checkbox) {
+        if (checkbox.checked) {
+            if (listaPermissoesRetirar.indexOf(checkbox.value) != -1) {
+                let indexARetirar = listaPermissoesRetirar.indexOf(checkbox.value);
+                listaPermissoesRetirar.splice(indexARetirar, 1);
+            }
+            listaPermissoesAdicionar.push(checkbox.value);
+        } else {
+            if (listaPermissoesAdicionar.indexOf(checkbox.value) != -1) {
+                let indexARetirar = listaPermissoesAdicionar.indexOf(checkbox.value);
+                listaPermissoesAdicionar.splice(indexARetirar, 1);
+            }
+            listaPermissoesRetirar.push(checkbox.value);
+        }
+        console.log(listaPermissoesAdicionar);
+        console.log(listaPermissoesRetirar);
     }
 
     function listarCargos() {
@@ -220,5 +247,9 @@
                     console.error("Erro de rede:", error);
                 });
         }
+    }
+
+    function alterar_permissoes(idCargo, listaPermissoesAdicionar, listaPermissoesRetirar) {
+        
     }
 </script>
