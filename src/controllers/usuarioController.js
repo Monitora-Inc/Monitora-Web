@@ -54,7 +54,7 @@ function buscarUsuarios(req, res) {
 function listarCargos(req, res) {
     let idEmpresa = req.params.idEmpresa;
 
-    usuarioModel.listarCargos().then((resultado) => {
+    usuarioModel.listarCargos(idEmpresa).then((resultado) => {
         res.json(resultado);
     });
 }
