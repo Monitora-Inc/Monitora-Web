@@ -218,14 +218,33 @@ function popup_adicionar_servidor() {
         </div>`;
 }
 
-function popup_servidor_informacoes() {
+function popup_servidor_informacoes(semComponentes, idServidor, rua, numero, bairro, cidade, estado, pais) {
+    let botoesFuncoes = ""
+    //pegando o parametreo semComponentes caso servidor esteja sem componentes inseridos(semComponentes = true)
+    if(semComponentes){
+        //caso sem componentes os botões dentro da div alteram
+        botoesFuncoes = `
+            <div class="btns_popup">
+                <button onclick="adicionarServidor()">Adicionar</button>
+                <button onclick="fechar_popup()">Fechar</button>
+            </div>
+        `;
+    }else {
+        botoesFuncoes = `
+            <div class="btns_popup">
+                <button onclick="editarServidor()">Editar</button>
+                <button onclick="fechar_popup()">Fechar</button>
+            </div>
+        `;
+    }
+    //botoesFuncoes é adicionado abaixo com popup_screen += botoesFuncoes
     popup_screen.innerHTML = `        
     <div class="popup_container">
             <div class="popup_servidor_informacoes">
 
-                    <input type="text" id="servidor_nome" placeholder="Digite o nome do servidor" value="Servidor 1">
-                    <span class="servidor_label">UUID:</span>
-                    <div id="servidor_uuid">fxvd1vcx23f323543</div>
+                    <input type="text" id="servidor_nome" placeholder="Digite o nome do servidor" value="Servidor ${idServidor}">
+                    <span class="servidor_label">ID:</span>
+                    <div id="servidor_uuid">${idServidor}</div>
                     <span class="servidor_label">Data Center:</span>
                     <div id="servidor_datacenter">
                     <select id="id_filter" onchange="" disabled>
@@ -234,7 +253,7 @@ function popup_servidor_informacoes() {
                     </select>
                     </div>
                     <span class="servidor_label">Localização:</span>
-                    <div id="servidor_datacenter">Rua Haddock Lobo, 595 - Cerqueira César, São Paulo - SP, Brasil</div>
+                    <div id="servidor_datacenter">${rua}, ${numero} - ${bairro}, ${cidade} - ${estado}, ${pais}</div>
 
                     <!-- Parametrização -->
                     <div class="servidor_parametrizacao">
@@ -266,10 +285,12 @@ function popup_servidor_informacoes() {
 
                 <!-- Botões -->
                 <div class="btns_popup">
-                    <button onclick="fechar_popup()">Fechar</button>
+                <!-- Adicao de div alterada ou não alterada -->
+                    ${botoesFuncoes}
                 </div>
             </div>
         </div>`;
+        
 }
 
 function popup_deletar_servidores() {

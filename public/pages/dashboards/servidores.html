@@ -50,7 +50,6 @@
         <h2 class="lista_titulo">Servidores</h2>
         <div class="cards_servidores">
 
-            <!-- Card Servidor Ativo -->
             <div class="card_servidor" onclick="popup_servidor_informacoes()">
                 <div class="status_checkbox">
                     <div class="servidor_status ativo"></div>
@@ -65,20 +64,6 @@
                 </div>
             </div>
 
-            <!-- Card Servidor Inativo -->
-            <div class="card_servidor" onclick="popup_servidor_informacoes()">
-                <div class="status_checkbox">
-                    <div class="servidor_status inativo"></div>
-                    <div id="servidor_checkbox">
-                        <input type="checkbox" class="checkbox">
-                    </div>
-                </div>
-                <div class="servidor_informacoes">
-                    <div id="servidor_nome">Servidor 2</div>
-                    <div id="servidor_localizacao">São Paulo - SP</div>
-                    <div id="servidor-uuid"><span>UUID: </span><br>5jdgfvdgfdfdsfdsssfd23</div>
-                </div>
-            </div>
         </div>
     </div>
 </body>
@@ -87,9 +72,10 @@
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
 <script>
+    let listaIdDelete = []; 
     function listarServidores() {
         let idEmpresa = sessionStorage.empresaId;
-
+        
         fetch(`/servidores/listar/${idEmpresa}`, {
             method: 'GET',
             headers: {
@@ -107,22 +93,106 @@
 
             for (let i = 0; i < dadosServidores.length; i++) {
                 let servidor = dadosServidores[i];
+                //A variável semComponentes verifica serve para verificar se os servidores tem componentes ou não
+                let semComponentes = false;
 
-                container.innerHTML += `
-                <div class="card_servidor" id="${servidor.idServidor}" onclick="popup_servidor_informacoes(${servidor.idServidor})">
-                    <div class="servidor_informacoes">
-                        <div id="servidor_nome">${servidor.nome}</div>
-                        <div id="servidor_localizacao">DataCenter ID: ${servidor.fkDataCenter}</div>
-                        <div id="servidor_id"><span>ID Servidor: </span><br>${servidor.idServidor}</div>
+                //caso não tenha é adicionado uma div demonstrando que servidor ainda não recebeu adicão de dados
+                // semComponentes é enviado como parametro para funcao popup_servidor_informacoes()
+                if(servidor.nome_componente_id == null){
+                    semComponentes = true;
+                    container.innerHTML += `
+                    <div class="card_servidor" id="${servidor.idServidor}" onclick="popup_servidor_informacoes(${semComponentes}, ${servidor.idServidor}, '${servidor.rua}', ${servidor.numero}, '${servidor.bairro}', '${servidor.cidade}', '${servidor.estado}', '${servidor.pais}')">
+                        <div id="usuario_checkbox">
+                                <input type="checkbox" class="checkbox" value="${servidor.idServidor}" onchange="adicionarListaDelete(this)">
+                                </div>
+                            <div class="servidor_informacoes">
+                                <!-- Div adicionada com boolean semComponentes -->
+                                <div id="servidor_nome" style="font-size: 70%; color: red">Este servidor ainda não recebeu adição de dados!</div>
+                                <div id="servidor_nome">${servidor.nome}</div>
+                                <div id="servidor_localizacao">DataCenter ID: ${servidor.fkDataCenter}</div>
+                                <div id="servidor_id"><span>ID Servidor: </span><br>${servidor.idServidor}</div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
+                }else{
+                    container.innerHTML += `
+                    <div class="card_servidor" id="${servidor.idServidor}" onclick="popup_servidor_informacoes(${semComponentes}, ${servidor.idServidor}, '${servidor.rua}', ${servidor.numero}, '${servidor.bairro}', '${servidor.cidade}', '${servidor.estado}', '${servidor.pais}')">
+                        <div id="usuario_checkbox">
+                                <input type="checkbox" class="checkbox" value="${servidor.idServidor}" onchange="adicionarListaDelete(this)">
+                                </div>
+                            <div class="servidor_informacoes">
+                                <div id="servidor_nome">${servidor.nome}</div>
+                                <div id="servidor_localizacao">DataCenter ID: ${servidor.fkDataCenter}</div>
+                                <div id="servidor_id"><span>ID Servidor: </span><br>${servidor.idServidor}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }
+                
             }
-
             totalUsuarios.innerHTML = dadosServidores.length;
+            attachCheckboxListeners();
         }).catch(function (erro) {
             console.log(`#ERRO: ${erro}`);
         });
+    }
+        //Botão de deletar
+    function attachCheckboxListeners() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const imgDeletar = document.querySelector('.icone_deletar img');
+        console.log("Funcao Checkbox")
+        if (!checkboxes.length) return;
+        if (!imgDeletar) return;
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('click', (event) => {
+                event.stopPropagation();
+            });
+
+            checkbox.addEventListener('change', () => {
+                const anyChecked = Array.from(document.querySelectorAll('input[type="checkbox"]')).some(cb => cb.checked);
+                imgDeletar.style.display = anyChecked ? 'block' : 'none';
+            });
+        });
+    }
+    function adicionarListaDelete(checkbox) {
+        console.log("Estou adicionando cards com checkbox a lista")
+        if (checkbox.checked) {
+            listaIdDelete.push(checkbox.value);
+        } else {
+            let indexARetirar = listaIdDelete.indexOf(checkbox.value);
+            listaIdDelete.splice(indexARetirar, 1);
+        }
+        console.log(listaIdDelete);
+    }
+
+    //Este item não adiciona o servidor em si, mas os componentes e parametros servidor
+    function adicionarServidor(){
+        
+    }
+    function deletar_servidores() {
+        console.log("Comecei a funcao de deletar")
+        for (let i = 0; i < listaIdDelete.length; i++) {
+            fetch(`/datacenters/excluir/${listaIdDelete[i]}`, {
+                method: 'DELETE',
+            }).then(function (response) {
+                if (response.ok) {
+                    console.log(`Datacenter ID ${listaIdDelete[i]} deletado com sucesso!`);
+
+                    location.reload();
+                } else {
+                    console.error(`Falha ao deletar o datacenter ${listaIdDelete[i]}. Status: ${response.status}`);
+                }
+            })
+                .catch(function (error) {
+                    console.error("Erro de rede:", error);
+                });
+        }
+        fechar_popup();
+        //Limpando lista delete
+        listaIdDelete = [];
     }
 
 </script>
