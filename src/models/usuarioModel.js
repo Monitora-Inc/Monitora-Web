@@ -66,6 +66,17 @@ function listarCargosEditar(idEmpresa, idCargoAtual) {
     return database.executar(instrucaoSql);
 }
 
+function listarPermissoes(idCargo) {
+    let instrucaoSql = `
+        select p.nomePermissao from permissoes as p
+        inner join permissoes_has_cargos as pc on pc.permissoes_idPermissao = p.idPermissao
+        where pc.cargos_idCargo = ${idCargo};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+
 
 function deletarUsuario(usuario_id) {
     let instrucaoSql = `
@@ -111,6 +122,7 @@ module.exports = {
     buscarUsuarios,
     listarCargos,
     listarCargosEditar,
+    listarPermissoes,
     deletarUsuario,
     editarCargo,
     aprovarUsuarioAdmin,

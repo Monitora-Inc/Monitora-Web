@@ -68,6 +68,14 @@ function listarCargosEditar(req, res) {
     });
 }
 
+function listarPermissoes(req, res) {
+    let idCargo = req.params.idCargo;
+
+    usuarioModel.listarPermissoes(idCargo).then((resultado) => {
+        res.json(resultado);
+    });
+}
+
 function deletarUsuario(req, res) {
     let usuario_id = req.params.usuario_id;
 
@@ -107,6 +115,7 @@ module.exports = {
     buscarUsuarios,
     listarCargos,
     listarCargosEditar,
+    listarPermissoes,
     deletarUsuario,
     editarCargo,
     aprovarUsuarioAdmin,
