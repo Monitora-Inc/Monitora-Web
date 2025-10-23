@@ -8,6 +8,16 @@ function buscarCargos(req, res) {
     });
 }
 
+function adicionarCargo(req, res) {
+    let fkEmpresa = req.body.fkEmpresa;
+    let nomeCargo = req.body.nomeCargo;
+
+    cargoModel.adicionarCargo(fkEmpresa, nomeCargo).then((resultado) => {
+        res.json(resultado);
+    });
+}
+
 module.exports = {
-    buscarCargos
+    buscarCargos,
+    adicionarCargo
 }

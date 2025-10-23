@@ -679,3 +679,31 @@ function popup_adicionar_cargos() {
             </div>
         </div>`;
 }
+
+function adicionar_cargo() {
+    let empresaId = sessionStorage.empresaId;
+    let nomeCargo = ipt_nome.value;
+
+    fetch(`/cargos/adicionarCargo`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkEmpresa: empresaId,
+            nomeCargo: nomeCargo
+        })
+    }).then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+            mensagem_erro.innerHTML = `Cargo criado com sucesso!`;
+
+            setTimeout(function () {
+                location.reload(true);
+            }, 2000);
+        }
+    }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+    });
+}

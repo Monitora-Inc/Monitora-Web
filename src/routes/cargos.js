@@ -7,4 +7,8 @@ router.get("/buscarCargos/:fkEmpresa", function(req, res) {
     cargoController.buscarCargos(req, res);
 });
 
+router.post("/adicionarCargo", function(req, res) {
+    cargoController.adicionarCargo(req, res);
+});
+
 module.exports = router;

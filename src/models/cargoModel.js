@@ -9,6 +9,16 @@ function buscarCargos(fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+function adicionarCargo(fkEmpresa, nomeCargo) {
+    let instrucaoSql = `
+        INSERT INTO cargos (nome_cargo, FkEmpresa)
+        VALUES ('${nomeCargo}', ${fkEmpresa});
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
-    buscarCargos
+    buscarCargos,
+    adicionarCargo
 }
