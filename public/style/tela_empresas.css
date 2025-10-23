@@ -33,8 +33,11 @@
     font-size: clamp(1rem, 1vw, 1.2rem);
 }
 
-.container_cards_empresas .card_empresa #id_card_empresa_informacoes span {
+.container_cards_empresas .card_empresa #id_card_empresa_informacoes .pendente {
     color: red;
+}
+.container_cards_empresas .card_empresa #id_card_empresa_informacoes .aprovada {
+    color: greenyellow;
 }
 
 .container_cards_empresas .card_empresa #id_card_empresa_botoes {

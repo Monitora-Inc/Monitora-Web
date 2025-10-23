@@ -50,8 +50,24 @@ function negarEmpresa(req, res) {
     });
 }
 
+function autorizarEmpresa(req, res) {
+    let idEmpresa = req.params.idEmpresa;
+
+    empresaModel.autorizarEmpresa(idEmpresa).then((resultado) => {
+        res.json(resultado);
+    });
+}
+
+function buscarEmpresas(req, res){
+    empresaModel.buscarEmpresas().then((resultado) => {
+        res.json(resultado);
+    });
+}
+
 module.exports = {
     cadastrarEmpresa,
     autenticar,
-    negarEmpresa
+    negarEmpresa,
+    autorizarEmpresa,
+    buscarEmpresas
 }

@@ -23,15 +23,33 @@ function autenticar(cnpj, senha) {
 
 function negarEmpresa(idEmpresa) {
     let instrucaoSql = `
-        DELETE FROM Empresa
+        update Empresas set aprovada = 0
+        WHERE idEmpresa = ${idEmpresa};
+    `
+
+    return database.executar(instrucaoSql);
+}
+
+function autorizarEmpresa(idEmpresa) {
+    let instrucaoSql = `
+        update Empresas set aprovada = 1
         WHERE idEmpresa = ${idEmpresa};
     `;
 
     return database.executar(instrucaoSql);
 }
 
+function buscarEmpresas(){
+    let instrucaoSql = `
+        select idEmpresa, nome, cnpj, ativo, aprovada, data_cadastro, fotoDePerfil from empresas;
+    `;
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     cadastrarEmpresa,
     autenticar,
-    negarEmpresa
+    negarEmpresa,
+    autorizarEmpresa,
+    buscarEmpresas
 }
