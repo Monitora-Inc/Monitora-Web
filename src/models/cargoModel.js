@@ -2,7 +2,7 @@ let database = require("../database/config");
 
 function buscarCargos(fkEmpresa) {
     let instrucaoSql = `
-        SELECT * FROM Cargo
+        SELECT * FROM cargo
         WHERE fkEmpresa = ${fkEmpresa};
     `;
 

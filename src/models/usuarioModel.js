@@ -27,7 +27,7 @@ function autenticar(email, senha) {
 // function cadastrarUsuario(nome, email, senha, ativo, fkEmpresa, fkCargo, isAdmin) --> Assinatura original da função
 function cadastrarUsuario(nome, sobrenome, email, senha, fkEmpresa, fkCargo, telefone) {
     let instrucaoSql = `
-        INSERT INTO Usuarios(nome, sobrenome, email, senha, fkEmpresa, fkCargo, telefone) VALUES
+        INSERT INTO usuarios(nome, sobrenome, email, senha, fkEmpresa, fkCargo, telefone) VALUES
             ('${nome}', '${sobrenome}', '${email}', SHA2('${senha}', 512), ${fkEmpresa}, ${fkCargo}, ${telefone});
     `;
 
@@ -37,7 +37,7 @@ function cadastrarUsuario(nome, sobrenome, email, senha, fkEmpresa, fkCargo, tel
 function buscarUsuarios(fkEmpresa) {
     let instrucaoSql = `
         SELECT u.idUsuario, u.nome, u.sobrenome, c.nome_cargo, c.idCargo, u.email, u.telefone, cast(u.data_cadastro AS DATE) as data_cadastro, u.fotoUser
-        FROM Usuarios u
+        FROM usuarios u
         INNER JOIN cargos c on u.fkcargo = c.idCargo 
         WHERE u.fkEmpresa = ${fkEmpresa};
     `;
@@ -99,7 +99,7 @@ function editarCargo(usuario_id, cargo_id) {
 
 function aprovarUsuarioAdmin(fkEmpresa) {
     let instrucaoSql = `
-        UPDATE Usuarios
+        UPDATE usuarios
         SET ativo = 1
         WHERE fkEmpresa = ${fkEmpresa};
     `;
@@ -109,7 +109,7 @@ function aprovarUsuarioAdmin(fkEmpresa) {
 
 function negarUsuarioAdmin(fkEmpresa) {
     let instrucaoSql = `
-        DELETE FROM Usuarios
+        DELETE FROM usuarios
         WHERE fkEmpresa = ${fkEmpresa};
     `;
 
