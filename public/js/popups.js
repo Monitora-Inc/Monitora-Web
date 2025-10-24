@@ -49,20 +49,26 @@ function sair() {
 }
 
 // Botão de deletar
-const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+function attachCheckboxListeners() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    if (!checkboxes.length) return;
 
-checkboxes.forEach((checkbox) => {
-    checkbox.addEventListener('click', (event) => {
-        event.stopPropagation();
-    });
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
 
-    checkbox.addEventListener('change', () => {
-        const imgDeletar = document.querySelector('.icone_deletar img');
-        imgDeletar.style.display = Array.from(checkboxes).some(cb => cb.checked)
-            ? 'block'
-            : 'none';
+        checkbox.addEventListener('change', () => {
+            const imgDeletar = document.querySelector('.icone_deletar img');
+            if (!imgDeletar) return; // proteção contra null
+
+            const anyChecked = Array.from(document.querySelectorAll('input[type="checkbox"]'))
+                .some(cb => cb.checked);
+
+            imgDeletar.style.display = anyChecked ? 'block' : 'none';
+        });
     });
-});
+}
 
 /*
  /$$$$$$$$        /$$                       /$$                 /$$$$$$$                      /$$$$$$  /$$ /$$
@@ -457,24 +463,137 @@ function popup_deletar_datacenter() {
                                                                                               \______/                        
 */
 
-function popup_deletar_cargos() {
+function popup_adicionar_cargos() {
     popup_screen.innerHTML = `        
         <div class="popup_container">
             <div class="popup">
-                <h1>Deletar Cargos?</h1>
-
+                <h1>Adicionar Cargo</h1>
+                <div class="inputs">
+                <input type="text" id="ipt_nome" placeholder="Digite o nome do cargo" required>
+                </div>
                 <div id="mensagem_erro"></div>
 
                 <!-- Botões -->
                 <div class="btns_popup">
-                    <button onclick="deletar_cargo()">Sim</button>
+                    <button onclick="adicionar_cargo()">Sim</button>
                     <button onclick="fechar_popup()">Não</button>
                 </div>
             </div>
         </div>`;
 }
 
+function adicionar_cargo() {
+    let empresaId = sessionStorage.empresaId;
+    let nomeCargo = ipt_nome.value;
 
+    fetch(`/cargos/adicionarCargo`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkEmpresa: empresaId,
+            nomeCargo: nomeCargo
+        })
+    }).then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+            mensagem_erro.innerHTML = `Cargo criado com sucesso!`;
+
+            setTimeout(function () {
+                location.reload(true);
+            }, 2000);
+        }
+    }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+    });
+}
+
+function popup_deletar_cargos(listaIdDelete) {
+    if (listaIdDelete.length === 0) {
+        popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Selecione ao menos um cargo.</h1>
+
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="fechar_popup()">Fechar</button>
+                </div>
+            </div>
+        </div>`;
+        return;
+    }
+
+    popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Deletar cargos selecionados?</h1>
+
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="deletar_cargo(${listaIdDelete})">Sim</button>
+                    <button onclick="fechar_popup()">Não</button>
+                </div>
+            </div>
+        </div>`;
+}
+
+function popup_alterar_permissoes(idCargo, listaPermissoesAdicionar, listaPermissoesRetirar) {
+    if (idCargo == 0) {
+        popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Selecione um cargo.</h1>
+
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="fechar_popup()">Fechar</button>
+                </div>
+            </div>
+        </div>`;
+        return;
+    }
+
+    if (listaPermissoesAdicionar.length === 0 && listaPermissoesRetirar.length === 0) {
+        popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Faça alterações nas permissões.</h1>
+
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="fechar_popup()">Fechar</button>
+                </div>
+            </div>
+        </div>`;
+        return;
+    }
+
+    popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Deseja alterar as permissões?</h1>
+
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="alterar_permissoes(${idCargo})">Sim</button>
+                    <button onclick="fechar_popup()">Não</button>
+                </div>
+            </div>
+        </div>`;
+}
 
 /*
  /$$$$$$$$        /$$                       /$$                 /$$   /$$                                         /$$                    
@@ -657,25 +776,4 @@ function listarCargos(idEmpresa) {
             ipt_cargo.innerHTML += `<option value="${dadosCargos[i].idCargo}">${dadosCargos[i].nome_cargo}</option>`;
         }
     })
-}
-
-
-
-function popup_adicionar_cargos() {
-    popup_screen.innerHTML = `        
-        <div class="popup_container">
-            <div class="popup">
-                <h1>Adicionar Cargo</h1>
-                <div class="inputs">
-                <input type="text" id="ipt_nome" placeholder="Digite o nome do cargo" required>
-                </div>
-                <div id="mensagem_erro"></div>
-
-                <!-- Botões -->
-                <div class="btns_popup">
-                    <button onclick="adicionar_cargo()">Sim</button>
-                    <button onclick="fechar_popup()">Não</button>
-                </div>
-            </div>
-        </div>`;
 }

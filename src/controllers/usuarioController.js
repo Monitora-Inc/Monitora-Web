@@ -54,7 +54,7 @@ function buscarUsuarios(req, res) {
 function listarCargos(req, res) {
     let idEmpresa = req.params.idEmpresa;
 
-    usuarioModel.listarCargos().then((resultado) => {
+    usuarioModel.listarCargos(idEmpresa).then((resultado) => {
         res.json(resultado);
     });
 }
@@ -64,6 +64,14 @@ function listarCargosEditar(req, res) {
     let idCargoAtual = req.params.idCargoAtual;
 
     usuarioModel.listarCargosEditar(idEmpresa, idCargoAtual).then((resultado) => {
+        res.json(resultado);
+    });
+}
+
+function listarPermissoes(req, res) {
+    let idCargo = req.params.idCargo;
+
+    usuarioModel.listarPermissoes(idCargo).then((resultado) => {
         res.json(resultado);
     });
 }
@@ -107,6 +115,7 @@ module.exports = {
     buscarUsuarios,
     listarCargos,
     listarCargosEditar,
+    listarPermissoes,
     deletarUsuario,
     editarCargo,
     aprovarUsuarioAdmin,
