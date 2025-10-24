@@ -8,6 +8,9 @@ router.get("/listar/:id", function(req, res){
 router.post("/adicionar", function(req, res){
     servidorController.adicionarServidor(req, res)
 });
+router.post("/adicionar/JAVA", function(req, res){
+    servidorController.adicionarServidorJAVA(req, res)
+});
 router.put("/atualizar/:id", function(req, res){
     servidorController.atualizarServidor(req, res)
 });
