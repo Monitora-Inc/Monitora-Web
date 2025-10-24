@@ -4,7 +4,7 @@ function cadastrarEmpresa(nome, cnpj, senha) {
     console.log("Estou acessando o banco \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrarEmpresa():", nome, cnpj);
 
     let instrucaoSql = `
-        INSERT INTO Empresas(nome, cnpj, senha, ativo, aprovada) VALUES
+        INSERT INTO empresas(nome, cnpj, senha, ativo, aprovada) VALUES
             ('${nome}', '${cnpj}', SHA2('${senha}', 512), 1, 0);
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -23,7 +23,7 @@ function autenticar(cnpj, senha) {
 
 function negarEmpresa(idEmpresa) {
     let instrucaoSql = `
-        update Empresas set aprovada = 0
+        update empresas set aprovada = 0
         WHERE idEmpresa = ${idEmpresa};
     `
 
@@ -32,7 +32,7 @@ function negarEmpresa(idEmpresa) {
 
 function autorizarEmpresa(idEmpresa) {
     let instrucaoSql = `
-        update Empresas set aprovada = 1
+        update empresas set aprovada = 1
         WHERE idEmpresa = ${idEmpresa};
     `;
 
