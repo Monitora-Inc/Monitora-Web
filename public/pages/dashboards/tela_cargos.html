@@ -62,29 +62,29 @@
                     <div id="permissoesUsuario">
                         <div class="card_permissao">
                             <div id="adicionar_usuario">
-                                <input type="checkbox" class="checkbox" value="1"
-                                   id="checkbox1" onchange="adicionarListaPermissoes(this)">
+                                <input type="checkbox" class="checkbox" value="1" id="checkbox1"
+                                    onchange="adicionarListaPermissoes(this)">
                             </div>
                             <h2>Adicionar Usuário</h2>
                         </div>
                         <div class="card_permissao">
                             <div id="editar_usuario">
-                                <input type="checkbox" class="checkbox" value="2"
-                                    id="checkbox2" onchange="adicionarListaPermissoes(this)">
+                                <input type="checkbox" class="checkbox" value="2" id="checkbox2"
+                                    onchange="adicionarListaPermissoes(this)">
                             </div>
                             <h2>Editar Usuário</h2>
                         </div>
                         <div class="card_permissao">
                             <div id="excluir_usuario">
-                                <input type="checkbox" class="checkbox" value="3"
-                                    id="checkbox3" onchange="adicionarListaPermissoes(this)">
+                                <input type="checkbox" class="checkbox" value="3" id="checkbox3"
+                                    onchange="adicionarListaPermissoes(this)">
                             </div>
                             <h2>Excluir Usuário</h2>
                         </div>
                         <div class="card_permissao">
                             <div id="excluir_usuario">
-                                <input type="checkbox" class="checkbox" value="4"
-                                    id="checkbox4" onchange="adicionarListaPermissoes(this)">
+                                <input type="checkbox" class="checkbox" value="4" id="checkbox4"
+                                    onchange="adicionarListaPermissoes(this)">
                             </div>
                             <h2>Editar Perfil</h2>
                         </div>
@@ -94,22 +94,22 @@
                     <div id="permissoesServidor">
                         <div class="card_permissao">
                             <div id="adicionar_servidor">
-                                <input type="checkbox" class="checkbox" value="5"
-                                    id="checkbox5" onchange="adicionarListaPermissoes(this)">
+                                <input type="checkbox" class="checkbox" value="5" id="checkbox5"
+                                    onchange="adicionarListaPermissoes(this)">
                             </div>
                             <h2>Adicionar Servidor</h2>
                         </div>
                         <div class="card_permissao">
                             <div id="editar_servidor">
-                                <input type="checkbox" class="checkbox" value="6"
-                                    id="checkbox6" onchange="adicionarListaPermissoes(this)">
+                                <input type="checkbox" class="checkbox" value="6" id="checkbox6"
+                                    onchange="adicionarListaPermissoes(this)">
                             </div>
                             <h2>Editar Servidor</h2>
                         </div>
                         <div class="card_permissao">
                             <div id="excluir_servidor">
-                                <input type="checkbox" class="checkbox" value="7"
-                                    id="checkbox7" onchange="adicionarListaPermissoes(this)">
+                                <input type="checkbox" class="checkbox" value="7" id="checkbox7"
+                                    onchange="adicionarListaPermissoes(this)">
                             </div>
                             <h2>Excluir Servidor</h2>
                         </div>
@@ -119,22 +119,22 @@
                     <div id="permissoesDataCenter">
                         <div class="card_permissao">
                             <div id="adicionar_datacenter">
-                                <input type="checkbox" class="checkbox" value="8"
-                                    id="checkbox8" onchange="adicionarListaPermissoes(this)">
+                                <input type="checkbox" class="checkbox" value="8" id="checkbox8"
+                                    onchange="adicionarListaPermissoes(this)">
                             </div>
                             <h2>Adicionar Data Center</h2>
                         </div>
                         <div class="card_permissao">
                             <div id="editar_datacenter">
-                                <input type="checkbox" class="checkbox" value="9"
-                                    id="checkbox9" onchange="adicionarListaPermissoes(this)">
+                                <input type="checkbox" class="checkbox" value="9" id="checkbox9"
+                                    onchange="adicionarListaPermissoes(this)">
                             </div>
                             <h2>Editar Data Center</h2>
                         </div>
                         <div class="card_permissao">
                             <div id="excluir_datacenter">
-                                <input type="checkbox" class="checkbox" value="10"
-                                    id="checkbox10" onchange="adicionarListaPermissoes(this)">
+                                <input type="checkbox" class="checkbox" value="10" id="checkbox10"
+                                    onchange="adicionarListaPermissoes(this)">
                             </div>
                             <h2>Excluir Data Center</h2>
                         </div>
@@ -144,22 +144,22 @@
                     <div id="permissoesCargo">
                         <div class="card_permissao">
                             <div id="adicionar_cargo">
-                                <input type="checkbox" class="checkbox" value="11"
-                                    id="checkbox11" onchange="adicionarListaPermissoes(this)">
+                                <input type="checkbox" class="checkbox" value="11" id="checkbox11"
+                                    onchange="adicionarListaPermissoes(this)">
                             </div>
                             <h2>Adicionar Cargo</h2>
                         </div>
                         <div class="card_permissao">
                             <div id="editar_cargo">
-                                <input type="checkbox" class="checkbox" value="12"
-                                    id="checkbox12" onchange="adicionarListaPermissoes(this)">
+                                <input type="checkbox" class="checkbox" value="12" id="checkbox12"
+                                    onchange="adicionarListaPermissoes(this)">
                             </div>
                             <h2>Editar Cargo</h2>
                         </div>
                         <div class="card_permissao">
                             <div id="excluir_cargo">
-                                <input type="checkbox" class="checkbox" value="13"
-                                    id="checkbox13" onchange="adicionarListaPermissoes(this)">
+                                <input type="checkbox" class="checkbox" value="13" id="checkbox13"
+                                    onchange="adicionarListaPermissoes(this)">
                             </div>
                             <h2>Excluir Cargo</h2>
                         </div>
@@ -204,19 +204,30 @@
     let listaPermissoesRetirar = [];
 
     function adicionarListaPermissoes(checkbox) {
+        let permissaoId = Number(checkbox.value);
+        console.log(listaIdPermissoes.indexOf(permissaoId));
         if (checkbox.checked) {
-            if (listaPermissoesRetirar.indexOf(checkbox.value) != -1) {
-                let indexARetirar = listaPermissoesRetirar.indexOf(checkbox.value);
+            if (listaIdPermissoes.indexOf(permissaoId) == -1) {
+                listaPermissoesAdicionar.push(permissaoId);
+            }
+
+            if (listaIdPermissoes.indexOf(permissaoId) != -1 && listaPermissoesRetirar.indexOf(permissaoId) != -1) {
+                let indexARetirar = listaPermissoesRetirar.indexOf(permissaoId);
                 listaPermissoesRetirar.splice(indexARetirar, 1);
             }
-            listaPermissoesAdicionar.push(checkbox.value);
-        } else {
-            if (listaPermissoesAdicionar.indexOf(checkbox.value) != -1) {
-                let indexARetirar = listaPermissoesAdicionar.indexOf(checkbox.value);
+        }
+
+        if (!checkbox.checked) {
+            if (listaIdPermissoes.indexOf(permissaoId) != -1) {
+                listaPermissoesRetirar.push(permissaoId);
+            }
+
+            if (listaIdPermissoes.indexOf(permissaoId) == -1 && listaPermissoesAdicionar.indexOf(permissaoId) != -1) {
+                let indexARetirar = listaPermissoesAdicionar.indexOf(permissaoId);
                 listaPermissoesAdicionar.splice(indexARetirar, 1);
             }
-            listaPermissoesRetirar.push(checkbox.value);
         }
+
         console.log(listaPermissoesAdicionar);
         console.log(listaPermissoesRetirar);
     }
@@ -275,6 +286,8 @@
     let listaIdPermissoes = [];
 
     function listarPermissoes(idCargo) {
+        listaPermissoesAdicionar = [];
+        listaPermissoesRetirar = [];
         fetch(`/cargos/listarPermissoes/${idCargo}`, {
             method: 'GET',
             headers: {
@@ -303,7 +316,52 @@
         })
     }
 
-    function alterar_permissoes(idCargo, listaPermissoesAdicionar, listaPermissoesRetirar) {
+    function alterar_permissoes(idCargo) {
+        console.log(listaPermissoesAdicionar)
+        if (listaPermissoesAdicionar.length != 0) {
+            for (let i = 0; i < listaPermissoesAdicionar.length; i++) {
+                fetch(`/cargos/adicionarPermissao`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        cargoId: idCargo,
+                        permissaoId: listaPermissoesAdicionar[i]
+                    })
+                }).then(function (resposta) {
+                    console.log("resposta: ", resposta);
 
+                    if (resposta.ok) {
+                        mensagem_erro.innerHTML = `Permissão adicionada com sucesso!`;
+                    }
+                }).catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                });
+            }
+        }
+
+        if (listaPermissoesRetirar.length != 0) {
+            for (let i = 0; i < listaPermissoesRetirar.length; i++) {
+                fetch(`/cargos/removerPermissao/${idCargo}/${listaPermissoesRetirar[i]}`, {
+                    method: 'DELETE',
+                }).then(function (response) {
+                    if (response.ok) {
+                        console.log(`Permissão retirada com sucesso!`);
+
+                        location.reload();
+                    } else {
+                        console.error(`Falha ao retirar permissão. Status: ${response.status}`);
+                    }
+                })
+                    .catch(function (error) {
+                        console.error("Erro de rede:", error);
+                    });
+            }
+        }
+
+        setTimeout(function () {
+            location.reload(true);
+        }, 2000);
     }
 </script>

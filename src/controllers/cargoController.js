@@ -33,9 +33,29 @@ function listarPermissoes(req, res) {
     });
 }
 
+function adicionarPermissao(req, res) {
+    let fkCargo = req.body.cargoId;
+    let fkPermissao = req.body.permissaoId;
+
+    cargoModel.adicionarPermissao(fkCargo, fkPermissao).then((resultado) => {
+        res.json(resultado);
+    });
+}
+
+function removerPermissao(req, res) {
+    let cargoId = req.params.cargoId;
+    let permissaoId = req.params.permissaoId;
+
+    cargoModel.removerPermissao(cargoId, permissaoId).then((resultado) => {
+        res.json(resultado);
+    });
+}
+
 module.exports = {
     buscarCargos,
     adicionarCargo,
     deletarCargo,
-    listarPermissoes
+    listarPermissoes,
+    adicionarPermissao,
+    removerPermissao
 }

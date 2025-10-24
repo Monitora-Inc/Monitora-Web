@@ -36,9 +36,29 @@ function listarPermissoes(idCargo) {
     return database.executar(instrucaoSql);
 }
 
+function adicionarPermissao(fkCargo, fkPermissao) {
+    let instrucaoSql = `
+        INSERT INTO permissoes_has_cargos (cargos_idCargo, permissoes_idPermissao)
+        VALUES (${fkCargo}, ${fkPermissao});
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+function removerPermissao(cargoId, permissaoId) {
+    let instrucaoSql = `
+        DELETE FROM permissoes_has_cargos
+        WHERE cargos_idCargo = ${cargoId} and permissoes_idPermissao = ${permissaoId};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarCargos,
     adicionarCargo,
     deletarCargo,
-    listarPermissoes
+    listarPermissoes,
+    adicionarPermissao,
+    removerPermissao
 }

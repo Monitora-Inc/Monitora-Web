@@ -574,7 +574,7 @@ function popup_alterar_permissoes(idCargo, listaPermissoesAdicionar, listaPermis
 
                 <!-- Botões -->
                 <div class="btns_popup">
-                    <button onclick="alterar_permissoes(${idCargo}, ${listaPermissoesAdicionar}, ${listaPermissoesRetirar})">Sim</button>
+                    <button onclick="alterar_permissoes(${idCargo})">Sim</button>
                     <button onclick="fechar_popup()">Não</button>
                 </div>
             </div>

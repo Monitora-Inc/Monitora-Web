@@ -19,4 +19,12 @@ router.get("/listarPermissoes/:idCargo", function(req, res) {
     cargoController.listarPermissoes(req, res);
 });
 
+router.post("/adicionarPermissao", function(req, res) {
+    cargoController.adicionarPermissao(req, res);
+});
+
+router.delete("/removerPermissao/:cargoId/:permissaoId", function(req, res) {
+    cargoController.removerPermissao(req, res);
+});
+
 module.exports = router;
