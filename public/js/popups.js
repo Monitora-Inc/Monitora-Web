@@ -511,10 +511,28 @@ function adicionar_cargo() {
 }
 
 function popup_deletar_cargos(listaIdDelete) {
+    if (listaIdDelete.length === 0) {
+        popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Selecione ao menos um cargo.</h1>
+
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="fechar_popup()">Fechar</button>
+                </div>
+            </div>
+        </div>`;
+        return;
+    }
+
     popup_screen.innerHTML = `        
         <div class="popup_container">
             <div class="popup">
                 <h1>Deletar cargos selecionados?</h1>
+                <p>Antes de deletar um cargo, certifique-se de retirar todas as permissões.</p>
 
                 <div id="mensagem_erro"></div>
 
@@ -528,9 +546,6 @@ function popup_deletar_cargos(listaIdDelete) {
 }
 
 function popup_alterar_permissoes(idCargo, listaPermissoesAdicionar, listaPermissoesRetirar) {
-    console.log(idCargo)
-    console.log(listaPermissoesAdicionar)
-    console.log(listaPermissoesRetirar)
     if (idCargo == 0) {
         popup_screen.innerHTML = `        
         <div class="popup_container">

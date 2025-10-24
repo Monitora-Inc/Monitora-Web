@@ -333,7 +333,9 @@
                     console.log("resposta: ", resposta);
 
                     if (resposta.ok) {
-                        mensagem_erro.innerHTML = `Permissão adicionada com sucesso!`;
+                        mensagem_erro.innerHTML = `Permissões alteradas com sucesso!`;
+                    } else {
+                        console.error(`Falha ao alterar permissões. Status: ${resposta.status}`);
                     }
                 }).catch(function (resposta) {
                     console.log(`#ERRO: ${resposta}`);
@@ -346,16 +348,16 @@
                 fetch(`/cargos/removerPermissao/${idCargo}/${listaPermissoesRetirar[i]}`, {
                     method: 'DELETE',
                 }).then(function (response) {
+                    console.log("resposta: ", response);
+                    
                     if (response.ok) {
-                        console.log(`Permissão retirada com sucesso!`);
-
-                        location.reload();
+                        mensagem_erro.innerHTML = `Permissões alteradas com sucesso!`;
                     } else {
-                        console.error(`Falha ao retirar permissão. Status: ${response.status}`);
+                        console.error(`Falha ao retirar permissões. Status: ${response.status}`);
                     }
                 })
                     .catch(function (error) {
-                        console.error("Erro de rede:", error);
+                        console.error("Erro:", error);
                     });
             }
         }
