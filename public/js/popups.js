@@ -532,7 +532,6 @@ function popup_deletar_cargos(listaIdDelete) {
         <div class="popup_container">
             <div class="popup">
                 <h1>Deletar cargos selecionados?</h1>
-                <p>Antes de deletar um cargo, certifique-se de retirar todas as permissões.</p>
 
                 <div id="mensagem_erro"></div>
 

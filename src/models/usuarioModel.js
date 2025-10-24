@@ -48,7 +48,7 @@ function buscarUsuarios(fkEmpresa) {
 function listarCargos(idEmpresa) {
     let instrucaoSql = `
     SELECT idCargo, 
-    nome_cargo FROM Cargos
+    nome_cargo FROM cargos
     WHERE fkEmpresa = ${idEmpresa};
     `;
 
@@ -59,7 +59,7 @@ function listarCargosEditar(idEmpresa, idCargoAtual) {
     let instrucaoSql = `
     SELECT 
     idCargo, 
-    nome_cargo FROM Cargos
+    nome_cargo FROM cargos
     WHERE fkEmpresa = ${idEmpresa} and idCargo not like ${idCargoAtual};
     `;
 

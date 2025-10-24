@@ -261,10 +261,6 @@
     }
 
     function deletar_cargo() {
-        if (listaIdDelete.length === 0) {
-            mensagem_erro.innerHTML = "Selecione um ou mais cargos para deletar!";
-        }
-
         for (let i = 0; i < listaIdDelete.length; i++) {
             fetch(`/cargos/deletarCargo/${listaIdDelete[i]}`, {
                 method: 'DELETE',
