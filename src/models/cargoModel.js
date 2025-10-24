@@ -27,8 +27,18 @@ function deletarCargo(cargoId) {
     return database.executar(instrucaoSql);
 }
 
+function listarPermissoes(idCargo) {
+    let instrucaoSql = `
+        select permissoes_idPermissao from permissoes_has_cargos
+        where cargos_idCargo = ${idCargo};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarCargos,
     adicionarCargo,
-    deletarCargo
+    deletarCargo,
+    listarPermissoes
 }

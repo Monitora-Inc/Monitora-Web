@@ -25,8 +25,17 @@ function deletarCargo(req, res) {
     });
 }
 
+function listarPermissoes(req, res) {
+    let idCargo = req.params.idCargo;
+
+    cargoModel.listarPermissoes(idCargo).then((resultado) => {
+        res.json(resultado);
+    });
+}
+
 module.exports = {
     buscarCargos,
     adicionarCargo,
-    deletarCargo
+    deletarCargo,
+    listarPermissoes
 }

@@ -15,4 +15,8 @@ router.delete("/deletarCargo/:cargoId", function(req, res) {
     cargoController.deletarCargo(req, res);
 });
 
+router.get("/listarPermissoes/:idCargo", function(req, res) {
+    cargoController.listarPermissoes(req, res);
+});
+
 module.exports = router;

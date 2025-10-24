@@ -52,99 +52,122 @@
             <div class="card">
                 <div class="header">
                     <h1>Permissões</h1>
-                    <select id="selectCargoAtualizar">
+                    <select id="selectCargoAtualizar" onchange="listarPermissoes(this.value)">
                         <option value="0" disabled selected>Escolha um cargo para atualizar...</option>
                     </select>
                 </div>
 
                 <div class="permissoes_lista">
                     <h2>Usuários</h2>
-                    <div class="card_permissao">
-                        <div id="adicionar_usuario">
-                            <input type="checkbox" class="checkbox" value="1" onchange="adicionarListaPermissoes(this)">
+                    <div id="permissoesUsuario">
+                        <div class="card_permissao">
+                            <div id="adicionar_usuario">
+                                <input type="checkbox" class="checkbox" value="1"
+                                   id="checkbox1" onchange="adicionarListaPermissoes(this)">
+                            </div>
+                            <h2>Adicionar Usuário</h2>
                         </div>
-                        <h2>Adicionar Usuário</h2>
-                    </div>
-                    <div class="card_permissao">
-                        <div id="editar_usuario">
-                            <input type="checkbox" class="checkbox" value="2" onchange="adicionarListaPermissoes(this)">
+                        <div class="card_permissao">
+                            <div id="editar_usuario">
+                                <input type="checkbox" class="checkbox" value="2"
+                                    id="checkbox2" onchange="adicionarListaPermissoes(this)">
+                            </div>
+                            <h2>Editar Usuário</h2>
                         </div>
-                        <h2>Editar Usuário</h2>
-                    </div>
-                    <div class="card_permissao">
-                        <div id="excluir_usuario">
-                            <input type="checkbox" class="checkbox" value="3" onchange="adicionarListaPermissoes(this)">
+                        <div class="card_permissao">
+                            <div id="excluir_usuario">
+                                <input type="checkbox" class="checkbox" value="3"
+                                    id="checkbox3" onchange="adicionarListaPermissoes(this)">
+                            </div>
+                            <h2>Excluir Usuário</h2>
                         </div>
-                        <h2>Excluir Usuário</h2>
-                    </div>
-                    <div class="card_permissao">
-                        <div id="excluir_usuario">
-                            <input type="checkbox" class="checkbox" value="4" onchange="adicionarListaPermissoes(this)">
+                        <div class="card_permissao">
+                            <div id="excluir_usuario">
+                                <input type="checkbox" class="checkbox" value="4"
+                                    id="checkbox4" onchange="adicionarListaPermissoes(this)">
+                            </div>
+                            <h2>Editar Perfil</h2>
                         </div>
-                        <h2>Editar Perfil</h2>
                     </div>
 
                     <h2>Servidor</h2>
-                    <div class="card_permissao">
-                        <div id="adicionar_servidor">
-                            <input type="checkbox" class="checkbox" value="5" onchange="adicionarListaPermissoes(this)">
+                    <div id="permissoesServidor">
+                        <div class="card_permissao">
+                            <div id="adicionar_servidor">
+                                <input type="checkbox" class="checkbox" value="5"
+                                    id="checkbox5" onchange="adicionarListaPermissoes(this)">
+                            </div>
+                            <h2>Adicionar Servidor</h2>
                         </div>
-                        <h2>Adicionar Servidor</h2>
-                    </div>
-                    <div class="card_permissao">
-                        <div id="editar_servidor">
-                            <input type="checkbox" class="checkbox" value="6" onchange="adicionarListaPermissoes(this)">
+                        <div class="card_permissao">
+                            <div id="editar_servidor">
+                                <input type="checkbox" class="checkbox" value="6"
+                                    id="checkbox6" onchange="adicionarListaPermissoes(this)">
+                            </div>
+                            <h2>Editar Servidor</h2>
                         </div>
-                        <h2>Editar Servidor</h2>
-                    </div>
-                    <div class="card_permissao">
-                        <div id="excluir_servidor">
-                            <input type="checkbox" class="checkbox" value="7" onchange="adicionarListaPermissoes(this)">
+                        <div class="card_permissao">
+                            <div id="excluir_servidor">
+                                <input type="checkbox" class="checkbox" value="7"
+                                    id="checkbox7" onchange="adicionarListaPermissoes(this)">
+                            </div>
+                            <h2>Excluir Servidor</h2>
                         </div>
-                        <h2>Excluir Servidor</h2>
                     </div>
 
                     <h2>Data Centers</h2>
-                    <div class="card_permissao">
-                        <div id="adicionar_datacenter">
-                            <input type="checkbox" class="checkbox" value="8" onchange="adicionarListaPermissoes(this)">
+                    <div id="permissoesDataCenter">
+                        <div class="card_permissao">
+                            <div id="adicionar_datacenter">
+                                <input type="checkbox" class="checkbox" value="8"
+                                    id="checkbox8" onchange="adicionarListaPermissoes(this)">
+                            </div>
+                            <h2>Adicionar Data Center</h2>
                         </div>
-                        <h2>Adicionar Data Center</h2>
-                    </div>
-                    <div class="card_permissao">
-                        <div id="editar_datacenter">
-                            <input type="checkbox" class="checkbox" value="9" onchange="adicionarListaPermissoes(this)">
+                        <div class="card_permissao">
+                            <div id="editar_datacenter">
+                                <input type="checkbox" class="checkbox" value="9"
+                                    id="checkbox9" onchange="adicionarListaPermissoes(this)">
+                            </div>
+                            <h2>Editar Data Center</h2>
                         </div>
-                        <h2>Editar Data Center</h2>
-                    </div>
-                    <div class="card_permissao">
-                        <div id="excluir_datacenter">
-                            <input type="checkbox" class="checkbox" value="10" onchange="adicionarListaPermissoes(this)">
+                        <div class="card_permissao">
+                            <div id="excluir_datacenter">
+                                <input type="checkbox" class="checkbox" value="10"
+                                    id="checkbox10" onchange="adicionarListaPermissoes(this)">
+                            </div>
+                            <h2>Excluir Data Center</h2>
                         </div>
-                        <h2>Excluir Data Center</h2>
                     </div>
 
                     <h2>Cargos</h2>
-                    <div class="card_permissao">
-                        <div id="adicionar_cargo">
-                            <input type="checkbox" class="checkbox" value="11" onchange="adicionarListaPermissoes(this)">
+                    <div id="permissoesCargo">
+                        <div class="card_permissao">
+                            <div id="adicionar_cargo">
+                                <input type="checkbox" class="checkbox" value="11"
+                                    id="checkbox11" onchange="adicionarListaPermissoes(this)">
+                            </div>
+                            <h2>Adicionar Cargo</h2>
                         </div>
-                        <h2>Adicionar Cargo</h2>
-                    </div>
-                    <div class="card_permissao">
-                        <div id="editar_cargo">
-                            <input type="checkbox" class="checkbox" value="12" onchange="adicionarListaPermissoes(this)">
+                        <div class="card_permissao">
+                            <div id="editar_cargo">
+                                <input type="checkbox" class="checkbox" value="12"
+                                    id="checkbox12" onchange="adicionarListaPermissoes(this)">
+                            </div>
+                            <h2>Editar Cargo</h2>
                         </div>
-                        <h2>Editar Cargo</h2>
-                    </div>
-                    <div class="card_permissao">
-                        <div id="excluir_cargo">
-                            <input type="checkbox" class="checkbox" value="13" onchange="adicionarListaPermissoes(this)">
+                        <div class="card_permissao">
+                            <div id="excluir_cargo">
+                                <input type="checkbox" class="checkbox" value="13"
+                                    id="checkbox13" onchange="adicionarListaPermissoes(this)">
+                            </div>
+                            <h2>Excluir Cargo</h2>
                         </div>
-                        <h2>Excluir Cargo</h2>
                     </div>
                 </div>
-                <button onclick="popup_alterar_permissoes(selectCargoAtualizar.value, listaPermissoesAdicionar, listaPermissoesRetirar)">Confirmar alterações</button>
+                <button
+                    onclick="popup_alterar_permissoes(selectCargoAtualizar.value, listaPermissoesAdicionar, listaPermissoesRetirar)">Confirmar
+                    alterações</button>
             </div>
         </div>
     </div>
@@ -249,7 +272,38 @@
         }
     }
 
+    let listaIdPermissoes = [];
+
+    function listarPermissoes(idCargo) {
+        fetch(`/cargos/listarPermissoes/${idCargo}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+        }).then(function (dadosPermissoes) {
+            listaPermissoes = [];
+            for (var i = 0; i < dadosPermissoes.length; i++) {
+                listaPermissoes.push(dadosPermissoes[i].permissoes_idPermissao)
+            }
+            listaIdPermissoes = listaPermissoes;
+            console.log(listaIdPermissoes)
+
+            for (let i = 1; i <= 13; i++) {
+                let checkbox = document.getElementById(`checkbox${i}`);
+                checkbox.checked = false;
+                if (listaIdPermissoes.indexOf(i) != -1) {
+                    checkbox.checked = true;
+                }
+            }
+        })
+    }
+
     function alterar_permissoes(idCargo, listaPermissoesAdicionar, listaPermissoesRetirar) {
-        
+
     }
 </script>
