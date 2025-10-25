@@ -48,7 +48,7 @@ function buscarUsuarios(fkEmpresa) {
 function listarCargos(idEmpresa) {
     let instrucaoSql = `
     SELECT idCargo, 
-    nome_cargo FROM Cargos
+    nome_cargo FROM cargos
     WHERE fkEmpresa = ${idEmpresa};
     `;
 
@@ -59,12 +59,23 @@ function listarCargosEditar(idEmpresa, idCargoAtual) {
     let instrucaoSql = `
     SELECT 
     idCargo, 
-    nome_cargo FROM Cargos
+    nome_cargo FROM cargos
     WHERE fkEmpresa = ${idEmpresa} and idCargo not like ${idCargoAtual};
     `;
 
     return database.executar(instrucaoSql);
 }
+
+function listarPermissoes(idCargo) {
+    let instrucaoSql = `
+        select p.nomePermissao from permissoes as p
+        inner join permissoes_has_cargos as pc on pc.permissoes_idPermissao = p.idPermissao
+        where pc.cargos_idCargo = ${idCargo};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 
 
 function deletarUsuario(usuario_id) {
@@ -111,6 +122,7 @@ module.exports = {
     buscarUsuarios,
     listarCargos,
     listarCargosEditar,
+    listarPermissoes,
     deletarUsuario,
     editarCargo,
     aprovarUsuarioAdmin,

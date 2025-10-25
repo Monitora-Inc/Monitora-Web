@@ -23,6 +23,10 @@ router.get("/listarCargosEditar/:idEmpresa/:idCargoAtual", function(req, res) {
     usuarioController.listarCargosEditar(req, res);
 });
 
+router.get("/listarPermissoes/:idCargo", function(req, res) {
+    usuarioController.listarPermissoes(req, res);
+});
+
 router.delete("/deletarUsuario/:usuario_id", function(req, res) {
     usuarioController.deletarUsuario(req, res);
 });
