@@ -5,9 +5,9 @@ var servidorController = require("../controllers/servidorController");
 router.get("/listar/:id", function(req, res){
     servidorController.listarServidores(req, res)}
 );
-router.post("/adicionar", function(req, res){
-    servidorController.adicionarServidor(req, res)
-});
+// router.post("/adicionar", function(req, res){
+//     servidorController.adicionarServidor(req, res)
+// });
 router.post("/adicionar/JAVA", function(req, res){
     servidorController.adicionarServidorJAVA(req, res)
 });

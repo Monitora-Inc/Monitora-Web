@@ -1,16 +1,16 @@
 var database = require("../database/config");
 
 
-//Estava mexendo nessa parte e questionando mudancas de popup para como funcionaria a adicao de um servidor e seus componentes
-function adicionarServidor(idServidor, nome, fkDataCenter, limite, nomeComponenteId, servidorId, medidaId, parametroId){
+// Estava mexendo nessa parte e questionando mudancas de popup para como funcionaria a adicao de um servidor e seus componentes
+// function adicionarServidor(idServidor, nome, fkDataCenter, limite, nomeComponenteId, servidorId, medidaId, parametroId){
 
-    //Isto pode excluir e descomentar abaixo usei para teste apenas. ******Este insert é o que o java está enviando os paramaetros para a adicao de servidor
-    let instrucaoTeste = `
-        INSERT INTO monitora.servidores(nome, FkDataCenter) VALUES
-        ('${nome}', ${fkDataCenter});
-    `;
+//     Isto pode excluir e descomentar abaixo usei para teste apenas. ******Este insert é o que o java está enviando os paramaetros para a adicao de servidor
+//     let instrucaoTeste = `
+//         INSERT INTO monitora.servidores(nome, FkDataCenter) VALUES
+//         ('${nome}', ${fkDataCenter});
+//     `;
 
-    return database.executar(instrucaoTeste)
+//     return database.executar(instrucaoTeste)
 
     // let instrucaoSql = `
     //     INSERT INTO componentes_monitorados (nome_componente_id, servidores_idServidor, medida_id, parametros_id)
@@ -31,11 +31,9 @@ function adicionarServidor(idServidor, nome, fkDataCenter, limite, nomeComponent
     //         return database.executar(instrucao3)
     //     })
     // });
-}
+// }
 
 function adicionarServidorJAVA(id, nome, fkDataCenter){
-
-    //Isto pode excluir e descomentar abaixo usei para teste apenas. ******Este insert é o que o java está enviando os paramaetros para a adicao de servidor
     let instrucaoTeste = `
         INSERT INTO monitora.servidores(idServidor, nome, FkDataCenter) VALUES
         ('${id}', '${nome}', ${fkDataCenter});
@@ -53,6 +51,7 @@ function atualizarServidor(idServidor, nome, fkDataCenter) {
     return database.executar(instrucaoSql);
 }
 //ID Servidor vindo como undefined
+
 function excluirServidor(idServidor) {
     let instrucaoSqlComponentes = `
     DELETE FROM componentes_monitorados
@@ -83,7 +82,7 @@ function listarServidores(idEmpresa) {
         e.rua,
         e.numero,
         cm.nome_componente_id,
-        cm.medida_id,
+        cm.unidade_medida_id,
         cm.parametros_id,
         p.limite,
         m.unidade_de_medida
@@ -92,8 +91,8 @@ function listarServidores(idEmpresa) {
     INNER JOIN endereco e ON e.idEndereco = d.fkEndereco
     LEFT JOIN componentes_monitorados cm ON cm.servidores_idServidor = s.idServidor
     LEFT JOIN parametros p ON p.id = cm.parametros_id
-    LEFT JOIN medida m ON m.id = cm.medida_id
-    WHERE d.FkEmpresa = ${idEmpresa}
+    LEFT JOIN unidade_medida m ON m.id = cm.unidade_medida_id
+    WHERE d.FkEmpresa = ${idEmpresa};
     ;
     `;
     return database.executar(instrucaoSql);
@@ -116,7 +115,7 @@ function adicionarComponente(nomeComponenteId, servidorId, medidaId, parametroId
 }
 
 module.exports = {
-    adicionarServidor,
+    // adicionarServidor,
     adicionarServidorJAVA,
     atualizarServidor,
     excluirServidor,

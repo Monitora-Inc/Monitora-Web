@@ -1,17 +1,18 @@
 var servidorModel = require("../models/servidorModel");
 
 //funcao de adicão de dados servidor
-function adicionarServidor(req, res) {
-    let nome = req.body.nome;
-    let fkDataCenter = req.body.fkDataCenter;
+// function adicionarServidor(req, res) {
+//     let nome = req.body.nome;
+//     let fkDataCenter = req.body.fkDataCenter;
 
-        servidorModel.adicionarServidor(nome, fkDataCenter)
-        .then(() => res.status(200).send("✅ Servidor cadastrado com sucesso!"))
-        .catch(erro => {
-            console.error(erro);
-            res.status(500).send("Erro ao cadastrar servidor.");
-        });
-}
+//         servidorModel.adicionarServidor(nome, fkDataCenter)
+//         .then(() => res.status(200).send("✅ Servidor cadastrado com sucesso!"))
+//         .catch(erro => {
+//             console.error(erro);
+//             res.status(500).send("Erro ao cadastrar servidor.");
+//         });
+// }
+
 function adicionarServidorJAVA(req, res) {
     let id = req.body.id;
     let nome = req.body.nome;
@@ -68,7 +69,7 @@ function listarServidores(req, res) {
 }
 
 module.exports = {
-    adicionarServidor,
+    // adicionarServidor,
     adicionarServidorJAVA,
     atualizarServidor,
     excluirServidor,
