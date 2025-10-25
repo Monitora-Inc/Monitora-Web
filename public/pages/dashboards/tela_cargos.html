@@ -52,9 +52,13 @@
             <div class="card">
                 <div class="header">
                     <h1>Permissões</h1>
-                    <select id="selectCargoAtualizar" onchange="listarPermissoes(this.value)">
+                    <div class="opcoes">
+                        <select id="selectCargoAtualizar" onchange="listarPermissoes(this.value)">
                         <option value="0" disabled selected>Escolha um cargo para atualizar...</option>
                     </select>
+                    <button onclick="popup_alterar_permissoes(selectCargoAtualizar.value, listaPermissoesAdicionar, listaPermissoesRetirar)">Confirmar alterações</button>
+                    </div>
+                
                 </div>
 
                 <div class="permissoes_lista">
@@ -165,9 +169,7 @@
                         </div>
                     </div>
                 </div>
-                <button
-                    onclick="popup_alterar_permissoes(selectCargoAtualizar.value, listaPermissoesAdicionar, listaPermissoesRetirar)">Confirmar
-                    alterações</button>
+
             </div>
         </div>
     </div>

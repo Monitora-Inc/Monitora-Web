@@ -9,6 +9,18 @@
  \______/ |__/ \______/ |_______/  \_______/|__/
 */
 
+    function mascaraTelefone(numero) {
+        numero = String(numero).replace(/\D/g, ''); 
+
+        if (numero.length === 11) {
+            return `(${numero.slice(0, 2)}) ${numero.slice(2, 7)}-${numero.slice(7)}`;
+        } else if (numero.length === 10) {
+            return `(${numero.slice(0, 2)}) ${numero.slice(2, 6)}-${numero.slice(6)}`;
+        } else {
+            return numero;
+        }
+    }
+
 function popup_sair() {
     popup_screen.innerHTML = `        
         <div class="popup_container">
@@ -675,6 +687,7 @@ function popup_cadastrar_usuario() {
                 </div>
             </div>
         </div>`;
+        
     listarCargos(sessionStorage.empresaId);
 }
 

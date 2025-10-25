@@ -5,21 +5,80 @@
     color: white;
     font-size: clamp(0.8rem, 1vw, 1.2rem);
     font-weight: 300;
+    width: 100%;
 }
 
 .lista_usuarios {
     overflow-y: auto;
     overflow-x: hidden;
     width: 99%;
-    max-height: clamp(300px, 27vw, 600px);
+    max-height: clamp(300px, 25vw, 600px);
 }
 
-#usuario_checkbox { width: 5%; }
-#usuario_foto { width: fit-content; }
-#nome_contato { width: 30%; }
-.usuario_cargo { width: 20%; }
-#usuario_email { width: 20%; }
-#usuario_dataCadastro { width: 15%; }
+.nome_contato {
+    flex-shrink: 0;
+    min-width: clamp(130px, 13vw, 200px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#usuario_foto {
+    flex-shrink: 0;
+    min-width: clamp(30px, 3vw, 50px);
+    min-height: clamp(30px, 3vw, 50px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 50%; 
+    background-color: #0a3b60; 
+}
+
+#usuario_foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+    display: block;
+}
+
+.usuario_cargo {
+    flex-shrink: 0;
+    min-width: clamp(80px, 10vw, 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#usuario_email {
+    flex-shrink: 0;
+    min-width: clamp(150px, 20vw, 400px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#usuario_dataCadastro {
+    flex-shrink: 0;
+    min-width: clamp(100px, 15vw, 250px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
 
 .card_usuario {
     display: flex;
