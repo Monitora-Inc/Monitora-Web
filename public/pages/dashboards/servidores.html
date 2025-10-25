@@ -101,7 +101,7 @@
                 if(servidor.nome_componente_id == null){
                     semComponentes = true;
                     container.innerHTML += `
-                    <div class="card_servidor" id="${servidor.idServidor}" onclick="popup_servidor_informacoes(${semComponentes}, ${servidor.idServidor}, '${servidor.rua}', ${servidor.numero}, '${servidor.bairro}', '${servidor.cidade}', '${servidor.estado}', '${servidor.pais}')">
+                    <div class="card_servidor" id="${servidor.idServidor}" onclick="popup_servidor_informacoes(${semComponentes}, '${servidor.idServidor}', '${servidor.rua}', ${servidor.numero}, '${servidor.bairro}', '${servidor.cidade}', '${servidor.estado}', '${servidor.pais}')">
                         <div id="usuario_checkbox">
                                 <input type="checkbox" class="checkbox" value="${servidor.idServidor}" onchange="adicionarListaDelete(this)">
                                 </div>
