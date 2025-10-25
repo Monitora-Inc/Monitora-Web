@@ -12,11 +12,12 @@ function adicionarServidor(req, res) {
             res.status(500).send("Erro ao cadastrar servidor.");
         });
 }
-function adicionarServidor(req, res) {
+function adicionarServidorJAVA(req, res) {
+    let id = req.body.id;
     let nome = req.body.nome;
     let fkDataCenter = req.body.fkDataCenter;
 
-        servidorModel.adicionarServidorJAVA(nome, fkDataCenter)
+        servidorModel.adicionarServidorJAVA(id, nome, fkDataCenter)
         .then(() => res.status(200).send("✅ Servidor cadastrado com sucesso!"))
         .catch(erro => {
             console.error(erro);
@@ -68,6 +69,7 @@ function listarServidores(req, res) {
 
 module.exports = {
     adicionarServidor,
+    adicionarServidorJAVA,
     atualizarServidor,
     excluirServidor,
     listarServidores

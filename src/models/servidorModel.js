@@ -33,12 +33,12 @@ function adicionarServidor(idServidor, nome, fkDataCenter, limite, nomeComponent
     // });
 }
 
-function adicionarServidorJAVA(nome, fkDataCenter){
+function adicionarServidorJAVA(id, nome, fkDataCenter){
 
     //Isto pode excluir e descomentar abaixo usei para teste apenas. ******Este insert é o que o java está enviando os paramaetros para a adicao de servidor
     let instrucaoTeste = `
-        INSERT INTO monitora.servidores(nome, FkDataCenter) VALUES
-        ('${nome}', ${fkDataCenter});
+        INSERT INTO monitora.servidores(idServidor, nome, FkDataCenter) VALUES
+        ('${id}', '${nome}', ${fkDataCenter});
     `;
 
     return database.executar(instrucaoTeste)
