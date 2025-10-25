@@ -71,11 +71,12 @@
 </html>
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
+
 <script>
-    let listaIdDelete = []; 
+    let listaIdDelete = [];
     function listarServidores() {
         let idEmpresa = sessionStorage.empresaId;
-        
+
         fetch(`/servidores/listar/${idEmpresa}`, {
             method: 'GET',
             headers: {
@@ -93,44 +94,21 @@
 
             for (let i = 0; i < dadosServidores.length; i++) {
                 let servidor = dadosServidores[i];
-                //A variável semComponentes verifica serve para verificar se os servidores tem componentes ou não
-                let semComponentes = false;
+                container.innerHTML += `
+                    <div class="card_servidor" id="${servidor.idServidor}" onclick="popup_servidor_informacoes('${servidor.nome}', '${servidor.idServidor}', '${servidor.rua}', ${servidor.numero}, '${servidor.bairro}', '${servidor.cidade}', '${servidor.estado}', '${servidor.pais}')">
+                        <div id="usuario_checkbox">
+                                <input type="checkbox" class="checkbox" value="${servidor.idServidor}" onchange="adicionarListaDelete(this)">
+                                </div>
+                            <div class="servidor_informacoes">
+                                <div id="servidor_nome">${servidor.nome}</div>
+                                <div id="servidor_localizacao">DataCenter ID: ${servidor.fkDataCenter}</div>
+                                <div id="servidor_id"><span>ID Servidor: </span><br>${servidor.idServidor}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
 
-                //caso não tenha é adicionado uma div demonstrando que servidor ainda não recebeu adicão de dados
-                // semComponentes é enviado como parametro para funcao popup_servidor_informacoes()
-                if(servidor.nome_componente_id == null){
-                    semComponentes = true;
-                    container.innerHTML += `
-                    <div class="card_servidor" id="${servidor.idServidor}" onclick="popup_servidor_informacoes(${semComponentes}, '${servidor.idServidor}', '${servidor.rua}', ${servidor.numero}, '${servidor.bairro}', '${servidor.cidade}', '${servidor.estado}', '${servidor.pais}')">
-                        <div id="usuario_checkbox">
-                                <input type="checkbox" class="checkbox" value="${servidor.idServidor}" onchange="adicionarListaDelete(this)">
-                                </div>
-                            <div class="servidor_informacoes">
-                                <!-- Div adicionada com boolean semComponentes -->
-                                <div id="servidor_nome" style="font-size: 70%; color: red">Este servidor ainda não recebeu adição de dados!</div>
-                                <div id="servidor_nome">${servidor.nome}</div>
-                                <div id="servidor_localizacao">DataCenter ID: ${servidor.fkDataCenter}</div>
-                                <div id="servidor_id"><span>ID Servidor: </span><br>${servidor.idServidor}</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                }else{
-                    container.innerHTML += `
-                    <div class="card_servidor" id="${servidor.idServidor}" onclick="popup_servidor_informacoes(${semComponentes}, ${servidor.idServidor}, '${servidor.rua}', ${servidor.numero}, '${servidor.bairro}', '${servidor.cidade}', '${servidor.estado}', '${servidor.pais}')">
-                        <div id="usuario_checkbox">
-                                <input type="checkbox" class="checkbox" value="${servidor.idServidor}" onchange="adicionarListaDelete(this)">
-                                </div>
-                            <div class="servidor_informacoes">
-                                <div id="servidor_nome">${servidor.nome}</div>
-                                <div id="servidor_localizacao">DataCenter ID: ${servidor.fkDataCenter}</div>
-                                <div id="servidor_id"><span>ID Servidor: </span><br>${servidor.idServidor}</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                }
-                
+
             }
             totalUsuarios.innerHTML = dadosServidores.length;
             attachCheckboxListeners();
@@ -138,7 +116,7 @@
             console.log(`#ERRO: ${erro}`);
         });
     }
-        //Botão de deletar
+    //Botão de deletar
     function attachCheckboxListeners() {
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         const imgDeletar = document.querySelector('.icone_deletar img');
@@ -169,30 +147,38 @@
     }
 
     //Este item não adiciona o servidor em si, mas os componentes e parametros servidor
-    function adicionarServidor(){
-        
-    }
-    function deletar_servidores() {
-        console.log("Comecei a funcao de deletar")
-        for (let i = 0; i < listaIdDelete.length; i++) {
-            fetch(`/datacenters/excluir/${listaIdDelete[i]}`, {
-                method: 'DELETE',
-            }).then(function (response) {
-                if (response.ok) {
-                    console.log(`Datacenter ID ${listaIdDelete[i]} deletado com sucesso!`);
+    function editarServidor() {
 
-                    location.reload();
-                } else {
-                    console.error(`Falha ao deletar o datacenter ${listaIdDelete[i]}. Status: ${response.status}`);
-                }
-            })
-                .catch(function (error) {
-                    console.error("Erro de rede:", error);
-                });
+    }
+
+    function deletar_servidores() {
+        if (listaIdDelete.length === 0) {
+            console.warn("Nenhum servidor selecionado para exclusão.");
+            return;
         }
-        fechar_popup();
-        //Limpando lista delete
-        listaIdDelete = [];
+
+        // Cria uma lista de promessas para deletar todos os servidores
+        const promessas = listaIdDelete.map(idServidor => {
+            return fetch(`/servidores/excluir/${idServidor}`, {
+                method: 'DELETE',
+            }).then(response => {
+                if (response.ok) {
+                    console.log(`Servidor ID ${idServidor} deletado com sucesso!`);
+                } else {
+                    console.error(`Falha ao deletar o servidor ${idServidor}. Status: ${response.status}`);
+                }
+            }).catch(error => {
+                console.error(`Erro ao tentar deletar o servidor ${idServidor}:`, error);
+            });
+        });
+
+        // Quando todas as exclusões terminarem:
+        Promise.all(promessas).then(() => {
+            console.log("Processo de exclusão finalizado.");
+            fechar_popup(); // Fecha o popup de confirmação
+            listaIdDelete = []; // Limpa a lista
+            listarServidores(); // Atualiza a lista sem precisar recarregar a página
+        });
     }
 
 </script>

@@ -224,31 +224,21 @@ function popup_adicionar_servidor() {
         </div>`;
 }
 
-function popup_servidor_informacoes(semComponentes, idServidor, rua, numero, bairro, cidade, estado, pais) {
+function popup_servidor_informacoes(nomeServidor, idServidor, rua, numero, bairro, cidade, estado, pais) {
     let botoesFuncoes = ""
     //pegando o parametreo semComponentes caso servidor esteja sem componentes inseridos(semComponentes = true)
-    if(semComponentes){
-        //caso sem componentes os botões dentro da div alteram
-        botoesFuncoes = `
-            <div class="btns_popup">
-                <button onclick="adicionarServidor()">Adicionar</button>
-                <button onclick="fechar_popup()">Fechar</button>
-            </div>
+    botoesFuncoes = `
+        <div class="btns_popup">
+            <button onclick="editarServidor()">Editar</button>
+            <button onclick="fechar_popup()">Fechar</button>
+        </div>
         `;
-    }else {
-        botoesFuncoes = `
-            <div class="btns_popup">
-                <button onclick="editarServidor()">Editar</button>
-                <button onclick="fechar_popup()">Fechar</button>
-            </div>
-        `;
-    }
     //botoesFuncoes é adicionado abaixo com popup_screen += botoesFuncoes
     popup_screen.innerHTML = `        
     <div class="popup_container">
             <div class="popup_servidor_informacoes">
 
-                    <input type="text" id="servidor_nome" placeholder="Digite o nome do servidor" value="Servidor ${idServidor}">
+                    <input type="text" id="servidor_nome" placeholder="Digite o nome do servidor" value="Servidor: ${nomeServidor}">
                     <span class="servidor_label">ID:</span>
                     <div id="servidor_uuid">${idServidor}</div>
                     <span class="servidor_label">Data Center:</span>
@@ -296,7 +286,7 @@ function popup_servidor_informacoes(semComponentes, idServidor, rua, numero, bai
                 </div>
             </div>
         </div>`;
-        
+
 }
 
 function popup_deletar_servidores() {

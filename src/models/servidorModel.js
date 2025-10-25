@@ -72,30 +72,21 @@ function excluirServidor(idServidor) {
 
 function listarServidores(idEmpresa) {
     let instrucaoSql = `
-    SELECT 
-        s.idServidor, 
-        s.nome, 
-        s.data_cadastro, 
+    SELECT
+        s.idServidor,
+        s.nome,
+        s.data_cadastro,
         s.fkDataCenter,
         e.pais,
         e.estado,
         e.cidade,
         e.bairro,
         e.rua,
-        e.numero,
-        cm.nome_componente_id,
-        cm.unidade_medida_id,
-        cm.parametros_id,
-        p.limite,
-        m.unidade_de_medida
+        e.numero
     FROM servidores s
     INNER JOIN datacenters d ON d.idDataCenter = s.fkDataCenter
     INNER JOIN endereco e ON e.idEndereco = d.fkEndereco
-    LEFT JOIN componentes_monitorados cm ON cm.servidores_idServidor = s.idServidor
-    LEFT JOIN parametros p ON p.id = cm.parametros_id
-    LEFT JOIN unidade_medida m ON m.id = cm.unidade_medida_id
     WHERE d.FkEmpresa = ${idEmpresa};
-    ;
     `;
     return database.executar(instrucaoSql);
 }
