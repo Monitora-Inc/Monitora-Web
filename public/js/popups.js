@@ -236,58 +236,120 @@ function popup_adicionar_servidor() {
         </div>`;
 }
 
-function popup_servidor_informacoes() {
-    popup_screen.innerHTML = `        
+function popup_servidor_informacoes(nomeDatacenter, idEmpresa, nomeServidor, idServidor, rua, numero, bairro, cidade, estado, pais) {
+    let datacenterOptions = "";
+    let botoesFuncoes = ""
+
+    fetch(`/datacenters/buscarDatacenter/${idEmpresa}`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (response) {
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
+        return response.json();
+    }).then(function (dadosDataCenter) {
+        console.log(dadosDataCenter);
+        for (let i = 0; i < dadosDataCenter.length; i++) {
+            if (nomeDatacenter == dadosDataCenter[i].nome) {
+                datacenterOptions += `<option value="${dadosDataCenter[i].idDataCenter}" selected>${dadosDataCenter[i].nome}</option>`;
+            } else {
+                datacenterOptions += `<option value="${dadosDataCenter[i].idDataCenter}">${dadosDataCenter[i].nome}</option>`;
+            }
+        }
+    }).then(function () {
+
+        //pegando o parametreo semComponentes caso servidor esteja sem componentes inseridos(semComponentes = true)
+        botoesFuncoes = `
+        <div class="btns_popup">
+            <button onclick="editarServidor('${idServidor}')">Editar</button>
+            <button onclick="fechar_popup()">Fechar</button>
+        </div>
+        `;
+        //botoesFuncoes é adicionado abaixo com popup_screen += botoesFuncoes
+        console.log(datacenterOptions)
+        popup_screen.innerHTML = `     
     <div class="popup_container">
             <div class="popup_servidor_informacoes">
-
-                    <input type="text" id="servidor_nome" placeholder="Digite o nome do servidor" value="Servidor 1">
-                    <span class="servidor_label">UUID:</span>
-                    <div id="servidor_uuid">fxvd1vcx23f323543</div>
-                    <span class="servidor_label">Data Center:</span>
-                    <div id="servidor_datacenter">
-                    <select id="id_filter" onchange="" disabled>
-                        <option value="" selected>Data Center 1</option>
-                        <option value="" >Data Center 2</option>
+                
+                <input type="text" id="servidor_nome" placeholder="Digite o nome do servidor" value="${nomeServidor}">
+                <span class="servidor_label">ID:</span>
+                <div id="servidor_uuid">${idServidor}</div>
+                <span class="servidor_label">Data Center:</span>
+                <div id="servidor_datacenter">
+                    <select id="ipt_datacenter">
+                        ${datacenterOptions}
                     </select>
-                    </div>
-                    <span class="servidor_label">Localização:</span>
-                    <div id="servidor_datacenter">Rua Haddock Lobo, 595 - Cerqueira César, São Paulo - SP, Brasil</div>
-
+                </div>
+                <span class="servidor_label">Localização:</span>
+                <div id="servidor_datacenter">${rua}, ${numero} - ${bairro}, ${cidade} - ${estado}, ${pais}</div>
+                
                     <!-- Parametrização -->
-                    <div class="servidor_parametrizacao">
-                        <h1>CPU</h1>
-                        <h2>% de uso para notificações de estado de alerta</h2>
-                        <input type="number">
-                        <h2>% de uso para notificações de estado critíco</h2>
-                        <input type="number">
-                        <h1>RAM</h1>
-                        <h2>% de uso para notificações de estado de alerta</h2>
-                        <input type="number">
-                        <h2>% de uso para notificações de estado critíco</h2>
-                        <input type="number">
-                        <h1>Disco</h1>
-                        <h2>% de uso para notificações de estado de alerta</h2>
-                        <input type="number">
-                        <h2>% de uso para notificações de estado critíco</h2>
-                        <input type="number">
-                        <h1>Rede</h1>
-                        <h2>Valor de ms para notificações de estado de alerta</h2>
-                        <input type="number">
-                        <h2>Valor de ms para notificações de estado critíco</h2>
-                        <input type="number">
+                    <div class="servidor_parametrizacao" id="parametrizacao">
                     </div>
 
-                <!-- Mensagem de Erro -->
+                    <!-- Mensagem de Erro -->
                 <div id="mensagem_erro"></div>
         
-
+                
                 <!-- Botões -->
                 <div class="btns_popup">
-                    <button onclick="fechar_popup()">Fechar</button>
+                    <!-- Adicao de div alterada ou não alterada -->
+                    ${botoesFuncoes}
                 </div>
             </div>
-        </div>`;
+            </div>`;
+    }).then(function () {
+        fetch(`/servidores/parametros/${idServidor}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+        }).then(function (dadosParametros) {
+            console.log(dadosParametros);
+            for (let i = 0; i < dadosParametros.length; i++) {
+                if (dadosParametros[i].nome_componente == 'CPU' && dadosParametros[i].unidade_de_medida == '%') {
+                    parametrizacao.innerHTML += `
+                        <h1>CPU</h1>
+                        <h2>% de uso para notificações de estado de alerta</h2>
+                        <input id="cpuLimite" type="number" value="${dadosParametros[i].limite_monitoramento}">
+                    `;
+                } else if (dadosParametros[i].nome_componente == 'RAM' && dadosParametros[i].unidade_de_medida == '%') {
+                    parametrizacao.innerHTML += `
+                        <h1>RAM</h1>
+                        <h2>% de uso para notificações de estado de alerta</h2>
+                        <input id="ramLimite" type="number" value="${dadosParametros[i].limite_monitoramento}">
+                    `;
+                } else if (dadosParametros[i].nome_componente == 'Disco' && dadosParametros[i].unidade_de_medida == '%') {
+                    parametrizacao.innerHTML += `
+                        <h1>Disco</h1>
+                        <h2>% de uso para notificações de estado de alerta</h2>
+                        <input id="discoLimite" type="number" value="${dadosParametros[i].limite_monitoramento}">
+                    `;
+                } else if (dadosParametros[i].nome_componente == 'Rede' && dadosParametros[i].unidade_de_medida == '%') {
+                    parametrizacao.innerHTML += `
+                        <h1>Rede</h1>
+                        <h2>Valor da % para notificações de estado de alerta</h2>
+                        <input id="redeLimitePercent" type="number" value="${dadosParametros[i].limite_monitoramento}">
+                    `;
+                } else if (dadosParametros[i].nome_componente == 'Rede' && dadosParametros[i].unidade_de_medida == 'ms') {
+                    parametrizacao.innerHTML += `
+                        <h1>Rede</h1>
+                        <h2>Valor em ms para notificações de estado de alerta</h2>
+                        <input id="redeLimiteMs" type="number" value="${dadosParametros[i].limite_monitoramento}">
+                    `;
+                }
+            }
+        })
+    })
+
 }
 
 function popup_deletar_servidores() {

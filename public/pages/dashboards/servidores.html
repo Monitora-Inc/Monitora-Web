@@ -50,7 +50,6 @@
         <h2 class="lista_titulo">Servidores</h2>
         <div class="cards_servidores">
 
-            <!-- Card Servidor Ativo -->
             <div class="card_servidor" onclick="popup_servidor_informacoes()">
                 <div class="status_checkbox">
                     <div class="servidor_status ativo"></div>
@@ -65,20 +64,6 @@
                 </div>
             </div>
 
-            <!-- Card Servidor Inativo -->
-            <div class="card_servidor" onclick="popup_servidor_informacoes()">
-                <div class="status_checkbox">
-                    <div class="servidor_status inativo"></div>
-                    <div id="servidor_checkbox">
-                        <input type="checkbox" class="checkbox">
-                    </div>
-                </div>
-                <div class="servidor_informacoes">
-                    <div id="servidor_nome">Servidor 2</div>
-                    <div id="servidor_localizacao">São Paulo - SP</div>
-                    <div id="servidor-uuid"><span>UUID: </span><br>5jdgfvdgfdfdsfdsssfd23</div>
-                </div>
-            </div>
         </div>
     </div>
 </body>
@@ -86,7 +71,9 @@
 </html>
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
+
 <script>
+    let listaIdDelete = [];
     function listarServidores() {
         let idEmpresa = sessionStorage.empresaId;
 
@@ -107,21 +94,127 @@
 
             for (let i = 0; i < dadosServidores.length; i++) {
                 let servidor = dadosServidores[i];
-
                 container.innerHTML += `
-                <div class="card_servidor" id="${servidor.idServidor}" onclick="popup_servidor_informacoes(${servidor.idServidor})">
-                    <div class="servidor_informacoes">
-                        <div id="servidor_nome">${servidor.nome}</div>
-                        <div id="servidor_localizacao">DataCenter ID: ${servidor.fkDataCenter}</div>
-                        <div id="servidor_id"><span>ID Servidor: </span><br>${servidor.idServidor}</div>
+                    <div class="card_servidor" id="${servidor.idServidor}" onclick="popup_servidor_informacoes('${servidor.nomeDatacenter}', '${sessionStorage.empresaId}', '${servidor.nome}', '${servidor.idServidor}', '${servidor.rua}', ${servidor.numero}, '${servidor.bairro}', '${servidor.cidade}', '${servidor.estado}', '${servidor.pais}')">
+                        <div id="usuario_checkbox">
+                                <input type="checkbox" class="checkbox" value="${servidor.idServidor}" onchange="adicionarListaDelete(this)">
+                                </div>
+                            <div class="servidor_informacoes">
+                                <div id="servidor_nome">${servidor.nome}</div>
+                                <div id="servidor_localizacao">DataCenter ID: ${servidor.fkDataCenter}</div>
+                                <div id="servidor_id"><span>ID Servidor: </span><br>${servidor.idServidor}</div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            `;
-            }
+                `;
 
+
+            }
             totalUsuarios.innerHTML = dadosServidores.length;
+            attachCheckboxListeners();
         }).catch(function (erro) {
             console.log(`#ERRO: ${erro}`);
+        });
+    }
+    //Botão de deletar
+    function attachCheckboxListeners() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const imgDeletar = document.querySelector('.icone_deletar img');
+        console.log("Funcao Checkbox")
+        if (!checkboxes.length) return;
+        if (!imgDeletar) return;
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('click', (event) => {
+                event.stopPropagation();
+            });
+
+            checkbox.addEventListener('change', () => {
+                const anyChecked = Array.from(document.querySelectorAll('input[type="checkbox"]')).some(cb => cb.checked);
+                imgDeletar.style.display = anyChecked ? 'block' : 'none';
+            });
+        });
+    }
+    function adicionarListaDelete(checkbox) {
+        console.log("Estou adicionando cards com checkbox a lista")
+        if (checkbox.checked) {
+            listaIdDelete.push(checkbox.value);
+        } else {
+            let indexARetirar = listaIdDelete.indexOf(checkbox.value);
+            listaIdDelete.splice(indexARetirar, 1);
+        }
+        console.log(listaIdDelete);
+    }
+
+    //Este item não adiciona o servidor em si, mas os componentes e parametros servidor
+    function editarServidor(idServidor) {
+        let nomeServidorVar = document.getElementById("servidor_nome").value;
+        let idDatacenterVar = document.getElementById("ipt_datacenter").value;
+        let cpuLimiteVar = document.getElementById("cpuLimite").value;
+        let ramLimiteVar = document.getElementById("ramLimite").value;
+        let discoLimiteVar = document.getElementById("discoLimite").value;
+        let redeLimitePercentVar = document.getElementById("redeLimitePercent").value;
+        let redeLimiteMsVar = document.getElementById("redeLimiteMs").value;
+        
+        if (nomeServidorVar == null || nomeServidorVar == "" || idDatacenterVar == null || idDatacenterVar == "" || cpuLimiteVar == null || cpuLimiteVar == "" || ramLimiteVar == null || ramLimiteVar == "" || discoLimiteVar == null || discoLimiteVar == "" || redeLimitePercentVar == null || redeLimitePercentVar == "" || redeLimiteMsVar == null || redeLimiteMsVar == "") {
+            mensagem_erro.innerHTML = `Todos os campos precisam ser preenchidos!`;
+            return;
+        }
+        fetch(`/servidores/atualizar/${idServidor}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nomeServidorServer: nomeServidorVar,
+                idDatacenterServer: idDatacenterVar,
+                cpuLimiteServer: cpuLimiteVar,
+                ramLimiteServer: ramLimiteVar,
+                discoLimiteServer: discoLimiteVar,
+                redeLimitePercentServer: redeLimitePercentVar,
+                redeLimiteMsServer: redeLimiteMsVar
+            })
+        }).then(function (response) {
+            if (response.ok) {
+                console.log(`Servidor ID ${idServidor} atualizado com sucesso!`);
+                location.reload();
+            } else {
+                console.error(`Falha ao atualizar o servidor id: ${idServidor}. Status: ${response.status}`);
+            }
+        })
+            .catch(function (error) {
+                console.error("Erro de rede:", error);
+            });
+        fechar_popup();
+    }
+
+    function deletar_servidores() {
+        if (listaIdDelete.length === 0) {
+            console.warn("Nenhum servidor selecionado para exclusão.");
+            return;
+        }
+
+        // Cria uma lista de promessas para deletar todos os servidores
+        const promessas = listaIdDelete.map(idServidor => {
+            return fetch(`/servidores/excluir/${idServidor}`, {
+                method: 'DELETE',
+            }).then(response => {
+                if (response.ok) {
+                    console.log(`Servidor ID ${idServidor} deletado com sucesso!`);
+                } else {
+                    console.error(`Falha ao deletar o servidor ${idServidor}. Status: ${response.status}`);
+                }
+            }).catch(error => {
+                console.error(`Erro ao tentar deletar o servidor ${idServidor}:`, error);
+            });
+        });
+
+        // Quando todas as exclusões terminarem:
+        Promise.all(promessas).then(() => {
+            console.log("Processo de exclusão finalizado.");
+            fechar_popup(); // Fecha o popup de confirmação
+            listaIdDelete = []; // Limpa a lista
+            listarServidores(); // Atualiza a lista sem precisar recarregar a página
         });
     }
 
