@@ -180,7 +180,9 @@
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
 <script>
-    verificarPermissoesSideBar();
+    if(sessionStorage.empresaCnpj == undefined) {
+        verificarPermissoesSideBar();
+    }
 
     // Selecionar um cargo
     const cargos = document.querySelectorAll('.card_cargo');
