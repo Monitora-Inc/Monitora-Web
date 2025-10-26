@@ -12,28 +12,28 @@ var database = require("../database/config");
 
 //     return database.executar(instrucaoTeste)
 
-    // let instrucaoSql = `
-    //     INSERT INTO componentes_monitorados (nome_componente_id, servidores_idServidor, medida_id, parametros_id)
-    //     VALUES ('${nomeComponenteId}', '${servidorId}', '${medidaId}', '${parametroId}');
-    // `;
-    // let instrucao2 = `
-    //     INSERT INTO parametros (limite)
-    //     VALUES ('${limite}');
-    // `;
-    // let instrucao3 = `
-    //     UPDATE servidores set nome = '${nome}' 
-    //     WHERE idServidor = ${idServidor}
-    // `;
+// let instrucaoSql = `
+//     INSERT INTO componentes_monitorados (nome_componente_id, servidores_idServidor, medida_id, parametros_id)
+//     VALUES ('${nomeComponenteId}', '${servidorId}', '${medidaId}', '${parametroId}');
+// `;
+// let instrucao2 = `
+//     INSERT INTO parametros (limite)
+//     VALUES ('${limite}');
+// `;
+// let instrucao3 = `
+//     UPDATE servidores set nome = '${nome}' 
+//     WHERE idServidor = ${idServidor}
+// `;
 
-    // //Desta forma o node aceita as tres instrucoes sendo realizada uma após a outra
-    // return database.executar(instrucaoSql).then(() => {
-    //     return database.executar(instrucao2).then(() => {
-    //         return database.executar(instrucao3)
-    //     })
-    // });
+// //Desta forma o node aceita as tres instrucoes sendo realizada uma após a outra
+// return database.executar(instrucaoSql).then(() => {
+//     return database.executar(instrucao2).then(() => {
+//         return database.executar(instrucao3)
+//     })
+// });
 // }
 
-function adicionarServidorJAVA(id, nome, fkDataCenter){
+function adicionarServidorJAVA(id, nome, fkDataCenter) {
     let instrucaoTeste = `
         INSERT INTO monitora.servidores(idServidor, nome, FkDataCenter) VALUES
         ('${id}', '${nome}', ${fkDataCenter});
@@ -42,15 +42,65 @@ function adicionarServidorJAVA(id, nome, fkDataCenter){
     return database.executar(instrucaoTeste)
 }
 
-function atualizarServidor(idServidor, nome, fkDataCenter) {
+function atualizarServidor(idServidor, nomeServidor, idDatacenter, cpuLimite, ramLimite, discoLimite, redeLimitePercent, redeLimiteMs) {
     let instrucaoSql = `
-        UPDATE servidores
-        SET nome = '${nome}', fkDataCenter = '${fkDataCenter}'
-        WHERE idServidor = '${idServidor}';
+        update servidores
+        set
+            nome = '${nomeServidor}',
+            FkDataCenter = ${idDatacenter}
+        where idServidor = '${idServidor}';
     `;
-    return database.executar(instrucaoSql);
+
+    let instrucaoSql2 = `
+        update parametros p
+        inner join componentes_monitorados cm on cm.parametros_id = p.id
+        inner join nome_componente nc on cm.nome_componente_id = nc.id
+        inner join servidores s on cm.servidores_idServidor = s.idServidor
+            set p.limite = ${cpuLimite}
+        where nc.componente = 'CPU' AND s.idServidor = '${idServidor}';
+    `
+
+    let instrucaoSql3 = `
+        update parametros p
+        inner join componentes_monitorados cm on cm.parametros_id = p.id
+        inner join nome_componente nc on cm.nome_componente_id = nc.id
+        inner join servidores s on cm.servidores_idServidor = s.idServidor
+            set p.limite = ${ramLimite}
+        where nc.componente  like 'RAM' AND s.idServidor = '${idServidor}';
+    `
+
+    let instrucaoSql4 = `
+        update parametros p
+        inner join componentes_monitorados cm on cm.parametros_id = p.id
+        inner join nome_componente nc on cm.nome_componente_id = nc.id
+        inner join servidores s on cm.servidores_idServidor = s.idServidor
+            set p.limite = ${discoLimite}
+        where nc.componente  like 'Disco' AND s.idServidor = '${idServidor}';
+    `
+
+    let instrucaoSql5 = `
+        update parametros p
+        inner join componentes_monitorados cm on cm.parametros_id = p.id
+        inner join nome_componente nc on cm.nome_componente_id = nc.id
+        inner join unidade_medida um on um.id = cm.unidade_medida_id
+        inner join servidores s on cm.servidores_idServidor = s.idServidor
+            set p.limite = ${redeLimitePercent}
+        where nc.componente  like 'Rede' and um.unidade_de_medida = '%' AND s.idServidor = '${idServidor}';
+    `
+
+    let instrucaoSql6 = `
+        update parametros p
+        inner join componentes_monitorados cm on cm.parametros_id = p.id
+        inner join nome_componente nc on cm.nome_componente_id = nc.id
+        inner join unidade_medida um on um.id = cm.unidade_medida_id
+        inner join servidores s on cm.servidores_idServidor = s.idServidor
+            set p.limite = ${redeLimiteMs}
+        where nc.componente  like 'Rede' and um.unidade_de_medida = 'ms' AND s.idServidor = '${idServidor}';
+    `
+    console.log("executando a instrucao sql: " + instrucaoSql)
+    return database.executar(instrucaoSql).then(() => database.executar(instrucaoSql2)).then(() => database.executar(instrucaoSql3)).then(() => database.executar(instrucaoSql4)).then(() => database.executar(instrucaoSql5)).then(() => database.executar(instrucaoSql6))
 }
-//ID Servidor vindo como undefined
+
 
 function excluirServidor(idServidor) {
     let instrucaoSqlComponentes = `
@@ -66,7 +116,7 @@ function excluirServidor(idServidor) {
     return database.executar(instrucaoSqlComponentes)
         .then(() => {
             return database.executar(instrucaoSqlServidor);
-            
+
         });
 }
 
@@ -82,7 +132,8 @@ function listarServidores(idEmpresa) {
         e.cidade,
         e.bairro,
         e.rua,
-        e.numero
+        e.numero,
+        d.nome as nomeDatacenter
     FROM servidores s
     INNER JOIN datacenters d ON d.idDataCenter = s.fkDataCenter
     INNER JOIN endereco e ON e.idEndereco = d.fkEndereco
@@ -91,18 +142,21 @@ function listarServidores(idEmpresa) {
     return database.executar(instrucaoSql);
 }
 
-function adicionarParametro(limite) {
+function parametros(idServer) {
     let sql = `
-        INSERT INTO parametros (limite)
-        VALUES ('${limite}');
-    `;
-    return database.executar(sql);
-}
-
-function adicionarComponente(nomeComponenteId, servidorId, medidaId, parametroId) {
-    let sql = `
-        INSERT INTO componentes_monitorados (nome_componente_id, servidores_idServidor, medida_id, parametros_id)
-        VALUES ('${nomeComponenteId}', '${servidorId}', '${medidaId}', '${parametroId}');
+        SELECT 
+            s.idServidor,
+            s.nome AS nome_servidor,
+            nc.componente AS nome_componente,
+            u.unidade_de_medida,
+            p.limite AS limite_monitoramento
+        FROM servidores AS s
+        JOIN componentes_monitorados AS c ON s.idServidor = c.servidores_idServidor
+        JOIN nome_componente AS nc ON c.nome_componente_id = nc.id
+        JOIN unidade_medida AS u ON c.unidade_medida_id = u.id
+        JOIN parametros AS p ON c.parametros_id = p.id
+        WHERE s.idServidor = '${idServer}'
+        ORDER BY nome_componente;
     `;
     return database.executar(sql);
 }
@@ -113,6 +167,5 @@ module.exports = {
     atualizarServidor,
     excluirServidor,
     listarServidores,
-    adicionarParametro,
-    adicionarComponente
+    parametros
 };

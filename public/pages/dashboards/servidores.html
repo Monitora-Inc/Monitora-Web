@@ -95,7 +95,7 @@
             for (let i = 0; i < dadosServidores.length; i++) {
                 let servidor = dadosServidores[i];
                 container.innerHTML += `
-                    <div class="card_servidor" id="${servidor.idServidor}" onclick="popup_servidor_informacoes('${servidor.nome}', '${servidor.idServidor}', '${servidor.rua}', ${servidor.numero}, '${servidor.bairro}', '${servidor.cidade}', '${servidor.estado}', '${servidor.pais}')">
+                    <div class="card_servidor" id="${servidor.idServidor}" onclick="popup_servidor_informacoes('${servidor.nomeDatacenter}', '${sessionStorage.empresaId}', '${servidor.nome}', '${servidor.idServidor}', '${servidor.rua}', ${servidor.numero}, '${servidor.bairro}', '${servidor.cidade}', '${servidor.estado}', '${servidor.pais}')">
                         <div id="usuario_checkbox">
                                 <input type="checkbox" class="checkbox" value="${servidor.idServidor}" onchange="adicionarListaDelete(this)">
                                 </div>
@@ -147,8 +147,45 @@
     }
 
     //Este item não adiciona o servidor em si, mas os componentes e parametros servidor
-    function editarServidor() {
-
+    function editarServidor(idServidor) {
+        let nomeServidorVar = document.getElementById("servidor_nome").value;
+        let idDatacenterVar = document.getElementById("ipt_datacenter").value;
+        let cpuLimiteVar = document.getElementById("cpuLimite").value;
+        let ramLimiteVar = document.getElementById("ramLimite").value;
+        let discoLimiteVar = document.getElementById("discoLimite").value;
+        let redeLimitePercentVar = document.getElementById("redeLimitePercent").value;
+        let redeLimiteMsVar = document.getElementById("redeLimiteMs").value;
+        
+        if (nomeServidorVar == null || nomeServidorVar == "" || idDatacenterVar == null || idDatacenterVar == "" || cpuLimiteVar == null || cpuLimiteVar == "" || ramLimiteVar == null || ramLimiteVar == "" || discoLimiteVar == null || discoLimiteVar == "" || redeLimitePercentVar == null || redeLimitePercentVar == "" || redeLimiteMsVar == null || redeLimiteMsVar == "") {
+            mensagem_erro.innerHTML = `Todos os campos precisam ser preenchidos!`;
+            return;
+        }
+        fetch(`/servidores/atualizar/${idServidor}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nomeServidorServer: nomeServidorVar,
+                idDatacenterServer: idDatacenterVar,
+                cpuLimiteServer: cpuLimiteVar,
+                ramLimiteServer: ramLimiteVar,
+                discoLimiteServer: discoLimiteVar,
+                redeLimitePercentServer: redeLimitePercentVar,
+                redeLimiteMsServer: redeLimiteMsVar
+            })
+        }).then(function (response) {
+            if (response.ok) {
+                console.log(`Servidor ID ${idServidor} atualizado com sucesso!`);
+                location.reload();
+            } else {
+                console.error(`Falha ao atualizar o servidor id: ${idServidor}. Status: ${response.status}`);
+            }
+        })
+            .catch(function (error) {
+                console.error("Erro de rede:", error);
+            });
+        fechar_popup();
     }
 
     function deletar_servidores() {
