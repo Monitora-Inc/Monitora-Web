@@ -89,7 +89,12 @@
 </html>
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
+<script src="../../js/verificacaoPermissoes.js"></script>
 <script>
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        verificarPermissoesSideBar();
+    }
+
     let listaIdDelete = [];
 
     function funcao_adicionar() {
@@ -289,6 +294,14 @@
     }
 
     function editar_cargo(usuario_id, cargo_id) {
+        if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+            let permissaoConcedida = verificarPermissao('EditarCargoFuncionario');
+            
+            if (!permissaoConcedida) {
+                return;
+            }
+        }
+
         fetch(`/usuarios/editarCargo`, {
             method: 'PUT',
             headers: {
@@ -332,7 +345,7 @@
     }
 
     function mascaraTelefone(numero) {
-        numero = String(numero).replace(/\D/g, ''); 
+        numero = String(numero).replace(/\D/g, '');
 
         if (numero.length === 11) {
             return `(${numero.slice(0, 2)}) ${numero.slice(2, 7)}-${numero.slice(7)}`;

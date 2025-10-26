@@ -9,17 +9,17 @@
  \______/ |__/ \______/ |_______/  \_______/|__/
 */
 
-    function mascaraTelefone(numero) {
-        numero = String(numero).replace(/\D/g, ''); 
+function mascaraTelefone(numero) {
+    numero = String(numero).replace(/\D/g, '');
 
-        if (numero.length === 11) {
-            return `(${numero.slice(0, 2)}) ${numero.slice(2, 7)}-${numero.slice(7)}`;
-        } else if (numero.length === 10) {
-            return `(${numero.slice(0, 2)}) ${numero.slice(2, 6)}-${numero.slice(6)}`;
-        } else {
-            return numero;
-        }
+    if (numero.length === 11) {
+        return `(${numero.slice(0, 2)}) ${numero.slice(2, 7)}-${numero.slice(7)}`;
+    } else if (numero.length === 10) {
+        return `(${numero.slice(0, 2)}) ${numero.slice(2, 6)}-${numero.slice(6)}`;
+    } else {
+        return numero;
     }
+}
 
 function popup_sair() {
     popup_screen.innerHTML = `        
@@ -94,6 +94,14 @@ function attachCheckboxListeners() {
 */
 
 function popup_confirmar_senha() {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        let permissaoConcedida = verificarPermissao('EditarPerfil');
+
+        if (!permissaoConcedida) {
+            return;
+        }
+    }
+
     popup_screen.innerHTML = `        
     <div class="popup_container">
         <div class="popup">
@@ -209,6 +217,14 @@ function popup_editar_foto() {
 */
 
 function popup_adicionar_servidor() {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        let permissaoConcedida = verificarPermissao('AdicionarServidor');
+
+        if (!permissaoConcedida) {
+            return;
+        }
+    }
+
     popup_screen.innerHTML = `        
     <div class="popup_container">
             <div class="popup">
@@ -237,6 +253,14 @@ function popup_adicionar_servidor() {
 }
 
 function popup_servidor_informacoes(nomeDatacenter, idEmpresa, nomeServidor, idServidor, rua, numero, bairro, cidade, estado, pais) {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        let permissaoConcedida = verificarPermissao('EditarServidor');
+
+        if (!permissaoConcedida) {
+            return;
+        }
+    }
+
     let datacenterOptions = "";
     let botoesFuncoes = ""
 
@@ -353,6 +377,14 @@ function popup_servidor_informacoes(nomeDatacenter, idEmpresa, nomeServidor, idS
 }
 
 function popup_deletar_servidores() {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        let permissaoConcedida = verificarPermissao('ExcluirServidor');
+
+        if (!permissaoConcedida) {
+            return;
+        }
+    }
+
     popup_screen.innerHTML = `        
         <div class="popup_container">
             <div class="popup">
@@ -381,6 +413,14 @@ function popup_deletar_servidores() {
 */
 
 function popup_adicionar_datacenter() {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        let permissaoConcedida = verificarPermissao('AdicionarDataCenter');
+
+        if (!permissaoConcedida) {
+            return;
+        }
+    }
+
     popup_screen.innerHTML = `        
     <div class="popup_container">
             <div class="popup">
@@ -444,6 +484,14 @@ function popup_adicionar_datacenter() {
 }
 
 function popup_editar_datacenter(idDataCenter, fkEndereco) {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        let permissaoConcedida = verificarPermissao('EditarDataCenter');
+
+        if (!permissaoConcedida) {
+            return;
+        }
+    }
+
     console.log("popup_editar_datacenter =>", idDataCenter, fkEndereco);
     popup_screen.innerHTML = `        
     <div class="popup_container">
@@ -509,6 +557,14 @@ function popup_editar_datacenter(idDataCenter, fkEndereco) {
 
 
 function popup_deletar_datacenter() {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        let permissaoConcedida = verificarPermissao('ExcluirDataCenter');
+
+        if (!permissaoConcedida) {
+            return;
+        }
+    }
+
     popup_screen.innerHTML = `        
         <div class="popup_container">
             <div class="popup">
@@ -538,6 +594,14 @@ function popup_deletar_datacenter() {
 */
 
 function popup_adicionar_cargos() {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        let permissaoConcedida = verificarPermissao('AdicionarCargos');
+
+        if (!permissaoConcedida) {
+            return;
+        }
+    }
+
     popup_screen.innerHTML = `        
         <div class="popup_container">
             <div class="popup">
@@ -585,6 +649,14 @@ function adicionar_cargo() {
 }
 
 function popup_deletar_cargos(listaIdDelete) {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        let permissaoConcedida = verificarPermissao('DeletarCargos');
+
+        if (!permissaoConcedida) {
+            return;
+        }
+    }
+
     if (listaIdDelete.length === 0) {
         popup_screen.innerHTML = `        
         <div class="popup_container">
@@ -619,6 +691,14 @@ function popup_deletar_cargos(listaIdDelete) {
 }
 
 function popup_alterar_permissoes(idCargo, listaPermissoesAdicionar, listaPermissoesRetirar) {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        let permissaoConcedida = verificarPermissao('ModificarCargos');
+
+        if (!permissaoConcedida) {
+            return;
+        }
+    }
+
     if (idCargo == 0) {
         popup_screen.innerHTML = `        
         <div class="popup_container">
@@ -681,6 +761,14 @@ function popup_alterar_permissoes(idCargo, listaPermissoesAdicionar, listaPermis
 */
 
 function popup_cadastrar_usuario() {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        let permissaoConcedida = verificarPermissao('CadastrarFuncionario');
+
+        if (!permissaoConcedida) {
+            return;
+        }
+    }
+
     popup_screen.innerHTML = `        
     <div class="popup_container">
             <div class="popup">
@@ -749,11 +837,19 @@ function popup_cadastrar_usuario() {
                 </div>
             </div>
         </div>`;
-        
+
     listarCargos(sessionStorage.empresaId);
 }
 
 function popup_deletar_usuario(listaIdDelete) {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        let permissaoConcedida = verificarPermissao('RemoverFuncionario');
+
+        if (!permissaoConcedida) {
+            return;
+        }
+    }
+
     popup_screen.innerHTML = `        
         <div class="popup_container">
             <div class="popup">

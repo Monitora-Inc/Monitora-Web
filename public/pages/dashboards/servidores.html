@@ -71,9 +71,14 @@
 </html>
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
-
+<script src="../../js/verificacaoPermissoes.js"></script>
 <script>
+    if (sessionStorage.empresaCnpj == undefined) {
+        verificarPermissoesSideBar();
+    }
+
     let listaIdDelete = [];
+
     function listarServidores() {
         let idEmpresa = sessionStorage.empresaId;
 
@@ -155,7 +160,7 @@
         let discoLimiteVar = document.getElementById("discoLimite").value;
         let redeLimitePercentVar = document.getElementById("redeLimitePercent").value;
         let redeLimiteMsVar = document.getElementById("redeLimiteMs").value;
-        
+
         if (nomeServidorVar == null || nomeServidorVar == "" || idDatacenterVar == null || idDatacenterVar == "" || cpuLimiteVar == null || cpuLimiteVar == "" || ramLimiteVar == null || ramLimiteVar == "" || discoLimiteVar == null || discoLimiteVar == "" || redeLimitePercentVar == null || redeLimitePercentVar == "" || redeLimiteMsVar == null || redeLimiteMsVar == "") {
             mensagem_erro.innerHTML = `Todos os campos precisam ser preenchidos!`;
             return;
@@ -177,7 +182,10 @@
         }).then(function (response) {
             if (response.ok) {
                 console.log(`Servidor ID ${idServidor} atualizado com sucesso!`);
-                location.reload();
+                mensagem_erro.innerHTML = `Servidor ID ${idServidor} atualizado com sucesso!`;
+                setTimeout(function () {
+                    location.reload(true);
+                }, 2000);
             } else {
                 console.error(`Falha ao atualizar o servidor id: ${idServidor}. Status: ${response.status}`);
             }
@@ -185,7 +193,6 @@
             .catch(function (error) {
                 console.error("Erro de rede:", error);
             });
-        fechar_popup();
     }
 
     function deletar_servidores() {
