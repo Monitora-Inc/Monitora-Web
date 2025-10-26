@@ -7,7 +7,7 @@ function verificarPermissoesSideBar() {
 
     if (sessionStorage.listaPermissoes.indexOf('AdicionarServidor') === -1 && sessionStorage.listaPermissoes.indexOf('EditarServidor') === -1
         && sessionStorage.listaPermissoes.indexOf('ExcluirServidor') === -1) {
-        let linkServidores = document.getElementById('linkServidores'); 
+        let linkServidores = document.getElementById('linkServidores');
         linkServidores.style.display = 'none';
     }
 
@@ -23,3 +23,31 @@ function verificarPermissoesSideBar() {
         linkCargos.style.display = 'none';
     }
 }
+
+function verificarPermissao(permissao) {
+    if (sessionStorage.listaPermissoes.indexOf(permissao) === -1) {
+        popup_screen.innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1>Permissão negada.</h1>
+
+                <div id="mensagem_erro"></div>
+
+                <!-- Botões -->
+                <div class="btns_popup">
+                    <button onclick="fechar_popup()">Fechar</button>
+                </div>
+            </div>
+        </div>`;
+        return false;
+    } else {
+        return true;
+    }
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        verificarPermissoesSideBar,
+        verificarPermissao
+    };
+} 

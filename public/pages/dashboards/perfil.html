@@ -33,7 +33,7 @@
 <script src="../../js/verificacaoPermissoes.js"></script>
 
 <script>
-    if(sessionStorage.empresaCnpj == undefined) {
+    if(sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
         verificarPermissoesSideBar();
     }
 
