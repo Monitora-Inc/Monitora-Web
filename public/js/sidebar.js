@@ -34,7 +34,7 @@ if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
                   <a href="" class="tooltipNav icone_configuracoes" onclick="fechar_popups()">
                         <span class="tooltiptextNav"">Configurações</span>
                   </a>
-                  <a href="" class="tooltipNav icone_suporte">
+                  <a href="https://sptech-team-lpyjf1yr.atlassian.net/servicedesk/customer/portal/36" target="_blank" class="tooltipNav icone_suporte">
                         <span class="tooltiptextNav">Suporte</span>
                   </a>
                   <a class="tooltipNav icone_sair" onclick="popup_sair()">
@@ -63,7 +63,7 @@ if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
                   <a href="" class="tooltipNav icone_configuracoes" onclick="fechar_popups()">
                         <span class="tooltiptextNav"">Configurações</span>
                   </a>
-                  <a href="" class="tooltipNav icone_suporte">
+                  <a href="https://sptech-team-lpyjf1yr.atlassian.net/servicedesk/customer/portal/36" target="_blank" class="tooltipNav icone_suporte">
                         <span class="tooltiptextNav">Suporte</span>
                   </a>
                   <a class="tooltipNav icone_sair" onclick="popup_sair()">
@@ -101,7 +101,7 @@ if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
                   <a href="./tela_cargos.html" class="tooltipNav icone_cargos" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Cargos</span>
                   </a>
-                  <a href="" class="tooltipNav icone_suporte">
+                  <a href="https://sptech-team-lpyjf1yr.atlassian.net/servicedesk/customer/portal/36" target="_blank" class="tooltipNav icone_suporte">
                         <span class="tooltiptextNav">Suporte</span>
                   </a>
                   <a class="tooltipNav icone_sair" onclick="popup_sair()">
@@ -139,7 +139,7 @@ if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
                   <a href="./tela_cargos.html" id="linkCargos" class="tooltipNav icone_cargos" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Cargos</span>
                   </a>
-                  <a href="" class="tooltipNav icone_suporte">
+                  <a href="https://sptech-team-lpyjf1yr.atlassian.net/servicedesk/customer/portal/36" target="_blank" class="tooltipNav icone_suporte">
                         <span class="tooltiptextNav">Suporte</span>
                   </a>
                   <a class="tooltipNav icone_sair" onclick="popup_sair()">
