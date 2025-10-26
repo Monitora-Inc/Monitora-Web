@@ -40,7 +40,7 @@
                     <h1 id="perfil_nome">${sessionStorage.userNome} ${sessionStorage.userSobrenome}</h1>
                     <h2 id="perfil_cargo">${sessionStorage.cargo}</h2>
                     <h3 id="perfil_email">${sessionStorage.userEmail}</h3>
-                    <h4 id="perfil_telefone">${sessionStorage.userTelefone}</h4>
+                    <h4 id="perfil_telefone">${mascaraTelefone(sessionStorage.userTelefone)}</h4>
                     <button onclick="popup_confirmar_senha()">Editar Informações</button>
                 </div>
             `
