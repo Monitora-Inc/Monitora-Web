@@ -8,7 +8,7 @@ router.post("/adicionarDatacenter", function(req, res) {
 });
 
 router.get("/buscarIDdatacenter/:id", function(req, res) {
-    DatacenterController.buscarServidorID(req, res);
+    DatacenterController.buscarIDdatacenter(req, res);
 });
 
 router.put("/atualizarDatacenter/:id/:fkEndereco", function(req, res) {

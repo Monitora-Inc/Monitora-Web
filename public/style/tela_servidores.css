@@ -103,7 +103,6 @@
     flex-direction: column;
     padding: clamp(10px, 1vw, 20px);
     width: clamp(250px, 30vw, 450px);
-    margin-right: 5vw;
     height: fit-content;
     background-color: #072F4E;
     border-radius: 0.5vw;
@@ -178,6 +177,8 @@
 .popup_container .popup_servidor_informacoes .servidor_parametrizacao {
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    height: 40vh;
 }
 
 .popup_container .popup_servidor_informacoes .servidor_parametrizacao h1 {
