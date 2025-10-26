@@ -222,7 +222,7 @@
         sessionStorage.cargo = jsonLogin.cargo;
         sessionStorage.empresaId = jsonLogin.empresaId;
         sessionStorage.empresaNome = jsonLogin.empresaNome;
-        fetch(`/usuarios/listarPermissoes/${sessionStorage.cargoId}`, {
+        await fetch(`/usuarios/listarPermissoes/${sessionStorage.cargoId}`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json"
