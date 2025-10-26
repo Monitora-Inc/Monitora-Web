@@ -30,8 +30,11 @@
 </html>
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
+<script src="../../js/verificacaoPermissoes.js"></script>
 
 <script>
+    verificarPermissoesSideBar();
+
     function infoPerfil() {
         if (sessionStorage.userNome != null) {
             perfil.innerHTML = `
