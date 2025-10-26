@@ -25,6 +25,9 @@ if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
                         </div>
                         <span class="tooltiptextNav">Perfil</span>
                   </a>
+                  <a href="./empresas.html" class="tooltipNav icone_empresas" onclick="fechar_popups()">
+                        <span class="tooltiptextNav">Empresas</span>
+                  </a>
                   <a href="./usuarios.html" class="tooltipNav icone_usuarios" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Usuários</span>
                   </a>
@@ -50,6 +53,9 @@ if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
                               <img src="../../assets/fotosPerfil/${sessionStorage.fotoUser}" alt="">
                         </div>
                         <span class="tooltiptextNav">Perfil</span>
+                  </a>
+                  <a href="./empresas.html" class="tooltipNav icone_empresas" onclick="fechar_popups()">
+                        <span class="tooltiptextNav">Empresas</span>
                   </a>
                   <a href="./usuarios.html" class="tooltipNav icone_usuarios" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Usuários</span>
