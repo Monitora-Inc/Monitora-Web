@@ -26,6 +26,32 @@ function autenticar(req, res) {
     });
 }
 
+function confirmarSenha(req, res) {
+    var email = req.params.email;
+    var senha = req.params.senha;
+
+    usuarioModel.autenticar(email, senha).then((resultadoAutenticar) => {
+        if (resultadoAutenticar.length == 1) {
+            res.json({
+                userId: resultadoAutenticar[0].userId,
+                userNome: resultadoAutenticar[0].userNome,
+                userSobrenome: resultadoAutenticar[0].userSobrenome,
+                userEmail: resultadoAutenticar[0].userEmail,
+                userTelefone: resultadoAutenticar[0].userTelefone,
+                fotoUser: resultadoAutenticar[0].fotoUser,
+                cargoId: resultadoAutenticar[0].cargoId,
+                cargo: resultadoAutenticar[0].cargo,
+                empresaId: resultadoAutenticar[0].empresaId,
+                empresaNome: resultadoAutenticar[0].empresaNome,
+                empresaAtiva: resultadoAutenticar[0].empresaAtiva,
+                empresaAprovada: resultadoAutenticar[0].empresaAprovada
+            });
+        } else {
+            res.status(403).send("Senha inválida!");
+        }
+    });
+}
+
 function cadastrarUsuario(req, res) {
     let nome = req.body.nomeUsuarioServer;
     let sobrenome = req.body.sobrenomeUsuarioServer;
@@ -119,5 +145,6 @@ module.exports = {
     deletarUsuario,
     editarCargo,
     aprovarUsuarioAdmin,
-    negarUsuarioAdmin
+    negarUsuarioAdmin,
+    confirmarSenha
 }

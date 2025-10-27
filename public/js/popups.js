@@ -111,7 +111,7 @@ function popup_confirmar_senha() {
                 <div class="input-label-wrapper">
                 <span class="input-label">Senha</span>
                 </div>
-                <input type="password" id="ipt_senha" placeholder="Digite sua senha" required>
+                <input type="password" id="iptSenha" placeholder="Digite sua senha" required>
             </div>
 
             <!-- Mensagem de Erro -->
@@ -119,7 +119,7 @@ function popup_confirmar_senha() {
 
             <!-- Botões -->
             <div class="btns_popup">
-                <button onclick="popup_editar_informacoes()">Confirmar</button>
+                <button onclick="confirmar_senha()">Confirmar</button>
                 <button onclick="fechar_popup()">Cancelar</button>
             </div>
         </div>

@@ -61,4 +61,60 @@
             `
         }
     }
+
+    async function confirmar_senha(){
+         mensagem_erro.innerHTML = ``;
+        if (sessionStorage.userNome != null){
+
+                let usuarioEmail = sessionStorage.userEmail;
+                let usuarioSenha = await iptSenha.value;
+
+                if (!usuarioSenha) {
+                    mensagem_erro.innerHTML = `Preencha o campo de senha!`;
+                    return;
+                }
+
+                let respostaLogin = await fetch(`/usuarios/confirmarSenha/${sessionStorage.userEmail}/${usuarioSenha}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!respostaLogin.ok) {
+                    respostaLogin.text().then(texto => {
+                        mensagem_erro.innerHTML = `<p>${texto}</p>`;
+                    });
+                    return;
+                }
+
+                popup_editar_informacoes();
+            
+        } else { // Altearar informações empresa
+                let empresaSenha = await iptEmpresaSenha.value;
+
+                if (!empresaSenha) {
+                    mensagem_erro.innerHTML = `Preencha o campo de senha!`;
+
+                    return;
+                }
+
+                let respostaLogin = await fetch(`/empresas/confirmarSenha/${sessionStorage.empresaCnpj}/${empresaSenha}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!respostaLogin.ok) {
+                    respostaLogin.text().then(texto => {
+                        mensagem_erro.innerHTML = `<p>${texto}</p>`;
+                    });
+
+                    return;
+                } else {
+                    mensagem_erro.innerHTML = "Senha correta!"
+                }
+        }
+    }
 </script>

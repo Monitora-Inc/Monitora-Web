@@ -7,6 +7,10 @@ router.get("/autenticar/:email/:senha", function(req, res) {
     usuarioController.autenticar(req, res);
 });
 
+router.get("/confirmarSenha/:email/:senha", function(req, res){
+    usuarioController.confirmarSenha(req, res);
+});
+
 router.post("/cadastrar", function(req, res) {
     usuarioController.cadastrarUsuario(req, res);
 });

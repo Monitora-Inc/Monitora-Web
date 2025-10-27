@@ -23,4 +23,8 @@ router.get("/buscarEmpresas", function(req, res){
     empresaController.buscarEmpresas(req, res);
 });
 
+router.get("/confirmarSenha/:cnpj/:senha", function(req, res){
+    empresaController.confirmarSenha(req, res);
+});
+
 module.exports = router;
