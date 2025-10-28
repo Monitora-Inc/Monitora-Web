@@ -21,6 +21,48 @@ function mascaraTelefone(numero) {
     }
 }
 
+document.addEventListener('input', function (e) {
+    if (e.inputType === 'deleteContentBackward') return;
+    
+    if (e.target.id === 'ipt_telefone') {
+        let input = e.target;
+        let valor = input.value.replace(/\D/g, '');
+        if (valor.length > 11) valor = valor.slice(0, 11);
+
+        if (valor.length > 6) {
+            input.value = `(${valor.slice(0, 2)}) ${valor.slice(2, 7)}-${valor.slice(7)}`;
+        } else if (valor.length > 2) {
+            input.value = `(${valor.slice(0, 2)}) ${valor.slice(2)}`;
+        } else {
+            input.value = valor;
+        }
+    }
+});
+
+function mascaraCNPJ(valor) {
+    valor = valor.replace(/\D/g, ''); // Remove tudo que não é número
+    if (valor.length > 14) valor = valor.slice(0, 14);
+
+    if (valor.length > 12) {
+        return `${valor.slice(0,2)}.${valor.slice(2,5)}.${valor.slice(5,8)}/${valor.slice(8,12)}-${valor.slice(12)}`;
+    } else if (valor.length > 8) {
+        return `${valor.slice(0,2)}.${valor.slice(2,5)}.${valor.slice(5,8)}/${valor.slice(8)}`;
+    } else if (valor.length > 5) {
+        return `${valor.slice(0,2)}.${valor.slice(2,5)}.${valor.slice(5)}`;
+    } else if (valor.length > 2) {
+        return `${valor.slice(0,2)}.${valor.slice(2)}`;
+    } else {
+        return valor;
+    }
+}
+
+document.addEventListener('input', function(e) {
+    if (e.target.id === 'ipt_cnpj') {
+        let input = e.target;
+        input.value = mascaraCNPJ(input.value);
+    }
+});
+
 function popup_sair() {
     popup_screen.innerHTML = `        
         <div class="popup_container">
@@ -111,7 +153,7 @@ function popup_confirmar_senha() {
                 <div class="input-label-wrapper">
                 <span class="input-label">Senha</span>
                 </div>
-                <input type="password" id="ipt_senha" placeholder="Digite sua senha" required>
+                <input type="password" id="iptSenha" placeholder="Digite sua senha" required>
             </div>
 
             <!-- Mensagem de Erro -->
@@ -119,7 +161,7 @@ function popup_confirmar_senha() {
 
             <!-- Botões -->
             <div class="btns_popup">
-                <button onclick="popup_editar_informacoes()">Confirmar</button>
+                <button onclick="confirmar_senha()">Confirmar</button>
                 <button onclick="fechar_popup()">Cancelar</button>
             </div>
         </div>
@@ -127,58 +169,107 @@ function popup_confirmar_senha() {
 }
 
 function popup_editar_informacoes() {
-    popup_screen.innerHTML = `        
-    <div class="popup_container">
-            <div class="popup">
-                <h1>Editar Informações</h1>
-                <div class="inputs">
-                    
-                    <!-- Nome -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Nome</span>                    </div>
-                    <input type="text" id="ipt_nome" placeholder="Digite o nome do funcionário" required>
-                    
-                    <!-- Sobrenome -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Sobrenome</span>                    </div>
-                    <input type="text" id="ipt_sobrenome" placeholder="Digite o sobrenome" required>
-                    
-                    <!-- Email -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Email</span>                    
-                    </div>
-                    <input type="email" id="ipt_email" placeholder="exemplo@empresa.com" required>
-                     
-                    <!-- Celular -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Celular</span>
-                    </div>
-                    <input type="tel" id="ipt_telefone" placeholder="(11) 99999-9999" required>
+    if (sessionStorage.userNome != null){
+        popup_screen.innerHTML = `        
+            <div class="popup_container">
+                    <div class="popup">
+                        <h1>Editar Informações</h1>
+                        <div class="inputs">
+                            
+                            <!-- Nome -->
+                            <div class="input-label-wrapper">
+                            <span class="input-label">Nome</span>                    </div>
+                            <input type="text" id="ipt_nome" placeholder="Digite o nome do funcionário" required>
+                            
+                            <!-- Sobrenome -->
+                            <div class="input-label-wrapper">
+                            <span class="input-label">Sobrenome</span>                    </div>
+                            <input type="text" id="ipt_sobrenome" placeholder="Digite o sobrenome" required>
+                            
+                            <!-- Email -->
+                            <div class="input-label-wrapper">
+                            <span class="input-label">Email</span>                    
+                            </div>
+                            <input type="email" id="ipt_email" placeholder="exemplo@empresa.com" required>
+                            
+                            <!-- Celular -->
+                            <div class="input-label-wrapper">
+                            <span class="input-label">Celular</span>
+                            </div>
+                            <input type="tel" id="ipt_telefone" placeholder="(11) 99999-9999" required>
 
 
-                    <!-- Senha -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Nova senha</span>
+                            <!-- Senha -->
+                            <div class="input-label-wrapper">
+                            <span class="input-label">Nova senha</span>
+                            </div>
+                            <input type="password" id="ipt_senha" placeholder="Mínimo 8 caracteres com letras e números" required>
+                            
+                            <!-- Confirmar senha -->
+                            <div class="input-label-wrapper">
+                            <span class="input-label">Confirmar nova senha</span>
+                            </div>
+                            <input type="password" id="ipt_confirmar_senha" placeholder="Digite a senha novamente" required>
+                        </div>
+
+                        <!-- Mensagem de Erro -->
+                        <div id="mensagem_erro"></div>
+
+                        <!-- Botões -->
+                        <div class="btns_popup">
+                            <button onclick="editarPerfilUsuario()">Confirmar</button>
+                            <button onclick="fechar_popup()">Cancelar</button>
+                        </div>
                     </div>
-                    <input type="password" id="ipt_senha" placeholder="Mínimo 8 caracteres com letras e números" required>
-                    
-                    <!-- Confirmar senha -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Confirmar nova senha</span>
+                </div>`;
+                ipt_nome.value = sessionStorage.userNome;
+                ipt_sobrenome.value = sessionStorage.userSobrenome;
+                ipt_email.value = sessionStorage.userEmail;
+                ipt_telefone.value = mascaraTelefone(sessionStorage.userTelefone);
+    } else {
+        popup_screen.innerHTML = `        
+        <div class="popup_container">
+                <div class="popup">
+                    <h1>Editar Informações</h1>
+                    <div class="inputs">
+                        
+                        <!-- Nome -->
+                        <div class="input-label-wrapper">
+                        <span class="input-label">Nome</span>                    </div>
+                        <input type="text" id="ipt_nome" placeholder="Digite o nome da empresa" required>
+                        
+                        <!-- CNPJ  -->
+                        <div class="input-label-wrapper">
+                        <span class="input-label">CNPJ</span>
+                        </div>
+                        <input type="tel" id="ipt_cnpj" placeholder="99.999.999/9999-99" required>
+
+                        <!-- Senha -->
+                        <div class="input-label-wrapper">
+                        <span class="input-label">Nova senha</span>
+                        </div>
+                        <input type="password" id="ipt_senha" placeholder="Mínimo 8 caracteres com letras e números" required>
+                        
+                        <!-- Confirmar senha -->
+                        <div class="input-label-wrapper">
+                        <span class="input-label">Confirmar nova senha</span>
+                        </div>
+                        <input type="password" id="ipt_confirmar_senha" placeholder="Digite a senha novamente" required>
                     </div>
-                    <input type="password" id="ipt_confirmar_senha" placeholder="Digite a senha novamente" required>
+
+                    <!-- Mensagem de Erro -->
+                    <div id="mensagem_erro"></div>
+
+                    <!-- Botões -->
+                    <div class="btns_popup">
+                        <button onclick="editarPerfilEmpresa()">Confirmar</button>
+                        <button onclick="fechar_popup()">Cancelar</button>
+                    </div>
                 </div>
-
-                <!-- Mensagem de Erro -->
-                <div id="mensagem_erro"></div>
-
-                <!-- Botões -->
-                <div class="btns_popup">
-                    <button onclick="funcao_adicionar()">Confirmar</button>
-                    <button onclick="fechar_popup()">Cancelar</button>
-                </div>
-            </div>
-        </div>`;
+            </div>`;
+            ipt_nome.value = sessionStorage.empresaNome;
+            ipt_cnpj.value = mascaraCNPJ(sessionStorage.empresaCnpj);
+    }
 }
 
 function popup_editar_foto() {
@@ -189,7 +280,7 @@ function popup_editar_foto() {
                 <div class="inputs">
                     
                     <!-- Nome -->
-                    <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
+                    <input type="file" id="ipt_foto" name="foto" accept="image/png, image/jpeg, image/svg" />
                 </div>
 
                 <!-- Mensagem de Erro -->
@@ -197,7 +288,7 @@ function popup_editar_foto() {
 
                 <!-- Botões -->
                 <div class="btns_popup">
-                    <button onclick="funcao_adicionar()">Confirmar</button>
+                    <button onclick="editarFoto()">Confirmar</button>
                     <button onclick="fechar_popup()">Cancelar</button>
                 </div>
             </div>

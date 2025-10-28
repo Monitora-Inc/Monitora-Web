@@ -39,9 +39,6 @@ function autenticar(req, res) {
     });
 }
 
-
-
-
 function negarEmpresa(req, res) {
     let idEmpresa = req.params.idEmpresa;
 
@@ -64,10 +61,89 @@ function buscarEmpresas(req, res){
     });
 }
 
+
+function confirmarSenha(req, res) {
+    var cnpj = req.params.cnpj;
+    var senha = req.params.senha;
+
+    empresaModel.autenticar(cnpj, senha).then((resultadoAutenticar) => {
+        if (resultadoAutenticar.length == 1) {
+            res.json({
+                empresaId: resultadoAutenticar[0].empresaId,
+                empresaNome: resultadoAutenticar[0].empresaNome,
+                empresaCnpj: resultadoAutenticar[0].empresaCnpj,
+                empresaFoto: resultadoAutenticar[0].empresaFoto,
+                empresaAtivo: resultadoAutenticar[0].empresaAtivo,
+                empresaAprovada: resultadoAutenticar[0].empresaAprovada
+            });
+        } else {
+            res.status(403).send("Senha inválida!");
+        }
+    });
+}
+
+function editarPerfil(req, res) {
+    console.log("=== DEBUG editarPerfil ===");
+    console.log("Content-Type:", req.headers["content-type"]);
+    console.log("Body recebido:", req.body);
+
+    let id = req.body.idServer;
+    let empresa_nome = req.body.nomeServer;
+    let empresa_cnpj = req.body.cnpjServer;
+    let empresa_senha = req.body.senhaServer;
+
+
+    if (empresa_nome == undefined) {
+        return res.status(400).send("O nome é obrigatório!");
+    } else if (empresa_cnpj == undefined) {
+        return res.status(400).send("O cnpj é obrigatório!");
+    } else if (id == undefined) {
+        return res.status(400).send("O id é obrigatório!");
+    }
+
+    // Verificar se a senha antiga está correta
+    empresaModel.editarPerfil(
+        empresa_nome, 
+        empresa_cnpj, 
+        empresa_senha,
+        id
+    )
+    .then(resposta => {
+        res.json({
+            success: true,
+            message: "Usuário atualizado com sucesso"
+        });
+}) .catch(err => {
+    console.error(err);
+    res.status(500).send("CNPJ já existente");
+});
+}
+
+function editarFoto(req, res) {
+    const id = req.body.id;
+    const foto = req.file.filename; 
+
+    empresaModel.editarFoto(id, foto)
+        .then(() => {
+            res.json({
+                success: true,
+                message: "Foto atualizada com sucesso!",
+                foto: foto
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).send("Erro ao atualizar foto");
+        });
+}
+
 module.exports = {
     cadastrarEmpresa,
     autenticar,
     negarEmpresa,
     autorizarEmpresa,
-    buscarEmpresas
+    buscarEmpresas,
+    confirmarSenha,
+    editarFoto,
+    editarPerfil
 }
