@@ -135,6 +135,46 @@ function negarUsuarioAdmin(req, res) {
     });
 }
 
+function editarPerfil(req, res) {
+    console.log("=== DEBUG editarPerfil ===");
+    console.log("Content-Type:", req.headers["content-type"]);
+    console.log("Body recebido:", req.body);
+
+    let id = req.body.idServer;
+    let funcionario_nome = req.body.nomeServer;
+    let funcionario_sobrenome = req.body.sobrenomeServer;
+    let funcionario_email = req.body.emailServer;
+    let funcionario_telefone = req.body.telefoneServer;
+    let funcionario_senha = req.body.senhaServer;
+
+
+    if (funcionario_nome == undefined) {
+        return res.status(400).send("O nome é obrigatório!");
+    } else if (funcionario_sobrenome == undefined) {
+        return res.status(400).send("O sobrenome é obrigatório!");
+    } else if (id == undefined) {
+        return res.status(400).send("O id é obrigatório!");
+    } else if (funcionario_telefone == undefined) {
+        return res.status(400).send("O id é obrigatório!");
+    }
+
+    // Verificar se a senha antiga está correta
+    usuarioModel.editarPerfil(
+        funcionario_nome, 
+        funcionario_sobrenome, 
+        funcionario_email,
+        funcionario_telefone, 
+        funcionario_senha,
+        id
+    )
+    .then(resposta => {
+        res.json({
+            success: true,
+            message: "Usuário atualizado com sucesso"
+        });
+    });
+}
+
 module.exports = {
     autenticar,
     cadastrarUsuario,
@@ -146,5 +186,6 @@ module.exports = {
     editarCargo,
     aprovarUsuarioAdmin,
     negarUsuarioAdmin,
-    confirmarSenha
+    confirmarSenha,
+    editarPerfil
 }

@@ -175,3 +175,8 @@
         flex-direction: column;
     }
 }
+
+#mensagem_erro {
+    text-align: center;
+    max-width: 90%;
+}

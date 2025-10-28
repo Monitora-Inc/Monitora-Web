@@ -47,4 +47,8 @@ router.delete("/negarUsuarioAdmin/:fkEmpresa", function(req, res) {
     usuarioController.negarUsuarioAdmin(req, res);
 });
 
+router.put("/editarPerfil", function (req, res) {
+    usuarioController.editarPerfil(req, res);
+});
+
 module.exports = router;

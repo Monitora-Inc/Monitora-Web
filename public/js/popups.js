@@ -21,6 +21,24 @@ function mascaraTelefone(numero) {
     }
 }
 
+document.addEventListener('input', function (e) {
+    if (e.inputType === 'deleteContentBackward') return;
+    
+    if (e.target.id === 'ipt_telefone') {
+        let input = e.target;
+        let valor = input.value.replace(/\D/g, '');
+        if (valor.length > 11) valor = valor.slice(0, 11);
+
+        if (valor.length > 6) {
+            input.value = `(${valor.slice(0, 2)}) ${valor.slice(2, 7)}-${valor.slice(7)}`;
+        } else if (valor.length > 2) {
+            input.value = `(${valor.slice(0, 2)}) ${valor.slice(2)}`;
+        } else {
+            input.value = valor;
+        }
+    }
+});
+
 function popup_sair() {
     popup_screen.innerHTML = `        
         <div class="popup_container">
@@ -174,11 +192,15 @@ function popup_editar_informacoes() {
 
                 <!-- Botões -->
                 <div class="btns_popup">
-                    <button onclick="funcao_adicionar()">Confirmar</button>
+                    <button onclick="editarPerfilUsuario()">Confirmar</button>
                     <button onclick="fechar_popup()">Cancelar</button>
                 </div>
             </div>
         </div>`;
+        ipt_nome.value = sessionStorage.userNome;
+        ipt_sobrenome.value = sessionStorage.userSobrenome;
+        ipt_email.value = sessionStorage.userEmail;
+        ipt_telefone.value = mascaraTelefone(sessionStorage.userTelefone);
 }
 
 function popup_editar_foto() {

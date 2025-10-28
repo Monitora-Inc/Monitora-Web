@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard de Monitoramento</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {font-family: Arial, sans-serif; background-color: #0e1726; color: #f1f1f1; margin: 0; padding: 0;}
+    header {background-color: #14213d; padding: 10px 20px; text-align: center;}
+    h1 {margin: 0; font-size: 1.4em;}
+    .container {padding: 20px; max-width: 1200px; margin: auto;}
+    .cards {display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;}
+    .card {background: #1b263b; padding: 10px; border-radius: 10px; text-align: center;}
+    .card h2 {margin: 5px 0; font-size: 1.5em;}
+    .grid {display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 20px;}
+    canvas {background: #1b263b; border-radius: 10px; padding: 10px;}
+    table {width: 100%; border-collapse: collapse; background: #1b263b; border-radius: 10px; overflow: hidden;}
+    th, td {padding: 8px; text-align: left; border-bottom: 1px solid #2c3e50;}
+    th {background: #14213d;}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Dashboard de Monitoramento — Dados de Teste</h1>
+  </header>
+  <div class="container">
+    <section class="cards">
+      <div class="card"><p>CPU (últ.)</p><h2 id="cpu">47%</h2></div>
+      <div class="card"><p>RAM (últ.)</p><h2 id="ram">61%</h2></div>
+      <div class="card"><p>Disco (últ.)</p><h2 id="disk">78%</h2></div>
+      <div class="card"><p>Latência</p><h2 id="latency">0.032s</h2></div>
+      <div class="card"><p>Rede</p><h2 id="network">2.8 MB</h2></div>
+      <div class="card"><p>Processos</p><h2 id="proc">135</h2></div>
+    </section>
+
+    <div class="grid">
+      <div>
+        <canvas id="chartCPU"></canvas>
+        <canvas id="chartRAM"></canvas>
+        <canvas id="chartDISK"></canvas>
+      </div>
+      <div>
+        <canvas id="chartLAT"></canvas>
+        <canvas id="chartNET"></canvas>
+        <table>
+          <thead>
+            <tr><th>Timestamp</th><th>CPU</th><th>RAM</th><th>Disco</th><th>Rede (MB)</th><th>Latência</th><th>Proc</th></tr>
+          </thead>
+          <tbody id="dataTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const data = [
+      { timestamp: '2025-10-26 10:00:00', cpu: 35, ram: 52, disk: 70, rede: 1.2, lat: 0.025, proc: 120 },
+      { timestamp: '2025-10-26 10:10:00', cpu: 42, ram: 55, disk: 71, rede: 1.5, lat: 0.027, proc: 125 },
+      { timestamp: '2025-10-26 10:20:00', cpu: 46, ram: 58, disk: 73, rede: 1.7, lat: 0.030, proc: 129 },
+      { timestamp: '2025-10-26 10:30:00', cpu: 50, ram: 61, disk: 76, rede: 2.0, lat: 0.031, proc: 133 },
+      { timestamp: '2025-10-26 10:40:00', cpu: 47, ram: 60, disk: 78, rede: 2.3, lat: 0.032, proc: 135 },
+      { timestamp: '2025-10-26 10:50:00', cpu: 45, ram: 59, disk: 77, rede: 2.5, lat: 0.030, proc: 134 }
+    ];
+
+    const labels = data.map(d => d.timestamp);
+
+    const makeChart = (ctx, label, field, color) => new Chart(ctx, {
+      type: 'line',
+      data: { labels, datasets: [{ label, data: data.map(d => d[field]), borderColor: color, backgroundColor: color + '33', fill: true, tension: 0.3 }] },
+      options: { plugins: { legend: { labels: { color: '#f1f1f1' } } }, scales: { x: { ticks: { color: '#f1f1f1' } }, y: { ticks: { color: '#f1f1f1' } } } }
+    });
+
+    makeChart(document.getElementById('chartCPU'), 'Uso de CPU (%)', 'cpu', '#ff4d4d');
+    makeChart(document.getElementById('chartRAM'), 'Uso de RAM (%)', 'ram', '#4da6ff');
+    makeChart(document.getElementById('chartDISK'), 'Uso de Disco (%)', 'disk', '#ffd24d');
+    makeChart(document.getElementById('chartLAT'), 'Latência (s)', 'lat', '#8c52ff');
+    makeChart(document.getElementById('chartNET'), 'Rede (MB)', 'rede', '#4dff88');
+
+    const tbody = document.getElementById('dataTable');
+    data.slice().reverse().forEach(d => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${d.timestamp}</td><td>${d.cpu}</td><td>${d.ram}</td><td>${d.disk}</td><td>${d.rede}</td><td>${d.lat}</td><td>${d.proc}</td>`;
+      tbody.appendChild(tr);
+    });
+  </script>
+</body>
+</html>

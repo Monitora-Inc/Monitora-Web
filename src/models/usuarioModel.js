@@ -116,6 +116,34 @@ function negarUsuarioAdmin(fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+function editarPerfil(funcionario_nome, funcionario_sobrenome, funcionario_email, funcionario_telefone, funcionario_senha, id) {
+    console.log("=== DEBUG funcao_editar MODEL ===");
+    
+    let updateSql = `
+        UPDATE usuarios 
+        SET nome = '${funcionario_nome}', 
+            sobrenome = '${funcionario_sobrenome}'
+    `;
+        if (funcionario_email && funcionario_email !== "") {
+        updateSql += `, email = '${funcionario_email}'`;
+    }
+    
+    if (funcionario_telefone && funcionario_telefone !== "") {
+        updateSql += `, telefone = '${funcionario_telefone}'`;
+    }
+    
+    if (funcionario_senha && funcionario_senha !== "") {
+        updateSql += `, senha = SHA2('${funcionario_senha}', 512)`;
+    }
+    
+    updateSql += ` WHERE idUsuario = ${id};`;
+    
+    console.log("Query SQL completa:", updateSql);
+    console.log("=================================");
+    
+    return database.executar(updateSql);
+}
+
 module.exports = {
     autenticar,
     cadastrarUsuario,
@@ -126,5 +154,6 @@ module.exports = {
     deletarUsuario,
     editarCargo,
     aprovarUsuarioAdmin,
-    negarUsuarioAdmin
+    negarUsuarioAdmin,
+    editarPerfil
 }
