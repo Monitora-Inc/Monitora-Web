@@ -46,7 +46,7 @@
                     <h2 id="perfil_cargo">${sessionStorage.cargo}</h2>
                     <h3 id="perfil_email">${sessionStorage.userEmail}</h3>
                     <h4 id="perfil_telefone">${mascaraTelefone(sessionStorage.userTelefone)}</h4>
-                    <button onclick="popup_editar_informacoes()">Editar Informações</button>
+                    <button onclick="popup_confirmar_senha()">Editar Informações</button>
                 </div>
             `
         } else {
@@ -55,7 +55,7 @@
                 <div class="perfil_informacoes">
                     <h1 id="perfil_nome">${sessionStorage.empresaNome}</h1>
                     <h2 id="perfil_cargo">Empresa<h2>
-                    <h3 id="perfil_cnpj">${sessionStorage.empresaCnpj}</h3>
+                    <h3 id="perfil_cnpj">${mascaraCNPJ(sessionStorage.empresaCnpj)}</h3>
                     <button onclick="popup_confirmar_senha()">Editar Informações</button>
                 </div>
             `
@@ -110,7 +110,7 @@
                 popup_editar_informacoes();
             
         } else { 
-                let empresaSenha = await iptEmpresaSenha.value;
+                let empresaSenha = await iptSenha.value;
 
                 if (!empresaSenha) {
                     mensagem_erro.innerHTML = `Preencha o campo de senha!`;
@@ -131,9 +131,8 @@
                     });
 
                     return;
-                } else {
-                    mensagem_erro.innerHTML = "Senha correta!"
                 }
+                popup_editar_informacoes();
         }
     }
 
@@ -146,7 +145,6 @@
     let senhaUsuario = document.getElementById('ipt_senha').value;
     let confirmacao_senhaUsuario = document.getElementById('ipt_confirmar_senha').value;
 
-    // Validações obrigatórias
     if (nomeUsuario === "") {
         mensagem_erro.innerHTML="O campo nome está em branco.";
         return;
@@ -160,7 +158,6 @@
         return;
     }
 
-    // Validações condicionais
     if (telefoneUsuario !== "" && !/^\(\d{2}\) \d{5}-\d{4}$/.test(telefoneUsuario)) {
         mensagem_erro.innerHTML="Formato de telefone inválido. Use: (11) 99999-9999";
         return;
@@ -214,4 +211,132 @@
         mensagem_erro.innerHTML= erro;
     });
 }
+
+    function editarPerfilEmpresa() {
+    let nomeEmpresa = document.getElementById('ipt_nome').value.trim();
+    let cnpjEmpresa = document.getElementById('ipt_cnpj').value;
+    let senhaEmpresa = document.getElementById('ipt_senha').value;
+    let confirmacao_senhaEmpresa = document.getElementById('ipt_confirmar_senha').value;
+
+    if (nomeEmpresa === "") {
+        mensagem_erro.innerHTML="O campo nome está em branco.";
+        return;
+    }
+
+    if (cnpjEmpresa === "") {
+        mensagem_erro.innerHTML="O campo cnpj está em branco.";
+        return;
+    }
+
+    if (senhaEmpresa !== "" && (senhaEmpresa.length < 8 || !/[A-Za-z]/.test(senhaEmpresa) || !/\d/.test(senhaEmpresa))) {
+        mensagem_erro.innerHTML="A senha deve ter pelo menos 8 caracteres, incluindo letras e números";
+        return;
+    }
+    if (confirmacao_senhaEmpresa !== "" && senhaEmpresa !== confirmacao_senhaEmpresa) {
+        mensagem_erro.innerHTML="As senhas não coincidem";
+        return;
+    }
+    
+    cnpjEmpresa = cnpjEmpresa.replace(/\D/g, '');
+
+    fetch("/empresas/editarPerfil", {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            idServer: sessionStorage.empresaId,
+            nomeServer: nomeEmpresa,
+            cnpjServer: cnpjEmpresa,
+            senhaServer: senhaEmpresa
+        })
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json();
+        } else {
+            return resposta.text().then(text => { throw new Error(text) });
+        }
+    })
+    .then(data => {
+        mensagem_erro.innerHTML="Alteração realizada com sucesso!";
+        sessionStorage.empresaNome = nomeEmpresa;
+        sessionStorage.empresaCnpj = cnpjEmpresa;
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000);
+    })
+    .catch(erro => {
+        mensagem_erro.innerHTML=erro;
+    });
+}
+
+
+    function editarFoto() {
+
+        let fotoFile = document.getElementById('ipt_foto').files[0];
+
+        const formData = new FormData();
+        
+        formData.append('foto', fotoFile);
+
+        // Editar foto de usuário
+        if (sessionStorage.userNome != null){ 
+            formData.append('id', sessionStorage.userId);
+            fetch("/usuarios/editarFoto", {
+            method: 'PUT',
+            body: formData
+            })
+            .then(resposta => {
+                if (resposta.ok) {
+                    return resposta.json();
+                } else {
+                    return resposta.text().then(text => { throw new Error(text) });
+                }
+            })
+            .then(data => {
+                console.log("Sucesso:", data);
+                mensagem_erro.innerHTML="Alteração realizada com sucesso!";
+                
+                sessionStorage.fotoUser = data.foto;
+
+                
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            })
+            .catch(erro => {
+                console.error(`#ERRO: ${erro}`);
+                mensagem_erro.innerHTML=erro;
+            });
+        } else { // Editar foto de Empresa
+            formData.append('id', sessionStorage.empresaId);
+            fetch("/empresas/editarFoto", {
+                        method: 'PUT',
+                        body: formData
+                        })
+                        .then(resposta => {
+                            if (resposta.ok) {
+                                return resposta.json();
+                            } else {
+                                return resposta.text().then(text => { throw new Error(text) });
+                            }
+                        })
+                        .then(data => {
+                            console.log("Sucesso:", data);
+                            mensagem_erro.innerHTML="Alteração realizada com sucesso!";
+                            
+                            sessionStorage.empresaFoto = data.foto;
+                            
+                            
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
+                        })
+                        .catch(erro => {
+                            console.error(`#ERRO: ${erro}`);
+                            mensagem_erro.innerHTML=erro;
+                        });
+        }
+    }
+
 </script>

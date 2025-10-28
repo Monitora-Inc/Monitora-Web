@@ -175,6 +175,26 @@ function editarPerfil(req, res) {
     });
 }
 
+function editarFoto(req, res) {
+    const id = req.body.id;
+    const foto = req.file.filename; 
+
+    usuarioModel.editarFoto(id, foto)
+        .then(() => {
+            res.json({
+                success: true,
+                message: "Foto atualizada com sucesso!",
+                foto: foto
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).send("Erro ao atualizar foto");
+        });
+}
+
+
+
 module.exports = {
     autenticar,
     cadastrarUsuario,
@@ -187,5 +207,6 @@ module.exports = {
     aprovarUsuarioAdmin,
     negarUsuarioAdmin,
     confirmarSenha,
-    editarPerfil
+    editarPerfil,
+    editarFoto
 }
