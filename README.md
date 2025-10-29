@@ -11,20 +11,18 @@ Desenvolver uma solução de monitoramento eficiente para os servidores utilizad
 ### Software
 
 - **Site:** HTML, CSS e JavaScript;
-- **Backend:** Web-data-viz;
-- **Armazenamento de Dados:** MySQL;
+- **Backend:** Node Js;
+- **Armazenamento de Dados:** MY SQL;
 - **Ferramentas de Design:** Canva e Figma;
-- **IDE:** Visual Studio Code, IntelliJ;
+- **IDE:** Visual Studio Code;
 - **Versionamento de Código:** Git e Github.
 
 Desenvolvido por Equipe Monitora para o Projeto de Pesquisa e Inovação da Sprint 4 do Curso de Bacharelado em Ciência da Computação na SPTECH.
 
 ### 👷👷‍♀️ Membros da Equipe
 
-- [Beatriz B. C. da Silva](https://www.linkedin.com/in/beatrizbernardess)
-- [Bruno P. de Araújo](https://github.com/brunoPrados)
-- [João C. D. Vancea](https://github.com/JoaoCDVancea)
-- [Pedro C. A. de Almeida](https://github.com/PedroAbramo)
-- [Thiago A. Fukunaga](https://www.linkedin.com/in/)
-
-
+- [Ally Awada](https://www.linkedin.com/in/ally-awada)
+- [Gustavo Anthony](https://www.linkedin.com/in/gustavo-anthony-a63607182)
+- [Leonardo Borges](https://www.linkedin.com/in/leonardo-borges-fernandes-62961a387))
+- [Maria Eduarda](https://www.linkedin.com/in/maria-eduarda-candido-4b36b32a3)
+- [Pedro Claudino](https://www.linkedin.com/in/pedro-claudino-barbosa-a489862b2)
