@@ -10,8 +10,20 @@ require("dotenv").config({ path: caminho_env });
 var express = require("express");
 var cors = require("cors");
 var path = require("path");
+var multer = require("multer");
 var PORTA_APP = process.env.APP_PORT;
 var HOST_APP = process.env.APP_HOST;
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, "public/assets/fotosPerfil")); // 👈 pasta onde salva
+    },
+    filename: function (req, file, cb) {
+        const nomeArquivo = Date.now() + "-" + file.originalname;
+        cb(null, nomeArquivo);
+    }
+});
+var upload = multer({ storage: storage }); 
 
 var app = express();
 
@@ -22,6 +34,7 @@ var servidorRouter = require("./src/routes/servidores");
 var cargoRouter = require("./src/routes/cargos");
 var aprovarCadastro = require("./src/routes/aprovarCadastro");
 var datacentersRouter = require("./src/routes/datacenters")
+var usuarioRouter = require("./src/routes/usuarios");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
