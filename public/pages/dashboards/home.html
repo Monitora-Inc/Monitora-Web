@@ -25,10 +25,8 @@
             <select id="id_filtro" onchange="">
                 <option value="filtro_nivel_de_risco_crescente">Nível de risco (Crescente)</option>
                 <option value="filtro_nivel_de_risco_decrescente" selected>Nível de risco (Decrescente)</option>
-                <option value="filtro_critico_crescente">Critíco (Crescente)</option>
-                <option value="filtro_critico_decrescente">Critíco (Decrescente)</option>
-                <option value="filtro_alerta_crescente">Alerta (Crescente)</option>
-                <option value="filtro_alerta_decrescente">Alerta (Decrescente)</option>
+                <option value="filtro_critico">Critíco</option>
+                <option value="filtro_alerta">Alerta</option>ion>
                 <option value="filtro_estavel">Estável</option>
             </select>
             <img class="icones_filtros icone_pesquisar" alt="">
@@ -89,7 +87,49 @@
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
 <script>
+    listarServidores();
+
+
     if(sessionStorage.empresaCnpj == undefined) {
         verificarPermissoesSideBar();
     }
+    
+
+       function listarServidores() {
+    let idEmpresa = sessionStorage.empresaId;
+
+    fetch(`/servidores/listar/${idEmpresa}`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(response => {
+        if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+        return response.json();
+    }).then(dadosServidores => {
+        console.log(dadosServidores);
+
+        const container = document.querySelector(".lista_servidores");
+        container.innerHTML = `<h1 class="lista_titulo">Servidores</h1>`; // mantém o título
+
+        for (let servidor of dadosServidores) {
+            container.innerHTML += `
+                <div class="card_servidor" id="srv-${servidor.idServidor}">
+                    <div id="servidor_estado">
+                        <img src="../../assets/icons/icone_estavel.svg" alt="">
+                    </div>
+                    <div class="servidor_informacoes">
+                        <div id="servidor_nome">${servidor.nome}</div>
+                        <div id="servidor_localizacao">R. ${servidor.rua}, ${servidor.numero} - ${servidor.bairro}, ${servidor.cidade}, ${servidor.estado}, ${servidor.pais}</div>
+                        <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>Nenhum</div>
+                    </div>
+                    <span class="barra_lateral estavel"></span>
+                </div>
+            `;
+        }
+    }).catch(erro => console.log(`#ERRO: ${erro}`));
+}
+
+
+
 </script>

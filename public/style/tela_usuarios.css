@@ -46,13 +46,14 @@
 
 .usuario_cargo {
     flex-shrink: 0;
-    min-width: clamp(80px, 10vw, 100px);
+    width: clamp(80px, 10vw, 100px);
     display: flex;
     justify-content: center;
     align-items: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 8vw;
 }
 
 #usuario_email {
