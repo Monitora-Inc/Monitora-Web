@@ -49,4 +49,8 @@ router.put("/editarFoto", upload.single("foto"), function (req, res) {
     empresaController.editarFoto(req, res);
 });
 
+router.get("/getNomeEmpresa:idServidor", function (req, res){
+    empresaController.getNomeEmpresa(req, res);
+})
+
 module.exports = router;

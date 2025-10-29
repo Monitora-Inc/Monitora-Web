@@ -86,6 +86,20 @@ function editarPerfil(empresa_nome, empresa_cnpj, empresa_senha, id) {
     return database.executar(updateSql);
 }
 
+
+function getNomeEmpresa(idServidor){
+    console.log("Estou na modle com o " + idServidor + " para buscar o nome da empresa")
+
+    const instrucaoSql = `
+    select e.nome from monitora.empresas e
+        inner join monitora.datacenters dc on dc.fkEmpresa = e.idEmpresa
+        inner join monitora.servidores s on s.fkDatacenter = dc.idDatacenter
+        where s.idServidor = ${idServidor};`
+
+    return database.executar(instrucaoSql);
+
+}
+
 module.exports = {
     cadastrarEmpresa,
     autenticar,
@@ -93,5 +107,6 @@ module.exports = {
     autorizarEmpresa,
     buscarEmpresas,
     editarFoto,
-    editarPerfil
+    editarPerfil,
+    getNomeEmpresa
 }
