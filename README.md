@@ -23,6 +23,6 @@ Desenvolvido por Equipe Monitora para o Projeto de Pesquisa e Inovação da Spri
 
 - [Ally Awada](https://www.linkedin.com/in/ally-awada)
 - [Gustavo Anthony](https://www.linkedin.com/in/gustavo-anthony-a63607182)
-- [Leonardo Borges](https://www.linkedin.com/in/leonardo-borges-fernandes-62961a387))
+- [Leonardo Borges](https://www.linkedin.com/in/leonardo-borges-fernandes-62961a387)
 - [Maria Eduarda](https://www.linkedin.com/in/maria-eduarda-candido-4b36b32a3)
 - [Pedro Claudino](https://www.linkedin.com/in/pedro-claudino-barbosa-a489862b2)
