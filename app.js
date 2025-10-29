@@ -49,6 +49,7 @@ app.use("/servidores", servidorRouter);
 app.use("/datacenters", datacentersRouter)
 app.use("/cargos", cargoRouter);
 app.use("/aprovarCadastro", aprovarCadastro);
+app.use("/bucket", bucketRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
