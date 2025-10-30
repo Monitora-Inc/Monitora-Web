@@ -185,63 +185,65 @@
         });
     }
 
-    function listarUsuarios() {
-        let idEmpresa = sessionStorage.empresaId;
+function listarUsuarios() {
+    let idEmpresa = sessionStorage.empresaId;
+    const idUsuarioLogado = sessionStorage.userId ? String(sessionStorage.userId) : null;
 
-        fetch(`/usuarios/buscarUsuarios/${idEmpresa}`, {
-            method: 'GET',
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then(function (response) {
-            if (!response.ok) {
-                throw new Error(`Erro HTTP: ${response.status}`);
-            }
-            return response.json();
-        }).then(function (dadosUsuarios) {
-            console.log(dadosUsuarios);
-            for (let i = 0; i < dadosUsuarios.length; i++) {
-                let data = dadosUsuarios[i].data_cadastro.split('T');
-                let partes = data[0].split('-');
-                let dataFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;
-                lista_usuarios.innerHTML += `
-                <div class="card_usuario" id="${dadosUsuarios[i].idUsuario}">
+    fetch(`/usuarios/buscarUsuarios/${idEmpresa}`, {
+        method: 'GET',
+        headers: { "Content-Type": "application/json" }
+    }).then(function (response) {
+        if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+        return response.json();
+    }).then(function (dadosUsuarios) {
+        console.log(dadosUsuarios);
+        lista_usuarios.innerHTML = ''; // limpa antes de renderizar
 
+        for (let i = 0; i < dadosUsuarios.length; i++) {
+            let usuario = dadosUsuarios[i];
+            let data = usuario.data_cadastro.split('T');
+            let partes = data[0].split('-');
+            let dataFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+            // Tirando checkbox do próprio usuário
+            let mostrarCheckbox = idUsuarioLogado === null ? true : String(usuario.idUsuario) !== idUsuarioLogado;
+            let checkboxHTML = `
+                <div id="usuario_checkbox" style="width:24px; display:flex; justify-content:center; align-items:center;">
+                    ${mostrarCheckbox ? `<input type="checkbox" class="checkbox" value="${usuario.idUsuario}" onchange="adicionarListaDelete(this)">` : ''}
+                </div>`;
+
+            // Desabilitando o select se for o próprio usuário
+            let atributoDesabilitado = (String(usuario.idUsuario) === idUsuarioLogado) ? 'disabled style="opacity:0.6; cursor:not-allowed;"' : '';
+
+            lista_usuarios.innerHTML += `
+                <div class="card_usuario" id="${usuario.idUsuario}">
                     <div class="usuario_card_inicio">
-                        <!-- Checkbox -->
-                        <div id="usuario_checkbox">
-                        <input type="checkbox" class="checkbox" value="${dadosUsuarios[i].idUsuario}" onchange="adicionarListaDelete(this)">
-                        </div>
-
-                        <!-- Foto -->
+                        ${checkboxHTML}
                         <div id="usuario_foto">
-                            <img src="../../assets/fotosPerfil/${dadosUsuarios[i].fotoUser}" alt="">
+                            <img src="../../assets/fotosPerfil/${usuario.fotoUser}" alt="">
                         </div>
-
-                        <!-- Nome e Celular -->
                         <div class="nome_contato">
-                            <p id="usuario_nome">${dadosUsuarios[i].nome} ${dadosUsuarios[i].sobrenome}</p>
-                            <p id="usuario_telefone">${mascaraTelefone(dadosUsuarios[i].telefone)}</p>
+                            <p id="usuario_nome">${usuario.nome} ${usuario.sobrenome}</p>
+                            <p id="usuario_telefone">${mascaraTelefone(usuario.telefone)}</p>
                         </div>
                     </div>
-                    
-                    
-                    <p id="usuario_email">${dadosUsuarios[i].email}</p>
+                    <p id="usuario_email">${usuario.email}</p>
                     <p id="usuario_dataCadastro">${dataFormatada}</p>
-
-                    <select id="usuario_cargo${dadosUsuarios[i].idUsuario}" class="usuario_cargo" onchange="editar_cargo(${dadosUsuarios[i].idUsuario}, this.value)">
-                        <option value="${dadosUsuarios[i].idCargo}" selected>${dadosUsuarios[i].nome_cargo}</option>
+                    <select id="usuario_cargo${usuario.idUsuario}" class="usuario_cargo" onchange="editar_cargo(${usuario.idUsuario}, this.value)" ${atributoDesabilitado}>
+                        <option value="${usuario.idCargo}" selected>${usuario.nome_cargo}</option>
                     </select>
                 </div>
-                `
-                listarCargosEditar(idEmpresa, dadosUsuarios[i].idCargo, dadosUsuarios[i].idUsuario);
-            }
-            totalUsuarios.innerHTML = dadosUsuarios.length;
-            attachCheckboxListeners();
-        }).catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-        });
-    }
+            `;
+            listarCargosEditar(idEmpresa, usuario.idCargo, usuario.idUsuario);
+        }
+
+        totalUsuarios.innerHTML = dadosUsuarios.length;
+        attachCheckboxListeners();
+    }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+    });
+}
+
 
     //Botão de deletar
     function attachCheckboxListeners() {
