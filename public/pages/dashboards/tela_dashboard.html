@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servidores</title>
+    <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
+    <link rel="stylesheet" href="../../style/sidebar.css">
+    <link rel="stylesheet" href="../../style/filtros.css">
+    <link rel="stylesheet" href="../../style/essencial.css">
+    <link rel="stylesheet" href="../../style/tela_dashboard.css">
+    <link rel="stylesheet" href="../../style/popup.css">
+</head>
+
+<body>
+    <nav id="id_sidebar"></nav>
+    <div id="id_info_kpis"></div>
+    <div id="popup_screen"></div>
+
+    <div class="page_content">
+
+        <div class="header">
+            <div class="servidor_info">
+                <h1 id="servidor_nome">sessionStorage.servidorNome</h1>
+                <h2 id="servidor_localizacao">sessionStorage.servidorLocalizacao</h2>
+            </div>
+            <div class="servidor_alertas">
+                <div class="info_alertas" onclick="abrir_alertas()">
+                    <img id="alertaIcon" src="../../assets/icons/icone_alerta_dashboard.svg" alt="">
+                    <h3 id="quantidade_alertas">5</h3>
+                </div>
+                <div id="alertaPopup" class="alert-popup" style="display:none;">
+                    <ul id="alertList"></ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="cards">
+            <section class="cards_kpi">
+            <div class="card"><p>CPU (últ.)</p><h2 id="cpu">47%</h2></div>
+            <div class="card"><p>RAM (últ.)</p><h2 id="ram">61%</h2></div>
+            <div class="card"><p>Disco (últ.)</p><h2 id="disco">78%</h2></div>
+            <div class="card"><p>Latência</p><h2 id="latencia">0.032s</h2></div>
+            <div class="card"><p>Rede</p><h2 id="rede">2.8 MB</h2></div>
+            <div class="card"><p>Processos</p><h2 id="processos">135</h2></div>
+            </section>
+        </div>
+        <div class="graphs">
+            <div class="graficos_hardware">
+                <canvas id="graficoDisco"></canvas>
+                <canvas id="graficoCPU"></canvas>
+                <canvas id="graficoRAM"></canvas>
+            </div>
+            <div class="graficos_rede">
+                <canvas id="graficoLatencia"></canvas>
+                <canvas id="graficoRede"></canvas>
+                        <table>
+          <thead>
+            <tr><th>Timestamp</th><th>CPU</th><th>RAM</th><th>Disco</th><th>Rede (MB)</th><th>Latência</th><th>Proc</th></tr>
+          </thead>
+          <tbody id="dataTable"></tbody>
+        </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="../../js/sidebar.js"></script>
+<script src="../../js/popups.js"></script>
+<script src="../../js/verificacaoPermissoes.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script>
+<script>
+if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+    verificarPermissoesSideBar();
+}
+
+servidor_nome.innerHTML = sessionStorage.servidorNome;
+servidor_localizacao.innerHTML = sessionStorage.servidorLocalizacao;
+
+const data = [
+  { timestamp: '2025-10-26 10:00:00', cpu: 35, ram: 52, disk: 70, rede: 1.2, lat: 0.025, proc: 120 },
+  { timestamp: '2025-10-26 10:10:00', cpu: 42, ram: 55, disk: 71, rede: 1.5, lat: 0.027, proc: 125 },
+  { timestamp: '2025-10-26 10:20:00', cpu: 46, ram: 58, disk: 73, rede: 1.7, lat: 0.030, proc: 129 },
+  { timestamp: '2025-10-26 10:30:00', cpu: 50, ram: 61, disk: 76, rede: 2.0, lat: 0.031, proc: 133 },
+  { timestamp: '2025-10-26 10:40:00', cpu: 47, ram: 60, disk: 78, rede: 2.3, lat: 0.032, proc: 135 },
+  { timestamp: '2025-10-26 10:50:00', cpu: 45, ram: 59, disk: 77, rede: 2.5, lat: 0.030, proc: 134 }
+];
+
+const labels = data.map(d => d.timestamp);
+
+const limits = {
+  cpu:    { alert: 70,  critical: 75 },
+  ram:    { alert: 75,  critical: 80 },
+  disk:   { alert: 80,  critical: 90 },
+  lat:    { alert: 0.03, critical: 0.05 },
+  rede:   { alert: 3,   critical: 5 }
+};
+
+const makeChart = (ctx, label, field, color) => {
+  const chartCtx = ctx.getContext('2d');
+
+  const gradient = chartCtx.createLinearGradient(0, 0, 0, ctx.height);
+  gradient.addColorStop(0, color + '80');
+  gradient.addColorStop(1, color + '60'); 
+
+  const { alert, critical } = limits[field] || {};
+
+  return new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label,
+        data: data.map(d => d[field]),
+        borderColor: color,
+        backgroundColor: gradient,
+        fill: true,
+        tension: 0.3,
+        borderWidth: 2,
+        pointRadius: 2,    
+        pointBackgroundColor: color,
+        pointBorderColor: '#fff',
+        pointHoverRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: '#1e3d4a' } },
+        annotation: {
+          annotations: {
+            ...(alert !== undefined && {
+              alertLine: {
+                type: 'line',
+                yMin: alert,
+                yMax: alert,
+                borderColor: 'rgba(255, 206, 86, 0.9)',
+                borderWidth: 2,
+                borderDash: [6, 6],
+                label: {
+                  display: true,
+                  content: 'Alerta',
+                  backgroundColor: '#ffc917',
+                  color: '#1e3d4a',
+                  position: 'start', 
+                  yAdjust: 0
+                }
+              }
+            }),
+            ...(critical !== undefined && {
+              criticalLine: {
+                type: 'line',
+                yMin: critical,
+                yMax: critical,
+                borderColor: 'rgba(255, 99, 132, 0.9)',
+                borderWidth: 2,
+                borderDash: [6, 6],
+                label: {
+                  display: true,
+                  content: 'Crítico',
+                  backgroundColor: '#ff3b3b',
+                  color: '#fff',
+                  position: 'end', 
+                  yAdjust: 0
+                }
+              }
+            })
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#1e3d4a' } },
+        y: { ticks: { color: '#1e3d4a' } }
+      }
+    }
+  });
+};
+
+makeChart(document.getElementById('graficoCPU'), 'Uso de CPU (%)', 'cpu', '#124574');
+makeChart(document.getElementById('graficoRAM'), 'Uso de RAM (%)', 'ram', '#2F0E3A');
+makeChart(document.getElementById('graficoDisco'), 'Uso de Disco (%)', 'disk', '#00001A');
+makeChart(document.getElementById('graficoLatencia'), 'Latência (s)', 'lat', '#8c52ff');
+makeChart(document.getElementById('graficoRede'), 'Rede (MB)', 'rede', '#4dff88');
+
+const tbody = document.getElementById('dataTable');
+data.slice().reverse().forEach(d => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${d.timestamp}</td><td>${d.cpu}</td><td>${d.ram}</td><td>${d.disk}</td><td>${d.rede}</td><td>${d.lat}</td><td>${d.proc}</td>`;
+  tbody.appendChild(tr);
+});
+
+const alertaIcon = document.getElementById('alertaIcon');
+const alertaPopup = document.getElementById('alertaPopup');
+const alertList = document.getElementById('alertList');
+
+let alertas = [
+    "Uso de CPU com uso elevado nas últimas 3 horas",
+    "Uso de RAM com uso elevado nos últimos 3 dias",
+    "Uso de Disco com uso elevado nas últimas 3 horas",
+    "Latência muito alta na última hora",
+    "Uso de Disco com uso elevado nas últimas 3 horas"
+];
+
+function abrir_alertas(){
+    if (alertaPopup.style.display === "none") {
+        alertaPopup.style.display = "block";
+    } else {
+        alertaPopup.style.display = "none";
+    };
+}
+
+alertas.forEach(a => {
+    const li = document.createElement('li');
+    li.textContent = a;
+    alertList.appendChild(li);
+});
+
+
+
+</script>
+

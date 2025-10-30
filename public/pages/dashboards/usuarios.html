@@ -205,12 +205,15 @@ function listarUsuarios() {
             let partes = data[0].split('-');
             let dataFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;
 
-            // não mostrar checkbox para o próprio usuário (compara como string)
+            // Tirando checkbox do próprio usuário
             let mostrarCheckbox = idUsuarioLogado === null ? true : String(usuario.idUsuario) !== idUsuarioLogado;
-let checkboxHTML = `
-    <div id="usuario_checkbox" style="width:24px; display:flex; justify-content:center; align-items:center;">
-        ${mostrarCheckbox ? `<input type="checkbox" class="checkbox" value="${usuario.idUsuario}" onchange="adicionarListaDelete(this)">` : ''}
-    </div>`;
+            let checkboxHTML = `
+                <div id="usuario_checkbox" style="width:24px; display:flex; justify-content:center; align-items:center;">
+                    ${mostrarCheckbox ? `<input type="checkbox" class="checkbox" value="${usuario.idUsuario}" onchange="adicionarListaDelete(this)">` : ''}
+                </div>`;
+
+            // Desabilitando o select se for o próprio usuário
+            let atributoDesabilitado = (String(usuario.idUsuario) === idUsuarioLogado) ? 'disabled style="opacity:0.6; cursor:not-allowed;"' : '';
 
             lista_usuarios.innerHTML += `
                 <div class="card_usuario" id="${usuario.idUsuario}">
@@ -226,7 +229,7 @@ let checkboxHTML = `
                     </div>
                     <p id="usuario_email">${usuario.email}</p>
                     <p id="usuario_dataCadastro">${dataFormatada}</p>
-                    <select id="usuario_cargo${usuario.idUsuario}" class="usuario_cargo" onchange="editar_cargo(${usuario.idUsuario}, this.value)">
+                    <select id="usuario_cargo${usuario.idUsuario}" class="usuario_cargo" onchange="editar_cargo(${usuario.idUsuario}, this.value)" ${atributoDesabilitado}>
                         <option value="${usuario.idCargo}" selected>${usuario.nome_cargo}</option>
                     </select>
                 </div>

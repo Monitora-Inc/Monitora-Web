@@ -165,9 +165,9 @@ function editarFoto(id, foto) {
     console.log("Foto recebida no model:", foto);
 
     const updateSql = `
-        UPDATE empresas 
-        SET fotoDePerfil = '${foto}'
-        WHERE idEmpresa = ${id};
+        UPDATE usuarios 
+        SET fotoUser = '${foto}'
+        WHERE idUsuario = ${id};
     `;
 
     console.log("Query SQL completa:", updateSql);
