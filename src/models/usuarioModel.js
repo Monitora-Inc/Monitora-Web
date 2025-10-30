@@ -160,6 +160,21 @@ function editarFoto(id, foto) {
     return database.executar(updateSql);
 }
 
+function editarFoto(id, foto) {
+    console.log("=== DEBUG editarFoto MODEL ===");
+    console.log("Foto recebida no model:", foto);
+
+    const updateSql = `
+        UPDATE usuarios 
+        SET fotoUser = '${foto}'
+        WHERE idUsuario = ${id};
+    `;
+
+    console.log("Query SQL completa:", updateSql);
+    console.log("=================================");
+
+    return database.executar(updateSql);
+}
 module.exports = {
     autenticar,
     cadastrarUsuario,
