@@ -34,7 +34,7 @@ var servidorRouter = require("./src/routes/servidores");
 var cargoRouter = require("./src/routes/cargos");
 var aprovarCadastro = require("./src/routes/aprovarCadastro");
 var datacentersRouter = require("./src/routes/datacenters")
-var usuarioRouter = require("./src/routes/usuarios");
+var bucketRouter = require("./src/routes/bucket");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

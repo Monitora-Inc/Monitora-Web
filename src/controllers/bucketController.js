@@ -12,6 +12,7 @@ const uploadToS3 = async (req, res) => {
 
     if (!file) {
       return res.status(400).json({ error: "Nenhum arquivo enviado" });
+      
     }
     if (!empresaId || !servidorId) {
       return res.status(400).json({ error: "empresaId e servidorId são obrigatórios" });
@@ -36,12 +37,11 @@ const uploadToS3 = async (req, res) => {
       ContentType: file.mimetype || "application/octet-stream",
     };
 
+    console.log(`Uploading to S3 bucket=${BUCKET_RAW} key=${key}`);
+
     await s3.send(new PutObjectCommand(uploadParams));
 
-    // Remove arquivo temporário assincronamente
-    await fs.promises.unlink(file.path);
-
-    return res.json({ message: "Upload realizado com sucesso no S3!" });
+    return res.json({ message: "Upload realizado com sucesso no S3!", key });
   } catch (error) {
     console.error("Erro no upload:", error);
     return res.status(500).json({ error: "Falha ao enviar para o S3" });
