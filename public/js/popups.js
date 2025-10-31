@@ -644,7 +644,65 @@ function popup_editar_datacenter(idDataCenter, fkEndereco) {
                 </div>
             </div>
         </div>`;
+}function popup_editar_datacenter(idDataCenter, fkEndereco) {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        let permissaoConcedida = verificarPermissao('EditarDataCenter');
+        if (!permissaoConcedida) return;
+    }
+
+    console.log("popup_editar_datacenter =>", idDataCenter, fkEndereco);
+
+    fetch(`/datacenters/buscarPorId/${idDataCenter}`)
+        .then(res => {
+            if (!res.ok) throw new Error(`Erro HTTP: ${res.status}`);
+            return res.json();
+        })
+        .then(dc => {
+            popup_screen.innerHTML = `        
+                <div class="popup_container">
+                    <div class="popup">
+                        <div class="inputs">
+                            <input type="text" id="ipt_datacenter_nome" 
+                                   value="${dc.nome}" 
+                                   placeholder="Digite o nome do data center" 
+                                   class="input_header" required>
+
+                            <h2>Localização</h2>
+
+                            <div class="input-label-wrapper"><span class="input-label">País</span></div>
+                            <input type="text" id="ipt_datacenter_pais" value="${dc.pais}" placeholder="Digite o nome do país" required>
+
+                            <div class="input-label-wrapper"><span class="input-label">Estado</span></div>
+                            <input type="text" id="ipt_datacenter_estado" value="${dc.estado}" placeholder="Digite o nome do estado" required>
+
+                            <div class="input-label-wrapper"><span class="input-label">Cidade</span></div>
+                            <input type="text" id="ipt_datacenter_cidade" value="${dc.cidade}" placeholder="Digite o nome da cidade" required>
+
+                            <div class="input-label-wrapper"><span class="input-label">Bairro</span></div>
+                            <input type="text" id="ipt_datacenter_bairro" value="${dc.bairro}" placeholder="Digite o nome do bairro" required>
+
+                            <div class="input-label-wrapper"><span class="input-label">Rua</span></div>
+                            <input type="text" id="ipt_datacenter_rua" value="${dc.rua}" placeholder="Digite o nome da rua" required>
+
+                            <div class="input-label-wrapper"><span class="input-label">Número</span></div>
+                            <input type="number" id="ipt_datacenter_numero" value="${dc.numero}" placeholder="Digite o número do local" required>
+
+                            <div class="input-label-wrapper"><span class="input-label">Complemento</span></div>
+                            <input type="text" id="ipt_datacenter_complemento" value="${dc.complemento || ''}" placeholder="Digite qualquer complemento" required>
+                        </div>
+
+                        <div id="mensagem_erro"></div>
+
+                        <div class="btns_popup">
+                            <button onclick="funcao_editar_datacenter(${idDataCenter}, ${fkEndereco})">Salvar alterações</button>
+                            <button onclick="fechar_popup()">Cancelar</button>
+                        </div>
+                    </div>
+                </div>`;
+        })
+        .catch(err => console.error("Erro ao buscar datacenter:", err));
 }
+
 
 
 function popup_deletar_datacenter() {
