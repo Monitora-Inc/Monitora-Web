@@ -91,7 +91,7 @@ function getNomeEmpresa(idServidor){
     console.log("Estou na modle com o " + idServidor + " para buscar o nome da empresa")
 
     const instrucaoSql = `
-    select e.nome from monitora.empresas e
+    select e.nome, e.idEmpresa from monitora.empresas e
         inner join monitora.datacenters dc on dc.fkEmpresa = e.idEmpresa
         inner join monitora.servidores s on s.fkDatacenter = dc.idDatacenter
         where s.idServidor = ${idServidor};`
