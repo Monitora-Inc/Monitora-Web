@@ -155,13 +155,18 @@
     function editarServidor(idServidor) {
         let nomeServidorVar = document.getElementById("servidor_nome").value;
         let idDatacenterVar = document.getElementById("ipt_datacenter").value;
-        let cpuLimiteVar = document.getElementById("cpuLimite").value;
-        let ramLimiteVar = document.getElementById("ramLimite").value;
-        let discoLimiteVar = document.getElementById("discoLimite").value;
-        let redeLimitePercentVar = document.getElementById("redeLimitePercent").value;
-        let redeLimiteMsVar = document.getElementById("redeLimiteMs").value;
+        let cpuAlertaVar = document.getElementById("CPUAlerta%").value;
+        let cpuCriticoVar = document.getElementById("CPUCritico%").value;
+        let ramAlertaVar = document.getElementById("RAMAlerta%").value;
+        let ramCriticoVar = document.getElementById("RAMCritico%").value;
+        let discoAlertaVar = document.getElementById("DiscoAlerta%").value;
+        let discoCriticoVar = document.getElementById("DiscoCritico%").value;
+        let redeAlertaPercentVar = document.getElementById("RedeAlerta%").value;
+        let redeCriticoPercentVar = document.getElementById("RedeCritico%").value;        
+        let redeAlertaMsVar = document.getElementById("RedeAlertams").value;
+        let redeCriticoMsVar = document.getElementById("RedeCriticoms").value;
 
-        if (nomeServidorVar == null || nomeServidorVar == "" || idDatacenterVar == null || idDatacenterVar == "" || cpuLimiteVar == null || cpuLimiteVar == "" || ramLimiteVar == null || ramLimiteVar == "" || discoLimiteVar == null || discoLimiteVar == "" || redeLimitePercentVar == null || redeLimitePercentVar == "" || redeLimiteMsVar == null || redeLimiteMsVar == "") {
+        if (nomeServidorVar == null || idDatacenterVar == null || cpuAlertaVar == null || cpuCriticoVar == null || ramAlertaVar == null || ramCriticoVar == null || discoAlertaVar == null || discoCriticoVar == null || redeAlertaPercentVar == null || redeCriticoPercentVar == null || redeAlertaMsVar == null || redeCriticoMsVar == null) {
             mensagem_erro.innerHTML = `Todos os campos precisam ser preenchidos!`;
             return;
         }
@@ -173,11 +178,16 @@
             body: JSON.stringify({
                 nomeServidorServer: nomeServidorVar,
                 idDatacenterServer: idDatacenterVar,
-                cpuLimiteServer: cpuLimiteVar,
-                ramLimiteServer: ramLimiteVar,
-                discoLimiteServer: discoLimiteVar,
-                redeLimitePercentServer: redeLimitePercentVar,
-                redeLimiteMsServer: redeLimiteMsVar
+                cpuAlertaServer: cpuAlertaVar,
+                cpuCriticoServer: cpuCriticoVar,
+                ramAlertaServer: ramAlertaVar,
+                ramCriticoServer: ramCriticoVar,
+                discoAlertaServer: discoAlertaVar,
+                discoCriticoServer: discoCriticoVar,
+                redeAlertaPercentServer: redeAlertaPercentVar,
+                redeCriticoPercentServer: redeCriticoPercentVar,
+                redeAlertaMsServer: redeAlertaMsVar,
+                redeCriticoMsServer: redeCriticoMsVar
             })
         }).then(function (response) {
             if (response.ok) {

@@ -178,7 +178,8 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    height: 40vh;
+    margin-top: 2vh;
+    height: 38vh;
 }
 
 .popup_container .popup_servidor_informacoes .servidor_parametrizacao h1 {
