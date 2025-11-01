@@ -23,7 +23,7 @@ function mascaraTelefone(numero) {
 
 document.addEventListener('input', function (e) {
     if (e.inputType === 'deleteContentBackward') return;
-    
+
     if (e.target.id === 'ipt_telefone') {
         let input = e.target;
         let valor = input.value.replace(/\D/g, '');
@@ -44,19 +44,19 @@ function mascaraCNPJ(valor) {
     if (valor.length > 14) valor = valor.slice(0, 14);
 
     if (valor.length > 12) {
-        return `${valor.slice(0,2)}.${valor.slice(2,5)}.${valor.slice(5,8)}/${valor.slice(8,12)}-${valor.slice(12)}`;
+        return `${valor.slice(0, 2)}.${valor.slice(2, 5)}.${valor.slice(5, 8)}/${valor.slice(8, 12)}-${valor.slice(12)}`;
     } else if (valor.length > 8) {
-        return `${valor.slice(0,2)}.${valor.slice(2,5)}.${valor.slice(5,8)}/${valor.slice(8)}`;
+        return `${valor.slice(0, 2)}.${valor.slice(2, 5)}.${valor.slice(5, 8)}/${valor.slice(8)}`;
     } else if (valor.length > 5) {
-        return `${valor.slice(0,2)}.${valor.slice(2,5)}.${valor.slice(5)}`;
+        return `${valor.slice(0, 2)}.${valor.slice(2, 5)}.${valor.slice(5)}`;
     } else if (valor.length > 2) {
-        return `${valor.slice(0,2)}.${valor.slice(2)}`;
+        return `${valor.slice(0, 2)}.${valor.slice(2)}`;
     } else {
         return valor;
     }
 }
 
-document.addEventListener('input', function(e) {
+document.addEventListener('input', function (e) {
     if (e.target.id === 'ipt_cnpj') {
         let input = e.target;
         input.value = mascaraCNPJ(input.value);
@@ -169,7 +169,7 @@ function popup_confirmar_senha() {
 }
 
 function popup_editar_informacoes() {
-    if (sessionStorage.userNome != null){
+    if (sessionStorage.userNome != null) {
         popup_screen.innerHTML = `        
             <div class="popup_container">
                     <div class="popup">
@@ -222,10 +222,10 @@ function popup_editar_informacoes() {
                         </div>
                     </div>
                 </div>`;
-                ipt_nome.value = sessionStorage.userNome;
-                ipt_sobrenome.value = sessionStorage.userSobrenome;
-                ipt_email.value = sessionStorage.userEmail;
-                ipt_telefone.value = mascaraTelefone(sessionStorage.userTelefone);
+        ipt_nome.value = sessionStorage.userNome;
+        ipt_sobrenome.value = sessionStorage.userSobrenome;
+        ipt_email.value = sessionStorage.userEmail;
+        ipt_telefone.value = mascaraTelefone(sessionStorage.userTelefone);
     } else {
         popup_screen.innerHTML = `        
         <div class="popup_container">
@@ -267,8 +267,8 @@ function popup_editar_informacoes() {
                     </div>
                 </div>
             </div>`;
-            ipt_nome.value = sessionStorage.empresaNome;
-            ipt_cnpj.value = mascaraCNPJ(sessionStorage.empresaCnpj);
+        ipt_nome.value = sessionStorage.empresaNome;
+        ipt_cnpj.value = mascaraCNPJ(sessionStorage.empresaCnpj);
     }
 }
 
@@ -577,118 +577,53 @@ function popup_adicionar_datacenter() {
 function popup_editar_datacenter(idDataCenter, fkEndereco) {
     if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
         let permissaoConcedida = verificarPermissao('EditarDataCenter');
-
-        if (!permissaoConcedida) {
-            return;
-        }
-    }
-
-    console.log("popup_editar_datacenter =>", idDataCenter, fkEndereco);
-    popup_screen.innerHTML = `        
-    <div class="popup_container">
-            <div class="popup">
-                
-                <div class="inputs">
-                    <input type="text" id="ipt_datacenter_nome" placeholder="Digite o nome do data center" class="input_header" required>
-                    <h2>Localização</h2>
-                    <!-- País -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">País</span>
-                    </div>
-                    <input type="text" id="ipt_datacenter_pais" placeholder="Digite o nome do país" required>
-              
-                    <!-- Estado -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Estado</span>
-                    </div>
-                    <input type="text" id="ipt_datacenter_estado" placeholder="Digite o nome do estado" required>
-
-                    <!-- Estado -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Cidade</span>
-                    </div>
-                    <input type="text" id="ipt_datacenter_cidade" placeholder="Digite o nome da cidade" required>
-                    
-                    <!-- Cidade -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Bairro</span>
-                    </div>
-                    <input type="text" id="ipt_datacenter_bairro" placeholder="Digite o nome do bairro" required>
-                    
-                    <!-- Bairo -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Rua</span>
-                    </div>
-                    <input type="text" id="ipt_datacenter_rua" placeholder="Digite o nome da rua" required>
-                    
-                    <!-- Número -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Número</span>
-                    </div>
-                    <input type="number" id="ipt_datacenter_numero" placeholder="Digite o número do local" required>
-
-                    <!-- Complemento -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Complemento</span>
-                    </div>
-                    <input type="tel" id="ipt_datacenter_complemento" placeholder="Digite qualquer complemento" required>
-                </div>
-
-                <!-- Mensagem de Erro -->
-                <div id="mensagem_erro"></div>
-
-                <!-- Botões -->
-                <div class="btns_popup">
-                    <button onclick="funcao_editar_datacenter(${idDataCenter}, ${fkEndereco})">Editar</button>
-                    <button onclick="fechar_popup()">Cancelar</button>
-                </div>
-            </div>
-        </div>`;
-}function popup_editar_datacenter(idDataCenter, fkEndereco) {
-    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
-        let permissaoConcedida = verificarPermissao('EditarDataCenter');
         if (!permissaoConcedida) return;
     }
 
     console.log("popup_editar_datacenter =>", idDataCenter, fkEndereco);
 
-    fetch(`/datacenters/buscarPorId/${idDataCenter}`)
-        .then(res => {
-            if (!res.ok) throw new Error(`Erro HTTP: ${res.status}`);
-            return res.json();
-        })
-        .then(dc => {
-            popup_screen.innerHTML = `        
+    fetch(`/datacenters/buscarIdDatacenter/${idDataCenter}`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(res => {
+        console.log(res);
+        if (!res.ok) throw new Error(`Erro HTTP: ${res.status}`);
+        return res.json();
+    }).then(function (dc) {
+        console.log(dc)
+        popup_screen.innerHTML = `        
                 <div class="popup_container">
                     <div class="popup">
                         <div class="inputs">
                             <input type="text" id="ipt_datacenter_nome" 
-                                   value="${dc.nome}" 
+                                   value="${dc[0].nome}" 
                                    placeholder="Digite o nome do data center" 
                                    class="input_header" required>
 
                             <h2>Localização</h2>
 
                             <div class="input-label-wrapper"><span class="input-label">País</span></div>
-                            <input type="text" id="ipt_datacenter_pais" value="${dc.pais}" placeholder="Digite o nome do país" required>
+                            <input type="text" id="ipt_datacenter_pais" value="${dc[0].pais}" placeholder="Digite o nome do país" required>
 
                             <div class="input-label-wrapper"><span class="input-label">Estado</span></div>
-                            <input type="text" id="ipt_datacenter_estado" value="${dc.estado}" placeholder="Digite o nome do estado" required>
+                            <input type="text" id="ipt_datacenter_estado" value="${dc[0].estado}" placeholder="Digite o nome do estado" required>
 
                             <div class="input-label-wrapper"><span class="input-label">Cidade</span></div>
-                            <input type="text" id="ipt_datacenter_cidade" value="${dc.cidade}" placeholder="Digite o nome da cidade" required>
+                            <input type="text" id="ipt_datacenter_cidade" value="${dc[0].cidade}" placeholder="Digite o nome da cidade" required>
 
                             <div class="input-label-wrapper"><span class="input-label">Bairro</span></div>
-                            <input type="text" id="ipt_datacenter_bairro" value="${dc.bairro}" placeholder="Digite o nome do bairro" required>
+                            <input type="text" id="ipt_datacenter_bairro" value="${dc[0].bairro}" placeholder="Digite o nome do bairro" required>
 
                             <div class="input-label-wrapper"><span class="input-label">Rua</span></div>
-                            <input type="text" id="ipt_datacenter_rua" value="${dc.rua}" placeholder="Digite o nome da rua" required>
+                            <input type="text" id="ipt_datacenter_rua" value="${dc[0].rua}" placeholder="Digite o nome da rua" required>
 
                             <div class="input-label-wrapper"><span class="input-label">Número</span></div>
-                            <input type="number" id="ipt_datacenter_numero" value="${dc.numero}" placeholder="Digite o número do local" required>
+                            <input type="number" id="ipt_datacenter_numero" value="${dc[0].numero}" placeholder="Digite o número do local" required>
 
                             <div class="input-label-wrapper"><span class="input-label">Complemento</span></div>
-                            <input type="text" id="ipt_datacenter_complemento" value="${dc.complemento || ''}" placeholder="Digite qualquer complemento" required>
+                            <input type="text" id="ipt_datacenter_complemento" value="${dc[0].complemento || ''}" placeholder="Digite qualquer complemento" required>
                         </div>
 
                         <div id="mensagem_erro"></div>
@@ -699,7 +634,7 @@ function popup_editar_datacenter(idDataCenter, fkEndereco) {
                         </div>
                     </div>
                 </div>`;
-        })
+    })
         .catch(err => console.error("Erro ao buscar datacenter:", err));
 }
 
