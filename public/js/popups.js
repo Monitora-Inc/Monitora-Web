@@ -322,12 +322,9 @@ function popup_adicionar_servidor() {
                 <h1>Adicionar Servidor</h1>
                 <h2>Instruções</h2>
                 <div class="instrucoes">
-                    <li>Verifique se o Java está instalado com <i>java --version</i></li>
-                        <p style="padding-left: 2em;">1.1. Caso não esteja, <a href="https://www.oracle.com/java/technologies/downloads/">faça o download.</a></p>
-                    </li>
-                    <li>Faça o download de nosso software clicando abaixo.</li>
+                    <li>Faça o download de nosso software clicando em dos botões abaixo.</li>
                     <li>Faça a extração do arquivo se necessário.</li>
-                    <li>No terminal, no diretório, rode: <i>java -jar execSoftware.jar</i></li>
+                    <li>Execute o arquivo .bat ou .sh de acordo com o sistema operacional.</i></li>
                     <li>Siga as instruções indicadas no software.</li>
                 </div>
 
@@ -336,7 +333,8 @@ function popup_adicionar_servidor() {
 
                 <!-- Botões -->
                 <div class="btns_popup">
-                    <a href="../../softwareDonwload/execSoftware.jar" download><button onclick="funcao_adicionar()">Download Software</button></a>
+                    <button onclick="baixarArquivosWindows()">Download Windows</button>
+                    <button onclick="baixarArquivosLinux()">Download Linux</button>
                     <button onclick="fechar_popup()">Fechar</button>
                 </div>
             </div>

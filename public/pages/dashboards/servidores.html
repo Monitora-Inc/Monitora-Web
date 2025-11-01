@@ -236,3 +236,39 @@
     }
 
 </script>
+
+<script>
+function baixarArquivosWindows() {
+  const arquivos = [
+    "../../softwareDonwload/sfw_downloadWindows.bat",
+    "../../softwareDonwload/adicionarServidor.jar",
+    "../../softwareDonwload/ip_monitora.txt"
+  ];
+
+  arquivos.forEach(arquivo => {
+    const link = document.createElement("a");
+    link.href = arquivo;
+    link.download = arquivo.split('/').pop();
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+}
+
+function baixarArquivosLinux() {
+  const arquivos = [
+    "../../softwareDonwload/sfw_downloadLinux.sh",
+    "../../softwareDonwload/adicionarServidor.jar",
+    "../../softwareDonwload/ip_monitora.txt"
+  ];
+
+  arquivos.forEach(arquivo => {
+    const link = document.createElement("a");
+    link.href = arquivo;
+    link.download = arquivo.split('/').pop();
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+}
+</script>
