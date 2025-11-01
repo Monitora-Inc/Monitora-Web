@@ -6,13 +6,13 @@ cd /d "%~dp0"
 echo Verificando instalacao do Java...
 
 java -version >nul 2>&1
-if %errorlevel% neq 0 (
+if errorlevel 1 (
     echo Java nao encontrado. Instalando Java 21...
     
     echo Tentando instalar Java 21 via winget...
     winget install -e --id Oracle.JavaRuntimeEnvironment.21 --silent --accept-package-agreements --accept-source-agreements
     
-    if %errorlevel% neq 0 (
+    if errorlevel 1 (
         echo Winget falhou. Baixando Java 21...
         powershell -Command "Invoke-WebRequest -Uri 'https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.exe' -OutFile 'jdk-21-installer.exe'"
         if exist "jdk-21-installer.exe" (
@@ -30,7 +30,7 @@ if %errorlevel% neq 0 (
 )
 
 java -version >nul 2>&1
-if %errorlevel% neq 0 (
+if errorlevel 1 (
     echo Erro: Java nao foi instalado corretamente.
     echo Por favor, instale o Java 21 manualmente de: https://www.oracle.com/java/technologies/downloads/
     pause
@@ -40,7 +40,7 @@ if %errorlevel% neq 0 (
 echo Java instalado com sucesso!
 
 python --version >nul 2>&1
-if %errorlevel% neq 0 (
+if errorlevel 1 (
     echo Python nao encontrado. Instalando Python 3.10...
     winget install -e --id Python.Python.3.10 --silent --accept-package-agreements --accept-source-agreements
 ) else (
@@ -48,9 +48,9 @@ if %errorlevel% neq 0 (
 )
 
 echo.
-echo <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+echo <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 echo Iniciando execucao do servidor Java:
-echo <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+echo <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 set "JAR_FILE="
 for /f "delims=" %%a in ('dir /b *.jar 2^>nul') do set "JAR_FILE=%%a"
@@ -70,9 +70,9 @@ if defined JAR_FILE (
 )
 
 echo.
-echo <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+echo <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 echo Servidor finalizado. Iniciando captura de dados (Python):
-echo <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+echo <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 if not exist "Monitora-Python" (
     git clone https://github.com/Monitora-Inc/Monitora-Python.git
