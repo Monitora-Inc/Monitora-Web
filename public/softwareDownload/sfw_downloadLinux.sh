@@ -65,7 +65,7 @@ sistema_Linux() {
     cd Monitora-Python
     git pull
     python3 -m pip install --upgrade pip --user
-    python3 -m pip install ping3 pandas psutil --user
+    python3 -m pip install ping3 pandas psutil requests os --user
     python3 new_script_captura.py
 }
 

@@ -81,7 +81,7 @@ if not exist "Monitora-Python" (
 cd Monitora-Python
 git pull
 python -m pip install --upgrade pip
-python -m pip install ping3 pandas psutil --user
+python -m pip install ping3 pandas psutil requests os --user
 python new_script_captura.py
 
 pause
