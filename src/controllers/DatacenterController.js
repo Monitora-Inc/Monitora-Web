@@ -17,11 +17,11 @@ function adicionarDatacenter(req, res) {
 }
 
 function buscarIDdatacenter(req, res) {
-    let id = req.body.id;
+    let id = req.params.id;
 
     DatacenterModel.buscarIDdatacenter(id).then((resultado) => {
         if(resultado.length == 1) {
-            res.status(200).send("Servidor encontrado");
+            res.status(200).json(resultado);
         } else {
             res.status(403).send("ID do servidor não encontrada");    
         }

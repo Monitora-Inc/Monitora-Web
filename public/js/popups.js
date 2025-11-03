@@ -21,6 +21,48 @@ function mascaraTelefone(numero) {
     }
 }
 
+document.addEventListener('input', function (e) {
+    if (e.inputType === 'deleteContentBackward') return;
+
+    if (e.target.id === 'ipt_telefone') {
+        let input = e.target;
+        let valor = input.value.replace(/\D/g, '');
+        if (valor.length > 11) valor = valor.slice(0, 11);
+
+        if (valor.length > 6) {
+            input.value = `(${valor.slice(0, 2)}) ${valor.slice(2, 7)}-${valor.slice(7)}`;
+        } else if (valor.length > 2) {
+            input.value = `(${valor.slice(0, 2)}) ${valor.slice(2)}`;
+        } else {
+            input.value = valor;
+        }
+    }
+});
+
+function mascaraCNPJ(valor) {
+    valor = valor.replace(/\D/g, ''); // Remove tudo que não é número
+    if (valor.length > 14) valor = valor.slice(0, 14);
+
+    if (valor.length > 12) {
+        return `${valor.slice(0, 2)}.${valor.slice(2, 5)}.${valor.slice(5, 8)}/${valor.slice(8, 12)}-${valor.slice(12)}`;
+    } else if (valor.length > 8) {
+        return `${valor.slice(0, 2)}.${valor.slice(2, 5)}.${valor.slice(5, 8)}/${valor.slice(8)}`;
+    } else if (valor.length > 5) {
+        return `${valor.slice(0, 2)}.${valor.slice(2, 5)}.${valor.slice(5)}`;
+    } else if (valor.length > 2) {
+        return `${valor.slice(0, 2)}.${valor.slice(2)}`;
+    } else {
+        return valor;
+    }
+}
+
+document.addEventListener('input', function (e) {
+    if (e.target.id === 'ipt_cnpj') {
+        let input = e.target;
+        input.value = mascaraCNPJ(input.value);
+    }
+});
+
 function popup_sair() {
     popup_screen.innerHTML = `        
         <div class="popup_container">
@@ -111,7 +153,7 @@ function popup_confirmar_senha() {
                 <div class="input-label-wrapper">
                 <span class="input-label">Senha</span>
                 </div>
-                <input type="password" id="ipt_senha" placeholder="Digite sua senha" required>
+                <input type="password" id="iptSenha" placeholder="Digite sua senha" required>
             </div>
 
             <!-- Mensagem de Erro -->
@@ -119,7 +161,7 @@ function popup_confirmar_senha() {
 
             <!-- Botões -->
             <div class="btns_popup">
-                <button onclick="popup_editar_informacoes()">Confirmar</button>
+                <button onclick="confirmar_senha()">Confirmar</button>
                 <button onclick="fechar_popup()">Cancelar</button>
             </div>
         </div>
@@ -127,58 +169,107 @@ function popup_confirmar_senha() {
 }
 
 function popup_editar_informacoes() {
-    popup_screen.innerHTML = `        
-    <div class="popup_container">
-            <div class="popup">
-                <h1>Editar Informações</h1>
-                <div class="inputs">
-                    
-                    <!-- Nome -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Nome</span>                    </div>
-                    <input type="text" id="ipt_nome" placeholder="Digite o nome do funcionário" required>
-                    
-                    <!-- Sobrenome -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Sobrenome</span>                    </div>
-                    <input type="text" id="ipt_sobrenome" placeholder="Digite o sobrenome" required>
-                    
-                    <!-- Email -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Email</span>                    
-                    </div>
-                    <input type="email" id="ipt_email" placeholder="exemplo@empresa.com" required>
-                     
-                    <!-- Celular -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Celular</span>
-                    </div>
-                    <input type="tel" id="ipt_telefone" placeholder="(11) 99999-9999" required>
+    if (sessionStorage.userNome != null) {
+        popup_screen.innerHTML = `        
+            <div class="popup_container">
+                    <div class="popup">
+                        <h1>Editar Informações</h1>
+                        <div class="inputs">
+                            
+                            <!-- Nome -->
+                            <div class="input-label-wrapper">
+                            <span class="input-label">Nome</span>                    </div>
+                            <input type="text" id="ipt_nome" placeholder="Digite o nome do funcionário" required>
+                            
+                            <!-- Sobrenome -->
+                            <div class="input-label-wrapper">
+                            <span class="input-label">Sobrenome</span>                    </div>
+                            <input type="text" id="ipt_sobrenome" placeholder="Digite o sobrenome" required>
+                            
+                            <!-- Email -->
+                            <div class="input-label-wrapper">
+                            <span class="input-label">Email</span>                    
+                            </div>
+                            <input type="email" id="ipt_email" placeholder="exemplo@empresa.com" required>
+                            
+                            <!-- Celular -->
+                            <div class="input-label-wrapper">
+                            <span class="input-label">Celular</span>
+                            </div>
+                            <input type="tel" id="ipt_telefone" placeholder="(11) 99999-9999" required>
 
 
-                    <!-- Senha -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Nova senha</span>
+                            <!-- Senha -->
+                            <div class="input-label-wrapper">
+                            <span class="input-label">Nova senha</span>
+                            </div>
+                            <input type="password" id="ipt_senha" placeholder="Mínimo 8 caracteres com letras e números" required>
+                            
+                            <!-- Confirmar senha -->
+                            <div class="input-label-wrapper">
+                            <span class="input-label">Confirmar nova senha</span>
+                            </div>
+                            <input type="password" id="ipt_confirmar_senha" placeholder="Digite a senha novamente" required>
+                        </div>
+
+                        <!-- Mensagem de Erro -->
+                        <div id="mensagem_erro"></div>
+
+                        <!-- Botões -->
+                        <div class="btns_popup">
+                            <button onclick="editarPerfilUsuario()">Confirmar</button>
+                            <button onclick="fechar_popup()">Cancelar</button>
+                        </div>
                     </div>
-                    <input type="password" id="ipt_senha" placeholder="Mínimo 8 caracteres com letras e números" required>
-                    
-                    <!-- Confirmar senha -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Confirmar nova senha</span>
+                </div>`;
+        ipt_nome.value = sessionStorage.userNome;
+        ipt_sobrenome.value = sessionStorage.userSobrenome;
+        ipt_email.value = sessionStorage.userEmail;
+        ipt_telefone.value = mascaraTelefone(sessionStorage.userTelefone);
+    } else {
+        popup_screen.innerHTML = `        
+        <div class="popup_container">
+                <div class="popup">
+                    <h1>Editar Informações</h1>
+                    <div class="inputs">
+                        
+                        <!-- Nome -->
+                        <div class="input-label-wrapper">
+                        <span class="input-label">Nome</span>                    </div>
+                        <input type="text" id="ipt_nome" placeholder="Digite o nome da empresa" required>
+                        
+                        <!-- CNPJ  -->
+                        <div class="input-label-wrapper">
+                        <span class="input-label">CNPJ</span>
+                        </div>
+                        <input type="tel" id="ipt_cnpj" placeholder="99.999.999/9999-99" required>
+
+                        <!-- Senha -->
+                        <div class="input-label-wrapper">
+                        <span class="input-label">Nova senha</span>
+                        </div>
+                        <input type="password" id="ipt_senha" placeholder="Mínimo 8 caracteres com letras e números" required>
+                        
+                        <!-- Confirmar senha -->
+                        <div class="input-label-wrapper">
+                        <span class="input-label">Confirmar nova senha</span>
+                        </div>
+                        <input type="password" id="ipt_confirmar_senha" placeholder="Digite a senha novamente" required>
                     </div>
-                    <input type="password" id="ipt_confirmar_senha" placeholder="Digite a senha novamente" required>
+
+                    <!-- Mensagem de Erro -->
+                    <div id="mensagem_erro"></div>
+
+                    <!-- Botões -->
+                    <div class="btns_popup">
+                        <button onclick="editarPerfilEmpresa()">Confirmar</button>
+                        <button onclick="fechar_popup()">Cancelar</button>
+                    </div>
                 </div>
-
-                <!-- Mensagem de Erro -->
-                <div id="mensagem_erro"></div>
-
-                <!-- Botões -->
-                <div class="btns_popup">
-                    <button onclick="funcao_adicionar()">Confirmar</button>
-                    <button onclick="fechar_popup()">Cancelar</button>
-                </div>
-            </div>
-        </div>`;
+            </div>`;
+        ipt_nome.value = sessionStorage.empresaNome;
+        ipt_cnpj.value = mascaraCNPJ(sessionStorage.empresaCnpj);
+    }
 }
 
 function popup_editar_foto() {
@@ -189,7 +280,7 @@ function popup_editar_foto() {
                 <div class="inputs">
                     
                     <!-- Nome -->
-                    <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
+                    <input type="file" id="ipt_foto" name="foto" accept="image/png, image/jpeg, image/svg" />
                 </div>
 
                 <!-- Mensagem de Erro -->
@@ -197,7 +288,7 @@ function popup_editar_foto() {
 
                 <!-- Botões -->
                 <div class="btns_popup">
-                    <button onclick="funcao_adicionar()">Confirmar</button>
+                    <button onclick="editarFoto()">Confirmar</button>
                     <button onclick="fechar_popup()">Cancelar</button>
                 </div>
             </div>
@@ -231,12 +322,9 @@ function popup_adicionar_servidor() {
                 <h1>Adicionar Servidor</h1>
                 <h2>Instruções</h2>
                 <div class="instrucoes">
-                    <li>Verifique se o Java está instalado com <i>java --version</i></li>
-                        <p style="padding-left: 2em;">1.1. Caso não esteja, <a href="https://www.oracle.com/java/technologies/downloads/">faça o download.</a></p>
-                    </li>
-                    <li>Faça o download de nosso software clicando abaixo.</li>
+                    <li>Faça o download de nosso software clicando em dos botões abaixo.</li>
                     <li>Faça a extração do arquivo se necessário.</li>
-                    <li>No terminal, no diretório, rode: <i>java -jar execSoftware.jar</i></li>
+                    <li>Execute o arquivo .bat ou .sh de acordo com o sistema operacional.</i></li>
                     <li>Siga as instruções indicadas no software.</li>
                 </div>
 
@@ -245,7 +333,8 @@ function popup_adicionar_servidor() {
 
                 <!-- Botões -->
                 <div class="btns_popup">
-                    <a href="../../softwareDonwload/execSoftware.jar" download><button onclick="funcao_adicionar()">Download Software</button></a>
+                    <button onclick="baixarArquivosWindows()">Download Windows</button>
+                    <button onclick="baixarArquivosLinux()">Download Linux</button>
                     <button onclick="fechar_popup()">Fechar</button>
                 </div>
             </div>
@@ -254,9 +343,7 @@ function popup_adicionar_servidor() {
 
 function popup_servidor_informacoes(nomeDatacenter, idEmpresa, nomeServidor, idServidor, rua, numero, bairro, cidade, estado, pais) {
     if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
-        let permissaoConcedida = verificarPermissao('EditarServidor');
-
-        if (!permissaoConcedida) {
+        if (!verificarPermissao('EditarServidor')) {
             return;
         }
     }
@@ -339,37 +426,13 @@ function popup_servidor_informacoes(nomeDatacenter, idEmpresa, nomeServidor, idS
         }).then(function (dadosParametros) {
             console.log(dadosParametros);
             for (let i = 0; i < dadosParametros.length; i++) {
-                if (dadosParametros[i].nome_componente == 'CPU' && dadosParametros[i].unidade_de_medida == '%') {
-                    parametrizacao.innerHTML += `
-                        <h1>CPU</h1>
-                        <h2>% de uso para notificações de estado de alerta</h2>
-                        <input id="cpuLimite" type="number" value="${dadosParametros[i].limite_monitoramento}">
-                    `;
-                } else if (dadosParametros[i].nome_componente == 'RAM' && dadosParametros[i].unidade_de_medida == '%') {
-                    parametrizacao.innerHTML += `
-                        <h1>RAM</h1>
-                        <h2>% de uso para notificações de estado de alerta</h2>
-                        <input id="ramLimite" type="number" value="${dadosParametros[i].limite_monitoramento}">
-                    `;
-                } else if (dadosParametros[i].nome_componente == 'Disco' && dadosParametros[i].unidade_de_medida == '%') {
-                    parametrizacao.innerHTML += `
-                        <h1>Disco</h1>
-                        <h2>% de uso para notificações de estado de alerta</h2>
-                        <input id="discoLimite" type="number" value="${dadosParametros[i].limite_monitoramento}">
-                    `;
-                } else if (dadosParametros[i].nome_componente == 'Rede' && dadosParametros[i].unidade_de_medida == '%') {
-                    parametrizacao.innerHTML += `
-                        <h1>Rede</h1>
-                        <h2>Valor da % para notificações de estado de alerta</h2>
-                        <input id="redeLimitePercent" type="number" value="${dadosParametros[i].limite_monitoramento}">
-                    `;
-                } else if (dadosParametros[i].nome_componente == 'Rede' && dadosParametros[i].unidade_de_medida == 'ms') {
-                    parametrizacao.innerHTML += `
-                        <h1>Rede</h1>
-                        <h2>Valor em ms para notificações de estado de alerta</h2>
-                        <input id="redeLimiteMs" type="number" value="${dadosParametros[i].limite_monitoramento}">
-                    `;
-                }
+                parametrizacao.innerHTML += `
+                    <h1>${dadosParametros[i].nome_componente}</h1>
+                    <h2>Valor em ${dadosParametros[i].unidade_de_medida} para notificações de estado de alerta</h2>
+                    <input id="${dadosParametros[i].nome_componente}Alerta${dadosParametros[i].unidade_de_medida}" type="number" value="${dadosParametros[i].alerta_monitoramento}">
+                    <h2>Valor em ${dadosParametros[i].unidade_de_medida} para notificações de estado critico</h2>
+                    <input id="${dadosParametros[i].nome_componente}Critico${dadosParametros[i].unidade_de_medida}" type="number" value="${dadosParametros[i].critico_monitoramento}">
+                `;
             }
         })
     })
@@ -486,74 +549,67 @@ function popup_adicionar_datacenter() {
 function popup_editar_datacenter(idDataCenter, fkEndereco) {
     if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
         let permissaoConcedida = verificarPermissao('EditarDataCenter');
-
-        if (!permissaoConcedida) {
-            return;
-        }
+        if (!permissaoConcedida) return;
     }
 
     console.log("popup_editar_datacenter =>", idDataCenter, fkEndereco);
-    popup_screen.innerHTML = `        
-    <div class="popup_container">
-            <div class="popup">
-                
-                <div class="inputs">
-                    <input type="text" id="ipt_datacenter_nome" placeholder="Digite o nome do data center" class="input_header" required>
-                    <h2>Localização</h2>
-                    <!-- País -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">País</span>
-                    </div>
-                    <input type="text" id="ipt_datacenter_pais" placeholder="Digite o nome do país" required>
-              
-                    <!-- Estado -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Estado</span>
-                    </div>
-                    <input type="text" id="ipt_datacenter_estado" placeholder="Digite o nome do estado" required>
 
-                    <!-- Estado -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Cidade</span>
-                    </div>
-                    <input type="text" id="ipt_datacenter_cidade" placeholder="Digite o nome da cidade" required>
-                    
-                    <!-- Cidade -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Bairro</span>
-                    </div>
-                    <input type="text" id="ipt_datacenter_bairro" placeholder="Digite o nome do bairro" required>
-                    
-                    <!-- Bairo -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Rua</span>
-                    </div>
-                    <input type="text" id="ipt_datacenter_rua" placeholder="Digite o nome da rua" required>
-                    
-                    <!-- Número -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Número</span>
-                    </div>
-                    <input type="number" id="ipt_datacenter_numero" placeholder="Digite o número do local" required>
+    fetch(`/datacenters/buscarIdDatacenter/${idDataCenter}`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(res => {
+        console.log(res);
+        if (!res.ok) throw new Error(`Erro HTTP: ${res.status}`);
+        return res.json();
+    }).then(function (dc) {
+        console.log(dc)
+        popup_screen.innerHTML = `        
+                <div class="popup_container">
+                    <div class="popup">
+                        <div class="inputs">
+                            <input type="text" id="ipt_datacenter_nome" 
+                                   value="${dc[0].nome}" 
+                                   placeholder="Digite o nome do data center" 
+                                   class="input_header" required>
 
-                    <!-- Complemento -->
-                    <div class="input-label-wrapper">
-                    <span class="input-label">Complemento</span>
+                            <h2>Localização</h2>
+
+                            <div class="input-label-wrapper"><span class="input-label">País</span></div>
+                            <input type="text" id="ipt_datacenter_pais" value="${dc[0].pais}" placeholder="Digite o nome do país" required>
+
+                            <div class="input-label-wrapper"><span class="input-label">Estado</span></div>
+                            <input type="text" id="ipt_datacenter_estado" value="${dc[0].estado}" placeholder="Digite o nome do estado" required>
+
+                            <div class="input-label-wrapper"><span class="input-label">Cidade</span></div>
+                            <input type="text" id="ipt_datacenter_cidade" value="${dc[0].cidade}" placeholder="Digite o nome da cidade" required>
+
+                            <div class="input-label-wrapper"><span class="input-label">Bairro</span></div>
+                            <input type="text" id="ipt_datacenter_bairro" value="${dc[0].bairro}" placeholder="Digite o nome do bairro" required>
+
+                            <div class="input-label-wrapper"><span class="input-label">Rua</span></div>
+                            <input type="text" id="ipt_datacenter_rua" value="${dc[0].rua}" placeholder="Digite o nome da rua" required>
+
+                            <div class="input-label-wrapper"><span class="input-label">Número</span></div>
+                            <input type="number" id="ipt_datacenter_numero" value="${dc[0].numero}" placeholder="Digite o número do local" required>
+
+                            <div class="input-label-wrapper"><span class="input-label">Complemento</span></div>
+                            <input type="text" id="ipt_datacenter_complemento" value="${dc[0].complemento || ''}" placeholder="Digite qualquer complemento" required>
+                        </div>
+
+                        <div id="mensagem_erro"></div>
+
+                        <div class="btns_popup">
+                            <button onclick="funcao_editar_datacenter(${idDataCenter}, ${fkEndereco})">Salvar alterações</button>
+                            <button onclick="fechar_popup()">Cancelar</button>
+                        </div>
                     </div>
-                    <input type="tel" id="ipt_datacenter_complemento" placeholder="Digite qualquer complemento" required>
-                </div>
-
-                <!-- Mensagem de Erro -->
-                <div id="mensagem_erro"></div>
-
-                <!-- Botões -->
-                <div class="btns_popup">
-                    <button onclick="funcao_editar_datacenter(${idDataCenter}, ${fkEndereco})">Editar</button>
-                    <button onclick="fechar_popup()">Cancelar</button>
-                </div>
-            </div>
-        </div>`;
+                </div>`;
+    })
+        .catch(err => console.error("Erro ao buscar datacenter:", err));
 }
+
 
 
 function popup_deletar_datacenter() {

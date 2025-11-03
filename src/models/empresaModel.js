@@ -46,10 +46,67 @@ function buscarEmpresas(){
     return database.executar(instrucaoSql);
 }
 
+function editarFoto(id, foto) {
+    console.log("=== DEBUG editarFoto MODEL ===");
+    console.log("Foto recebida no model:", foto);
+
+    const updateSql = `
+        UPDATE empresas 
+        SET fotoDePerfil = '${foto}'
+        WHERE idEmpresa = ${id};
+    `;
+
+    console.log("Query SQL completa:", updateSql);
+    console.log("=================================");
+
+    return database.executar(updateSql);
+}
+
+function editarPerfil(empresa_nome, empresa_cnpj, empresa_senha, id) {
+    console.log("=== DEBUG funcao_editar MODEL ===");
+    
+    let updateSql = `
+        UPDATE empresas 
+        SET nome = '${empresa_nome}'
+    `;
+        if (empresa_cnpj && empresa_cnpj !== "") {
+        updateSql += `, cnpj = '${empresa_cnpj}'`;
+    }
+
+    
+    if (empresa_senha && empresa_senha !== "") {
+        updateSql += `, senha = SHA2('${empresa_senha}', 512)`;
+    }
+    
+    updateSql += ` WHERE idEmpresa = ${id};`;
+    
+    console.log("Query SQL completa:", updateSql);
+    console.log("=================================");
+    
+    return database.executar(updateSql);
+}
+
+
+function getNomeEmpresa(idServidor){
+    console.log("Estou na modle com o " + idServidor + " para buscar o nome da empresa")
+
+    const instrucaoSql = `
+    select e.nome, e.idEmpresa from monitora.empresas e
+        inner join monitora.datacenters dc on dc.fkEmpresa = e.idEmpresa
+        inner join monitora.servidores s on s.fkDatacenter = dc.idDatacenter
+        where s.idServidor = '${idServidor}';`
+
+    return database.executar(instrucaoSql);
+
+}
+
 module.exports = {
     cadastrarEmpresa,
     autenticar,
     negarEmpresa,
     autorizarEmpresa,
-    buscarEmpresas
+    buscarEmpresas,
+    editarFoto,
+    editarPerfil,
+    getNomeEmpresa
 }
