@@ -92,7 +92,7 @@
                 datacenters.innerHTML += `
                     <div class="card_datacenter " id="${dadosDatacenters[i].idDataCenter}" onclick="popup_editar_datacenter(${dadosDatacenters[i].idDataCenter}, ${dadosDatacenters[i].FkEndereco})">
                         <div id="usuario_checkbox">
-                            <input type="checkbox" class="checkbox" value="${dadosDatacenters[i].idDataCenter}" onchange="adicionarListaDelete(this)">
+                            <input type="checkbox" class="checkbox" value="${dadosDatacenters[i].FkEndereco}" onchange="adicionarListaDelete(this)">
                             </div>
                             <div class="datacenter_informacoes">
                                 <div id="datacenter_nome">${dadosDatacenters[i].nome}</div>
@@ -192,7 +192,7 @@
     function funcao_editar_datacenter(idDataCenter, fkEndereco) {
         console.log("Editar =>", idDataCenter, fkEndereco);
         mensagem_erro.innerHTML = '';
-        let nomeDataCenter = ipt_datacenter_nome.value
+        let nomeDataCenter = ipt_datacenter_nome.value;
         let dcPais = ipt_datacenter_pais.value;
         let dcEstado = ipt_datacenter_estado.value;
         let dcCidade = ipt_datacenter_cidade.value;

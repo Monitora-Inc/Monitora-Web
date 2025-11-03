@@ -137,6 +137,18 @@ function editarFoto(req, res) {
         });
 }
 
+function getNomeEmpresa(req, res) {
+    const idServidor = req.body.servidorId;
+    if (idServidor == undefined){
+        console.log("Id do servidor undefined")
+    }
+    empresaModel.getNomeEmpresa(idServidor).then((resultado) => {
+        res.json(resultado);
+    });
+}
+
+
+
 module.exports = {
     cadastrarEmpresa,
     autenticar,
@@ -145,5 +157,6 @@ module.exports = {
     buscarEmpresas,
     confirmarSenha,
     editarFoto,
-    editarPerfil
+    editarPerfil,
+    getNomeEmpresa
 }
