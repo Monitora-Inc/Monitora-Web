@@ -24,22 +24,32 @@ function atualizarServidor(req, res) {
     let idServidor = req.params.id;
     let nomeServidor = req.body.nomeServidorServer;
     let idDatacenter = req.body.idDatacenterServer;
-    let cpuLimite = req.body.cpuLimiteServer;
-    let ramLimite = req.body.ramLimiteServer;
-    let discoLimite = req.body.discoLimiteServer;
-    let redeLimitePercent = req.body.redeLimitePercentServer;
-    let redeLimiteMs = req.body.redeLimiteMsServer
+    let cpuAlerta = req.body.cpuAlertaServer;
+    let cpuCritico = req.body.cpuCriticoServer;
+    let ramAlerta = req.body.ramAlertaServer;
+    let ramCritico = req.body.ramCriticoServer;
+    let discoAlerta = req.body.discoAlertaServer;
+    let discoCritico = req.body.discoCriticoServer;
+    let redeAlertaPercent = req.body.redeAlertaPercentServer;
+    let redeCriticoPercent = req.body.redeCriticoPercentServer;
+    let redeAlertaMs = req.body.redeAlertaMsServer;
+    let redeCriticoMs = req.body.redeCriticoMsServer;
     console.log(idServidor);
     if(idServidor == undefined) console.log("idServidor está como: " + idServidor)
     if(nomeServidor == undefined) console.log("nomeServidor está como: " + nomeServidor)
     if(idDatacenter == undefined) console.log("idDatacenter está como: " + idDatacenter)
-    if(cpuLimite == undefined) console.log("cpuLimite está como: " + cpuLimite)
-    if(ramLimite == undefined) console.log("ramLimite está como: " + ramLimite)
-    if(discoLimite == undefined) console.log("discoLimite está como: " + discoLimite)
-    if(redeLimitePercent == undefined) console.log("redeLimitePercent está como: " + redeLimitePercent)
-    if(redeLimiteMs == undefined) console.log("redeLimiteMs está como: " + redeLimiteMs)
+    if(cpuAlerta == undefined) console.log("cpuAlerta está como: " + cpuAlerta)
+    if(cpuCritico == undefined) console.log("cpuCritico está como: " + cpuCritico)
+    if(ramAlerta == undefined) console.log("ramAlerta está como: " + ramAlerta)
+    if(ramCritico == undefined) console.log("ramCritico está como: " + ramCritico)
+    if(discoAlerta == undefined) console.log("discoAlerta está como: " + discoAlerta)
+    if(discoCritico == undefined) console.log("discoCritico está como: " + discoCritico)
+    if(redeAlertaPercent == undefined) console.log("redeAlertaPercent está como: " + redeAlertaPercent)
+    if(redeCriticoPercent == undefined) console.log("redeCriticoPercent está como: " + redeCriticoPercent)
+    if(redeAlertaMs == undefined) console.log("redeAlertaMs está como: " + redeAlertaMs)
+    if(redeCriticoMs == undefined) console.log("redeCriticoMs está como: " + redeCriticoMs)
 
-    servidorModel.atualizarServidor(idServidor, nomeServidor, idDatacenter, cpuLimite, ramLimite, discoLimite, redeLimitePercent, redeLimiteMs)
+    servidorModel.atualizarServidor(idServidor, nomeServidor, idDatacenter, cpuAlerta, cpuCritico, ramAlerta, ramCritico, discoAlerta, discoCritico, redeAlertaPercent, redeCriticoPercent, redeAlertaMs, redeCriticoMs)
         .then(() => res.status(200).send("✅ Servidor atualizado com sucesso!"))
         .catch(erro => {
             console.error(erro);
