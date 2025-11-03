@@ -170,7 +170,7 @@
         sessionStorage.empresaCnpj = jsonLogin.empresaCnpj;
         sessionStorage.empresaFoto = jsonLogin.empresaFoto;
         if (sessionStorage.empresaNome === "admin") {
-            window.location = "dashboards/empresas.html"
+            window.location = "dashboards/empresas.html";
         } else {
             window.location = "dashboards/home.html";
         }
@@ -222,8 +222,25 @@
         sessionStorage.cargo = jsonLogin.cargo;
         sessionStorage.empresaId = jsonLogin.empresaId;
         sessionStorage.empresaNome = jsonLogin.empresaNome;
-        console.log('empresaNome = ' + sessionStorage.empresaNome);
-
+        await fetch(`/usuarios/listarPermissoes/${sessionStorage.cargoId}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+        }).then(function (dadosPermissoes) {
+            listaPermissoes = [];
+            for (var i = 0; i < dadosPermissoes.length; i++) {
+                listaPermissoes.push(dadosPermissoes[i].nomePermissao)
+            }
+            sessionStorage.listaPermissoes = listaPermissoes;
+            console.log(sessionStorage.listaPermissoes)
+        }
+        )
         if (sessionStorage.empresaNome === "admin") {
             window.location = "dashboards/empresas.html"
         } else {

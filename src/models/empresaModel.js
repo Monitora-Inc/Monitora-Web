@@ -4,7 +4,7 @@ function cadastrarEmpresa(nome, cnpj, senha) {
     console.log("Estou acessando o banco \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrarEmpresa():", nome, cnpj);
 
     let instrucaoSql = `
-        INSERT INTO Empresas(nome, cnpj, senha, ativo, aprovada) VALUES
+        INSERT INTO empresas(nome, cnpj, senha, ativo, aprovada) VALUES
             ('${nome}', '${cnpj}', SHA2('${senha}', 512), 1, 0);
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -23,7 +23,7 @@ function autenticar(cnpj, senha) {
 
 function negarEmpresa(idEmpresa) {
     let instrucaoSql = `
-        update Empresas set aprovada = 0
+        update empresas set aprovada = 0
         WHERE idEmpresa = ${idEmpresa};
     `
 
@@ -32,7 +32,7 @@ function negarEmpresa(idEmpresa) {
 
 function autorizarEmpresa(idEmpresa) {
     let instrucaoSql = `
-        update Empresas set aprovada = 1
+        update empresas set aprovada = 1
         WHERE idEmpresa = ${idEmpresa};
     `;
 
@@ -46,10 +46,67 @@ function buscarEmpresas(){
     return database.executar(instrucaoSql);
 }
 
+function editarFoto(id, foto) {
+    console.log("=== DEBUG editarFoto MODEL ===");
+    console.log("Foto recebida no model:", foto);
+
+    const updateSql = `
+        UPDATE empresas 
+        SET fotoDePerfil = '${foto}'
+        WHERE idEmpresa = ${id};
+    `;
+
+    console.log("Query SQL completa:", updateSql);
+    console.log("=================================");
+
+    return database.executar(updateSql);
+}
+
+function editarPerfil(empresa_nome, empresa_cnpj, empresa_senha, id) {
+    console.log("=== DEBUG funcao_editar MODEL ===");
+    
+    let updateSql = `
+        UPDATE empresas 
+        SET nome = '${empresa_nome}'
+    `;
+        if (empresa_cnpj && empresa_cnpj !== "") {
+        updateSql += `, cnpj = '${empresa_cnpj}'`;
+    }
+
+    
+    if (empresa_senha && empresa_senha !== "") {
+        updateSql += `, senha = SHA2('${empresa_senha}', 512)`;
+    }
+    
+    updateSql += ` WHERE idEmpresa = ${id};`;
+    
+    console.log("Query SQL completa:", updateSql);
+    console.log("=================================");
+    
+    return database.executar(updateSql);
+}
+
+
+function getNomeEmpresa(idServidor){
+    console.log("Estou na modle com o " + idServidor + " para buscar o nome da empresa")
+
+    const instrucaoSql = `
+    select e.nome, e.idEmpresa from monitora.empresas e
+        inner join monitora.datacenters dc on dc.fkEmpresa = e.idEmpresa
+        inner join monitora.servidores s on s.fkDatacenter = dc.idDatacenter
+        where s.idServidor = '${idServidor}';`
+
+    return database.executar(instrucaoSql);
+
+}
+
 module.exports = {
     cadastrarEmpresa,
     autenticar,
     negarEmpresa,
     autorizarEmpresa,
-    buscarEmpresas
+    buscarEmpresas,
+    editarFoto,
+    editarPerfil,
+    getNomeEmpresa
 }

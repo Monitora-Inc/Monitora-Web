@@ -25,13 +25,13 @@ if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
                         </div>
                         <span class="tooltiptextNav">Perfil</span>
                   </a>
+                  <a href="./empresas.html" class="tooltipNav icone_empresas" onclick="fechar_popups()">
+                        <span class="tooltiptextNav">Empresas</span>
+                  </a>
                   <a href="./usuarios.html" class="tooltipNav icone_usuarios" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Usuários</span>
                   </a>
-                  <a href="" class="tooltipNav icone_configuracoes" onclick="fechar_popups()">
-                        <span class="tooltiptextNav"">Configurações</span>
-                  </a>
-                  <a href="" class="tooltipNav icone_suporte">
+                  <a href="https://sptech-team-lpyjf1yr.atlassian.net/servicedesk/customer/portal/36" target="_blank" class="tooltipNav icone_suporte">
                         <span class="tooltiptextNav">Suporte</span>
                   </a>
                   <a class="tooltipNav icone_sair" onclick="popup_sair()">
@@ -51,13 +51,13 @@ if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
                         </div>
                         <span class="tooltiptextNav">Perfil</span>
                   </a>
+                  <a href="./empresas.html" class="tooltipNav icone_empresas" onclick="fechar_popups()">
+                        <span class="tooltiptextNav">Empresas</span>
+                  </a>
                   <a href="./usuarios.html" class="tooltipNav icone_usuarios" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Usuários</span>
                   </a>
-                  <a href="" class="tooltipNav icone_configuracoes" onclick="fechar_popups()">
-                        <span class="tooltiptextNav"">Configurações</span>
-                  </a>
-                  <a href="" class="tooltipNav icone_suporte">
+                  <a href="https://sptech-team-lpyjf1yr.atlassian.net/servicedesk/customer/portal/36" target="_blank" class="tooltipNav icone_suporte">
                         <span class="tooltiptextNav">Suporte</span>
                   </a>
                   <a class="tooltipNav icone_sair" onclick="popup_sair()">
@@ -89,13 +89,10 @@ if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
                   <a href="./usuarios.html" class="tooltipNav icone_usuarios" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Usuários</span>
                   </a>
-                  <a href="" class="tooltipNav icone_configuracoes" onclick="fechar_popups()">
-                        <span class="tooltiptextNav"">Configurações</span>
-                  </a>
                   <a href="./tela_cargos.html" class="tooltipNav icone_cargos" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Cargos</span>
                   </a>
-                  <a href="" class="tooltipNav icone_suporte">
+                  <a href="https://sptech-team-lpyjf1yr.atlassian.net/servicedesk/customer/portal/36" target="_blank" class="tooltipNav icone_suporte">
                         <span class="tooltiptextNav">Suporte</span>
                   </a>
                   <a class="tooltipNav icone_sair" onclick="popup_sair()">
@@ -115,25 +112,22 @@ if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
                   <a href="./home.html" class="tooltipNav icone_dashboard" onclick="fechar_popups()">
                         <span class="tooltiptextNav"">Dashboard</span>
                   </a>
-                  <a href="./servidores.html" class="tooltipNav icone_servidores" onclick="fechar_popups()">
+                  <a href="./servidores.html" id="linkServidores" class="tooltipNav icone_servidores" onclick="fechar_popups()">
                         <span class="tooltiptextNav"">Servidores</span>
                   </a>
-                  <a href="./datacenters.html" class="tooltipNav icone_datacenters" onclick="fechar_popups()">
+                  <a href="./datacenters.html" id="linkDataCenters" class="tooltipNav icone_datacenters" onclick="fechar_popups()">
                         <span class="tooltiptextNav"">Data Centers</span>
                   </a>
                   <a href="" class="tooltipNav icone_logs" onclick="fechar_popups()">
                         <span class="tooltiptextNav"">Logs</span>
                   </a>
-                  <a href="./usuarios.html" class="tooltipNav icone_usuarios" onclick="fechar_popups()">
+                  <a href="./usuarios.html" id="linkUsuarios" class="tooltipNav icone_usuarios" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Usuários</span>
                   </a>
-                  <a href="" class="tooltipNav icone_configuracoes" onclick="fechar_popups()">
-                        <span class="tooltiptextNav"">Configurações</span>
-                  </a>
-                  <a href="./tela_cargos.html" class="tooltipNav icone_cargos" onclick="fechar_popups()">
+                  <a href="./tela_cargos.html" id="linkCargos" class="tooltipNav icone_cargos" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Cargos</span>
                   </a>
-                  <a href="" class="tooltipNav icone_suporte">
+                  <a href="https://sptech-team-lpyjf1yr.atlassian.net/servicedesk/customer/portal/36" target="_blank" class="tooltipNav icone_suporte">
                         <span class="tooltiptextNav">Suporte</span>
                   </a>
                   <a class="tooltipNav icone_sair" onclick="popup_sair()">

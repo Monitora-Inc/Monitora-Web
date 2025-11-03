@@ -1,0 +1,195 @@
+/*
+$$\   $$\                           $$\                     
+$$ |  $$ |                          $$ |                    
+$$ |  $$ | $$$$$$\   $$$$$$\   $$$$$$$ | $$$$$$\   $$$$$$\  
+$$$$$$$$ |$$  __$$\  \____$$\ $$  __$$ |$$  __$$\ $$  __$$\ 
+$$  __$$ |$$$$$$$$ | $$$$$$$ |$$ /  $$ |$$$$$$$$ |$$ |  \__|
+$$ |  $$ |$$   ____|$$  __$$ |$$ |  $$ |$$   ____|$$ |      
+$$ |  $$ |\$$$$$$$\ \$$$$$$$ |\$$$$$$$ |\$$$$$$$\ $$ |      
+\__|  \__| \_______| \_______| \_______| \_______|\__|                                                                 
+*/
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 1vw;
+    margin-bottom: 1vw;
+    margin-right: 1vw;
+}
+
+.header .servidor_alertas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+.header .servidor_alertas .info_alertas{
+    display: flex;
+    align-items: center;
+    margin-right: 1vw;
+    cursor: pointer;
+}
+
+.header .servidor_alertas .info_alertas:hover{
+    background-color: rgb(155, 163, 162);
+    border-radius: 10px;
+    padding: 5px;
+    transition: 0.3s ease-in-out;
+}
+
+.header .servidor_alertas #quantidade_alertas{
+    font-size: 1vw;
+    padding-left: 0.6vw;
+    padding-right: 0.1vw;
+    color: #0f2247;
+}
+
+#servidor_nome {
+    font-size: 1.3vw;
+    color: #0f2247;
+}
+
+#servidor_localizacao {
+    color: #888888;
+    font-size: 0.8vw;
+}
+
+.alert-popup {
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #124574;
+    border-radius: 5px;
+    padding: 10px;
+    width: 500px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 10;
+
+    top: 15%;  
+    left: 80.4%;
+    transform: translateX(-50%);
+}
+
+.alert-popup ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.alert-popup li {
+    padding: 5px 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+.alert-popup li:last-child {
+    border-bottom: none;
+}
+
+
+/*
+ $$$$$$\                            $$\           
+$$  __$$\                           $$ |          
+$$ /  \__| $$$$$$\   $$$$$$\   $$$$$$$ | $$$$$$$\ 
+$$ |       \____$$\ $$  __$$\ $$  __$$ |$$  _____|
+$$ |       $$$$$$$ |$$ |  \__|$$ /  $$ |\$$$$$$\  
+$$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\ 
+\$$$$$$  |\$$$$$$$ |$$ |      \$$$$$$$ |$$$$$$$  |
+ \______/  \_______|\__|       \_______|\_______/ 
+*/
+
+.cards_kpi {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 1vw;
+}
+
+.cards_kpi .card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 290px;
+    height: 80px;
+    border-radius: 5px;
+}
+
+/* 
+ $$$$$$\                      $$$$$$\  $$\                               
+$$  __$$\                    $$  __$$\ \__|                              
+$$ /  \__| $$$$$$\  $$$$$$\  $$ /  \__|$$\  $$$$$$$\  $$$$$$\   $$$$$$$\ 
+$$ |$$$$\ $$  __$$\ \____$$\ $$$$\     $$ |$$  _____|$$  __$$\ $$  _____|
+$$ |\_$$ |$$ |  \__|$$$$$$$ |$$  _|    $$ |$$ /      $$ /  $$ |\$$$$$$\  
+$$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\ 
+\$$$$$$  |$$ |     \$$$$$$$ |$$ |      $$ |\$$$$$$$\ \$$$$$$  |$$$$$$$  |
+ \______/ \__|      \_______|\__|      \__| \_______| \______/ \_______/ 
+*/
+
+.graphs {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 1vw;
+}
+
+.graficos_hardware {
+    padding: 20px;
+    margin-top: 10px;
+    width: 62.4vw;
+    height: 76vh;
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.graficos_rede {
+    padding: 20px;
+    margin-top: 10px;
+    width: 30.8vw;
+    height: 76vh;
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.graficos_hardware canvas {
+  width: 100% !important;
+  max-height: 220px; 
+}
+
+.graficos_rede canvas {
+  width: 100% !important;
+  max-height: 190px; 
+}
+
+
+/*
+$$$$$$$$\        $$\                 $$\           
+\__$$  __|       $$ |                $$ |          
+   $$ | $$$$$$\  $$$$$$$\   $$$$$$\  $$ | $$$$$$\  
+   $$ | \____$$\ $$  __$$\ $$  __$$\ $$ | \____$$\ 
+   $$ | $$$$$$$ |$$ |  $$ |$$$$$$$$ |$$ | $$$$$$$ |
+   $$ |$$  __$$ |$$ |  $$ |$$   ____|$$ |$$  __$$ |
+   $$ |\$$$$$$$ |$$$$$$$  |\$$$$$$$\ $$ |\$$$$$$$ |
+   \__| \_______|\_______/  \_______|\__| \_______|
+
+*/
+table {
+    margin-top: 1.5vw;
+    width: 100%;
+    border-collapse: collapse; 
+    background: #d8e7f3; 
+    border-radius: 5px; 
+    overflow: hidden;
+    font-size: 14px;
+}
+th, td {
+    padding: 8px; 
+    text-align: left; 
+    border-bottom: 1px solid #888888;
+}
+th {
+    background: #0f2247; 
+    color: white;
+}
+
