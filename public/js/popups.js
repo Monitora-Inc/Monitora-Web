@@ -322,12 +322,9 @@ function popup_adicionar_servidor() {
                 <h1>Adicionar Servidor</h1>
                 <h2>Instruções</h2>
                 <div class="instrucoes">
-                    <li>Verifique se o Java está instalado com <i>java --version</i></li>
-                        <p style="padding-left: 2em;">1.1. Caso não esteja, <a href="https://www.oracle.com/java/technologies/downloads/">faça o download.</a></p>
-                    </li>
-                    <li>Faça o download de nosso software clicando abaixo.</li>
+                    <li>Faça o download de nosso software clicando em dos botões abaixo.</li>
                     <li>Faça a extração do arquivo se necessário.</li>
-                    <li>No terminal, no diretório, rode: <i>java -jar execSoftware.jar</i></li>
+                    <li>Execute o arquivo .bat ou .sh de acordo com o sistema operacional.</i></li>
                     <li>Siga as instruções indicadas no software.</li>
                 </div>
 
@@ -336,7 +333,8 @@ function popup_adicionar_servidor() {
 
                 <!-- Botões -->
                 <div class="btns_popup">
-                    <a href="../../softwareDonwload/execSoftware.jar" download><button onclick="funcao_adicionar()">Download Software</button></a>
+                    <button onclick="baixarArquivosWindows()">Download Windows</button>
+                    <button onclick="baixarArquivosLinux()">Download Linux</button>
                     <button onclick="fechar_popup()">Fechar</button>
                 </div>
             </div>
@@ -345,9 +343,7 @@ function popup_adicionar_servidor() {
 
 function popup_servidor_informacoes(nomeDatacenter, idEmpresa, nomeServidor, idServidor, rua, numero, bairro, cidade, estado, pais) {
     if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
-        let permissaoConcedida = verificarPermissao('EditarServidor');
-
-        if (!permissaoConcedida) {
+        if (!verificarPermissao('EditarServidor')) {
             return;
         }
     }
@@ -430,37 +426,13 @@ function popup_servidor_informacoes(nomeDatacenter, idEmpresa, nomeServidor, idS
         }).then(function (dadosParametros) {
             console.log(dadosParametros);
             for (let i = 0; i < dadosParametros.length; i++) {
-                if (dadosParametros[i].nome_componente == 'CPU' && dadosParametros[i].unidade_de_medida == '%') {
-                    parametrizacao.innerHTML += `
-                        <h1>CPU</h1>
-                        <h2>% de uso para notificações de estado de alerta</h2>
-                        <input id="cpuLimite" type="number" value="${dadosParametros[i].limite_monitoramento}">
-                    `;
-                } else if (dadosParametros[i].nome_componente == 'RAM' && dadosParametros[i].unidade_de_medida == '%') {
-                    parametrizacao.innerHTML += `
-                        <h1>RAM</h1>
-                        <h2>% de uso para notificações de estado de alerta</h2>
-                        <input id="ramLimite" type="number" value="${dadosParametros[i].limite_monitoramento}">
-                    `;
-                } else if (dadosParametros[i].nome_componente == 'Disco' && dadosParametros[i].unidade_de_medida == '%') {
-                    parametrizacao.innerHTML += `
-                        <h1>Disco</h1>
-                        <h2>% de uso para notificações de estado de alerta</h2>
-                        <input id="discoLimite" type="number" value="${dadosParametros[i].limite_monitoramento}">
-                    `;
-                } else if (dadosParametros[i].nome_componente == 'Rede' && dadosParametros[i].unidade_de_medida == '%') {
-                    parametrizacao.innerHTML += `
-                        <h1>Rede</h1>
-                        <h2>Valor da % para notificações de estado de alerta</h2>
-                        <input id="redeLimitePercent" type="number" value="${dadosParametros[i].limite_monitoramento}">
-                    `;
-                } else if (dadosParametros[i].nome_componente == 'Rede' && dadosParametros[i].unidade_de_medida == 'ms') {
-                    parametrizacao.innerHTML += `
-                        <h1>Rede</h1>
-                        <h2>Valor em ms para notificações de estado de alerta</h2>
-                        <input id="redeLimiteMs" type="number" value="${dadosParametros[i].limite_monitoramento}">
-                    `;
-                }
+                parametrizacao.innerHTML += `
+                    <h1>${dadosParametros[i].nome_componente}</h1>
+                    <h2>Valor em ${dadosParametros[i].unidade_de_medida} para notificações de estado de alerta</h2>
+                    <input id="${dadosParametros[i].nome_componente}Alerta${dadosParametros[i].unidade_de_medida}" type="number" value="${dadosParametros[i].alerta_monitoramento}">
+                    <h2>Valor em ${dadosParametros[i].unidade_de_medida} para notificações de estado critico</h2>
+                    <input id="${dadosParametros[i].nome_componente}Critico${dadosParametros[i].unidade_de_medida}" type="number" value="${dadosParametros[i].critico_monitoramento}">
+                `;
             }
         })
     })

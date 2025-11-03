@@ -94,7 +94,7 @@ function getNomeEmpresa(idServidor){
     select e.nome, e.idEmpresa from monitora.empresas e
         inner join monitora.datacenters dc on dc.fkEmpresa = e.idEmpresa
         inner join monitora.servidores s on s.fkDatacenter = dc.idDatacenter
-        where s.idServidor = ${idServidor};`
+        where s.idServidor = '${idServidor}';`
 
     return database.executar(instrucaoSql);
 

@@ -1,38 +1,5 @@
 var database = require("../database/config");
 
-
-// Estava mexendo nessa parte e questionando mudancas de popup para como funcionaria a adicao de um servidor e seus componentes
-// function adicionarServidor(idServidor, nome, fkDataCenter, limite, nomeComponenteId, servidorId, medidaId, parametroId){
-
-//     Isto pode excluir e descomentar abaixo usei para teste apenas. ******Este insert é o que o java está enviando os paramaetros para a adicao de servidor
-//     let instrucaoTeste = `
-//         INSERT INTO monitora.servidores(nome, FkDataCenter) VALUES
-//         ('${nome}', ${fkDataCenter});
-//     `;
-
-//     return database.executar(instrucaoTeste)
-
-// let instrucaoSql = `
-//     INSERT INTO componentes_monitorados (nome_componente_id, servidores_idServidor, medida_id, parametros_id)
-//     VALUES ('${nomeComponenteId}', '${servidorId}', '${medidaId}', '${parametroId}');
-// `;
-// let instrucao2 = `
-//     INSERT INTO parametros (limite)
-//     VALUES ('${limite}');
-// `;
-// let instrucao3 = `
-//     UPDATE servidores set nome = '${nome}' 
-//     WHERE idServidor = ${idServidor}
-// `;
-
-// //Desta forma o node aceita as tres instrucoes sendo realizada uma após a outra
-// return database.executar(instrucaoSql).then(() => {
-//     return database.executar(instrucao2).then(() => {
-//         return database.executar(instrucao3)
-//     })
-// });
-// }
-
 function adicionarServidorJAVA(id, nome, fkDataCenter) {
     let instrucaoTeste = `
         INSERT INTO monitora.servidores(idServidor, nome, FkDataCenter) VALUES
@@ -42,7 +9,7 @@ function adicionarServidorJAVA(id, nome, fkDataCenter) {
     return database.executar(instrucaoTeste)
 }
 
-function atualizarServidor(idServidor, nomeServidor, idDatacenter, cpuLimite, ramLimite, discoLimite, redeLimitePercent, redeLimiteMs) {
+function atualizarServidor(idServidor, nomeServidor, idDatacenter, cpuAlerta, cpuCritico, ramAlerta, ramCritico, discoAlerta, discoCritico, redeAlertaPercent, redeCriticoPercent, redeAlertaMs, redeCriticoMs) {
     let instrucaoSql = `
         update servidores
         set
@@ -52,53 +19,101 @@ function atualizarServidor(idServidor, nomeServidor, idDatacenter, cpuLimite, ra
     `;
 
     let instrucaoSql2 = `
-        update parametros p
-        inner join componentes_monitorados cm on cm.parametros_id = p.id
+        update parametros_atencao p
+        inner join componentes_monitorados cm on cm.parametros_atencao_id = p.id
         inner join nome_componente nc on cm.nome_componente_id = nc.id
         inner join servidores s on cm.servidores_idServidor = s.idServidor
-            set p.limite = ${cpuLimite}
+            set p.limite = ${cpuAlerta}
         where nc.componente = 'CPU' AND s.idServidor = '${idServidor}';
     `
 
     let instrucaoSql3 = `
-        update parametros p
-        inner join componentes_monitorados cm on cm.parametros_id = p.id
+        update parametros_atencao p
+        inner join componentes_monitorados cm on cm.parametros_atencao_id = p.id
         inner join nome_componente nc on cm.nome_componente_id = nc.id
         inner join servidores s on cm.servidores_idServidor = s.idServidor
-            set p.limite = ${ramLimite}
+            set p.limite = ${ramAlerta}
         where nc.componente  like 'RAM' AND s.idServidor = '${idServidor}';
     `
 
     let instrucaoSql4 = `
-        update parametros p
-        inner join componentes_monitorados cm on cm.parametros_id = p.id
+        update parametros_atencao p
+        inner join componentes_monitorados cm on cm.parametros_atencao_id = p.id
         inner join nome_componente nc on cm.nome_componente_id = nc.id
         inner join servidores s on cm.servidores_idServidor = s.idServidor
-            set p.limite = ${discoLimite}
+            set p.limite = ${discoAlerta}
         where nc.componente  like 'Disco' AND s.idServidor = '${idServidor}';
     `
 
     let instrucaoSql5 = `
-        update parametros p
-        inner join componentes_monitorados cm on cm.parametros_id = p.id
+        update parametros_atencao p
+        inner join componentes_monitorados cm on cm.parametros_atencao_id = p.id
         inner join nome_componente nc on cm.nome_componente_id = nc.id
         inner join unidade_medida um on um.id = cm.unidade_medida_id
         inner join servidores s on cm.servidores_idServidor = s.idServidor
-            set p.limite = ${redeLimitePercent}
+            set p.limite = ${redeAlertaPercent}
         where nc.componente  like 'Rede' and um.unidade_de_medida = '%' AND s.idServidor = '${idServidor}';
     `
 
     let instrucaoSql6 = `
-        update parametros p
-        inner join componentes_monitorados cm on cm.parametros_id = p.id
+        update parametros_atencao p
+        inner join componentes_monitorados cm on cm.parametros_atencao_id = p.id
         inner join nome_componente nc on cm.nome_componente_id = nc.id
         inner join unidade_medida um on um.id = cm.unidade_medida_id
         inner join servidores s on cm.servidores_idServidor = s.idServidor
-            set p.limite = ${redeLimiteMs}
+            set p.limite = ${redeAlertaMs}
         where nc.componente  like 'Rede' and um.unidade_de_medida = 'ms' AND s.idServidor = '${idServidor}';
     `
+
+        let instrucaoSql7 = `
+        update parametros_critico p
+        inner join componentes_monitorados cm on cm.parametros_critico_id = p.id
+        inner join nome_componente nc on cm.nome_componente_id = nc.id
+        inner join servidores s on cm.servidores_idServidor = s.idServidor
+            set p.limite = ${cpuCritico}
+        where nc.componente = 'CPU' AND s.idServidor = '${idServidor}';
+    `
+
+    let instrucaoSql8 = `
+        update parametros_critico p
+        inner join componentes_monitorados cm on cm.parametros_critico_id = p.id
+        inner join nome_componente nc on cm.nome_componente_id = nc.id
+        inner join servidores s on cm.servidores_idServidor = s.idServidor
+            set p.limite = ${ramCritico}
+        where nc.componente  like 'RAM' AND s.idServidor = '${idServidor}';
+    `
+
+    let instrucaoSql9 = `
+        update parametros_critico p
+        inner join componentes_monitorados cm on cm.parametros_critico_id = p.id
+        inner join nome_componente nc on cm.nome_componente_id = nc.id
+        inner join servidores s on cm.servidores_idServidor = s.idServidor
+            set p.limite = ${discoCritico}
+        where nc.componente  like 'Disco' AND s.idServidor = '${idServidor}';
+    `
+
+    let instrucaoSql10 = `
+        update parametros_critico p
+        inner join componentes_monitorados cm on cm.parametros_critico_id = p.id
+        inner join nome_componente nc on cm.nome_componente_id = nc.id
+        inner join unidade_medida um on um.id = cm.unidade_medida_id
+        inner join servidores s on cm.servidores_idServidor = s.idServidor
+            set p.limite = ${redeCriticoPercent}
+        where nc.componente  like 'Rede' and um.unidade_de_medida = '%' AND s.idServidor = '${idServidor}';
+    `
+
+    let instrucaoSql11 = `
+        update parametros_critico p
+        inner join componentes_monitorados cm on cm.parametros_critico_id = p.id
+        inner join nome_componente nc on cm.nome_componente_id = nc.id
+        inner join unidade_medida um on um.id = cm.unidade_medida_id
+        inner join servidores s on cm.servidores_idServidor = s.idServidor
+            set p.limite = ${redeCriticoMs}
+        where nc.componente  like 'Rede' and um.unidade_de_medida = 'ms' AND s.idServidor = '${idServidor}';
+    `
+
     console.log("executando a instrucao sql: " + instrucaoSql)
-    return database.executar(instrucaoSql).then(() => database.executar(instrucaoSql2)).then(() => database.executar(instrucaoSql3)).then(() => database.executar(instrucaoSql4)).then(() => database.executar(instrucaoSql5)).then(() => database.executar(instrucaoSql6))
+    return database.executar(instrucaoSql).then(() => database.executar(instrucaoSql2)).then(() => database.executar(instrucaoSql3)).then(() => database.executar(instrucaoSql4)).then(() => database.executar(instrucaoSql5)).then(() => database.executar(instrucaoSql6)).then(() => database.executar(instrucaoSql7)).then(() => database.executar(instrucaoSql8)).then(() => database.executar(instrucaoSql9)).then(() => database.executar(instrucaoSql10)).then(() => database.executar(instrucaoSql11))
 }
 
 
@@ -149,12 +164,15 @@ function parametros(idServer) {
             s.nome AS nome_servidor,
             nc.componente AS nome_componente,
             u.unidade_de_medida,
-            p.limite AS limite_monitoramento
+            pa.limite AS alerta_monitoramento,
+            pc.limite AS critico_monitoramento
+
         FROM servidores AS s
         JOIN componentes_monitorados AS c ON s.idServidor = c.servidores_idServidor
         JOIN nome_componente AS nc ON c.nome_componente_id = nc.id
         JOIN unidade_medida AS u ON c.unidade_medida_id = u.id
-        JOIN parametros AS p ON c.parametros_id = p.id
+        JOIN parametros_atencao AS pa ON c.parametros_atencao_id = pa.id
+        JOIN parametros_critico AS pc ON c.parametros_critico_id = pc.id
         WHERE s.idServidor = '${idServer}'
         ORDER BY nome_componente;
     `;
