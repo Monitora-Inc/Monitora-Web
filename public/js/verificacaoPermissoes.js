@@ -45,9 +45,34 @@ function verificarPermissao(permissao) {
     }
 }
 
+function listarPermissoesReload() {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        fetch(`/usuarios/listarPermissoes/${sessionStorage.cargoId}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+        }).then(function (dadosPermissoes) {
+            listaPermissoes = [];
+            for (var i = 0; i < dadosPermissoes.length; i++) {
+                listaPermissoes.push(dadosPermissoes[i].nomePermissao)
+            }
+            sessionStorage.listaPermissoes = listaPermissoes;
+            console.log(sessionStorage.listaPermissoes)
+        }
+        )
+    }
+}
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         verificarPermissoesSideBar,
-        verificarPermissao
+        verificarPermissao,
+        listarPermissoesReload
     };
 } 
