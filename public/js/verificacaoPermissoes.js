@@ -3,25 +3,53 @@ function verificarPermissoesSideBar() {
         && sessionStorage.listaPermissoes.indexOf('RemoverFuncionario') === -1) {
         let linkUsuarios = document.getElementById('linkUsuarios');
         linkUsuarios.style.display = 'none';
+        if (window.location.pathname.endsWith('/pages/dashboards/usuarios.html')) {
+            negarAcessoPagina();
+        }
     }
 
     if (sessionStorage.listaPermissoes.indexOf('AdicionarServidor') === -1 && sessionStorage.listaPermissoes.indexOf('EditarServidor') === -1
         && sessionStorage.listaPermissoes.indexOf('ExcluirServidor') === -1) {
         let linkServidores = document.getElementById('linkServidores');
         linkServidores.style.display = 'none';
+        if (window.location.pathname.endsWith('/pages/dashboards/servidores.html')) {
+            negarAcessoPagina();
+        }
     }
 
     if (sessionStorage.listaPermissoes.indexOf('AdicionarDataCenter') === -1 && sessionStorage.listaPermissoes.indexOf('EditarDataCenter') === -1
         && sessionStorage.listaPermissoes.indexOf('ExcluirDataCenter') === -1) {
         let linkDataCenters = document.getElementById('linkDataCenters');
         linkDataCenters.style.display = 'none';
+        if (window.location.pathname.endsWith('/pages/dashboards/datacenters.html')) {
+            negarAcessoPagina();
+        }
     }
 
     if (sessionStorage.listaPermissoes.indexOf('AdicionarCargos') === -1 && sessionStorage.listaPermissoes.indexOf('ModificarCargos') === -1
         && sessionStorage.listaPermissoes.indexOf('DeletarCargos') === -1) {
         let linkCargos = document.getElementById('linkCargos');
         linkCargos.style.display = 'none';
+        if (window.location.pathname.endsWith('/pages/dashboards/tela_cargos.html')) {
+            negarAcessoPagina();
+        }
     }
+}
+
+function negarAcessoPagina() {
+    let page_content = document.querySelector('.page_content');
+    if (page_content) {
+        page_content.innerHTML = `
+                <div class="pagina_permissao_negada">
+                    <h1>Você não tem permissão para acessar essa página.</h1>
+                    <button class="btns_popup" onclick="redirecionarPaginaInicial()">Voltar para página incial</button>
+                </div>
+                `
+    }
+}
+
+function redirecionarPaginaInicial() {
+    window.location.href = '/pages/dashboards/home.html';
 }
 
 function verificarPermissao(permissao) {
@@ -73,6 +101,7 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         verificarPermissoesSideBar,
         verificarPermissao,
-        listarPermissoesReload
+        listarPermissoesReload,
+        redirecionarPaginaInicial
     };
 } 
