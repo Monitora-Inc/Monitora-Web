@@ -295,6 +295,8 @@ function listarUsuarios() {
     }
 
     function editar_cargo(usuario_id, cargo_id) {
+        listarPermissoesReload();
+
         if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
             let permissaoConcedida = verificarPermissao('EditarCargoFuncionario');
             
