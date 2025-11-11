@@ -100,6 +100,23 @@
     font-size: clamp(16px, 1.6vw, 24px);
 }
 
+.pagina_permissao_negada {
+    text-align: center;
+}
+
+.pagina_permissao_negada button{
+    background-color: rgb(1, 1, 117);
+    color: #fff;
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+}
 
 @media (max-width: 768px) {
     .page_content {
