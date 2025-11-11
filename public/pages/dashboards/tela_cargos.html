@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../../style/popup.css">
 </head>
 
-<body onload="listarCargos(), listarPermissoesReload()">
+<body onload="listarCargos()">
     <nav id="id_sidebar"></nav>
     <div id="id_info_kpis"></div>
     <div id="popup_screen"></div>
@@ -54,11 +54,13 @@
                     <h1>Permissões</h1>
                     <div class="opcoes">
                         <select id="selectCargoAtualizar" onchange="listarPermissoes(this.value)">
-                        <option value="0" disabled selected>Escolha um cargo para atualizar...</option>
-                    </select>
-                    <button onclick="popup_alterar_permissoes(selectCargoAtualizar.value, listaPermissoesAdicionar, listaPermissoesRetirar)">Confirmar alterações</button>
+                            <option value="0" disabled selected>Escolha um cargo para atualizar...</option>
+                        </select>
+                        <button
+                            onclick="popup_alterar_permissoes(selectCargoAtualizar.value, listaPermissoesAdicionar, listaPermissoesRetirar)">Confirmar
+                            alterações</button>
                     </div>
-                
+
                 </div>
 
                 <div class="permissoes_lista">
@@ -180,8 +182,17 @@
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
 <script>
-    if(sessionStorage.empresaCnpj == undefined) {
+    if (sessionStorage.empresaCnpj == undefined) {
+        listarPermissoesReload();
         verificarPermissoesSideBar();
+        setInterval(executarVerificacaoPermissoes, 30000);
+    }
+
+    function executarVerificacaoPermissoes() {
+        if (sessionStorage.empresaCnpj == undefined) {
+            listarPermissoesReload();
+            verificarPermissoesSideBar();
+        }
     }
 
     // Selecionar um cargo
@@ -351,7 +362,7 @@
                     method: 'DELETE',
                 }).then(function (response) {
                     console.log("resposta: ", response);
-                    
+
                     if (response.ok) {
                         mensagem_erro.innerHTML = `Permissões alteradas com sucesso!`;
                     } else {

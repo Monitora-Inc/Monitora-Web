@@ -6,6 +6,8 @@ function verificarPermissoesSideBar() {
         if (window.location.pathname.endsWith('/pages/dashboards/usuarios.html')) {
             negarAcessoPagina();
         }
+    } else {
+        linkUsuarios.style.display = 'block';
     }
 
     if (sessionStorage.listaPermissoes.indexOf('AdicionarServidor') === -1 && sessionStorage.listaPermissoes.indexOf('EditarServidor') === -1
@@ -15,6 +17,8 @@ function verificarPermissoesSideBar() {
         if (window.location.pathname.endsWith('/pages/dashboards/servidores.html')) {
             negarAcessoPagina();
         }
+    } else {
+        linkServidores.style.display = 'block';
     }
 
     if (sessionStorage.listaPermissoes.indexOf('AdicionarDataCenter') === -1 && sessionStorage.listaPermissoes.indexOf('EditarDataCenter') === -1
@@ -24,6 +28,8 @@ function verificarPermissoesSideBar() {
         if (window.location.pathname.endsWith('/pages/dashboards/datacenters.html')) {
             negarAcessoPagina();
         }
+    } else {
+        linkDataCenters.style.display = 'block';
     }
 
     if (sessionStorage.listaPermissoes.indexOf('AdicionarCargos') === -1 && sessionStorage.listaPermissoes.indexOf('ModificarCargos') === -1
@@ -33,6 +39,8 @@ function verificarPermissoesSideBar() {
         if (window.location.pathname.endsWith('/pages/dashboards/tela_cargos.html')) {
             negarAcessoPagina();
         }
+    } else {
+        linkCargos.style.display = 'block';
     }
 }
 
