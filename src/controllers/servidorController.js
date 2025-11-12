@@ -14,12 +14,16 @@ function adicionarServidorJAVA(req, res) {
         .then(() => res.status(200).send("✅ Servidor cadastrado com sucesso!"))
         .catch(erro => {
             console.error(erro);
+
+            //Aqui ele captura o erro configurado no Promise e caso seja o tipo específicado na model retornará um erro específico
+            if (erro.tipo == "CONFLITO") {
+                return res.status(409).send("Servidor já cadastrado");
+            }
             res.status(500).send("Erro ao cadastrar servidor.");
         });
 }
 
 //Funcão de edicão de dados do servidor
-
 function atualizarServidor(req, res) {
     let idServidor = req.params.id;
     let nomeServidor = req.body.nomeServidorServer;

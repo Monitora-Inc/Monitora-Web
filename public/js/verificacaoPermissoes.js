@@ -3,25 +3,61 @@ function verificarPermissoesSideBar() {
         && sessionStorage.listaPermissoes.indexOf('RemoverFuncionario') === -1) {
         let linkUsuarios = document.getElementById('linkUsuarios');
         linkUsuarios.style.display = 'none';
+        if (window.location.pathname.endsWith('/pages/dashboards/usuarios.html')) {
+            negarAcessoPagina();
+        }
+    } else {
+        linkUsuarios.style.display = 'block';
     }
 
     if (sessionStorage.listaPermissoes.indexOf('AdicionarServidor') === -1 && sessionStorage.listaPermissoes.indexOf('EditarServidor') === -1
         && sessionStorage.listaPermissoes.indexOf('ExcluirServidor') === -1) {
         let linkServidores = document.getElementById('linkServidores');
         linkServidores.style.display = 'none';
+        if (window.location.pathname.endsWith('/pages/dashboards/servidores.html')) {
+            negarAcessoPagina();
+        }
+    } else {
+        linkServidores.style.display = 'block';
     }
 
     if (sessionStorage.listaPermissoes.indexOf('AdicionarDataCenter') === -1 && sessionStorage.listaPermissoes.indexOf('EditarDataCenter') === -1
         && sessionStorage.listaPermissoes.indexOf('ExcluirDataCenter') === -1) {
         let linkDataCenters = document.getElementById('linkDataCenters');
         linkDataCenters.style.display = 'none';
+        if (window.location.pathname.endsWith('/pages/dashboards/datacenters.html')) {
+            negarAcessoPagina();
+        }
+    } else {
+        linkDataCenters.style.display = 'block';
     }
 
     if (sessionStorage.listaPermissoes.indexOf('AdicionarCargos') === -1 && sessionStorage.listaPermissoes.indexOf('ModificarCargos') === -1
         && sessionStorage.listaPermissoes.indexOf('DeletarCargos') === -1) {
         let linkCargos = document.getElementById('linkCargos');
         linkCargos.style.display = 'none';
+        if (window.location.pathname.endsWith('/pages/dashboards/tela_cargos.html')) {
+            negarAcessoPagina();
+        }
+    } else {
+        linkCargos.style.display = 'block';
     }
+}
+
+function negarAcessoPagina() {
+    let page_content = document.querySelector('.page_content');
+    if (page_content) {
+        page_content.innerHTML = `
+                <div class="pagina_permissao_negada">
+                    <h1>Você não tem permissão para acessar essa página.</h1>
+                    <button class="btns_popup" onclick="redirecionarPaginaInicial()">Voltar para página incial</button>
+                </div>
+                `
+    }
+}
+
+function redirecionarPaginaInicial() {
+    window.location.href = '/pages/dashboards/home.html';
 }
 
 function verificarPermissao(permissao) {
@@ -45,9 +81,35 @@ function verificarPermissao(permissao) {
     }
 }
 
+function listarPermissoesReload() {
+    if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        fetch(`/usuarios/listarPermissoes/${sessionStorage.cargoId}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+        }).then(function (dadosPermissoes) {
+            listaPermissoes = [];
+            for (var i = 0; i < dadosPermissoes.length; i++) {
+                listaPermissoes.push(dadosPermissoes[i].nomePermissao)
+            }
+            sessionStorage.listaPermissoes = listaPermissoes;
+            console.log(sessionStorage.listaPermissoes)
+        }
+        )
+    }
+}
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         verificarPermissoesSideBar,
-        verificarPermissao
+        verificarPermissao,
+        listarPermissoesReload,
+        redirecionarPaginaInicial
     };
 } 
