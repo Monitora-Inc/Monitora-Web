@@ -201,6 +201,7 @@
 .dashButtons a img{
     width: 2.22vw;
     border-radius: 50rem;
+    transition-duration: .3s;
 }
 
 .dashButtons a img:hover{
