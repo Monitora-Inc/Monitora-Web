@@ -3,22 +3,31 @@ var database = require("../database/config");
 function autenticar(email, senha) {
     let instrucaoSql = ` 
         SELECT
-            u.idUsuario as userId, 
-            u.nome as userNome, 
-            u.sobrenome as userSobrenome, 
-            u.email as userEmail, 
-            u.telefone as userTelefone, 
-            u.fotoUser as fotoUser, 
-            u.FkCargo as cargoId, 
-            c.nome_cargo as cargo, 
-            e.idEmpresa as empresaId, 
+            u.idUsuario AS userId, 
+            u.nome AS userNome, 
+            u.sobrenome AS userSobrenome, 
+            u.email AS userEmail, 
+            u.telefone AS userTelefone, 
+            u.fotoUser AS fotoUser, 
+            u.FkCargo AS cargoId, 
+            c.nome_cargo AS cargo, 
+            e.idEmpresa AS empresaId, 
             e.nome AS empresaNome, 
-            e.ativo as empresaAtiva, 
-            e.aprovada as empresaAprovada
+            e.ativo AS empresaAtiva, 
+            e.aprovada AS empresaAprovada,
+            GROUP_CONCAT(
+                JSON_OBJECT(
+                    'idPermissao', p.idPermissao,
+                    'nomePermissao', p.nomePermissao
+                )separator ";"
+            ) AS permissoes
         FROM usuarios AS u
         JOIN cargos AS c ON u.FkCargo = c.idCargo
         JOIN empresas AS e ON u.FkEmpresa = e.idEmpresa
-        WHERE u.email = '${email}' AND u.senha = SHA2('${senha}', 512);
+        JOIN permissoes_has_cargos AS pc ON pc.cargos_idCargo = u.fkCargo
+        JOIN permissoes AS p ON p.idPermissao = pc.permissoes_idPermissao
+        WHERE u.email = '${email}' 
+        AND u.senha = SHA2('${senha}', 512);
     `;
 
     return database.executar(instrucaoSql);

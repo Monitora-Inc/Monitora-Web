@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../../style/popup.css">
 </head>
 
-<body onload="listarUsuarios()">
+<body onload="listarUsuarios(), listarPermissoesReload()">
     <nav id="id_sidebar"></nav>
     <div id="id_info_kpis"></div>
     <div id="popup_screen"></div>
@@ -92,7 +92,16 @@
 <script src="../../js/verificacaoPermissoes.js"></script>
 <script>
     if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+        listarPermissoesReload();
         verificarPermissoesSideBar();
+        setInterval(executarVerificacaoPermissoes, 30000);
+    }
+
+    function executarVerificacaoPermissoes() {
+        if (sessionStorage.empresaCnpj == undefined) {
+            listarPermissoesReload();
+            verificarPermissoesSideBar();
+        }
     }
 
     let listaIdDelete = [];
@@ -184,37 +193,37 @@
         });
     }
 
-function listarUsuarios() {
-    let idEmpresa = sessionStorage.empresaId;
-    const idUsuarioLogado = sessionStorage.userId ? String(sessionStorage.userId) : null;
+    function listarUsuarios() {
+        let idEmpresa = sessionStorage.empresaId;
+        const idUsuarioLogado = sessionStorage.userId ? String(sessionStorage.userId) : null;
 
-    fetch(`/usuarios/buscarUsuarios/${idEmpresa}`, {
-        method: 'GET',
-        headers: { "Content-Type": "application/json" }
-    }).then(function (response) {
-        if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
-        return response.json();
-    }).then(function (dadosUsuarios) {
-        console.log(dadosUsuarios);
-        lista_usuarios.innerHTML = ''; // limpa antes de renderizar
+        fetch(`/usuarios/buscarUsuarios/${idEmpresa}`, {
+            method: 'GET',
+            headers: { "Content-Type": "application/json" }
+        }).then(function (response) {
+            if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+            return response.json();
+        }).then(function (dadosUsuarios) {
+            console.log(dadosUsuarios);
+            lista_usuarios.innerHTML = ''; // limpa antes de renderizar
 
-        for (let i = 0; i < dadosUsuarios.length; i++) {
-            let usuario = dadosUsuarios[i];
-            let data = usuario.data_cadastro.split('T');
-            let partes = data[0].split('-');
-            let dataFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;
+            for (let i = 0; i < dadosUsuarios.length; i++) {
+                let usuario = dadosUsuarios[i];
+                let data = usuario.data_cadastro.split('T');
+                let partes = data[0].split('-');
+                let dataFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;
 
-            // Tirando checkbox do próprio usuário
-            let mostrarCheckbox = idUsuarioLogado === null ? true : String(usuario.idUsuario) !== idUsuarioLogado;
-            let checkboxHTML = `
+                // Tirando checkbox do próprio usuário
+                let mostrarCheckbox = idUsuarioLogado === null ? true : String(usuario.idUsuario) !== idUsuarioLogado;
+                let checkboxHTML = `
                 <div id="usuario_checkbox" style="width:24px; display:flex; justify-content:center; align-items:center;">
                     ${mostrarCheckbox ? `<input type="checkbox" class="checkbox" value="${usuario.idUsuario}" onchange="adicionarListaDelete(this)">` : ''}
                 </div>`;
 
-            // Desabilitando o select se for o próprio usuário
-            let atributoDesabilitado = (String(usuario.idUsuario) === idUsuarioLogado) ? 'disabled style="opacity:0.6; cursor:not-allowed;"' : '';
+                // Desabilitando o select se for o próprio usuário
+                let atributoDesabilitado = (String(usuario.idUsuario) === idUsuarioLogado) ? 'disabled style="opacity:0.6; cursor:not-allowed;"' : '';
 
-            lista_usuarios.innerHTML += `
+                lista_usuarios.innerHTML += `
                 <div class="card_usuario" id="${usuario.idUsuario}">
                     <div class="usuario_card_inicio">
                         ${checkboxHTML}
@@ -233,15 +242,15 @@ function listarUsuarios() {
                     </select>
                 </div>
             `;
-            listarCargosEditar(idEmpresa, usuario.idCargo, usuario.idUsuario);
-        }
+                listarCargosEditar(idEmpresa, usuario.idCargo, usuario.idUsuario);
+            }
 
-        totalUsuarios.innerHTML = dadosUsuarios.length;
-        attachCheckboxListeners();
-    }).catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-    });
-}
+            totalUsuarios.innerHTML = dadosUsuarios.length;
+            attachCheckboxListeners();
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
 
 
     //Botão de deletar
@@ -295,9 +304,11 @@ function listarUsuarios() {
     }
 
     function editar_cargo(usuario_id, cargo_id) {
+        listarPermissoesReload();
+
         if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
             let permissaoConcedida = verificarPermissao('EditarCargoFuncionario');
-            
+
             if (!permissaoConcedida) {
                 return;
             }
