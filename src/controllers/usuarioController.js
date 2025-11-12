@@ -18,7 +18,8 @@ function autenticar(req, res) {
                 empresaId: resultadoAutenticar[0].empresaId,
                 empresaNome: resultadoAutenticar[0].empresaNome,
                 empresaAtiva: resultadoAutenticar[0].empresaAtiva,
-                empresaAprovada: resultadoAutenticar[0].empresaAprovada
+                empresaAprovada: resultadoAutenticar[0].empresaAprovada,
+                permissoes: resultadoAutenticar[0].permissoes
             });
         } else {
             res.status(403).send("Email e/ou senha inválido(s)");
