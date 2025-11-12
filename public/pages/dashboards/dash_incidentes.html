@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Incidentes</title>
+    <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
+    <link rel="stylesheet" href="../../style/sidebar.css">
+    <link rel="stylesheet" href="../../style/filtros.css">
+    <link rel="stylesheet" href="../../style/essencial.css">
+    <link rel="stylesheet" href="../../style/dahs_incidentes.css">
+    <link rel="stylesheet" href="../../style/popup.css">
+</head>
+
+<body>
+
+    <body onload="listarPermissoesReload()">
+        <nav id="id_sidebar"></nav>
+        <div id="id_info_kpis"></div>
+        <div id="popup_screen"></div>
+        
+        <div class="page_content">
+
+            <div class="cards">
+                <section class="cards_kpi1">
+                    <div class="card">
+                        <p>Incidentes totais</p>
+                        <h2 id="cpu">22</h2>
+                    </div>
+                    <div class="card">
+                        <p>Incidentes em aberto</p>
+                        <h2 id="ram">14</h2>
+                    </div>
+                    <div class="card">
+                        <p>Incidentes fechados</p>
+                        <h2 id="disco">8</h2>
+                    </div>
+                    <div class="card">
+                        <p>Incidentes em atenção</p>
+                        <h2 id="latencia">6</h2>
+                    </div>
+                    <div class="card">
+                        <p>Incidentes críticos</p>
+                        <h2 id="rede">8</h2>
+                    </div>
+                </section>
+                <section class="cards_kpi2">
+                    <div class="card">
+                        <p>Mean Time to Acknowledge (MTTA)</p>
+                        <h2 id="cpu">22</h2>
+                    </div>
+                    <div class="card">
+                        <p>Mean Time to Resolve (MTTR)</p>
+                        <h2 id="ram">14</h2>
+                    </div>
+                    <div class="card">
+                        <p>SLA Compliance - Incidentes Resolvidos</p>
+                        <h2 id="disco">8</h2>
+                    </div>
+                </section>
+            </div>
+            <div class="cards_grandes">
+                <div class="cards_componentes">
+                    <div class="card">
+                        <p>Componente com mais incidentes: Memória RAM</p>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Componente</th>
+                                <th>Incidentes totais</th>
+                                <th>Incidentes críticos</th>
+                                <th>Incidentes de atenção</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTable"></tbody>
+                    </table>
+                </div>
+                <div class="card_grafico">
+                    <div class="card">
+                        <div>
+                            <p>Gráfico:</p>
+                            <select id="selecionarGrafico">
+                                <option value="" selected>Selecione um gráfico...</option>
+                            </select>
+                        </div>
+                        <div>
+                            <p>Filtro:</p>
+                            <select id="selecionarFiltro">
+                                <option value="" selected>Selecione o filtro...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <canvas id="graficoLatencia"></canvas>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
+<script src="../../js/sidebar.js"></script>
+<script src="../../js/popups.js"></script>
+<script src="../../js/verificacaoPermissoes.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script>
+</body>
+
+</html>
