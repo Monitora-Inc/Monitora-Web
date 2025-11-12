@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../../style/popup.css">
 </head>
 
-<body onload="listarDatacenters()">
+<body onload="listarDatacenters(), listarPermissoesReload()">
     <nav id="id_sidebar"></nav>
     <div id="id_info_kpis"></div>
     <div id="popup_screen"></div>
@@ -61,10 +61,19 @@
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
 <script>
-    if(sessionStorage.empresaCnpj == undefined) {
+    if (sessionStorage.empresaCnpj == undefined) {
+        listarPermissoesReload();
         verificarPermissoesSideBar();
+        setInterval(executarVerificacaoPermissoes, 30000);
     }
-    
+
+    function executarVerificacaoPermissoes() {
+        if (sessionStorage.empresaCnpj == undefined) {
+            listarPermissoesReload();
+            verificarPermissoesSideBar();
+        }
+    }
+
     let listaIdDelete = [];
     function listarDatacenters() {
         let idEmpresa = sessionStorage.empresaId;

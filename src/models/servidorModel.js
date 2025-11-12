@@ -1,12 +1,28 @@
 var database = require("../database/config");
 
 function adicionarServidorJAVA(id, nome, fkDataCenter) {
-    let instrucaoTeste = `
-        INSERT INTO monitora.servidores(idServidor, nome, FkDataCenter) VALUES
-        ('${id}', '${nome}', ${fkDataCenter});
-    `;
 
-    return database.executar(instrucaoTeste)
+    //Verificando se existe um servidor com o id a ser cadastrado:
+    let instrucaoVerifi = `
+        SELECT count(idServidor) AS total FROM servidores WHERE idServidor = '${id}'
+    `;
+    // Aqui peco para realizar a verificacao e com a resposta(nome da variavel pode ser qualquer um) do select
+    return database.executar(instrucaoVerifi).then((resposta) => {
+        if(resposta[0].total > 0){
+            //Aqui caso seja duplicado return Promise.reject(Ler config.js do database para melhor entendimento). 
+            //Onde rejeitando chegara ao .cacth do controlller 
+            return Promise.reject({ tipo: "CONFLITO", erro: "ID Servidor já cadastrado " });
+        }
+            let instrucaoTeste = `
+            INSERT INTO monitora.servidores(idServidor, nome, FkDataCenter) VALUES
+            ('${id}', '${nome}', ${fkDataCenter});
+            `;
+    
+        return database.executar(instrucaoTeste);
+        
+        
+    });
+
 }
 
 function atualizarServidor(idServidor, nomeServidor, idDatacenter, cpuAlerta, cpuCritico, ramAlerta, ramCritico, discoAlerta, discoCritico, redeAlertaPercent, redeCriticoPercent, redeAlertaMs, redeCriticoMs) {
