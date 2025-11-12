@@ -13,7 +13,7 @@ $$ |  $$ |\$$$$$$$\ \$$$$$$$ |\$$$$$$$ |\$$$$$$$\ $$ |
     display: flex;
     justify-content: space-between;
     background-color: white;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
     padding: 1vw;
     margin-bottom: 1vw;
     margin-right: 1vw;
@@ -63,7 +63,7 @@ $$ |  $$ |\$$$$$$$\ \$$$$$$$ |\$$$$$$$ |\$$$$$$$\ $$ |
     border-radius: 5px;
     padding: 10px;
     width: 500px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    /* box-shadow: 0 4px 6px rgba(0,0,0,0.1); */
     z-index: 10;
 
     top: 15%;  
@@ -111,7 +111,7 @@ $$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\
     justify-content: center;
     align-items: center;
     background-color: white;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
     width: 290px;
     height: 80px;
     border-radius: 5px;
@@ -140,7 +140,7 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
     width: 62.4vw;
     height: 76vh;
     background-color: white;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
 }
 
 .graficos_rede {
@@ -149,7 +149,7 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
     width: 30.8vw;
     height: 76vh;
     background-color: white;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
 }
 
 .graficos_hardware canvas {

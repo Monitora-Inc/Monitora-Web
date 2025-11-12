@@ -1,0 +1,14 @@
+.page_content{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    /* background-color: aqua; */
+    margin-left: 2rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(180, 198, 217);
+    width: 90%;
+}
