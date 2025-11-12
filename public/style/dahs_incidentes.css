@@ -1,0 +1,278 @@
+/*
+$$\   $$\                           $$\                     
+$$ |  $$ |                          $$ |                    
+$$ |  $$ | $$$$$$\   $$$$$$\   $$$$$$$ | $$$$$$\   $$$$$$\  
+$$$$$$$$ |$$  __$$\  \____$$\ $$  __$$ |$$  __$$\ $$  __$$\ 
+$$  __$$ |$$$$$$$$ | $$$$$$$ |$$ /  $$ |$$$$$$$$ |$$ |  \__|
+$$ |  $$ |$$   ____|$$  __$$ |$$ |  $$ |$$   ____|$$ |      
+$$ |  $$ |\$$$$$$$\ \$$$$$$$ |\$$$$$$$ |\$$$$$$$\ $$ |      
+\__|  \__| \_______| \_______| \_______| \_______|\__|                                                                 
+*/
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 1vw;
+    margin-bottom: 1vw;
+    margin-right: 1vw;
+}
+
+.header .servidor_alertas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+.header .servidor_alertas .info_alertas{
+    display: flex;
+    align-items: center;
+    margin-right: 1vw;
+    cursor: pointer;
+}
+
+.header .servidor_alertas .info_alertas:hover{
+    background-color: rgb(155, 163, 162);
+    border-radius: 10px;
+    padding: 5px;
+    transition: 0.3s ease-in-out;
+}
+
+.header .servidor_alertas #quantidade_alertas{
+    font-size: 1vw;
+    padding-left: 0.6vw;
+    padding-right: 0.1vw;
+    color: #0f2247;
+}
+
+#servidor_nome {
+    font-size: 1.3vw;
+    color: #0f2247;
+}
+
+#servidor_localizacao {
+    color: #888888;
+    font-size: 0.8vw;
+}
+
+.alert-popup {
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #124574;
+    border-radius: 5px;
+    padding: 10px;
+    width: 500px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 10;
+
+    top: 15%;  
+    left: 80.4%;
+    transform: translateX(-50%);
+}
+
+.alert-popup ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.alert-popup li {
+    padding: 5px 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+.alert-popup li:last-child {
+    border-bottom: none;
+}
+
+
+/*
+ $$$$$$\                            $$\           
+$$  __$$\                           $$ |          
+$$ /  \__| $$$$$$\   $$$$$$\   $$$$$$$ | $$$$$$$\ 
+$$ |       \____$$\ $$  __$$\ $$  __$$ |$$  _____|
+$$ |       $$$$$$$ |$$ |  \__|$$ /  $$ |\$$$$$$\  
+$$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\ 
+\$$$$$$  |\$$$$$$$ |$$ |      \$$$$$$$ |$$$$$$$  |
+ \______/  \_______|\__|       \_______|\_______/ 
+*/
+
+.cards_kpi1 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 1vw;
+}
+
+.cards_kpi1 .card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 270px;
+    height: 90px;
+    border-radius: 5px;
+}
+
+.cards_kpi1 .card p{
+    position: absolute;
+    top: 10px;
+    padding-bottom: 10px;
+}
+
+.cards_kpi1 .card h2{
+    padding-top: 15px;
+}
+
+.cards_kpi2 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 1vw;
+    margin-top: 10px;
+}
+
+.cards_kpi2 .card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 460px;
+    height: 175px;
+    border-radius: 5px;
+    font-size: larger;
+}
+
+.cards_kpi2 .card p{
+    position: absolute;
+    top: 15px;
+}
+
+.cards_kpi2 .card h2{
+    padding-top: 15px;
+}
+
+/* 
+ $$$$$$\                      $$$$$$\  $$\                               
+$$  __$$\                    $$  __$$\ \__|                              
+$$ /  \__| $$$$$$\  $$$$$$\  $$ /  \__|$$\  $$$$$$$\  $$$$$$\   $$$$$$$\ 
+$$ |$$$$\ $$  __$$\ \____$$\ $$$$\     $$ |$$  _____|$$  __$$\ $$  _____|
+$$ |\_$$ |$$ |  \__|$$$$$$$ |$$  _|    $$ |$$ /      $$ /  $$ |\$$$$$$\  
+$$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\ 
+\$$$$$$  |$$ |     \$$$$$$$ |$$ |      $$ |\$$$$$$$\ \$$$$$$  |$$$$$$$  |
+ \______/ \__|      \_______|\__|      \__| \_______| \______/ \_______/ 
+*/
+
+.cards_grandes {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 1vw;
+}
+
+.cards_componentes {
+    margin-top: 10px;
+    width: 49.5%;
+    height: 76vh;
+}
+
+.cards_componentes .card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    height: 75px;
+    border-radius: 5px;
+    font-size: larger;
+}
+
+.card_grafico {
+    padding: 20px;
+    padding-top: 5px;
+    margin-top: 10px;
+    width: 49.5%;
+    height: 76vh;
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+}
+
+.card_grafico .card{
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    height: 75px;
+    border-radius: 5px;
+    font-size: larger;
+}
+
+.card_grafico .card select {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 10px rgba(194, 194, 194, 0.7);
+    padding: 10px;
+    border: solid 1px rgb(228, 228, 228);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.graficos_hardware canvas {
+  width: 100% !important;
+  max-height: 220px; 
+}
+
+.graficos_rede canvas {
+  width: 100% !important;
+  max-height: 190px; 
+}
+
+
+/*
+$$$$$$$$\        $$\                 $$\           
+\__$$  __|       $$ |                $$ |          
+   $$ | $$$$$$\  $$$$$$$\   $$$$$$\  $$ | $$$$$$\  
+   $$ | \____$$\ $$  __$$\ $$  __$$\ $$ | \____$$\ 
+   $$ | $$$$$$$ |$$ |  $$ |$$$$$$$$ |$$ | $$$$$$$ |
+   $$ |$$  __$$ |$$ |  $$ |$$   ____|$$ |$$  __$$ |
+   $$ |\$$$$$$$ |$$$$$$$  |\$$$$$$$\ $$ |\$$$$$$$ |
+   \__| \_______|\_______/  \_______|\__| \_______|
+
+*/
+table {
+    margin-top: 1vw;
+    width: 100%;
+    border-collapse: collapse; 
+    background: #d8e7f3; 
+    border-radius: 5px; 
+    overflow: hidden;
+    font-size: 14px;
+}
+th, td {
+    padding: 8px; 
+    text-align: left; 
+    border-bottom: 1px solid #888888;
+}
+th {
+    background: #0f2247; 
+    color: white;
+}
+tr {
+    display: flex;
+    justify-content: space-between;
+    background: #0f2247;
+}
+
