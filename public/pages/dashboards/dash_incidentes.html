@@ -19,7 +19,7 @@
         <nav id="id_sidebar"></nav>
         <div id="id_info_kpis"></div>
         <div id="popup_screen"></div>
-        
+
         <div class="page_content">
 
             <div class="cards">
@@ -105,6 +105,22 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script>
+<script>
+    const data = [
+        { componente: 'Memória RAM', incidentesTotais: 35, incidentesCriticos: 52, incidentesAtencao: 70},
+        { componente: 'Disco', incidentesTotais: 42, incidentesCriticos: 55, incidentesAtencao: 71},
+        { componente: 'CPU', incidentesTotais: 46, incidentesCriticos: 58, incidentesAtencao: 73},
+        { componente: 'Uso de Rede (MB)', incidentesTotais: 50, incidentesCriticos: 61, incidentesAtencao: 76},
+        { componente: 'Latência', incidentesTotais: 47, incidentesCriticos: 60, incidentesAtencao: 78}
+    ];
+
+    const tbody = document.getElementById('dataTable');
+    data.slice().reverse().forEach(d => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${d.componente}</td><td>${d.incidentesTotais}</td><td>${d.incidentesCriticos}</td><td>${d.incidentesAtencao}</td>`;
+        tbody.appendChild(tr);
+    });
+</script>
 </body>
 
 </html>
