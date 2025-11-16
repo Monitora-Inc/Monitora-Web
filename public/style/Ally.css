@@ -9,10 +9,24 @@
   font-weight: 300;
 }
 
+.superior {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  height: 350px;
+  margin-top: 20px;
+}
+
 /* Ranking datacenters */
 
+.rankingDatacenter{
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
 .tituloRank{
-  margin-top: 20px;
   color: #1F547E;
   font-size: clamp(1rem, 1vw, 1.5rem);
   font-weight: 300;
@@ -24,7 +38,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: 350px;
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -154,4 +168,66 @@
 .popup:hover {
   transform: scale(1.01);
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* Container que une o card da IA + mapa */
+.map_IA {
+  display: flex;
+  flex-direction: row;
+  border-radius: 22px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.08);
+  width: 50rem;
+  margin-right: 30px;
+}
+
+/* Card da IA exatamente igual ao mockup */
+.MensagemIa {
+  padding: 30px 26px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.35rem;
+  width: 318px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Título do card */
+.MensagemIa h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #1F547E;
+}
+
+/* Mapa */
+
+.mapa{
+  width: 100%;
+  height: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Deixar o mapa mais claro ainda (overlay branco) */
+#map::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.35);
+  pointer-events: none;
+}
+
+/* Pontos coloridos redondos */
+.marker-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
 }
