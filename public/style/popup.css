@@ -19,7 +19,7 @@
     width: 100%;
     z-index: 998;
     height: 100%;
-    background: linear-gradient(0deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2)), linear-gradient(180deg, #181a2898 75.1%, #145eff60 100%);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(180deg, #181a2898 75.1%, #145eff60 100%);
     backdrop-filter: blur(6px);
     padding: 0 1rem;
 }
@@ -160,7 +160,7 @@
 }
 
 .input_header {
-    background-color: rgba(255,0,0,0) !important;
+    background-color: rgba(255, 0, 0, 0) !important;
     padding: 0 !important;
     font-size: clamp(1.5rem, 1vw, 2.5rem) !important;
 }
@@ -183,12 +183,19 @@
 
 
 
-.dashButtons {
+
+footer {
     position: fixed;
     bottom: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
     justify-self: center;
+}
+
+.dashButtons {
+    display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     width: fit-content;
@@ -198,13 +205,13 @@
     gap: 15px;
 }
 
-.dashButtons a img{
+.dashButtons a img {
     width: 2.22vw;
     border-radius: 50rem;
     transition-duration: .3s;
 }
 
-.dashButtons a img:hover{
+.dashButtons a img:hover {
     scale: 1.1;
     transition-duration: .3s;
 }
