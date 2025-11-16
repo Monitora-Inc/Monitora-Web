@@ -19,92 +19,16 @@
     <h1 class="titulo">Mapeamento global</h1>
     <div class="content">
       <h2 class="tituloRank">Ranking Datacenters</h2>
-      <div class="rankDatacenter">
-
-        <div class="popup">
-          <div class="status status_ok">
-            <img src="../../Images/PopUpsDash/ok.svg" alt="">
-          </div>
-          <div class="contentDc">
-            <div class="first">
-              <img class="icon" src="../../Images/PopUpsDash/iconDc.svg" alt="">
-              <p>Datacenter Orlando</p>
-            </div>
-            <div class="seccond seccond_ok">
-              <h3 class="kpi">99.54%</h3>
-              <section class="comparativo comparativo_up">
-                <p class="kpi"><img src="../../Images/PopUpsDash/lineUp.svg" alt="">1.5%</p>
-                <p>vs ultima semana</p>
-              </section>
-            </div>
-          </div>
-        </div>
-
-        <div class="popup">
-          <div class="status status_ok">
-            <img src="../../Images/PopUpsDash/ok.svg" alt="">
-          </div>
-          <div class="contentDc">
-            <div class="first">
-              <img class="icon" src="../../Images/PopUpsDash/iconDc.svg" alt="">
-              <p>Datacenter Orlando</p>
-            </div>
-            <div class="seccond seccond_ok">
-              <h3 class="kpi">99.54%</h3>
-              <section class="comparativo comparativo_up">
-                <p class="kpi"><img src="../../Images/PopUpsDash/lineUp.svg" alt="">1.5%</p>
-                <p>vs ultima semana</p>
-              </section>
-            </div>
-          </div>
-        </div>
-
-        <div class="popup">
-          <div class="status status_ok">
-            <img src="../../Images/PopUpsDash/ok.svg" alt="">
-          </div>
-          <div class="contentDc">
-            <div class="first">
-              <img class="icon" src="../../Images/PopUpsDash/iconDc.svg" alt="">
-              <p>Datacenter Orlando</p>
-            </div>
-            <div class="seccond seccond_ok">
-              <h3 class="kpi">99.54%</h3>
-              <section class="comparativo comparativo_up">
-                <p class="kpi"><img src="../../Images/PopUpsDash/lineUp.svg" alt="">1.5%</p>
-                <p>vs ultima semana</p>
-              </section>
-            </div>
-          </div>
-        </div>
-
-                <div class="popup">
-          <div class="status status_ok">
-            <img src="../../Images/PopUpsDash/ok.svg" alt="">
-          </div>
-          <div class="contentDc">
-            <div class="first">
-              <img class="icon" src="../../Images/PopUpsDash/iconDc.svg" alt="">
-              <p>Datacenter Orlando</p>
-            </div>
-            <div class="seccond seccond_ok">
-              <h3 class="kpi">99.54%</h3>
-              <section class="comparativo comparativo_up">
-                <p class="kpi"><img src="../../Images/PopUpsDash/lineUp.svg" alt="">1.5%</p>
-                <p>vs ultima semana</p>
-              </section>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div class="map+IA">
-
-      </div>
-      <div id="graficoRadar" class="graficoRadar">
-
+      <div id="rankDatacenter" class="rankDatacenter">
       </div>
     </div>
+    <div class="map+IA">
+
+    </div>
+    <div id="graficoRadar" class="graficoRadar">
+
+    </div>
+  </div>
 
   </div>
 
@@ -122,10 +46,12 @@
 </body>
 
 </html>
+
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
 <script>
+  window.onload(rankingDataCenter());
   if (sessionStorage.empresaCnpj == undefined) {
     listarPermissoesReload();
     verificarPermissoesSideBar();
@@ -141,5 +67,72 @@
 
   if (sessionStorage.empresaCnpj == undefined) {
     verificarPermissoesSideBar();
+  }
+  function rankingDataCenter() {
+      rankDatacenter.innerHTML = "";
+    var datacenters = [{
+      nome: "Datacenter Orlando",
+      media: 99.54,
+      diferenca: 1.54,
+      up: true
+    }, {
+      nome: "Datacenter Paulista",
+      media: 72,
+      diferenca: 5,
+      up: true
+    }, {
+      nome: "Datacenter Russia",
+      media: 65.98,
+      diferenca: 5.4,
+      up: false
+    }];
+
+    for (let i = 0; i < datacenters.length; i++) {
+
+      let estado = "";
+      let iconStatus = "";
+
+      if (datacenters[i].media >= 90) {
+        estado = "ok";
+        iconStatus = "ok.svg";
+      } else if (datacenters[i].media >= 70) {
+        estado = "alerta";
+        iconStatus = "alerta.svg";
+      } else {
+        estado = "critico";
+        iconStatus = "critico.svg";
+      }
+      let clsComparativo = datacenters[i].up ? "comparativo_up" : "comparativo_down";
+      let iconComparativo = datacenters[i].up ? "lineUp.svg" : "lineDown.svg";
+
+      rankDatacenter.innerHTML += `
+      <div class="popup">
+
+        <div class="status status_${estado}">
+          <img src="../../Images/PopUpsDash/${iconStatus}" alt="">
+        </div>
+
+        <div class="contentDc">
+          <div class="first">
+            <img class="icon" src="../../Images/PopUpsDash/iconDc.svg" alt="">
+            <p>${datacenters[i].nome}</p>
+          </div>
+
+          <div class="seccond seccond_${estado}">
+            <h3 class="kpi">${datacenters[i].media}%</h3>
+
+            <section class="comparativo ${clsComparativo}">
+              <p class="kpi">
+                <img src="../../Images/PopUpsDash/${iconComparativo}" alt="">
+                ${datacenters[i].diferenca}%
+              </p>
+              <p>vs última semana</p>
+            </section>
+
+          </div>
+        </div>
+
+      </div>`;
+    }
   }
 </script>
