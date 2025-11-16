@@ -1,0 +1,158 @@
+.page_content { margin-right: 2rem; }
+
+body {
+    background-color: #EEFCFF;
+}
+
+.saude { background-color: #C0FFF8; }
+.disponibilidade { background-color: #C0C4FF; }
+.latencia { background-color: #B2F3FF; }
+.eficiencia { background-color: #E6CEFF; }
+.estavel { background-color: #00F1B9; }
+.estavel_texto { color: #219A7E; }
+.atencao { background-color: #FFCA67; }
+.atencao_texto { color: #D2A043; }
+.critico { background-color: #FF0267; }
+.critico_texto { color: #B4044B; }
+
+
+/*
+ █████   █████                        █████                   
+▒▒███   ▒▒███                        ▒▒███                    
+ ▒███    ▒███   ██████   ██████    ███████   ██████  ████████ 
+ ▒███████████  ███▒▒███ ▒▒▒▒▒███  ███▒▒███  ███▒▒███▒▒███▒▒███
+ ▒███▒▒▒▒▒███ ▒███████   ███████ ▒███ ▒███ ▒███████  ▒███ ▒▒▒ 
+ ▒███    ▒███ ▒███▒▒▒   ███▒▒███ ▒███ ▒███ ▒███▒▒▒   ▒███     
+ █████   █████▒▒██████ ▒▒████████▒▒████████▒▒██████  █████    
+▒▒▒▒▒   ▒▒▒▒▒  ▒▒▒▒▒▒   ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒  ▒▒▒▒▒     
+*/
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items:end;
+}
+
+.header .server_info h1 {
+    font-size: 32px;
+}
+
+.header .server_info h2 {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.header .filtro_periodo {
+    display: flex;
+    min-width: 400px;
+    justify-content: space-between;
+
+}
+
+.header .filtro_periodo a{
+    font: inherit;
+    color: inherit;
+}
+
+/*
+ █████   ████            ███ 
+▒▒███   ███▒            ▒▒▒  
+ ▒███  ███    ████████  ████ 
+ ▒███████    ▒▒███▒▒███▒▒███ 
+ ▒███▒▒███    ▒███ ▒███ ▒███ 
+ ▒███ ▒▒███   ▒███ ▒███ ▒███ 
+ █████ ▒▒████ ▒███████  █████
+▒▒▒▒▒   ▒▒▒▒  ▒███▒▒▒  ▒▒▒▒▒ 
+              ▒███           
+              █████          
+             ▒▒▒▒▒           
+*/
+
+.kpis {
+    display: flex;
+    margin-top: 2rem;
+    justify-content: space-between;
+}
+
+.kpis .card_kpi {
+    display: flex;
+    flex-direction: column;
+    width: 440px;
+}
+
+.kpis .card_kpi .card_kpi_status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 30px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.kpis .card_kpi .card_kpi_info {
+    background-color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.kpis .card_kpi .card_kpi_info .card_kpi_label{
+    display: flex;
+    align-items: center;
+}
+
+.kpis .card_kpi .card_kpi_info .card_kpi_label h3{
+    font-weight: 400;
+    margin-left: 10px;
+}
+
+.kpis .card_kpi .card_kpi_info .card_kpi_label img{
+    padding: 5px;
+    border-radius: 50px;
+}
+
+.kpis .card_kpi .card_kpi_info .card_kpi_metrica {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+   
+.kpis .card_kpi .card_kpi_info .card_kpi_metrica h1{
+    font-size: 40px;
+}
+
+.kpis .card_kpi .card_kpi_info .card_kpi_info_comparacao{
+    display: flex;
+    gap: 10px;
+}
+
+
+
+
+
+/*
+        <div class="kpis"">
+          <div class="card_kpi">
+              <div class="card_kpi_status">
+                <img src="../../assets/icons/icone_atencao.svg" alt="">
+              </div>
+              <div class="card_kpi_info">
+                <div class="card_kpi_label">
+                  <img src="../../assets/icons/icone_coracao.svg" alt="">
+                  <h3>Saúde do CDN</h3>
+                </div>
+                <div class="card_kpi_metrica">
+                  <h1>62%</h1>
+                  <div class="card_kpi_info_comparacao">
+                    <div>
+                      <img src="../../assets/icons/icone_subir.svg" alt="">
+                      <p>5%</p>
+                    </div>
+                    vs última semana
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+*/
+
