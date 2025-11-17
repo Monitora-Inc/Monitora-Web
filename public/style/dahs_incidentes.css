@@ -113,19 +113,19 @@ $$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\
     align-items: center;
     background-color: white;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 270px;
-    height: 90px;
+    width: 16.88rem;
+    height: 5.63rem;
     border-radius: 5px;
 }
 
-.cards_kpi1 .card p{
+.cards_kpi1 .card .titulo{
     position: absolute;
-    top: 10px;
-    padding-bottom: 10px;
+    top: 0.63rem;
+    padding-bottom: 0.63rem;
 }
 
 .cards_kpi1 .card h2{
-    padding-top: 15px;
+    padding-top: 0.94rem;
 }
 
 .cards_kpi2 {
@@ -133,7 +133,7 @@ $$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\
     display: flex;
     justify-content: space-between;
     padding-right: 1vw;
-    margin-top: 10px;
+    margin-top: 0.63rem;
 }
 
 .cards_kpi2 .card{
@@ -144,19 +144,26 @@ $$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\
     align-items: center;
     background-color: white;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 460px;
-    height: 175px;
+    width: 28.75rem;
+    height: 10.94rem;
     border-radius: 5px;
-    font-size: larger;
+    font-size: 1.13rem;
 }
 
-.cards_kpi2 .card p{
+.cards_kpi2 .card .titulo{
     position: absolute;
-    top: 15px;
+    top: 0.94rem;
+}
+
+.cards_kpi2 .card .descricao{
+    position: absolute;
+    bottom: 0.94rem;
+    font-size: 0.81rem;
+    text-align: center;
 }
 
 .cards_kpi2 .card h2{
-    padding-top: 15px;
+    padding-top: 0.94rem;
 }
 
 /* 
@@ -177,7 +184,7 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
 }
 
 .cards_componentes {
-    margin-top: 10px;
+    margin-top: 0.63rem;
     width: 49.5%;
     height: 76vh;
 }
@@ -193,13 +200,13 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
     width: 100%;
     height: 20%;
     border-radius: 5px;
-    font-size: larger;
+    font-size: 1.13rem;
 }
 
 .card_grafico {
-    padding: 20px;
-    padding-top: 5px;
-    margin-top: 10px;
+    padding: 1.25rem;
+    padding-top: 0.31rem;
+    margin-top: 0.63rem;
     width: 49.5%;
     height: 76vh;
     background-color: white;
@@ -215,15 +222,15 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
     background-color: white;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     width: 100%;
-    height: 75px;
+    height: 4.69rem;
     border-radius: 5px;
-    font-size: larger;
+    font-size: 1.13rem;
 }
 
 .card_grafico .card select {
     background-color: rgb(255, 255, 255);
     box-shadow: 0 0 10px rgba(194, 194, 194, 0.7);
-    padding: 10px;
+    padding: 0.63rem;
     border: solid 1px rgb(228, 228, 228);
     border-radius: 5px;
     cursor: pointer;
@@ -260,15 +267,15 @@ table {
     background: #d8e7f3; 
     border-radius: 5px; 
     overflow: hidden;
-    font-size: 15px;
+    font-size: 0.94rem;
 }
 th, td {
-    padding: 8px; 
+    padding: 0.5rem; 
     text-align: left; 
     border-bottom: 1px solid #888888;
 }
 td {
-    font-size: 18px;
+    font-size: 1.06rem;
     text-align: center;
 }
 th {

@@ -23,40 +23,44 @@
         <div class="page_content">
 
             <div class="cards">
+                <h1 class="tituloDiv" style="text-align: center; background-color: #0f2247; color: #ffffff; border-top-left-radius: 5px; border-top-right-radius: 5px;">Dashboard de Gestão de Incidentes</h1>
                 <section class="cards_kpi1">
                     <div class="card">
-                        <p>Incidentes totais</p>
-                        <h2 id="cpu">22</h2>
-                    </div>
-                    <div class="card">
-                        <p>Incidentes em aberto</p>
+                        <p class="titulo">Em aberto</p>
                         <h2 id="ram">14</h2>
                     </div>
                     <div class="card">
-                        <p>Incidentes fechados</p>
-                        <h2 id="disco">8</h2>
+                        <p class="titulo">Críticos</p>
+                        <h2 id="rede">8</h2>
                     </div>
                     <div class="card">
-                        <p>Incidentes em atenção</p>
+                        <p class="titulo">Atenção</p>
                         <h2 id="latencia">6</h2>
                     </div>
                     <div class="card">
-                        <p>Incidentes críticos</p>
-                        <h2 id="rede">8</h2>
+                        <p class="titulo">Fechados</p>
+                        <h2 id="disco">8</h2>
+                    </div>
+                    <div class="card">
+                        <p class="titulo">Registrados</p>
+                        <h2 id="cpu">22</h2>
                     </div>
                 </section>
                 <section class="cards_kpi2">
                     <div class="card">
-                        <p>Mean Time to Acknowledge (MTTA)</p>
-                        <h2 id="cpu">22</h2>
+                        <p class="titulo">Mean Time Between Failures (MTBF)</p>
+                        <h2 id="cpu">12h13min</h2>
+                        <p class="descricao"><i>Tempo médio que o sistema opera antes de falhas.</i></p>
                     </div>
                     <div class="card">
-                        <p>Mean Time to Resolve (MTTR)</p>
-                        <h2 id="ram">14</h2>
+                        <p class="titulo">Mean Time to Resolve (MTTR)</p>
+                        <h2 id="ram">6h23min</h2>
+                        <p class="descricao"><i>Tempo médio gasto para resolução de um incidente.</i></p>
                     </div>
                     <div class="card">
-                        <p>SLA Compliance - Incidentes Resolvidos</p>
-                        <h2 id="disco">8</h2>
+                        <p class="titulo">SLA Compliance - Incidentes Resolvidos</p>
+                        <h2 id="disco">93%</h2>
+                        <p class="descricao"><i>Taxa de incidentes resolvidos no prazo definido em SLA.</i></p>
                     </div>
                 </section>
             </div>
@@ -107,11 +111,11 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script>
 <script>
     const data = [
-        { componente: 'Memória RAM', incidentesTotais: 35, incidentesCriticos: 52, incidentesAtencao: 70},
-        { componente: 'Disco', incidentesTotais: 42, incidentesCriticos: 55, incidentesAtencao: 71},
-        { componente: 'CPU', incidentesTotais: 46, incidentesCriticos: 58, incidentesAtencao: 73},
-        { componente: 'Uso de Rede (MB)', incidentesTotais: 50, incidentesCriticos: 61, incidentesAtencao: 76},
-        { componente: 'Latência', incidentesTotais: 47, incidentesCriticos: 60, incidentesAtencao: 78}
+        { componente: 'Memória RAM', incidentesTotais: 35, incidentesCriticos: 52, incidentesAtencao: 70 },
+        { componente: 'Disco', incidentesTotais: 42, incidentesCriticos: 55, incidentesAtencao: 71 },
+        { componente: 'CPU', incidentesTotais: 46, incidentesCriticos: 58, incidentesAtencao: 73 },
+        { componente: 'Uso de Rede (MB)', incidentesTotais: 50, incidentesCriticos: 61, incidentesAtencao: 76 },
+        { componente: 'Latência', incidentesTotais: 47, incidentesCriticos: 60, incidentesAtencao: 78 }
     ];
 
     const tbody = document.getElementById('dataTable');
