@@ -11,75 +11,45 @@
   <link rel="stylesheet" href="../../style/tela_home.css">
   <link rel="stylesheet" href="../../style/filtros.css">
   <link rel="stylesheet" href="../../style/popup.css">
+  <link rel="stylesheet" href="../../style/Maria.css">
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 </head>
 
 <body onload="listarPermissoesReload()">
   <nav id="id_sidebar"></nav>
-  <div id="id_info_kpis"></div>
-  <div id="popup_screen"></div>
 
   <div class="page_content">
-    <!-- Filtros de persquisa -->
-    <div class="filtros">
-      <img class="icones_filtros icone_filtro" alt="">
-      <select id="id_filtro" onchange="">
-        <option value="filtro_nivel_de_risco_crescente">Nível de risco (Crescente)</option>
-        <option value="filtro_nivel_de_risco_decrescente" selected>Nível de risco (Decrescente)</option>
-        <option value="filtro_critico">Critíco</option>
-        <option value="filtro_alerta">Alerta</option>ion>
-        <option value="filtro_estavel">Estável</option>
-      </select>
-      <img class="icones_filtros icone_pesquisar" alt="">
-      <input type="search" placeholder="Digite para pesquisar">
-    </div>
 
-    <!-- Lista de Usuários -->
+    <div class="cards">
 
-    <div class="container_servidores">
-      <div class="lista_servidores">
-        <h1 class="lista_titulo">Servidores</h1> <!-- Título da Lista -->
-
-        <div class="card_servidor">
-          <div id="servidor_estado">
-            <img src="../../assets/icons/icone_critico.svg" alt="">
-          </div>
-          <div class="servidor_informacoes">
-            <div id="servidor_nome">Servidor 1</div>
-            <div id="servidor_localizacao">São Paulo - SP</div>
-
-            <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>CPU, RAM e GPU, Rede</div>
-          </div>
-          <span class="barra_lateral critico"></span>
-        </div>
-
-        <div class="card_servidor">
-          <div id="servidor_estado">
-            <img src="../../assets/icons/icone_alerta.svg" alt="">
-          </div>
-          <div class="servidor_informacoes">
-            <div id="servidor_nome">Servidor 1</div>
-            <div id="servidor_localizacao">São Paulo - SP</div>
-
-            <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>CPU, RAM e GPU, Rede</div>
-          </div>
-          <span class="barra_lateral alerta"></span>
-        </div>
-
-        <div class="card_servidor">
-          <div id="servidor_estado">
-            <img src="../../assets/icons/icone_estavel.svg" alt="">
-          </div>
-          <div class="servidor_informacoes">
-            <div id="servidor_nome">Servidor 1</div>
-            <div id="servidor_localizacao">São Paulo - SP</div>
-
-            <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>CPU, RAM e GPU, Rede</div>
-          </div>
-          <span class="barra_lateral estavel"></span>
-        </div>
+      <div class="card">
+        <span class="label">INCIDENTES</span>
+        <span class="value">34</span>
       </div>
+
+      <div class="card">
+        <span class="label">TRÁFEGO ATUAL</span>
+        <span class="value">1.2 Tbit/s</span>
+      </div>
+
+      <div class="card capacity-card">
+               <div id="gauge"></div>
+      </div>
+
     </div>
+
+    <div class="graficos">
+     <div id="correlationHeatmap" style="width: 60vw; height: 60vh;"></div>
+
+
+    </div>
+
+
+
   </div>
+
+
   <div class="dashButtons">
     <a href="./home.html"><img src="/public/Images/home.svg" alt=""></a>
     <a href="./Ally.html"><img src="/public/Images/Colaboradores/Colaborador1.svg" alt=""></a>
@@ -95,7 +65,7 @@
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
 <script>
-  listarServidores();
+
 
 
   if (sessionStorage.empresaCnpj == undefined) {
@@ -111,144 +81,143 @@
     }
   }
 
-
-  function listarServidores() {
-    let idEmpresa = sessionStorage.empresaId;
-
-    fetch(`/servidores/listar/${idEmpresa}`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(response => {
-      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
-      return response.json();
-    }).then(dadosServidores => {
-      console.log(dadosServidores);
-
-      const container = document.querySelector(".lista_servidores");
-      container.innerHTML = `<h1 class="lista_titulo">Servidores</h1>`;
-
-      for (let servidor of dadosServidores) {
-        container.innerHTML += `
-                <div class="card_servidor" id="srv-${servidor.idServidor}" onclick="abrir_dashboard(this)">
-                    <div id="servidor_estado">
-                        <img src="../../assets/icons/icone_estavel.svg" alt="">
-                    </div>
-                    <div class="servidor_informacoes">
-                        <div id="servidor_nome">${servidor.nome}</div>
-                        <div id="servidor_localizacao">R. ${servidor.rua}, ${servidor.numero} - ${servidor.bairro}, ${servidor.cidade}, ${servidor.estado}, ${servidor.pais}</div>
-                        <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>Nenhum</div>
-                    </div>
-                    <span class="barra_lateral estavel"></span>
-                </div>
-            `;
-      }
-    }).catch(erro => console.log(`#ERRO: ${erro}`));
-  }
-
-
-  function abrir_dashboard(card) {
-    const nome = card.querySelector('#servidor_nome').textContent;
-    const localizacao = card.querySelector('#servidor_localizacao').textContent;
-
-    sessionStorage.setItem('servidorNome', nome);
-    sessionStorage.setItem('servidorLocalizacao', localizacao);
-
-    window.location = "tela_dashboard.html";
-  }
-
-</script>
-
-<script>
-  listarServidores();
-
   if (sessionStorage.empresaCnpj == undefined) {
     verificarPermissoesSideBar();
   }
 
-  let dadosServidores = [];
 
-  async function listarServidores() {
-    let idEmpresa = sessionStorage.empresaId;
-
-    try {
-      const response = await fetch(`/servidores/listar/${idEmpresa}`);
-      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
-
-      dadosServidores = await response.json();
-      renderizarServidores(dadosServidores);
-    } catch (erro) {
-      console.log(`#ERRO: ${erro}`);
-    }
-  }
-
-  function renderizarServidores(lista) {
-    const container = document.querySelector(".lista_servidores");
-    container.innerHTML = `<h1 class="lista_titulo">Servidores</h1>`;
-
-    lista.forEach(servidor => {
-      container.innerHTML += `
-      <div class="card_servidor" id="srv-${servidor.idServidor}" onclick="abrir_dashboard(this)">
-        <div id="servidor_estado">
-          <img src="../../assets/icons/icone_${servidor.status || 'estavel'}.svg" alt="">
-        </div>
-        <div class="servidor_informacoes">
-          <div id="servidor_nome">${servidor.nome}</div>
-          <div id="servidor_localizacao">R. ${servidor.rua}, ${servidor.numero} - ${servidor.bairro}, ${servidor.cidade}, ${servidor.estado}, ${servidor.pais}</div>
-          <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>${servidor.componentes || 'Nenhum'}</div>
-        </div>
-        <span class="barra_lateral ${servidor.status || 'estavel'}"></span>
-      </div>
-    `;
-    });
-  }
-
-  // Filtros
-  document.getElementById("id_filtro").addEventListener("change", filtrarServidores);
-  document.querySelector(".filtros input[type='search']").addEventListener("input", filtrarServidores);
-
-  function filtrarServidores() {
-    let filtro = document.getElementById("id_filtro").value;
-    let pesquisa = document.querySelector(".filtros input[type='search']").value.toLowerCase();
-
-    let filtrados = [...dadosServidores];
-
-    if (filtro === "filtro_critico") filtrados = filtrados.filter(s => s.status === "critico");
-    if (filtro === "filtro_alerta") filtrados = filtrados.filter(s => s.status === "alerta");
-    if (filtro === "filtro_estavel") filtrados = filtrados.filter(s => s.status === "estavel");
-
-    if (filtro === "filtro_nivel_de_risco_crescente") {
-      filtrados.sort((a, b) => nivelRisco(a.status) - nivelRisco(b.status));
-    }
-    if (filtro === "filtro_nivel_de_risco_decrescente") {
-      filtrados.sort((a, b) => nivelRisco(b.status) - nivelRisco(a.status));
-    }
-
-    if (pesquisa.trim() !== "") {
-      filtrados = filtrados.filter(s =>
-        s.nome.toLowerCase().includes(pesquisa) ||
-        `${s.cidade} ${s.estado} ${s.rua}`.toLowerCase().includes(pesquisa)
-      );
-    }
-
-    renderizarServidores(filtrados);
-  }
-
-  function nivelRisco(status) {
-    if (status === "critico") return 3;
-    if (status === "alerta") return 2;
-    if (status === "estavel") return 1;
-    return 0;
-  }
-
-  function abrir_dashboard(card) {
-    const nome = card.querySelector('#servidor_nome').textContent;
-    const localizacao = card.querySelector('#servidor_localizacao').textContent;
-
-    sessionStorage.setItem('servidorNome', nome);
-    sessionStorage.setItem('servidorLocalizacao', localizacao);
-
-    window.location = "tela_dashboard.html";
-  }
 </script>
+
+
+<script>
+  var options = {
+    series: [70], // valor inicial
+    colors: ["#1282a2"],
+    chart: {
+      height: 300,
+      type: "radialBar",
+      
+    },
+    plotOptions: {
+      radialBar: {
+        hollow: {
+          size: "70%"
+           
+        },
+        dataLabels: {
+          name: {
+            show: true,
+            fontSize:"0.8rem",
+            color: "rgb(0, 0, 0)",
+            opacity: "0.7",
+            fontFamily: "Montserrat",
+            fontWeight: "300"
+
+            
+          },
+          value: {
+            show: true,
+            fontSize: "1.1rem",
+            color: "rgb(0, 0, 0)",
+            fontWeight: "bold",
+            formatter: (valor) => valor + "%"
+          }
+        }
+      }
+    },
+    labels: ["CAPACIDADE"]
+  };
+
+  var gaugeChart = new ApexCharts(document.querySelector("#gauge"), options);
+  gaugeChart.render();
+
+</script>
+
+
+
+<script>
+const correlacao = [
+  [1,     0.06,  -0.10,  0.05],   // trafego
+  [0.06,  1,      0.17, -0.18],   // incidentes
+  [-0.10, 0.17,   1,    -0.09],   // final_semana
+  [0.05, -0.18,  -0.09,  1]       // feriado
+];
+
+const labels = ["trafego", "incidentes", "final_semana", "feriado"];
+
+let data = [];
+for (let i = 0; i < correlacao.length; i++) {
+  for (let j = 0; j < correlacao[i].length; j++) {
+    data.push([j, i, correlacao[i][j]]);
+  }
+}
+
+var chartDom = document.getElementById('correlationHeatmap');
+var myChart = echarts.init(chartDom);
+
+var option = {
+  title: {
+    text: 'Correlação Entre as Variáveis',
+    left: 'center'
+  },
+
+  tooltip: {
+    position: 'top',
+    formatter: (p) => {
+      const value = p.data[2].toFixed(3);
+      return `${labels[p.data[1]]} × ${labels[p.data[0]]}: <b>${value}</b>`;
+    }
+  },
+
+  grid: {
+    height: '60%',
+    top: '15%'
+  },
+
+  xAxis: {
+    type: 'category',
+    data: labels,
+    axisLabel: { rotate: 45 }
+  },
+
+  yAxis: {
+    type: 'category',
+    data: labels
+  },
+
+  visualMap: {
+    min: -1,
+    max: 1,
+    calculable: true,
+    orient: 'vertical',
+    left: 'right',
+    top: 'middle',
+    inRange: {
+      color: ['#ea7317', '#ebf2fa', '#3a7ca5'] // -1 vermelho, 0 branco, 1 azul
+    }
+  },
+
+  series: [{
+    name: 'Correlação',
+    type: 'heatmap',
+    data: data,
+    label: {
+      show: true,
+      formatter: d => d.data[2].toFixed(2),
+      color: '#000',
+      fontSize: 12
+    },
+
+    emphasis: {
+      itemStyle: {
+        borderColor: '#000',
+        borderWidth: 1
+      }
+    }
+  }]
+};
+
+myChart.setOption(option);
+</script>
+
+
