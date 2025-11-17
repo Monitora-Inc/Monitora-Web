@@ -23,43 +23,57 @@
         <div class="page_content">
 
             <div class="cards">
-                <h1 class="tituloDiv" style="text-align: center; background-color: #0f2247; color: #ffffff; border-top-left-radius: 5px; border-top-right-radius: 5px;">Dashboard de Gestão de Incidentes</h1>
                 <section class="cards_kpi1">
-                    <div class="card">
-                        <p class="titulo">Em aberto</p>
-                        <h2 id="ram">14</h2>
-                    </div>
-                    <div class="card">
-                        <p class="titulo">Críticos</p>
-                        <h2 id="rede">8</h2>
-                    </div>
-                    <div class="card">
-                        <p class="titulo">Atenção</p>
-                        <h2 id="latencia">6</h2>
-                    </div>
-                    <div class="card">
-                        <p class="titulo">Fechados</p>
-                        <h2 id="disco">8</h2>
-                    </div>
-                    <div class="card">
-                        <p class="titulo">Registrados</p>
-                        <h2 id="cpu">22</h2>
+                    <div class="kpisIncidentes">
+                        <div class="tituloDiv">
+                            <h3>Dashboard de Gestão de Incidentes</h3>
+                            <p>Última atualização: 12/12/2012 - 23:59:59</p>
+                        </div>
+                        <div class="card">
+                            <p class="titulo">Em aberto</p>
+                            <h2 id="ram">14</h2>
+                        </div>
+                        <div class="card">
+                            <p class="titulo">Críticos</p>
+                            <h2 id="rede">8</h2>
+                        </div>
+                        <div class="card">
+                            <p class="titulo">Atenção</p>
+                            <h2 id="latencia">6</h2>
+                        </div>
+                        <div class="card">
+                            <p class="titulo">Fechados</p>
+                            <h2 id="disco">8</h2>
+                        </div>
+                        <div class="card" style="border-top-right-radius: 7px; border-bottom-right-radius: 7px;">
+                            <p class="titulo">Registrados</p>
+                            <h2 id="cpu">22</h2>
+                        </div>
                     </div>
                 </section>
                 <section class="cards_kpi2">
                     <div class="card">
+                        <div class="divIcone" style="background-color: #FFCA67;">
+                            <img src="../../assets/icons/light.svg">
+                        </div>
                         <p class="titulo">Mean Time Between Failures (MTBF)</p>
-                        <h2 id="cpu">12h13min</h2>
+                        <h2 id="cpu" style="color: #D2A043;">12h13min</h2>
                         <p class="descricao"><i>Tempo médio que o sistema opera antes de falhas.</i></p>
                     </div>
                     <div class="card">
+                        <div class="divIcone" style="background-color: #FF0267;">
+                            <img src="../../assets/icons/thumbs_down.svg">
+                        </div>
                         <p class="titulo">Mean Time to Resolve (MTTR)</p>
-                        <h2 id="ram">6h23min</h2>
+                        <h2 id="ram" style="color: #B4044B;">16h23min</h2>
                         <p class="descricao"><i>Tempo médio gasto para resolução de um incidente.</i></p>
                     </div>
                     <div class="card">
+                        <div class="divIcone" style="background-color: #00F2B9;">
+                            <img src="../../assets/icons/thumbs_up.svg">
+                        </div>
                         <p class="titulo">SLA Compliance - Incidentes Resolvidos</p>
-                        <h2 id="disco">93%</h2>
+                        <h2 id="disco" style="color: #219A7E;">93%</h2>
                         <p class="descricao"><i>Taxa de incidentes resolvidos no prazo definido em SLA.</i></p>
                     </div>
                 </section>
