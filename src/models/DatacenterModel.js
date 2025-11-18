@@ -1,10 +1,10 @@
 var database = require("../database/config");
 
 
-function adicionarDatacenter(nome, pais, estado, cidade, bairro, rua, num, complemento, fkempresa) {
+function adicionarDatacenter(nome, pais, estado, cidade, bairro, rua, num, complemento, fkempresa, longitude, latitude) {
     let instrucaoSql1 = `
-        INSERT INTO endereco(pais, estado, cidade, bairro, rua, numero, complemento) VALUES
-            ('${pais}', '${estado}', '${cidade}', '${bairro}', '${rua}', ${num},'${complemento}');
+        INSERT INTO endereco(pais, estado, cidade, bairro, rua, numero, complemento, longitude, latitude) VALUES
+            ('${pais}', '${estado}', '${cidade}', '${bairro}', '${rua}', ${num},'${complemento}', '${longitude}', '${latitude}');
     `;
     let instrucaoSql2 = `
         INSERT INTO datacenters(nome, FkEmpresa, FkEndereco) VALUES
@@ -34,7 +34,7 @@ function buscarIDdatacenter(id) {
     return database.executar(instrucaoSql);
 }
 
-function atualizarDatacenter(idDataCenter, nome, pais, estado, cidade, bairro, rua, num, complemento, fkEndereco) {
+function atualizarDatacenter(idDataCenter, nome, pais, estado, cidade, bairro, rua, num, complemento, fkEndereco, longitude, latitude) {
     let instrucaoSql = `
         UPDATE datacenters
         SET 
@@ -50,7 +50,9 @@ function atualizarDatacenter(idDataCenter, nome, pais, estado, cidade, bairro, r
             bairro = '${bairro}',
             rua = '${rua}',
             numero = '${num}',
-            complemento = '${complemento}'
+            complemento = '${complemento}',
+            longitude = '${longitude}',
+            latitude = '${latitude}'
         WHERE idEndereco = ${fkEndereco};
     `;
     return database.executar(instrucaoSql).then(() => database.executar(instrucaoSql2))
