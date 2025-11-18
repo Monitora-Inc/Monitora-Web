@@ -81,15 +81,16 @@
             <div class="cards_grandes">
                 <div class="cards_componentes">
                     <div class="card">
-                        <p>Componente com mais incidentes: Memória RAM</p>
+                        <h3>Componente(s) com mais incidentes:</h3>
+                        <p>Memória RAM</p>
                     </div>
                     <table>
                         <thead>
                             <tr>
                                 <th>Componente</th>
-                                <th>Incidentes totais</th>
                                 <th>Incidentes críticos</th>
                                 <th>Incidentes de atenção</th>
+                                <th>Incidentes totais</th>
                             </tr>
                         </thead>
                         <tbody id="dataTable"></tbody>
@@ -98,19 +99,19 @@
                 <div class="card_grafico">
                     <div class="card">
                         <div>
-                            <p>Gráfico:</p>
+                            <h3>Gráfico:</h3>
                             <select id="selecionarGrafico">
                                 <option value="" selected>Selecione um gráfico...</option>
                             </select>
                         </div>
                         <div>
-                            <p>Filtro:</p>
+                            <h3>Filtro:</h3>
                             <select id="selecionarFiltro">
                                 <option value="" selected>Selecione o filtro...</option>
                             </select>
                         </div>
                     </div>
-                    <canvas id="graficoLatencia"></canvas>
+                    <div id="grafico"></div>
                 </div>
             </div>
         </div>
@@ -121,9 +122,31 @@
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
+    var options = {
+        chart: {
+            type: 'line'
+        },
+        series: [{
+            name: 'sales',
+            data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+        }],
+        xaxis: {
+            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+        },
+        title: {
+            text: 'Incidentes - Últimos 7 dias',
+            align: 'left'
+        }
+    }
+
+    var chart = new ApexCharts(document.getElementById("grafico"), options);
+
+    chart.render();
+
     const data = [
         { componente: 'Memória RAM', incidentesTotais: 35, incidentesCriticos: 52, incidentesAtencao: 70 },
         { componente: 'Disco', incidentesTotais: 42, incidentesCriticos: 55, incidentesAtencao: 71 },
@@ -135,7 +158,7 @@
     const tbody = document.getElementById('dataTable');
     data.slice().reverse().forEach(d => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${d.componente}</td><td>${d.incidentesTotais}</td><td>${d.incidentesCriticos}</td><td>${d.incidentesAtencao}</td>`;
+        tr.innerHTML = `<td>${d.componente}</td><td>${d.incidentesCriticos}</td><td>${d.incidentesAtencao}</td><td>${d.incidentesTotais}</td>`;
         tbody.appendChild(tr);
     });
 </script>
