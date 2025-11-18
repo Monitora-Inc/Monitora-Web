@@ -10,8 +10,10 @@ function adicionarDatacenter(req, res) {
     let num = req.body.DcNumServer
     let complemento = req.body.DcComplementoServer
     let fkempresa = req.body.fkEmpresa
+    let longitude = req.body.longitudeServer
+    let latitude = req.body.latitudeServer
 
-    DatacenterModel.adicionarDatacenter(nome, pais, estado, cidade, bairro, rua, num, complemento, fkempresa).then((resultado) => {
+    DatacenterModel.adicionarDatacenter(nome, pais, estado, cidade, bairro, rua, num, complemento, fkempresa, longitude, latitude).then((resultado) => {
         res.status(200).send('Cadastro de datacenter realizado com sucesso!');
     })
 }
@@ -20,10 +22,10 @@ function buscarIDdatacenter(req, res) {
     let id = req.params.id;
 
     DatacenterModel.buscarIDdatacenter(id).then((resultado) => {
-        if(resultado.length == 1) {
+        if (resultado.length == 1) {
             res.status(200).json(resultado);
         } else {
-            res.status(403).send("ID do servidor não encontrada");    
+            res.status(403).send("ID do servidor não encontrada");
         }
     });
 }
@@ -39,9 +41,11 @@ function atualizarDatacenter(req, res) {
     let num = req.body.DcNumServer
     let complemento = req.body.DcComplementoServer
     let fkEndereco = req.params.fkEndereco
+    let longitude = req.body.longitudeServer
+    let latitude = req.body.latitudeServer
 
 
-    DatacenterModel.atualizarDatacenter(idDataCenter, nome, pais, estado, cidade, bairro, rua, num, complemento, fkEndereco).then((resultado) => {
+    DatacenterModel.atualizarDatacenter(idDataCenter, nome, pais, estado, cidade, bairro, rua, num, complemento, fkEndereco, longitude, latitude).then((resultado) => {
         res.status(200).json(resultado);
     });
 }
