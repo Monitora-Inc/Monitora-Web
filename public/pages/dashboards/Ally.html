@@ -17,7 +17,7 @@
 
 </head>
 
-<body onload="listarPermissoesReload()">
+<body>
   <nav id="id_sidebar"></nav>
   <div id="id_info_kpis"></div>
   <div id="popup_screen"></div>
@@ -78,6 +78,216 @@
 
 </html>
 
+<script src="../../js/sidebar.js"></script>
+<script src="../../js/popups.js"></script>
+<script src="../../js/verificacaoPermissoes.js"></script>
+<script>
+  if (sessionStorage.empresaCnpj == undefined) {
+    listarPermissoesReload();
+    verificarPermissoesSideBar();
+    setInterval(executarVerificacaoPermissoes, 30000);
+  }
+
+  function executarVerificacaoPermissoes() {
+    if (sessionStorage.empresaCnpj == undefined) {
+      listarPermissoesReload();
+      verificarPermissoesSideBar();
+    }
+  }
+
+  if (sessionStorage.empresaCnpj == undefined) {
+    verificarPermissoesSideBar();
+  }
+
+
+  var radarChartInstance;
+
+  const datacenters = [{
+    nome: "Datacenter Orlando",
+    Saude: 99.54,
+    diferenca: 1.54,
+    up: true,
+    lat: 28.5383,
+    lng: -81.3792,
+    cor: "#00D4C4",
+    Rede: 85,
+    Disco: 70,
+    Cpu: 65,
+    Ram: 80
+  }, {
+    nome: "Datacenter Paulista",
+    Saude: 72,
+    diferenca: 5,
+    up: true,
+    lat: -23.5505,
+    lng: -46.6333,
+    cor: "#FFB94A",
+    Rede: 65,
+    Disco: 60,
+    Cpu: 70,
+    Ram: 85
+  }, {
+    nome: "Datacenter Russia",
+    Saude: 65.98,
+    diferenca: 5.4,
+    up: false,
+    lat: 55.7558,
+    lng: 37.6173,
+    cor: "#FF3F72",
+    Rede: 55,
+    Disco: 50,
+    Cpu: 60,
+    Ram: 70
+  }];
+
+
+  function rankingDataCenter() {
+    rankDatacenter.innerHTML = "";
+
+
+    for (let i = 0; i < datacenters.length; i++) {
+
+      let estado = "";
+      let iconStatus = "";
+
+      if (datacenters[i].Saude >= 90) {
+        estado = "ok";
+        iconStatus = "ok.svg";
+      } else if (datacenters[i].Saude >= 70) {
+        estado = "alerta";
+        iconStatus = "alerta.svg";
+      } else {
+        estado = "critico";
+        iconStatus = "critico.svg";
+      }
+      let clsComparativo = datacenters[i].up ? "comparativo_up" : "comparativo_down";
+      let iconComparativo = datacenters[i].up ? "lineUp.svg" : "lineDown.svg";
+
+      rankDatacenter.innerHTML += `
+      <div class="popup">
+        <div class="status status_${estado}">
+          <img src="../../Images/PopUpsDash/${iconStatus}" alt="">
+        </div>
+        <div class="contentDc">
+          <div class="first">
+            <img class="icon" src="../../Images/PopUpsDash/iconDc.svg" alt="">
+              <p>${datacenters[i].nome}</p>
+          </div>
+          <div class="seccond seccond_${estado}">
+            <h3 class="kpi">${datacenters[i].Saude}%</h3>
+            <section class="comparativo ${clsComparativo}">
+              <p class="kpi">
+                <img src="../../Images/PopUpsDash/${iconComparativo}" alt="">
+                  ${datacenters[i].diferenca}%
+              </p>
+              <p>vs última semana</p>
+            </section>
+          </div>
+        </div>
+      </div>`;
+    }
+  }
+
+  function carregarSelectRadar() {
+    const select = document.getElementById("selectDataCenter");
+    select.innerHTML = "";
+
+    datacenters.forEach((dc, index) => {
+      select.innerHTML += `<option value="${index}">${dc.nome}</option>`;
+    });
+
+    mudarDatacenter();
+  }
+
+  function criarRadarInicial() {
+    const ctx = document.getElementById("radarChart");
+
+    radarChartInstance = new Chart(ctx, {
+      type: "radar",
+      data: {
+        labels: ["Saúde", "Disco", "RAM", "CPU", "Rede"],
+        datasets: [
+          {
+            label: "Datacenter selecionado",
+            data: [0, 0, 0, 0, 0],
+            backgroundColor: "rgba(0, 0, 0, 0.15)",
+            borderColor: "#000000",
+            fill: true,
+            borderWidth: 2
+          },
+          {
+            label: "Limites",
+            data: [82, 70, 68, 80, 88],
+            backgroundColor: "rgba(31, 84, 126, 0.15)",
+            borderColor: "#1F547E",
+            fill: true,
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
+        responsive: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: "#1F547E"
+            }
+          }
+        },
+        scales: {
+          r: {
+            grid: {
+              color: "#E5E4E2"
+            },
+            pointLabels: {
+              color: "#1F547E"
+            },
+            suggestedMin: 0,
+            suggestedMax: 100
+          }
+        }
+      }
+    });
+  }
+
+  function mudarDatacenter() {
+    const index = document.getElementById("selectDataCenter").value;
+    const dc = datacenters[index];
+
+    document.getElementById("Saude").innerText = dc.Saude;
+    document.getElementById("Rede").innerText = dc.Rede;
+    document.getElementById("Disco").innerText = dc.Disco;
+    document.getElementById("Cpu").innerText = dc.Cpu;
+    document.getElementById("Ram").innerText = dc.Ram;
+
+    atualizarRadar(dc);
+  }
+
+  function atualizarRadar(dc) {
+    radarChartInstance.data.datasets[0].label = dc.nome;
+    radarChartInstance.data.datasets[0].data = [
+      dc.Saude,
+      dc.Disco,
+      dc.Ram,
+      dc.Cpu,
+      dc.Rede
+    ];
+
+    radarChartInstance.data.datasets[0].backgroundColor = dc.cor + "33";
+    radarChartInstance.data.datasets[0].borderColor = dc.cor;
+
+    radarChartInstance.update();
+  }
+
+
+  window.onload = () => {
+    listarPermissoesReload();
+  };
+  rankingDataCenter();
+  criarRadarInicial();
+  carregarSelectRadar();
+</script>
+
 <script>
   // Inicializa o mapa no centro do mundo
   var map = L.map('map', {
@@ -100,184 +310,10 @@
     });
   }
 
-  // Coordenadas dos datacenters
-  let datacenters = [
-    { nome: "Orlando", lat: 28.5383, lng: -81.3792, cor: "#00D4C4" },
-    { nome: "Paulista", lat: -23.5505, lng: -46.6333, cor: "#FFB94A" },
-    { nome: "Rússia", lat: 55.7558, lng: 37.6173, cor: "#FF3F72" }
-  ];
-
   // Adiciona os marcadores
   datacenters.forEach(dc => {
     L.marker([dc.lat, dc.lng], { icon: marker(dc.cor) })
       .addTo(map)
       .bindPopup(`<b>${dc.nome}</b>`);
   });
-</script>
-
-<script src="../../js/sidebar.js"></script>
-<script src="../../js/popups.js"></script>
-<script src="../../js/verificacaoPermissoes.js"></script>
-<script>
-  window.onload(rankingDataCenter());
-  if (sessionStorage.empresaCnpj == undefined) {
-    listarPermissoesReload();
-    verificarPermissoesSideBar();
-    setInterval(executarVerificacaoPermissoes, 30000);
-  }
-
-  function executarVerificacaoPermissoes() {
-    if (sessionStorage.empresaCnpj == undefined) {
-      listarPermissoesReload();
-      verificarPermissoesSideBar();
-    }
-  }
-
-  if (sessionStorage.empresaCnpj == undefined) {
-    verificarPermissoesSideBar();
-  }
-  function rankingDataCenter() {
-    rankDatacenter.innerHTML = "";
-    var datacenters = [{
-      nome: "Datacenter Orlando",
-      media: 99.54,
-      diferenca: 1.54,
-      up: true
-    }, {
-      nome: "Datacenter Paulista",
-      media: 72,
-      diferenca: 5,
-      up: true
-    }, {
-      nome: "Datacenter Russia",
-      media: 65.98,
-      diferenca: 5.4,
-      up: false
-    }, {
-      nome: "Datacenter Paulista",
-      media: 72,
-      diferenca: 5,
-      up: true
-    }, {
-      nome: "Datacenter Russia",
-      media: 65.98,
-      diferenca: 5.4,
-      up: false
-    }, {
-      nome: "Datacenter Paulista",
-      media: 72,
-      diferenca: 5,
-      up: true
-    }, {
-      nome: "Datacenter Russia",
-      media: 65.98,
-      diferenca: 5.4,
-      up: false
-    }, {
-      nome: "Datacenter Paulista",
-      media: 72,
-      diferenca: 5,
-      up: true
-    }, {
-      nome: "Datacenter Russia",
-      media: 65.98,
-      diferenca: 5.4,
-      up: false
-    }];
-
-    for (let i = 0; i < datacenters.length; i++) {
-
-      let estado = "";
-      let iconStatus = "";
-
-      if (datacenters[i].media >= 90) {
-        estado = "ok";
-        iconStatus = "ok.svg";
-      } else if (datacenters[i].media >= 70) {
-        estado = "alerta";
-        iconStatus = "alerta.svg";
-      } else {
-        estado = "critico";
-        iconStatus = "critico.svg";
-      }
-      let clsComparativo = datacenters[i].up ? "comparativo_up" : "comparativo_down";
-      let iconComparativo = datacenters[i].up ? "lineUp.svg" : "lineDown.svg";
-
-      rankDatacenter.innerHTML += `
-      <div class="popup">
-        <div class="status status_${estado}">
-          <img src="../../Images/PopUpsDash/${iconStatus}" alt="">
-        </div>
-        <div class="contentDc">
-          <div class="first">
-            <img class="icon" src="../../Images/PopUpsDash/iconDc.svg" alt="">
-              <p>${datacenters[i].nome}</p>
-          </div>
-          <div class="seccond seccond_${estado}">
-            <h3 class="kpi">${datacenters[i].media}%</h3>
-            <section class="comparativo ${clsComparativo}">
-              <p class="kpi">
-                <img src="../../Images/PopUpsDash/${iconComparativo}" alt="">
-                  ${datacenters[i].diferenca}%
-              </p>
-              <p>vs última semana</p>
-            </section>
-          </div>
-        </div>
-      </div>`;
-    }
-  }
-</script>
-
-<script>
-  const data = {
-    labels: ["Saúde", "Disco", "RAM", "CPU", "Rede"],
-    datasets: [
-      {
-        label: "Datacenter paulista",
-        data: [75, 60, 85, 70, 65],
-        backgroundColor: "rgba(255, 185, 74, 0.2)",
-        fill: true,
-        borderColor: "#FFB94A"
-
-      },
-      {
-        label: "Limites",
-        data: [82, 70, 68, 80, 88],
-        backgroundColor: "rgba(31, 84, 126, 0.2)",
-        fill: true,
-        borderColor: "#1F547E"
-      }
-    ]
-  };
-
-  const radarConfig = {
-    type: "radar",
-    data: data,
-    options: {
-      responsive: false,
-      plugins: {
-        legend: {
-          labels: {
-            color: "#1F547E"
-          }
-        }
-      },
-      scales: {
-        r: {
-          grid: {
-            color: "#E5E4E2"
-          },
-          pointLabels: {
-            color: "#1F547E"
-          },
-          suggestedMin: 0,
-          suggestedMax: 100
-        }
-      }
-    }
-  };
-
-  new Chart(document.getElementById("radarChart"), radarConfig);
-
 </script>
