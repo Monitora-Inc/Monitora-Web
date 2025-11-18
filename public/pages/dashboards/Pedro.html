@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../../style/filtros.css">
     <link rel="stylesheet" href="../../style/popup.css">
     <link rel="stylesheet" href="../../style/pedro.css">
+
 </head>
 
 <body onload="listarDatacenters(), listarPermissoesReload()">
@@ -33,7 +34,6 @@
         </div>
 
         <div class="kpis"">
-
           <!--
                                               ▄                
                                               ▀                 
@@ -41,7 +41,7 @@
           ████   ██▄▄█▀ ██   ▀▀▀▄▄▄ ██▄▄██ ██  ██ ██  ██ ██▄▄   
           ██ ▀█▄ ██     ██   █████▀ ██  ██ ▀████▀ ████▀  ██▄▄▄▄ 
           -->
-          <div class="card_kpi" id="saude_cdn">
+          <div class="card_kpi">
               <div class="card_kpi_status atencao">
                 <img src="../../assets/icons/icone_atencao.svg" alt="">
               </div>
@@ -51,7 +51,7 @@
                   <h3>Saúde do CDN</h3>
                 </div>
                 <div class="card_kpi_metrica">
-                  <h1 class="atencao_texto" id="metrica">62%</h1>
+                  <h1 class="atencao_texto" id="metrica_saude">62%</h1>
                   <div>
                     <div class="card_kpi_info_comparacao">
                       <img src="../../assets/icons/icone_subindo_positivo.svg" alt="">
@@ -68,7 +68,7 @@
             ████   ██▄▄█▀ ██   ██  ██ ██ ▀▀▀▄▄▄ ██▄▄█▀ ██  ██ ██ ▀▄██ ██ ██▄▄██ ██ ██     ██ ██  ██ ██▄▄██ ██  ██ ██▄▄   
             ██ ▀█▄ ██     ██   ████▀  ██ █████▀ ██     ▀████▀ ██   ██ ██ ██▄▄█▀ ██ ██████ ██ ████▀  ██  ██ ████▀  ██▄▄▄▄                                                                                                          
           -->
-          <div class="card_kpi" id="disponibilidade">
+          <div class="card_kpi">
               <div class="card_kpi_status estavel">
                 <img src="../../assets/icons/icone_positivo.svg" alt="">
               </div>
@@ -78,7 +78,7 @@
                   <h3>Disponibilidade de Serviço</h3>
                 </div>
                 <div class="card_kpi_metrica">
-                  <h1 class="estavel_texto" id="metrica">99.4%</h1>
+                  <h1 class="estavel_texto" id="metrica_disponibilidade">99.4%</h1>
                   <div>
                     <div class="card_kpi_info_comparacao">
                       <img src="../../assets/icons/icone_subindo_positivo.svg" alt="">
@@ -97,7 +97,7 @@
             ████   ██▄▄█▀ ██   ██     ██▄▄██   ██   ██▄▄   ██ ▀▄██ ██     ██ ██▄▄██ 
             ██ ▀█▄ ██     ██   ██████ ██  ██   ██   ██▄▄▄▄ ██   ██ ▀█████ ██ ██  ██                                                                                                                             
           -->
-          <div class="card_kpi" id="latencia">
+          <div class="card_kpi">
               <div class="card_kpi_status estavel">
                 <img src="../../assets/icons/icone_positivo.svg" alt="">
               </div>
@@ -107,7 +107,7 @@
                   <h3>Latência Média de Origem</h3>
                 </div>
                 <div class="card_kpi_metrica">
-                  <h1 class="estavel_texto" id="metrica">3ms</h1>
+                  <h1 class="estavel_texto" id="metrica_latencia">3ms</h1>
                   <div>
                     <div class="card_kpi_info_comparacao">
                       <img src="../../assets/icons/icone_descendo_positivo.svg" alt="">
@@ -124,7 +124,7 @@
             ████   ██▄▄█▀ ██   ██▄▄   ██ ▀▄██   ██   ██▄▄██▄ ██▄▄   ██  ▄▄▄ ██▄▄██ 
             ██ ▀█▄ ██     ██   ██▄▄▄▄ ██   ██   ██   ██   ██ ██▄▄▄▄  ▀███▀  ██  ██                                          
           -->
-          <div class="card_kpi" id="eficiencia">
+          <div class="card_kpi">
               <div class="card_kpi_status critico">
                 <img src="../../assets/icons/icone_negativo.svg" alt="">
               </div>
@@ -134,7 +134,7 @@
                   <h3>Latência Média de Origem</h3>
                 </div>
                 <div class="card_kpi_metrica">
-                  <h1 class="critico_texto" id="metrica">65.98%</h1>
+                  <h1 class="critico_texto" id="metrica_entrega">65.98%</h1>
                   <div>
                     <div class="card_kpi_info_comparacao">
                       <img src="../../assets/icons/icone_descendo_negativo.svg" alt="">
@@ -145,8 +145,34 @@
                 </div>
               </div>
           </div>
+        </div> <!-- Fim da "div" KPIs -->
 
+        <div class="graficos">
+          <div class="box_grafico">
+            <div class="header">
+              <div class="label">
+                <h1>Cache Miss</h1>
+                <h2 id="periodo">Ultima Semana</h2>
+              </div>
+              <div class="configuracoes">
+                <a class="tooltip icone_alterar">
+                  <span class="tooltiptext">Ajustar exibição</span>
+                </a>
+                <a class="tooltip icone_ampliar">
+                  <span class="tooltiptext">Ampliar</span>
+                </a>
+                <a class="tooltip icone_tooltip">
+                  <span class="tooltiptext">O que é isso?</span>
+                </a>
+              </div>
+            </div>
+            <div class="grafico">
+
+            </div>
+          </div>
+          
         </div>
+
     </div>
 
     <footer>

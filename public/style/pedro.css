@@ -1,7 +1,7 @@
 .page_content { margin-right: 2rem; }
 
 body {
-    background-color: #EEFCFF;
+    background-color: #f5fdff;
 }
 
 .saude { background-color: #C0FFF8; }
@@ -126,33 +126,126 @@ body {
     gap: 10px;
 }
 
-
-
-
-
 /*
-        <div class="kpis"">
-          <div class="card_kpi">
-              <div class="card_kpi_status">
-                <img src="../../assets/icons/icone_atencao.svg" alt="">
-              </div>
-              <div class="card_kpi_info">
-                <div class="card_kpi_label">
-                  <img src="../../assets/icons/icone_coracao.svg" alt="">
-                  <h3>Saúde do CDN</h3>
-                </div>
-                <div class="card_kpi_metrica">
-                  <h1>62%</h1>
-                  <div class="card_kpi_info_comparacao">
-                    <div>
-                      <img src="../../assets/icons/icone_subir.svg" alt="">
-                      <p>5%</p>
-                    </div>
-                    vs última semana
-                  </div>
-                </div>
-              </div>
-          </div>
-        </div>
+   █████████                         ██████   ███                           
+  ███▒▒▒▒▒███                       ███▒▒███ ▒▒▒                            
+ ███     ▒▒▒  ████████   ██████    ▒███ ▒▒▒  ████   ██████   ██████   █████ 
+▒███         ▒▒███▒▒███ ▒▒▒▒▒███  ███████   ▒▒███  ███▒▒███ ███▒▒███ ███▒▒  
+▒███    █████ ▒███ ▒▒▒   ███████ ▒▒▒███▒     ▒███ ▒███ ▒▒▒ ▒███ ▒███▒▒█████ 
+▒▒███  ▒▒███  ▒███      ███▒▒███   ▒███      ▒███ ▒███  ███▒███ ▒███ ▒▒▒▒███
+ ▒▒█████████  █████    ▒▒████████  █████     █████▒▒██████ ▒▒██████  ██████ 
+  ▒▒▒▒▒▒▒▒▒  ▒▒▒▒▒      ▒▒▒▒▒▒▒▒  ▒▒▒▒▒     ▒▒▒▒▒  ▒▒▒▒▒▒   ▒▒▒▒▒▒  ▒▒▒▒▒▒  
+                                                                                                                                                                                                                     
 */
 
+.graficos {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.graficos .box_grafico {
+    padding: 20px;
+    width: 890px;
+    height: 400px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+}
+
+.graficos .box_grafico .header {
+    display: flex;
+    align-items: center;
+    margin-right: 1.5rem;
+}
+
+.graficos .box_grafico .header h1{
+    font-size: 25px;
+}
+
+.graficos .box_grafico .header h2{
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.graficos .box_grafico .header .configuracoes{
+    display: flex;
+    justify-content: space-evenly;
+}
+.graficos .box_grafico .header .configuracoes a{
+    cursor: pointer;
+}
+
+.tooltip {
+    width: auto;
+    white-space: nowrap;
+    font-size: clamp(0.7rem, 1vw, 1rem);
+    padding: 0.5em 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tooltip .tooltiptext {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    position: absolute; 
+    bottom: 150%;
+    z-index: 999;
+    width: auto;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.295);
+    backdrop-filter: blur(8px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.938);
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+    color: #000000;
+    font-size: 0.9rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    opacity: 0;
+    transform: translateY(5px);
+    transition: opacity .25s ease, transform .25s ease;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+.icone_alterar {
+    background-image: url('../assets/icons/icone_alterar.svg');
+}
+
+.icone_ampliar {
+    background-image: url('../assets/icons/icone_ampliar.svg');
+}
+
+.icone_tooltip {
+    background-image: url('../assets/icons/icone_tooltip.svg');
+}
+
+.icone_alterar, .icone_ampliar, .icone_tooltip {
+    width: 20px;
+    height: 30px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-clip: 10%;
+    margin-left: 10px;
+    transition: 0.3s ease-in-out;
+    border-radius: 5px;
+}
+
+.icone_alterar:hover, .icone_ampliar:hover, .icone_tooltip:hover {
+    background-color: #e6e6e6;
+    scale: 1.3;
+}
+
+
+.grafico {
+  width: 100%;
+  height: 260px;
+}
