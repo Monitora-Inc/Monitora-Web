@@ -1,44 +1,60 @@
-.container {
-  margin-left: 6rem;
-  padding-top: 6vw;
+/*____                _ 
+/ ___| ___ _ __ __ _| |
+| |  _ / _ \ '__/ _` | |
+| |_| |  __/ | | (_| | |
+\____|\___|_|  \__,_|_| */
+
+* {
+  box-sizing: border-box;
+  padding: none;
+  margin: none;
 }
 
 .titulo {
   color: #1F547E;
   font-size: clamp(1.5rem, 1.6vw, 3rem);
   font-weight: 300;
+  position: absolute;
+  margin-left: 6vw;
+  padding-top: 10vh;
 }
 
-.superior {
+.container {
+  margin-inline: 6vw;
+  padding-top: 15vh;
   display: flex;
   flex-direction: row;
-  width: 100%;
   justify-content: space-between;
-  height: 350px;
-  margin-top: 20px;
+  height: 90vh;
 }
 
-/* Ranking datacenters */
+/*
+____             _    _             
+|  _ \ __ _ _ __ | | _(_)_ __   __ _ 
+| |_) / _` | '_ \| |/ / | '_ \ / _` |
+|  _ < (_| | | | |   <| | | | | (_| |
+|_| \_\__,_|_| |_|_|\_\_|_| |_|\__, |
+                              |___/ */
 
-.rankingDatacenter{
-  height: 350px;
+.rankingDataCenter {
+  width: 20vw;
+  min-width: 250px;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
-.tituloRank{
+.tituloRank {
   color: #1F547E;
   font-size: clamp(1rem, 1vw, 1.5rem);
   font-weight: 300;
 }
 
-
 .rankDatacenter {
-  width: 318px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -52,7 +68,7 @@
   background: #ffffff;
   border-radius: 10px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-  transition: 0.2s;
+  transition: 0.24s;
 }
 
 
@@ -118,21 +134,20 @@
   font-weight: 500;
 }
 
-.seccond_critico .kpi{
+.seccond_critico .kpi {
   color: #ff4d4d;
 }
 
-.seccond_alerta .kpi{
+.seccond_alerta .kpi {
   color: #ffcc00;
 }
 
-.seccond_ok .kpi{
+.seccond_ok .kpi {
   color: #38b95a;
 }
 
 
 /* comparativo */
-
 .comparativo {
   margin-top: 2px;
   font-size: 0.70rem;
@@ -164,70 +179,149 @@
   width: 12px;
 }
 
-/* Hover mais suave */
 .popup:hover {
-  transform: scale(1.01);
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
+  transform: scale(.98);
+  cursor: pointer;
+  transition: .24s;
 }
 
-/* Container que une o card da IA + mapa */
-.map_IA {
+/* 
+__  __    _    ____   _
+|  \/  |  / \  |  _ \ / \
+| |\/| | / _ \ | |_) / _ \
+| |  | |/ ___ \|  __/ ___ \
+|_|  |_/_/   \_\_| /_/   \_\
+*/
+.direita {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.mapLeaflet {
   display: flex;
   flex-direction: row;
   border-radius: 22px;
   padding: 0;
   overflow: hidden;
-  box-shadow: 0 2px 14px rgba(0,0,0,0.08);
-  width: 50rem;
-  margin-right: 30px;
-}
-
-/* Card da IA exatamente igual ao mockup */
-.MensagemIa {
-  padding: 30px 26px;
-  font-family: "Inter", sans-serif;
-  font-size: 0.95rem;
-  line-height: 1.35rem;
-  width: 318px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-/* Título do card */
-.MensagemIa h2 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #1F547E;
-}
-
-/* Mapa */
-
-.mapa{
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.08);
   width: 100%;
-  height: 100%;
+  height: 48%;
 }
 
-#map {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-/* Deixar o mapa mais claro ainda (overlay branco) */
-#map::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.35);
-  pointer-events: none;
-}
-
-/* Pontos coloridos redondos */
+/* Marcadores do mapa */
 .marker-dot {
   width: 16px;
   height: 16px;
   border-radius: 50%;
   border: 3px solid white;
-  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 
+ ____      _    ____    _    ____  
+|  _ \    / \  |  _ \  / \  |  _ \ 
+| |_) |  / _ \ | | | |/ _ \ | |_) |
+|  _ <  / ___ \| |_| / ___ \|  _ < 
+|_| \_\/_/   \_\____/_/   \_\_| \_\
+*/
+
+.grafico_radar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border-radius: 22px;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.08);
+  background-color: #C1C9CC;
+  width: 100%;
+  height: 48%;
+}
+
+.grafico_radar .grafico_esquerda{
+  display: flex;
+  flex-direction: column;
+  margin-top: 3vh;
+  margin-right: 5vw;
+}
+
+.grafico_radar .grafico_esquerda h3{
+  color: #1F547E;
+  font-size: clamp(1.5rem, 1.5vw, 2.5rem);
+  font-weight: 500;
+}
+
+.grafico_radar .grafico_esquerda .card {
+  width: 15vw;
+  height: fit-content;
+  border-radius: 2vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 3vh;
+}
+
+.grafico_radar .grafico_esquerda .card select {
+  border: none;
+  
+  border-radius: 1px;
+  background-color: transparent;
+  font-size: 1.1vw;
+  font-weight: 300;
+  padding-left: 1vw;
+  cursor: pointer;
+}
+
+.grafico_radar .grafico {
+  width: 30% !important;
+  height: 100% !important;
+}
+
+/*
+____   ___  ____    _   _ ____    ___    _    
+|  _ \ / _ \|  _ \  | | | |  _ \  |_ _|  / \   
+| |_) | | | | |_) | | | | | |_) |  | |  / _ \  
+|  __/| |_| |  __/  | |_| |  __/   | | / ___ \ 
+|_|    \___/|_|      \___/|_|     |___/_/   \_\
+*/
+.logo_Ia {
+  position: fixed;
+  background: none;
+  background-color: #1F547E;
+  border: none;
+  right: 5vw;
+  bottom: 30px;
+  border-radius: 100%;
+  padding: 10px;
+}
+
+.logo_Ia img {
+  width: 3vw;
+}
+
+
+.popup_IA {
+  display: none;
+  padding-block: 30px;
+  padding-left: 26px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.35rem;
+  width: 30vw;
+}
+
+.MensagemIA {
+  height: 100%;
+  width: 100%;
+  padding-right: 26px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.Mensagem h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #1F547E;
 }

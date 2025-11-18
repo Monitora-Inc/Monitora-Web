@@ -12,6 +12,8 @@
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 </head>
 
@@ -19,40 +21,48 @@
   <nav id="id_sidebar"></nav>
   <div id="id_info_kpis"></div>
   <div id="popup_screen"></div>
+  <h1 class="titulo">Mapeamento global</h1>
   <div class="container">
-    <h1 class="titulo">Mapeamento global</h1>
-    <div class="superior">
-      <div class="rankingDataCenter">
-        <h2 class="tituloRank">Ranking Datacenters</h2>
-        <div id="rankDatacenter" class="rankDatacenter">
-        </div>
-      </div>
-      <div class="map_IA">
-        <div class="MensagemIa">
-          <h2>Dicas IA Monitora</h2>
-          <p> 🔄 Redistribuição recomendada: mover 20% da carga do DC Paulista para o DC Orlando</p>
-          <p>⚠ Anomalia detectada: aumento de 12% de latência no DC Rússia nas últimas 3h</p>
-          <p>🟩 Orlando está apto para receber novas instâncias</p>
-          <p>🟩 Orlando está apto para receber novas instâncias</p>
-          <p>🟩 Orlando está apto para receber novas instâncias</p>
-          <p>🟩 Orlando está apto para receber novas instâncias</p>
-          <p>🪫 Paulista perto do limite de disco (82%)</p>
-        </div>
-        <div class="mapa">
-          <div id="map">
 
+    <div class="rankingDataCenter">
+      <h2 class="tituloRank">Ranking Datacenters</h2>
+      <div id="rankDatacenter" class="rankDatacenter">
+      </div>
+    </div>
+
+    <div class="direita">
+      <div id="map" class="mapLeaflet">
+      </div>
+
+      <div id="grafico_radar" class="grafico_radar">
+        <div class="grafico_esquerda">
+          <h3>Gráfico comparativo</h3>
+          <div class="card">
+            <select id="selectDataCenter" onchange="mudarDatacenter()">
+            </select>
+            <div class="kpis">
+              <p>Saude: <span id="Saude"></span>%</p>
+              <p>Rede: <span id="Rede"></span>%</p>
+              <p>Disco: <span id="Disco"></span>%</p>
+              <p>CPU: <span id="Cpu"></span>%</p>
+              <p>RAM: <span id="Ram"></span>%</p>
+            </div>
           </div>
         </div>
-
+        <canvas id="radarChart" class="grafico"></canvas>
       </div>
     </div>
-    <div id="graficoRadar" class="graficoRadar">
-
+  </div>
+  <button onclick="popUp_IA()" class="logo_Ia"><img src="../../assets/logos/logo_vetorizada_branca.svg" alt=""></button>
+  <div class="popup_IA">
+    <h2>Dicas IA Monitora</h2>
+    <div class="MensagemIA">
+      <p> 🔄 Redistribuição recomendada: mover 20% da carga do DC Paulista para o DC Orlando</p>
+      <p>⚠ Anomalia detectada: aumento de 12% de latência no DC Rússia nas últimas 3h</p>
+      <p>🟩 Orlando está apto para receber novas instâncias</p>
+      <p>🪫 Paulista perto do limite de disco (82%)</p>
     </div>
   </div>
-
-  </div>
-
   <footer>
     <div class="dashButtons">
       <a href="./home.html"><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
@@ -143,6 +153,36 @@
       media: 65.98,
       diferenca: 5.4,
       up: false
+    }, {
+      nome: "Datacenter Paulista",
+      media: 72,
+      diferenca: 5,
+      up: true
+    }, {
+      nome: "Datacenter Russia",
+      media: 65.98,
+      diferenca: 5.4,
+      up: false
+    }, {
+      nome: "Datacenter Paulista",
+      media: 72,
+      diferenca: 5,
+      up: true
+    }, {
+      nome: "Datacenter Russia",
+      media: 65.98,
+      diferenca: 5.4,
+      up: false
+    }, {
+      nome: "Datacenter Paulista",
+      media: 72,
+      diferenca: 5,
+      up: true
+    }, {
+      nome: "Datacenter Russia",
+      media: 65.98,
+      diferenca: 5.4,
+      up: false
     }];
 
     for (let i = 0; i < datacenters.length; i++) {
@@ -164,33 +204,80 @@
       let iconComparativo = datacenters[i].up ? "lineUp.svg" : "lineDown.svg";
 
       rankDatacenter.innerHTML += `
-   <div class="popup">
-
-     <div class="status status_${estado}">
-       <img src="../../Images/PopUpsDash/${iconStatus}" alt="">
-     </div>
-
-     <div class="contentDc">
-       <div class="first">
-         <img class="icon" src="../../Images/PopUpsDash/iconDc.svg" alt="">
-           <p>${datacenters[i].nome}</p>
-       </div>
-
-       <div class="seccond seccond_${estado}">
-         <h3 class="kpi">${datacenters[i].media}%</h3>
-
-         <section class="comparativo ${clsComparativo}">
-           <p class="kpi">
-             <img src="../../Images/PopUpsDash/${iconComparativo}" alt="">
-               ${datacenters[i].diferenca}%
-           </p>
-           <p>vs última semana</p>
-         </section>
-
-       </div>
-     </div>
-
-   </div>`;
+      <div class="popup">
+        <div class="status status_${estado}">
+          <img src="../../Images/PopUpsDash/${iconStatus}" alt="">
+        </div>
+        <div class="contentDc">
+          <div class="first">
+            <img class="icon" src="../../Images/PopUpsDash/iconDc.svg" alt="">
+              <p>${datacenters[i].nome}</p>
+          </div>
+          <div class="seccond seccond_${estado}">
+            <h3 class="kpi">${datacenters[i].media}%</h3>
+            <section class="comparativo ${clsComparativo}">
+              <p class="kpi">
+                <img src="../../Images/PopUpsDash/${iconComparativo}" alt="">
+                  ${datacenters[i].diferenca}%
+              </p>
+              <p>vs última semana</p>
+            </section>
+          </div>
+        </div>
+      </div>`;
     }
   }
+</script>
+
+<script>
+  const data = {
+    labels: ["Saúde", "Disco", "RAM", "CPU", "Rede"],
+    datasets: [
+      {
+        label: "Datacenter paulista",
+        data: [75, 60, 85, 70, 65],
+        backgroundColor: "rgba(255, 185, 74, 0.2)",
+        fill: true,
+        borderColor: "#FFB94A"
+
+      },
+      {
+        label: "Limites",
+        data: [82, 70, 68, 80, 88],
+        backgroundColor: "rgba(31, 84, 126, 0.2)",
+        fill: true,
+        borderColor: "#1F547E"
+      }
+    ]
+  };
+
+  const radarConfig = {
+    type: "radar",
+    data: data,
+    options: {
+      responsive: false,
+      plugins: {
+        legend: {
+          labels: {
+            color: "#1F547E"
+          }
+        }
+      },
+      scales: {
+        r: {
+          grid: {
+            color: "#E5E4E2"
+          },
+          pointLabels: {
+            color: "#1F547E"
+          },
+          suggestedMin: 0,
+          suggestedMax: 100
+        }
+      }
+    }
+  };
+
+  new Chart(document.getElementById("radarChart"), radarConfig);
+
 </script>
