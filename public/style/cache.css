@@ -1,0 +1,213 @@
+/* cache.css - estilos convertidos do layout gerado
+   Comentário: muitos estilos foram mantidos inline no HTML para facilitar portabilidade.
+   Recomendo mover blocos grandes (cards, grid) para este arquivo quando quiser organizar. */
+
+/* Theme variables */
+:root{
+  --bg: #F8FAFC;
+  --card: #FFFFFF;
+  --text-primary: #1E293B;
+  --text-secondary: #475569;
+  --muted: #94A3B8;
+  --primary: #2563EB;
+  --success: #10B981;
+  --danger: #EF4444;
+  --warning: #F59E0B;
+  --radius: 12px;
+  --gap: 16px;
+  --shadow: 0 2px 6px rgba(16,24,40,0.04);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Page layout */
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.page_content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.cache-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  margin-top: 2rem;
+}
+
+.cache-title h1 {
+  margin:0;
+  color:var(--text-primary);
+  font-size:22px;
+  font-weight:700;
+}
+
+.cache-title .sub{
+  margin:0;
+  color:var(--text-secondary);
+  font-size:13px;
+}
+
+/* Controls */
+.cache-controls{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.score-card {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:var(--card);
+  padding:8px 12px;
+  border-radius:10px;
+  box-shadow: var(--shadow);
+  border:1px solid #E6EEF8;
+}
+
+.score-card .label{
+  font-size:12px;
+  color:var(--text-primary);
+  font-weight:600;
+}
+
+.gauge-wrap{ position:relative; width:48px; height:48px; display:flex; align-items:center; justify-content:center; }
+.gauge { width:48px; height:48px; transform:rotate(-90deg); }
+.gauge-bg { fill:none; stroke:#E6EEF8; stroke-width:4; }
+.gauge-fg { fill:none; stroke:var(--primary); stroke-width:4; stroke-linecap:round; }
+.gauge-value { position:absolute; font-weight:700; color:var(--primary); font-size:14px; }
+
+/* Filters */
+.filters { display:flex; gap:8px; align-items:center; }
+.filter-select {
+  padding:8px 10px;
+  border-radius:8px;
+  border:1px solid #E2E8F0;
+  background:var(--card);
+  color:var(--text-primary);
+}
+.btn-primary {
+  background:var(--primary);
+  color:#fff;
+  border-radius:8px;
+  padding:8px 12px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* Main content */
+.cache-main { display:flex; flex-direction:column; gap:18px; }
+
+/* KPI grid */
+.kpi-section .section-title { 
+    margin:0 0 6px 0; 
+    color:var(--text-primary); 
+    font-weight:700; }
+.kpi-grid { 
+    display:flex; 
+    gap:16px; 
+    align-items:start; 
+}
+
+.kpi-left { 
+    display:flex; 
+    flex-wrap: wrap;
+    gap:12px; 
+}
+
+/* Cards */
+.card {
+  background:var(--card);
+  border-radius: var(--radius);
+  padding:16px;
+  box-shadow: var(--shadow);
+  border:1px solid #E6EEF8;
+}
+
+.card-kpi { display:flex; flex-direction:column; gap:12px; }
+.card-head { display:flex; justify-content:space-between; align-items:center; color:var(--text-primary); font-weight:600; }
+.card-body { display:flex; flex-direction:column; gap:8px; }
+
+/* Center content */
+.center { display:flex; align-items:center; justify-content:center; flex-direction:column; }
+
+/* semicircle gauge */
+.gauge-semi { position:relative; width:220px; height:120px; display:flex; align-items:flex-end; justify-content:center; }
+.semi-svg { width:100%; height:100%; }
+.semi-bg { stroke:#E6EEF8; stroke-width:8; fill:none; }
+.semi-fg { stroke:var(--success); stroke-width:8; fill:none; stroke-linecap:round; }
+
+/* large label inside gauge */
+.gauge-label { position:absolute; bottom:8px; font-size:28px; font-weight:700; color:var(--text-primary); }
+
+/* KPI value and trends */
+.kpi-value { font-size:22px; color:var(--text-primary); font-weight:700; }
+.muted { color:var(--muted); font-size:12px; }
+.trend { font-size:12px; display:flex; align-items:center; gap:6px; }
+.trend.positive { color:var(--success); }
+.trend.negative { color:var(--danger); }
+
+/* badge */
+.badge { padding:6px 10px; border-radius:9999px; font-weight:600; font-size:12px; display:inline-block; }
+.badge-critical { background:#FEE2E2; color:var(--danger); border:1px solid #FECACA; }
+
+/* right chart column */
+.card-chart { display:flex; flex-direction:column; gap:8px; }
+.stacked-chart { display:flex; align-items:end; gap:6px; height:160px; }
+
+/* legend */
+.legend { display:flex; gap:12px; justify-content:center; margin-top:8px; color:var(--muted); }
+.legend-item { display:flex; gap:6px; align-items:center; font-size:12px; }
+.dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+.dot.used { background:var(--primary); }
+.dot.unused { background:#CBD5E1; }
+
+/* Two columns section */
+.two-columns { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+
+/* stats grid */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
+.stat { font-weight:700; color:var(--text-primary); margin-top:6px; }
+.stat.critical { color:var(--danger); }
+.stat.success { color:var(--success); }
+
+/* Performance section */
+.performance-section { display:grid; grid-template-columns: 1fr 360px; gap:16px; }
+.big { font-size:22px; font-weight:700; color:var(--text-primary); }
+.danger { color:var(--danger); }
+.ok { color:var(--success); }
+
+/* latency cards */
+.latency-cards { display:flex; gap:10px; margin-top:12px; }
+.mini-card { background:var(--card); padding:12px; border-radius:10px; border:1px solid #E6EEF8; flex:1; }
+
+/* score card aside */
+.score-card { display:flex; flex-direction:column; gap:12px; align-items:center; padding:18px; }
+.score-gauge { position:relative; display:flex; align-items:center; justify-content:center; }
+.big-gauge { width:140px; height:140px; transform:rotate(-90deg); }
+.gauge-bg { fill:none; stroke:#E6EEF8; stroke-width:12; }
+.gauge-fg { fill:none; stroke:var(--success); stroke-width:12; stroke-linecap:round; }
+.score-value { position:absolute; text-align:center; font-weight:700; color:var(--text-primary); font-size:28px; }
+
+/* alerts */
+.alerts-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:12px; margin-top:8px; }
+.alerts-grid .card { display:flex; gap:10px; align-items:flex-start; }
+
+/* responsive */
+/* @media (max-width: 1000px){
+  .kpi-grid { grid-template-columns: 1fr; }
+  .two-columns { grid-template-columns: 1fr; }
+  .performance-section { grid-template-columns: 1fr; }
+  .cache-controls { flex-wrap:wrap; gap:8px; }
+} */

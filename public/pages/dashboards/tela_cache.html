@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Cache Efficiency Monitor</title>
+  <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Observação: deixei a font externa comentada — se preferir manter, descomente.
+       Recomendação: usar font-system (system-ui) para evitar dependência externa. -->
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"> -->
+
+  <!-- Arquivo de estilos principal do projeto (padrão) -->
+  <link rel="stylesheet" href="../../style/sidebar.css">
+  <link rel="stylesheet" href="../../style/essencial.css">
+  <link rel="stylesheet" href="../../style/cache.css"> <!-- criado por mim -->
+  <link rel="stylesheet" href="../../style/filtros.css">
+  <link rel="stylesheet" href="../../style/popup.css">
+</head>
+
+<body onload="carregarCache()">
+  <nav id="id_sidebar"></nav>
+  <div id="id_info_kpis"></div>
+  <div id="popup_screen"></div>
+
+  <div class="page_content">
+    <!-- Header / filtros -->
+    <header class="cache-header">
+      <div class="cache-title">
+        <h1>Monitor de Eficiência de Cache</h1>
+        <p class="sub">Insights em Tempo Real de Servidores e Data Center</p>
+      </div>
+
+      <div class="cache-controls">
+        <div class="centered score-card">
+          <span class="label">Pontuação do Data Center</span>
+          <div class="gauge-wrap" aria-hidden="true">
+            <!-- Gauge SVG simples -->
+            <svg class="gauge" viewBox="0 0 36 36" role="img" aria-label="Data Center Score">
+              <circle cx="18" cy="18" r="16" class="gauge-bg"></circle>
+              <circle cx="18" cy="18" r="16" class="gauge-fg" stroke-dasharray="100,100" stroke-dashoffset="15"></circle>
+            </svg>
+            <span class="gauge-value" id="dc-score">85</span>
+          </div>
+        </div>
+
+        <div class="filters">
+          <select id="select_servidor" class="filter-select" aria-label="Selecionar Servidor"></select>
+          <select id="select_periodo" class="filter-select" aria-label="Selecionar Período">
+            <option value="24h" selected>Últimas 24h</option>
+            <option value="7d">7 dias</option>
+            <option value="30d">30 dias</option>
+          </select>
+          <select id="select_tipo" class="filter-select" aria-label="Tipo de Armazenamento">
+            <option value="ram">RAM</option>
+            <option value="disk">Disco</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <main class="cache-main">
+      <!-- Eficácia do cache: cards e stacked bar -->
+      <section class="kpi-section">
+        <h2 class="section-title">Eficácia do Cache</h2>
+
+        <div class="kpi-grid">
+          <div class="kpi-left">
+            <div class="card card-kpi">
+              <div class="card-head">
+                <span>Taxa de Acerto de Cache</span>
+                <img src="../../assets/icons/pie.svg" alt="" class="icon-small">
+              </div>
+              <div class="card-body center">
+                <!-- semântica: valor grande -->
+                <div class="gauge-semi" aria-hidden="true">
+                  <!-- semicircular gauge (visual placeholder) -->
+                  <svg viewBox="0 0 48 24" class="semi-svg">
+                    <path class="semi-bg" d="M 4 20 A 20 20 0 0 1 44 20" fill="none" stroke-width="8"></path>
+                    <path id="semi-arc" class="semi-fg" d="M 4 20 A 20 20 0 0 1 44 20" fill="none" stroke-width="8"></path>
+                  </svg>
+                  <div class="gauge-label" id="cache-hit-rate">78%</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card card-kpi">
+              <div class="card-head">
+                <span>Dados Utilizados</span>
+                <img src="../../assets/icons/data_usage.svg" alt="" class="icon-small">
+              </div>
+              <div class="card-body">
+                <div class="kpi-value"><span id="dados-utilizados">1.2 TB</span> <small class="muted">(82%)</small></div>
+                <div class="trend positive">+5.2% vs ontem</div>
+                <div class="sparkline" id="spark-utilizados"> <!-- placeholder svg gerado via JS --></div>
+              </div>
+            </div>
+
+            <div class="card card-kpi">
+              <div class="card-head">
+                <span>Dados Não Utilizados</span>
+                <img src="../../assets/icons/report.svg" alt="" class="icon-small">
+              </div>
+              <div class="card-body">
+                <div class="kpi-value"><span id="dados-nao-utilizados">256 GB</span> <small class="muted">(18%)</small></div>
+                <div class="badge badge-critical" id="badge-unused">Crítico</div>
+              </div>
+            </div>
+
+            <div class="card card-kpi">
+              <div class="card-head">
+                <span>Custo Mensal de Armazenamento Inútil</span>
+                <img src="../../assets/icons/monetization.svg" alt="" class="icon-small">
+              </div>
+              <div class="card-body">
+                <div class="kpi-value cost" id="custo-inutil">R$ 1.500,00</div>
+                <div class="trend negative">+3.1% vs mês passado</div>
+                <div class="sparkline" id="spark-cost"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="kpi-right card card-chart">
+            <div class="card-head">
+              <span>Utilizados vs Não Utilizados ao longo do tempo</span>
+              <small class="muted">Últimas 24h</small>
+            </div>
+            <div class="card-body stacked-chart" id="stacked-chart">
+              <!-- barras simples geradas por JS -->
+            </div>
+            <div class="legend">
+              <span class="legend-item"><span class="dot used"></span> Utilizados</span>
+              <span class="legend-item"><span class="dot unused"></span> Não Utilizados</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Retenção e Transferência -->
+      <section class="two-columns">
+        <div class="card">
+          <h3>Tempo de Permanência dos Dados</h3>
+          <div class="chart-placeholder"> <!-- boxplot placeholder --></div>
+          <div class="grid-2 stats">
+            <div><small>Permanência Média</small><div class="stat" id="retencao-media">14.2 dias</div></div>
+            <div><small>Permanência Mediana</small><div class="stat" id="retencao-mediana">11.8 dias</div></div>
+            <div><small>Retenção Excessiva (&gt;30d)</small><div class="stat critical" id="retencao-excessiva">12%</div></div>
+            <div><small>Custo Estimado do Excesso</small><div class="stat" id="retencao-custo">R$ 450,00/mês</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Visão Geral de Transferência de Dados</h3>
+          <div class="period-toggle">
+            <button class="btn-toggle active" data-range="day">Dia</button>
+            <button class="btn-toggle" data-range="week">Semana</button>
+            <button class="btn-toggle" data-range="month">Mês</button>
+          </div>
+          <div class="chart-placeholder" id="transfer-chart"></div>
+          <div class="grid-2 stats">
+            <div><small>Total no Período</small><div class="stat" id="transfer-total">4.5 TB</div></div>
+            <div><small>Taxa Média</small><div class="stat" id="transfer-rate">428 MB/s</div></div>
+            <div><small>Servido pelo Cache</small><div class="stat success" id="transfer-cache">78%</div></div>
+            <div><small>Servido fora do Cache</small><div class="stat warn" id="transfer-nocache">22%</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Performance e Score -->
+      <section class="performance-section">
+        <div class="card large">
+          <h3>Latência de Requisição (ms)</h3>
+          <small class="muted">Média, p95 e p99</small>
+          <div id="latency-chart" class="chart-placeholder"></div>
+
+          <div class="latency-cards">
+            <div class="mini-card">
+              <small>Latência Média</small>
+              <div class="big" id="lat-media">45 ms</div>
+              <small class="ok">Abaixo do limiar</small>
+            </div>
+            <div class="mini-card">
+              <small>% Requisições Lentas</small>
+              <div class="big danger" id="req-lentas">3.1%</div>
+              <small class="danger">Ação necessária</small>
+            </div>
+            <div class="mini-card">
+              <small>Latência vs Acerto</small>
+              <div class="big" id="lat-corr">-0.85</div>
+              <small class="muted">Correlação forte</small>
+            </div>
+          </div>
+        </div>
+
+        <aside class="card score-card">
+          <h3>Pontuação de Saúde do Servidor</h3>
+          <div class="score-gauge" aria-hidden="true">
+            <svg viewBox="0 0 120 120" class="big-gauge">
+              <circle cx="60" cy="60" r="54" class="gauge-bg"></circle>
+              <circle cx="60" cy="60" r="54" class="gauge-fg" stroke-dasharray="339.29" stroke-dashoffset="50.89"></circle>
+            </svg>
+            <div class="score-value">
+              <span id="server-score">85</span>
+              <small>de 100</small>
+            </div>
+          </div>
+          <div class="server-info">
+            <p id="server-name">Servidor: srv-01</p>
+            <p class="ok">Acima da média do Data Center</p>
+          </div>
+
+          <div class="factors">
+            <strong>Fatores da Pontuação:</strong>
+            <ul>
+              <li><strong>45%</strong> Taxa de Acerto de Cache</li>
+              <li><strong>25%</strong> Latência</li>
+              <li><strong>20%</strong> Dados Não Utilizados</li>
+              <li><strong>10%</strong> Retenção Excessiva</li>
+            </ul>
+          </div>
+        </aside>
+      </section>
+
+      <!-- Alerts -->
+      <section>
+        <div class="alerts-header">
+          <h2>Alertas e Insights de IA</h2>
+        </div>
+        <div class="alerts-grid" id="alerts-list">
+          <!-- cards de alerta gerados pelo JS -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Scripts do projeto (padrão) -->
+  <script src="../../js/sidebar.js"></script>
+  <script src="../../js/popups.js"></script>
+  <script src="../../js/verificacaoPermissoes.js"></script>
+
+  <!-- Script específico da tela -->
+  <script src="../../js/cache.js"></script>
+</body>
+
+</html>
