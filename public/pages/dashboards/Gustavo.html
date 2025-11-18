@@ -1,277 +1,544 @@
 <!DOCTYPE html>
-<html lang="pt-BR"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Monitor de Eficiência de Cache</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-<script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              "primary": "#2563EB", // Blue-600
-              "secondary": "#10B981", // Green-500
-              "background": "#F8FAFC", // Slate-50
-              "card": "#FFFFFF",
-              "border-light": "#E2E8F0", // Slate-200
-              "text-primary": "#1E293B", // Slate-800
-              "text-secondary": "#475569", // Slate-600
-              "text-tertiary": "#94A3B8" // Slate-400
-            },
-            fontFamily: {
-              "display": ["Inter", "sans-serif"],
-              "body": ["Roboto", "sans-serif"],
-            },
-            borderRadius: {"DEFAULT": "0.75rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
-          },
-        },
-      }
-    </script>
-<style>
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
-        font-size: 20px;
-      }
-    </style>
-</head>
-<body class="bg-background font-body text-text-secondary">
-<div class="flex min-h-screen w-full flex-col p-4 sm:p-6 lg:p-8">
-<div class="mx-auto flex w-full max-w-7xl flex-col gap-8">
-<header class="flex flex-wrap items-center justify-between gap-4">
-<div class="flex flex-col">
-<h1 class="text-3xl font-bold leading-tight tracking-tighter text-text-primary font-display">Monitor de Eficiência de Cache</h1>
-<p class="text-text-secondary">Insights em Tempo Real de Servidores e Data Center</p>
-</div>
-<div class="flex flex-wrap items-center gap-4">
-<div class="flex h-12 items-center gap-3 rounded-lg border border-border-light bg-card px-4 shadow-sm">
-<span class="text-sm font-semibold text-text-primary">Pontuação do Data Center</span>
-<div class="relative flex h-8 w-8 items-center justify-center">
-<svg class="h-full w-full -rotate-90" viewBox="0 0 36 36">
-<circle class="stroke-slate-200" cx="18" cy="18" fill="none" r="16" stroke-width="4"></circle>
-<circle class="stroke-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="100, 100" stroke-dashoffset="15" stroke-linecap="round" stroke-width="4"></circle>
-</svg>
-<span class="absolute text-sm font-bold text-primary">85</span>
-</div>
-</div>
-<div class="flex flex-wrap gap-2">
-<select class="h-10 shrink-0 cursor-pointer appearance-none rounded-lg border border-border-light bg-card px-4 text-sm font-medium text-text-primary shadow-sm hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50">
-<option>Servidor: Todos</option>
-<option>Servidor: srv-01</option>
-<option>Servidor: srv-02</option>
-</select>
-<select class="h-10 shrink-0 cursor-pointer appearance-none rounded-lg border border-border-light bg-card px-4 text-sm font-medium text-text-primary shadow-sm hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50">
-<option>Últimas 24h</option>
-<option>7 dias</option>
-<option>30 dias</option>
-</select>
-<select class="h-10 shrink-0 cursor-pointer appearance-none rounded-lg border border-border-light bg-card px-4 text-sm font-medium text-text-primary shadow-sm hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50">
-<option>Tipo: RAM</option>
-<option>Tipo: Disco</option>
-</select>
-</div>
-</div>
-</header>
-<section>
-<h2 class="text-xl font-semibold text-text-primary mb-4 font-display">Eficácia do Cache</h2>
-<div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-2">
-<div class="flex flex-col gap-4 rounded-lg bg-card p-6 border border-border-light shadow-sm">
-<div class="flex items-center justify-between">
-<p class="text-base font-medium text-text-primary">Taxa de Acerto de Cache</p>
-<span class="material-symbols-outlined text-text-tertiary">pie_chart</span>
-</div>
-<div class="relative flex items-end justify-center">
-<svg class="h-24 w-48" viewBox="0 0 48 24">
-<path class="stroke-slate-200" d="M 4 20 A 20 20 0 0 1 44 20" fill="none" stroke-width="8"></path>
-<path class="stroke-green-500" d="M 4 20 A 20 20 0 0 1 44 20" fill="none" stroke-dasharray="62.8" stroke-dashoffset="13.8" stroke-linecap="round" stroke-width="8"></path>
-</svg>
-<p class="absolute bottom-2 text-4xl font-bold tracking-tight text-text-primary font-display">78%</p>
-</div>
-</div>
-<div class="flex flex-col gap-2 rounded-lg bg-card p-6 border border-border-light shadow-sm">
-<div class="flex items-center justify-between">
-<p class="text-base font-medium text-text-primary">Dados Utilizados</p>
-<span class="material-symbols-outlined text-text-tertiary">data_usage</span>
-</div>
-<p class="text-3xl font-bold tracking-tight text-text-primary font-display">1.2 TB <span class="text-lg font-medium text-text-secondary">(82%)</span></p>
-<div class="flex items-center gap-2 text-sm text-green-600">
-<span class="material-symbols-outlined">trending_up</span>
-<span>+5.2% vs ontem</span>
-</div>
-<div class="mt-auto h-8 w-full">
-<svg class="stroke-green-500" height="100%" viewBox="0 0 100 32" width="100%">
-<defs>
-<linearGradient id="utilizedGradient" x1="0" x2="0" y1="0" y2="1">
-<stop offset="0%" stop-color="#10B981" stop-opacity="0.2"></stop>
-<stop offset="100%" stop-color="#10B981" stop-opacity="0"></stop>
-</linearGradient>
-</defs>
-<path d="M0,28 L10,20 L20,24 L30,16 L40,18 L50,12 L60,15 L70,8 L80,12 L90,10 L100,4 V32 H0 Z" fill="url(#utilizedGradient)"></path>
-<polyline fill="none" points="0,28 10,20 20,24 30,16 40,18 50,12 60,15 70,8 80,12 90,10 100,4" stroke-width="2"></polyline>
-</svg>
-</div>
-</div>
-<div class="flex flex-col gap-2 rounded-lg bg-card p-6 border border-border-light shadow-sm">
-<div class="flex items-center justify-between">
-<p class="text-base font-medium text-text-primary">Dados Não Utilizados</p>
-<span class="material-symbols-outlined text-text-tertiary">report</span>
-</div>
-<p class="text-3xl font-bold tracking-tight text-text-primary font-display">256 GB <span class="text-lg font-medium text-text-secondary">(18%)</span></p>
-<div class="mt-auto flex">
-<span class="rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-200">Crítico</span>
-</div>
-</div>
-<div class="flex flex-col gap-2 rounded-lg bg-card p-6 border border-border-light shadow-sm">
-<div class="flex items-center justify-between">
-<p class="text-base font-medium text-text-primary">Custo Mensal de Armazenamento Inútil</p>
-<span class="material-symbols-outlined text-text-tertiary">monetization_on</span>
-</div>
-<p class="text-3xl font-bold tracking-tight text-red-600 font-display">R$ 1.500,00</p>
-<div class="flex items-center gap-2 text-sm text-red-600">
-<span class="material-symbols-outlined">trending_up</span>
-<span>+3.1% vs mês passado</span>
-</div>
-<div class="mt-auto h-8 w-full">
-<svg class="stroke-red-500" height="100%" viewBox="0 0 100 32" width="100%">
-<defs>
-<linearGradient id="costGradient" x1="0" x2="0" y1="0" y2="1">
-<stop offset="0%" stop-color="#EF4444" stop-opacity="0.2"></stop>
-<stop offset="100%" stop-color="#EF4444" stop-opacity="0"></stop>
-</linearGradient>
-</defs>
-<path d="M0,28 L10,24 L20,26 L30,20 L40,22 L50,16 L60,18 L70,14 L80,10 L90,12 L100,8 V32 H0 Z" fill="url(#costGradient)"></path>
-<polyline fill="none" points="0,28 10,24 20,26 30,20 40,22 50,16 60,18 70,14 80,10 90,12 100,8" stroke-width="2"></polyline>
-</svg>
-</div>
-</div>
-</div>
-<div class="flex flex-col rounded-lg bg-card p-6 border border-border-light shadow-sm lg:col-span-1">
-<p class="text-base font-medium text-text-primary">Utilizados vs. Não Utilizados ao longo do tempo</p>
-<p class="text-text-secondary text-sm mb-4">Últimas 24h</p>
-<div class="flex h-full flex-grow items-end justify-between gap-2">
-<div class="flex h-full w-full flex-col-reverse gap-1"><div class="h-[70%] w-full rounded-t-sm bg-blue-500"></div><div class="h-[20%] w-full rounded-t-sm bg-slate-300"></div></div>
-<div class="flex h-full w-full flex-col-reverse gap-1"><div class="h-[65%] w-full rounded-t-sm bg-blue-500"></div><div class="h-[25%] w-full rounded-t-sm bg-slate-300"></div></div>
-<div class="flex h-full w-full flex-col-reverse gap-1"><div class="h-[75%] w-full rounded-t-sm bg-blue-500"></div><div class="h-[22%] w-full rounded-t-sm bg-slate-300"></div></div>
-<div class="flex h-full w-full flex-col-reverse gap-1"><div class="h-[80%] w-full rounded-t-sm bg-blue-500"></div><div class="h-[15%] w-full rounded-t-sm bg-slate-300"></div></div>
-<div class="flex h-full w-full flex-col-reverse gap-1"><div class="h-[78%] w-full rounded-t-sm bg-blue-500"></div><div class="h-[18%] w-full rounded-t-sm bg-slate-300"></div></div>
-<div class="flex h-full w-full flex-col-reverse gap-1"><div class="h-[82%] w-full rounded-t-sm bg-blue-500"></div><div class="h-[12%] w-full rounded-t-sm bg-slate-300"></div></div>
-</div>
-<div class="mt-4 flex items-center justify-center gap-4 text-xs">
-<div class="flex items-center gap-2"><div class="h-2 w-2 rounded-full bg-blue-500"></div><span>Utilizados</span></div>
-<div class="flex items-center gap-2"><div class="h-2 w-2 rounded-full bg-slate-300"></div><span>Não Utilizados</span></div>
-</div>
-</div>
-</div>
-</section>
-<div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-<section>
-<h2 class="text-xl font-semibold text-text-primary mb-4 font-display">Análise de Retenção de Dados</h2>
-<div class="flex flex-col gap-6 rounded-lg bg-card p-6 border border-border-light shadow-sm">
-<p class="font-medium text-text-primary">Tempo de Permanência dos Dados</p>
-<div class="flex h-40 w-full items-center justify-center rounded bg-slate-100"><p class="text-text-tertiary">Gráfico Boxplot</p></div>
-<div class="grid grid-cols-2 gap-4 text-center">
-<div><p class="text-sm text-text-secondary">Permanência Média</p><p class="text-lg font-bold text-text-primary font-display">14.2 dias</p></div>
-<div><p class="text-sm text-text-secondary">Permanência Mediana</p><p class="text-lg font-bold text-text-primary font-display">11.8 dias</p></div>
-<div><p class="text-sm text-text-secondary">Retenção Excessiva (&gt;30d)</p><p class="text-lg font-bold text-red-600 font-display">12%</p></div>
-<div><p class="text-sm text-text-secondary">Custo Estimado do Excesso</p><p class="text-lg font-bold text-text-primary font-display">R$ 450,00/mês</p></div>
-</div>
-</div>
-</section>
-<section>
-<h2 class="text-xl font-semibold text-text-primary mb-4 font-display">Visão Geral de Transferência de Dados</h2>
-<div class="flex flex-col gap-6 rounded-lg bg-card p-6 border border-border-light shadow-sm">
-<div class="flex items-center justify-between">
-<p class="font-medium text-text-primary">Volume Total de Transferência</p>
-<div class="flex items-center rounded-lg bg-slate-100 p-1 text-xs">
-<button class="rounded-md px-2 py-1 bg-primary text-white">Dia</button>
-<button class="rounded-md px-2 py-1 text-text-secondary hover:bg-slate-200">Semana</button>
-<button class="rounded-md px-2 py-1 text-text-secondary hover:bg-slate-200">Mês</button>
-</div>
-</div>
-<div class="flex h-40 w-full items-center justify-center rounded bg-slate-100"><p class="text-text-tertiary">Gráfico de Linha do Tempo</p></div>
-<div class="grid grid-cols-2 gap-4 text-center">
-<div><p class="text-sm text-text-secondary">Total no Período</p><p class="text-lg font-bold text-text-primary font-display">4.5 TB</p></div>
-<div><p class="text-sm text-text-secondary">Taxa Média</p><p class="text-lg font-bold text-text-primary font-display">428 MB/s</p></div>
-<div><p class="text-sm text-text-secondary">Servido pelo Cache</p><p class="text-lg font-bold text-green-600 font-display">78%</p></div>
-<div><p class="text-sm text-text-secondary">Servido fora do Cache</p><p class="text-lg font-bold text-yellow-600 font-display">22%</p></div>
-</div>
-</div>
-</section>
-</div>
-<div class="grid grid-cols-1 gap-6 lg:grid-cols-5">
-<section class="lg:col-span-3">
-<h2 class="text-xl font-semibold text-text-primary mb-4 font-display">Performance e Latência do Servidor</h2>
-<div class="grid grid-cols-1 gap-6">
-<div class="flex flex-col rounded-lg bg-card p-6 border border-border-light shadow-sm">
-<p class="font-medium text-text-primary">Latência de Requisição (ms)</p>
-<p class="text-sm text-text-secondary mb-4">Média, p95 e p99</p>
-<div class="flex h-56 w-full items-center justify-center rounded bg-slate-100"><p class="text-text-tertiary">Gráfico de Linha</p></div>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-<div class="flex flex-col gap-2 rounded-lg bg-card p-4 border border-border-light shadow-sm"><p class="text-sm font-medium text-text-primary">Latência Média</p><p class="text-2xl font-bold tracking-tight text-text-primary font-display">45 ms</p><p class="text-xs text-green-600">Abaixo do limiar</p></div>
-<div class="flex flex-col gap-2 rounded-lg bg-card p-4 border border-border-light shadow-sm"><p class="text-sm font-medium text-text-primary">% Requisições Lentas</p><p class="text-2xl font-bold tracking-tight text-red-600 font-display">3.1%</p><p class="text-xs text-red-600">Ação necessária</p></div>
-<div class="flex flex-col gap-2 rounded-lg bg-card p-4 border border-border-light shadow-sm"><p class="text-sm font-medium text-text-primary">Latência vs Acerto</p><p class="text-2xl font-bold tracking-tight text-text-primary font-display">-0.85</p><p class="text-xs text-text-secondary">Correlação forte</p></div>
-</div>
-</div>
-</section>
-<section class="lg:col-span-2">
-<h2 class="text-xl font-semibold text-text-primary mb-4 font-display">Pontuação de Saúde do Servidor</h2>
-<div class="flex flex-col gap-6 rounded-lg bg-card p-6 border border-border-light shadow-sm h-full">
-<div class="relative flex h-48 w-48 items-center justify-center self-center">
-<svg class="h-full w-full -rotate-90" viewBox="0 0 120 120">
-<circle class="stroke-slate-200" cx="60" cy="60" fill="none" r="54" stroke-width="12"></circle>
-<circle class="stroke-green-500" cx="60" cy="60" fill="none" r="54" stroke-dasharray="339.29" stroke-dashoffset="50.89" stroke-linecap="round" stroke-width="12"></circle>
-</svg>
-<div class="absolute flex flex-col items-center">
-<span class="text-5xl font-bold text-text-primary font-display">85</span>
-<span class="text-sm text-text-secondary">de 100</span>
-</div>
-</div>
-<div class="text-center">
-<p class="font-medium text-text-primary">Servidor: srv-01</p>
-<p class="text-sm text-green-600">Acima da média do Data Center</p>
-</div>
-<div class="space-y-2 text-sm">
-<p class="font-medium text-text-primary">Fatores da Pontuação:</p>
-<ul class="list-inside list-disc space-y-1 text-text-secondary">
-<li><span class="font-semibold">45%</span> Taxa de Acerto de Cache</li>
-<li><span class="font-semibold">25%</span> Latência</li>
-<li><span class="font-semibold">20%</span> Dados Não Utilizados</li>
-<li><span class="font-semibold">10%</span> Retenção Excessiva</li>
-</ul>
-</div>
-</div>
-</section>
-</div>
-<section>
-<div class="flex flex-wrap items-center justify-between gap-4 mb-4">
-<h2 class="text-xl font-semibold text-text-primary font-display">Alertas e Insights de IA</h2>
-<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary px-4 text-sm font-medium text-white shadow-sm hover:bg-primary/90">
-<span class="material-symbols-outlined text-base">auto_awesome</span>
-<span>Gerar Insights Automáticos</span>
-</button>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-<div class="flex items-start gap-4 rounded-lg bg-yellow-50 p-4 border border-yellow-200">
-<div class="mt-1 flex-shrink-0"><span class="material-symbols-outlined text-yellow-600">warning</span></div>
-<div><p class="font-semibold text-yellow-800">Excesso de dados não utilizados detectado</p><p class="text-sm text-yellow-700">Recomendamos limpeza de cache para reduzir custos.</p></div>
-</div>
-<div class="flex items-start gap-4 rounded-lg bg-red-50 p-4 border border-red-200">
-<div class="mt-1 flex-shrink-0"><span class="material-symbols-outlined text-red-600">trending_up</span></div>
-<div><p class="font-semibold text-red-800">A latência aumentou enquanto o acerto de cache caiu</p><p class="text-sm text-red-700">Investigue possíveis problemas de carga no servidor.</p></div>
-</div>
-<div class="flex items-start gap-4 rounded-lg bg-green-50 p-4 border border-green-200">
-<div class="mt-1 flex-shrink-0"><span class="material-symbols-outlined text-green-600">task_alt</span></div>
-<div><p class="font-semibold text-green-800">Limpeza de cache recomendada para reduzir custos</p><p class="text-sm text-green-700">Otimize o TTL para ativos estáticos para melhorar a eficiência.</p></div>
-</div>
-</div>
-</section>
-</div>
-</div>
+<html lang="pt-BR">
 
-</body></html>
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Monitor de Eficiência de Cache</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../style/sidebar.css">
+  <link rel="stylesheet" href="../../style/essencial.css">
+  <link rel="stylesheet" href="../../style/tela_home.css">
+  <link rel="stylesheet" href="../../style/filtros.css">
+  <link rel="stylesheet" href="../../style/popup.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#2563EB", // Blue-600
+            "secondary": "#10B981", // Green-500
+            "background": "#F8FAFC", // Slate-50
+            "card": "#FFFFFF",
+            "border-light": "#E2E8F0", // Slate-200
+            "text-primary": "#1E293B", // Slate-800
+            "text-secondary": "#475569", // Slate-600
+            "text-tertiary": "#94A3B8" // Slate-400
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"],
+            "body": ["Roboto", "sans-serif"],
+          },
+          borderRadius: { "DEFAULT": "0.75rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body class="bg-background font-body text-text-secondary">
+  <nav id="id_sidebar"></nav>
+  <div id="id_info_kpis"></div>
+  <div id="popup_screen"></div>
+  <div class="flex min-h-screen w-full flex-col p-4 sm:p-6 lg:p-8">
+    <div class="mx-auto flex w-full max-w-7xl flex-col gap-8" style="margin-top: 2rem;    width: 95%;
+    margin-left: 3rem;">
+      <header class="flex flex-wrap items-center justify-between gap-4">
+        <div class="flex flex-col">
+          <h1 class="text-3xl font-bold leading-tight tracking-tighter text-text-primary font-display">Monitor de
+            Eficiência de Cache</h1>
+          <p class="text-text-secondary">Insights em Tempo Real de Servidores e Data Center</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-4">
+          <div class="flex h-12 items-center gap-3 rounded-lg border border-border-light bg-card px-4 shadow-sm">
+            <span class="text-sm font-semibold text-text-primary">Pontuação do Data Center</span>
+            <div class="relative flex h-8 w-8 items-center justify-center">
+              <svg class="h-full w-full -rotate-90" viewBox="0 0 36 36">
+                <circle class="stroke-slate-200" cx="18" cy="18" fill="none" r="16" stroke-width="4"></circle>
+                <circle class="stroke-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="100, 100"
+                  stroke-dashoffset="15" stroke-linecap="round" stroke-width="4"></circle>
+              </svg>
+              <span class="absolute text-sm font-bold text-primary">85</span>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <select
+              class="h-10 shrink-0 cursor-pointer appearance-none rounded-lg border border-border-light bg-card px-4 text-sm font-medium text-text-primary shadow-sm hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50">
+              <option>Servidor: Todos</option>
+              <option>Servidor: srv-01</option>
+              <option>Servidor: srv-02</option>
+            </select>
+            <select
+              class="h-10 shrink-0 cursor-pointer appearance-none rounded-lg border border-border-light bg-card px-4 text-sm font-medium text-text-primary shadow-sm hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50">
+              <option>Últimas 24h</option>
+              <option>7 dias</option>
+              <option>30 dias</option>
+            </select>
+            <select
+              class="h-10 shrink-0 cursor-pointer appearance-none rounded-lg border border-border-light bg-card px-4 text-sm font-medium text-text-primary shadow-sm hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50">
+              <option>Tipo: RAM</option>
+              <option>Tipo: Disco</option>
+            </select>
+          </div>
+        </div>
+      </header>
+      <section>
+        <h2 class="text-xl font-semibold text-text-primary mb-4 font-display">Eficácia do Cache</h2>
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-2">
+            <div class="flex flex-col gap-4 rounded-lg bg-card p-6 border border-border-light shadow-sm">
+              <div class="flex items-center justify-between">
+                <p class="text-base font-medium text-text-primary">Taxa de Acerto de Cache</p>
+                <span class="material-symbols-outlined text-text-tertiary">pie_chart</span>
+              </div>
+              <div class="relative flex items-end justify-center">
+                <svg class="h-24 w-48" viewBox="0 0 48 24">
+                  <path class="stroke-slate-200" d="M 4 20 A 20 20 0 0 1 44 20" fill="none" stroke-width="8"></path>
+                  <path class="stroke-green-500" d="M 4 20 A 20 20 0 0 1 44 20" fill="none" stroke-dasharray="62.8"
+                    stroke-dashoffset="13.8" stroke-linecap="round" stroke-width="8"></path>
+                </svg>
+                <p class="absolute bottom-2 text-4xl font-bold tracking-tight text-text-primary font-display">78%</p>
+              </div>
+            </div>
+            <div class="flex flex-col gap-2 rounded-lg bg-card p-6 border border-border-light shadow-sm">
+              <div class="flex items-center justify-between">
+                <p class="text-base font-medium text-text-primary">Dados Utilizados</p>
+                <span class="material-symbols-outlined text-text-tertiary">data_usage</span>
+              </div>
+              <p class="text-3xl font-bold tracking-tight text-text-primary font-display">1.2 TB <span
+                  class="text-lg font-medium text-text-secondary">(82%)</span></p>
+              <div class="flex items-center gap-2 text-sm text-green-600">
+                <span class="material-symbols-outlined">trending_up</span>
+                <span>+5.2% vs ontem</span>
+              </div>
+              <div class="mt-auto h-8 w-full">
+                <svg class="stroke-green-500" height="100%" viewBox="0 0 100 32" width="100%">
+                  <defs>
+                    <linearGradient id="utilizedGradient" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#10B981" stop-opacity="0.2"></stop>
+                      <stop offset="100%" stop-color="#10B981" stop-opacity="0"></stop>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,28 L10,20 L20,24 L30,16 L40,18 L50,12 L60,15 L70,8 L80,12 L90,10 L100,4 V32 H0 Z"
+                    fill="url(#utilizedGradient)"></path>
+                  <polyline fill="none" points="0,28 10,20 20,24 30,16 40,18 50,12 60,15 70,8 80,12 90,10 100,4"
+                    stroke-width="2"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="flex flex-col gap-2 rounded-lg bg-card p-6 border border-border-light shadow-sm">
+              <div class="flex items-center justify-between">
+                <p class="text-base font-medium text-text-primary">Dados Não Utilizados</p>
+                <span class="material-symbols-outlined text-text-tertiary">report</span>
+              </div>
+              <p class="text-3xl font-bold tracking-tight text-text-primary font-display">256 GB <span
+                  class="text-lg font-medium text-text-secondary">(18%)</span></p>
+              <div class="mt-auto flex">
+                <span
+                  class="rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-200">Crítico</span>
+              </div>
+            </div>
+            <div class="flex flex-col gap-2 rounded-lg bg-card p-6 border border-border-light shadow-sm">
+              <div class="flex items-center justify-between">
+                <p class="text-base font-medium text-text-primary">Custo Mensal de Armazenamento Inútil</p>
+                <span class="material-symbols-outlined text-text-tertiary">monetization_on</span>
+              </div>
+              <p class="text-3xl font-bold tracking-tight text-red-600 font-display">R$ 1.500,00</p>
+              <div class="flex items-center gap-2 text-sm text-red-600">
+                <span class="material-symbols-outlined">trending_up</span>
+                <span>+3.1% vs mês passado</span>
+              </div>
+              <div class="mt-auto h-8 w-full">
+                <svg class="stroke-red-500" height="100%" viewBox="0 0 100 32" width="100%">
+                  <defs>
+                    <linearGradient id="costGradient" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#EF4444" stop-opacity="0.2"></stop>
+                      <stop offset="100%" stop-color="#EF4444" stop-opacity="0"></stop>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,28 L10,24 L20,26 L30,20 L40,22 L50,16 L60,18 L70,14 L80,10 L90,12 L100,8 V32 H0 Z"
+                    fill="url(#costGradient)"></path>
+                  <polyline fill="none" points="0,28 10,24 20,26 30,20 40,22 50,16 60,18 70,14 80,10 90,12 100,8"
+                    stroke-width="2"></polyline>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col rounded-lg bg-card p-6 border border-border-light shadow-sm lg:col-span-1">
+            <p class="text-base font-medium text-text-primary">Utilizados vs. Não Utilizados ao longo do tempo</p>
+            <p class="text-text-secondary text-sm mb-4">Últimas 24h</p>
+            <div class="flex h-full flex-grow items-end justify-between gap-2">
+              <div class="flex h-full w-full flex-col-reverse gap-1">
+                <div class="h-[70%] w-full rounded-t-sm bg-blue-500"></div>
+                <div class="h-[20%] w-full rounded-t-sm bg-slate-300"></div>
+              </div>
+              <div class="flex h-full w-full flex-col-reverse gap-1">
+                <div class="h-[65%] w-full rounded-t-sm bg-blue-500"></div>
+                <div class="h-[25%] w-full rounded-t-sm bg-slate-300"></div>
+              </div>
+              <div class="flex h-full w-full flex-col-reverse gap-1">
+                <div class="h-[75%] w-full rounded-t-sm bg-blue-500"></div>
+                <div class="h-[22%] w-full rounded-t-sm bg-slate-300"></div>
+              </div>
+              <div class="flex h-full w-full flex-col-reverse gap-1">
+                <div class="h-[80%] w-full rounded-t-sm bg-blue-500"></div>
+                <div class="h-[15%] w-full rounded-t-sm bg-slate-300"></div>
+              </div>
+              <div class="flex h-full w-full flex-col-reverse gap-1">
+                <div class="h-[78%] w-full rounded-t-sm bg-blue-500"></div>
+                <div class="h-[18%] w-full rounded-t-sm bg-slate-300"></div>
+              </div>
+              <div class="flex h-full w-full flex-col-reverse gap-1">
+                <div class="h-[82%] w-full rounded-t-sm bg-blue-500"></div>
+                <div class="h-[12%] w-full rounded-t-sm bg-slate-300"></div>
+              </div>
+            </div>
+            <div class="mt-4 flex items-center justify-center gap-4 text-xs">
+              <div class="flex items-center gap-2">
+                <div class="h-2 w-2 rounded-full bg-blue-500"></div><span>Utilizados</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="h-2 w-2 rounded-full bg-slate-300"></div><span>Não Utilizados</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <section>
+          <h2 class="text-xl font-semibold text-text-primary mb-4 font-display">Análise de Retenção de Dados</h2>
+          <div class="flex flex-col gap-6 rounded-lg bg-card p-6 border border-border-light shadow-sm">
+            <p class="font-medium text-text-primary">Tempo de Permanência dos Dados</p>
+            <div class="flex h-40 w-full items-center justify-center rounded bg-slate-100">
+              <p class="text-text-tertiary">Gráfico Boxplot</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-center">
+              <div>
+                <p class="text-sm text-text-secondary">Permanência Média</p>
+                <p class="text-lg font-bold text-text-primary font-display">14.2 dias</p>
+              </div>
+              <div>
+                <p class="text-sm text-text-secondary">Permanência Mediana</p>
+                <p class="text-lg font-bold text-text-primary font-display">11.8 dias</p>
+              </div>
+              <div>
+                <p class="text-sm text-text-secondary">Retenção Excessiva (&gt;30d)</p>
+                <p class="text-lg font-bold text-red-600 font-display">12%</p>
+              </div>
+              <div>
+                <p class="text-sm text-text-secondary">Custo Estimado do Excesso</p>
+                <p class="text-lg font-bold text-text-primary font-display">R$ 450,00/mês</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h2 class="text-xl font-semibold text-text-primary mb-4 font-display">Visão Geral de Transferência de Dados
+          </h2>
+          <div class="flex flex-col gap-6 rounded-lg bg-card p-6 border border-border-light shadow-sm">
+            <div class="flex items-center justify-between">
+              <p class="font-medium text-text-primary">Volume Total de Transferência</p>
+              <div class="flex items-center rounded-lg bg-slate-100 p-1 text-xs">
+                <button class="rounded-md px-2 py-1 bg-primary text-white">Dia</button>
+                <button class="rounded-md px-2 py-1 text-text-secondary hover:bg-slate-200">Semana</button>
+                <button class="rounded-md px-2 py-1 text-text-secondary hover:bg-slate-200">Mês</button>
+              </div>
+            </div>
+            <div class="flex h-40 w-full items-center justify-center rounded bg-slate-100">
+              <p class="text-text-tertiary">Gráfico de Linha do Tempo</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-center">
+              <div>
+                <p class="text-sm text-text-secondary">Total no Período</p>
+                <p class="text-lg font-bold text-text-primary font-display">4.5 TB</p>
+              </div>
+              <div>
+                <p class="text-sm text-text-secondary">Taxa Média</p>
+                <p class="text-lg font-bold text-text-primary font-display">428 MB/s</p>
+              </div>
+              <div>
+                <p class="text-sm text-text-secondary">Servido pelo Cache</p>
+                <p class="text-lg font-bold text-green-600 font-display">78%</p>
+              </div>
+              <div>
+                <p class="text-sm text-text-secondary">Servido fora do Cache</p>
+                <p class="text-lg font-bold text-yellow-600 font-display">22%</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-5">
+        <section class="lg:col-span-3">
+          <h2 class="text-xl font-semibold text-text-primary mb-4 font-display">Performance e Latência do Servidor</h2>
+          <div class="grid grid-cols-1 gap-6">
+            <div class="flex flex-col rounded-lg bg-card p-6 border border-border-light shadow-sm">
+              <p class="font-medium text-text-primary">Latência de Requisição (ms)</p>
+              <p class="text-sm text-text-secondary mb-4">Média, p95 e p99</p>
+              <div class="flex h-56 w-full items-center justify-center rounded bg-slate-100">
+                <p class="text-text-tertiary">Gráfico de Linha</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div class="flex flex-col gap-2 rounded-lg bg-card p-4 border border-border-light shadow-sm">
+                <p class="text-sm font-medium text-text-primary">Latência Média</p>
+                <p class="text-2xl font-bold tracking-tight text-text-primary font-display">45 ms</p>
+                <p class="text-xs text-green-600">Abaixo do limiar</p>
+              </div>
+              <div class="flex flex-col gap-2 rounded-lg bg-card p-4 border border-border-light shadow-sm">
+                <p class="text-sm font-medium text-text-primary">% Requisições Lentas</p>
+                <p class="text-2xl font-bold tracking-tight text-red-600 font-display">3.1%</p>
+                <p class="text-xs text-red-600">Ação necessária</p>
+              </div>
+              <div class="flex flex-col gap-2 rounded-lg bg-card p-4 border border-border-light shadow-sm">
+                <p class="text-sm font-medium text-text-primary">Latência vs Acerto</p>
+                <p class="text-2xl font-bold tracking-tight text-text-primary font-display">-0.85</p>
+                <p class="text-xs text-text-secondary">Correlação forte</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="lg:col-span-2">
+          <h2 class="text-xl font-semibold text-text-primary mb-4 font-display">Pontuação de Saúde do Servidor</h2>
+          <div class="flex flex-col gap-6 rounded-lg bg-card p-6 border border-border-light shadow-sm h-full">
+            <div class="relative flex h-48 w-48 items-center justify-center self-center">
+              <svg class="h-full w-full -rotate-90" viewBox="0 0 120 120">
+                <circle class="stroke-slate-200" cx="60" cy="60" fill="none" r="54" stroke-width="12"></circle>
+                <circle class="stroke-green-500" cx="60" cy="60" fill="none" r="54" stroke-dasharray="339.29"
+                  stroke-dashoffset="50.89" stroke-linecap="round" stroke-width="12"></circle>
+              </svg>
+              <div class="absolute flex flex-col items-center">
+                <span class="text-5xl font-bold text-text-primary font-display">85</span>
+                <span class="text-sm text-text-secondary">de 100</span>
+              </div>
+            </div>
+            <div class="text-center">
+              <p class="font-medium text-text-primary">Servidor: srv-01</p>
+              <p class="text-sm text-green-600">Acima da média do Data Center</p>
+            </div>
+            <div class="space-y-2 text-sm">
+              <p class="font-medium text-text-primary">Fatores da Pontuação:</p>
+              <ul class="list-inside list-disc space-y-1 text-text-secondary">
+                <li><span class="font-semibold">45%</span> Taxa de Acerto de Cache</li>
+                <li><span class="font-semibold">25%</span> Latência</li>
+                <li><span class="font-semibold">20%</span> Dados Não Utilizados</li>
+                <li><span class="font-semibold">10%</span> Retenção Excessiva</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+      <section>
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <h2 class="text-xl font-semibold text-text-primary font-display">Alertas e Insights de IA</h2>
+          <button
+            class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary px-4 text-sm font-medium text-white shadow-sm hover:bg-primary/90">
+            <span class="material-symbols-outlined text-base">auto_awesome</span>
+            <span>Gerar Insights Automáticos</span>
+          </button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="flex items-start gap-4 rounded-lg bg-yellow-50 p-4 border border-yellow-200">
+            <div class="mt-1 flex-shrink-0"><span class="material-symbols-outlined text-yellow-600">warning</span></div>
+            <div>
+              <p class="font-semibold text-yellow-800">Excesso de dados não utilizados detectado</p>
+              <p class="text-sm text-yellow-700">Recomendamos limpeza de cache para reduzir custos.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 rounded-lg bg-red-50 p-4 border border-red-200">
+            <div class="mt-1 flex-shrink-0"><span class="material-symbols-outlined text-red-600">trending_up</span>
+            </div>
+            <div>
+              <p class="font-semibold text-red-800">A latência aumentou enquanto o acerto de cache caiu</p>
+              <p class="text-sm text-red-700">Investigue possíveis problemas de carga no servidor.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 rounded-lg bg-green-50 p-4 border border-green-200">
+            <div class="mt-1 flex-shrink-0"><span class="material-symbols-outlined text-green-600">task_alt</span></div>
+            <div>
+              <p class="font-semibold text-green-800">Limpeza de cache recomendada para reduzir custos</p>
+              <p class="text-sm text-green-700">Otimize o TTL para ativos estáticos para melhorar a eficiência.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+</body>
+</html>
+<script src="../../js/sidebar.js"></script>
+<script src="../../js/popups.js"></script>
+<script src="../../js/verificacaoPermissoes.js"></script>
+<script>
+  listarServidores();
+
+
+  if (sessionStorage.empresaCnpj == undefined) {
+    listarPermissoesReload();
+    verificarPermissoesSideBar();
+    setInterval(executarVerificacaoPermissoes, 30000);
+  }
+
+  function executarVerificacaoPermissoes() {
+    if (sessionStorage.empresaCnpj == undefined) {
+      listarPermissoesReload();
+      verificarPermissoesSideBar();
+    }
+  }
+
+
+  function listarServidores() {
+    let idEmpresa = sessionStorage.empresaId;
+
+    fetch(`/servidores/listar/${idEmpresa}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(response => {
+      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+      return response.json();
+    }).then(dadosServidores => {
+      console.log(dadosServidores);
+
+      const container = document.querySelector(".lista_servidores");
+      container.innerHTML = `<h1 class="lista_titulo">Servidores</h1>`;
+
+      for (let servidor of dadosServidores) {
+        container.innerHTML += `
+                <div class="card_servidor" id="srv-${servidor.idServidor}" onclick="abrir_dashboard(this)">
+                    <div id="servidor_estado">
+                        <img src="../../assets/icons/icone_estavel.svg" alt="">
+                    </div>
+                    <div class="servidor_informacoes">
+                        <div id="servidor_nome">${servidor.nome}</div>
+                        <div id="servidor_localizacao">R. ${servidor.rua}, ${servidor.numero} - ${servidor.bairro}, ${servidor.cidade}, ${servidor.estado}, ${servidor.pais}</div>
+                        <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>Nenhum</div>
+                    </div>
+                    <span class="barra_lateral estavel"></span>
+                </div>
+            `;
+      }
+    }).catch(erro => console.log(`#ERRO: ${erro}`));
+  }
+
+
+  function abrir_dashboard(card) {
+    const nome = card.querySelector('#servidor_nome').textContent;
+    const localizacao = card.querySelector('#servidor_localizacao').textContent;
+
+    sessionStorage.setItem('servidorNome', nome);
+    sessionStorage.setItem('servidorLocalizacao', localizacao);
+
+    window.location = "tela_dashboard.html";
+  }
+
+</script>
+
+<script>
+  listarServidores();
+
+  if (sessionStorage.empresaCnpj == undefined) {
+    verificarPermissoesSideBar();
+  }
+
+  let dadosServidores = [];
+
+  async function listarServidores() {
+    let idEmpresa = sessionStorage.empresaId;
+
+    try {
+      const response = await fetch(`/servidores/listar/${idEmpresa}`);
+      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+
+      dadosServidores = await response.json();
+      renderizarServidores(dadosServidores);
+    } catch (erro) {
+      console.log(`#ERRO: ${erro}`);
+    }
+  }
+
+  function renderizarServidores(lista) {
+    const container = document.querySelector(".lista_servidores");
+    container.innerHTML = `<h1 class="lista_titulo">Servidores</h1>`;
+
+    lista.forEach(servidor => {
+      container.innerHTML += `
+      <div class="card_servidor" id="srv-${servidor.idServidor}" onclick="abrir_dashboard(this)">
+        <div id="servidor_estado">
+          <img src="../../assets/icons/icone_${servidor.status || 'estavel'}.svg" alt="">
+        </div>
+        <div class="servidor_informacoes">
+          <div id="servidor_nome">${servidor.nome}</div>
+          <div id="servidor_localizacao">R. ${servidor.rua}, ${servidor.numero} - ${servidor.bairro}, ${servidor.cidade}, ${servidor.estado}, ${servidor.pais}</div>
+          <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>${servidor.componentes || 'Nenhum'}</div>
+        </div>
+        <span class="barra_lateral ${servidor.status || 'estavel'}"></span>
+      </div>
+    `;
+    });
+  }
+
+  // Filtros
+  document.getElementById("id_filtro").addEventListener("change", filtrarServidores);
+  document.querySelector(".filtros input[type='search']").addEventListener("input", filtrarServidores);
+
+  function filtrarServidores() {
+    let filtro = document.getElementById("id_filtro").value;
+    let pesquisa = document.querySelector(".filtros input[type='search']").value.toLowerCase();
+
+    let filtrados = [...dadosServidores];
+
+    if (filtro === "filtro_critico") filtrados = filtrados.filter(s => s.status === "critico");
+    if (filtro === "filtro_alerta") filtrados = filtrados.filter(s => s.status === "alerta");
+    if (filtro === "filtro_estavel") filtrados = filtrados.filter(s => s.status === "estavel");
+
+    if (filtro === "filtro_nivel_de_risco_crescente") {
+      filtrados.sort((a, b) => nivelRisco(a.status) - nivelRisco(b.status));
+    }
+    if (filtro === "filtro_nivel_de_risco_decrescente") {
+      filtrados.sort((a, b) => nivelRisco(b.status) - nivelRisco(a.status));
+    }
+
+    if (pesquisa.trim() !== "") {
+      filtrados = filtrados.filter(s =>
+        s.nome.toLowerCase().includes(pesquisa) ||
+        `${s.cidade} ${s.estado} ${s.rua}`.toLowerCase().includes(pesquisa)
+      );
+    }
+
+    renderizarServidores(filtrados);
+  }
+
+  function nivelRisco(status) {
+    if (status === "critico") return 3;
+    if (status === "alerta") return 2;
+    if (status === "estavel") return 1;
+    return 0;
+  }
+
+  function abrir_dashboard(card) {
+    const nome = card.querySelector('#servidor_nome').textContent;
+    const localizacao = card.querySelector('#servidor_localizacao').textContent;
+
+    sessionStorage.setItem('servidorNome', nome);
+    sessionStorage.setItem('servidorLocalizacao', localizacao);
+
+    window.location = "tela_dashboard.html";
+  }
+</script>
