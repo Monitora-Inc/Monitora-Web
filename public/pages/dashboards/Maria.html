@@ -49,15 +49,16 @@
 
   </div>
 
-
-  <div class="dashButtons">
-    <a href="./home.html"><img src="/public/Images/home.svg" alt=""></a>
+  <footer>
+    <div class="dashButtons">
+      <a href="./home.html"><img src="/public/Images/home.svg" alt=""></a>
     <a href="./Ally.html"><img src="/public/Images/Colaboradores/Colaborador1.svg" alt=""></a>
     <a href="./Gustavo.html"><img src="/public/Images/Colaboradores/Colaborador2.svg" alt=""></a>
     <a href="./Leonardo.html"><img src="/public/Images/Colaboradores/Colaborador3.svg" alt=""></a>
     <a href="./Maria.html"><img src="/public/Images/Colaboradores/Colaborador4.svg" alt=""></a>
     <a href="./Pedro.html"><img src="/public/Images/Colaboradores/Colaborador5.svg" alt=""></a>
   </div>
+</footer>
 </body>
 
 </html>
@@ -136,6 +137,9 @@
 
 
 <script>
+
+let data = [];
+
 const correlacao = [
   [1,     0.06,  -0.10,  0.05],   // trafego
   [0.06,  1,      0.17, -0.18],   // incidentes
@@ -145,79 +149,55 @@ const correlacao = [
 
 const labels = ["trafego", "incidentes", "final_semana", "feriado"];
 
-let data = [];
-for (let i = 0; i < correlacao.length; i++) {
-  for (let j = 0; j < correlacao[i].length; j++) {
-    data.push([j, i, correlacao[i][j]]);
+
+
+const xData = ["trafego", "incidentes", "final_semana", "feriado"];
+const yData = ["trafego", "incidentes", "final_semana", "feriado"];
+
+for (let i = 0; i < correlacao.length; ++i) {
+  for (let j = 0; j < correlacao.length; ++j) {
+      data.push([labels[j], labels[i], correlacao[i][j]]);
   }
 }
-
-var chartDom = document.getElementById('correlationHeatmap');
-var myChart = echarts.init(chartDom);
-
-var option = {
-  title: {
-    text: 'Correlação Entre as Variáveis',
-    left: 'center'
+option = {
+   title: {
+   text: 'Correlação Entre as Variáveis',
+    left: 'center',
+    top:0
+ },
+  matrix: {
+    x: {
+      data: xData
+    },
+    y: {
+      data: yData
+    },
+   
   },
-
-  tooltip: {
-    position: 'top',
-    formatter: (p) => {
-      const value = p.data[2].toFixed(3);
-      return `${labels[p.data[1]]} × ${labels[p.data[0]]}: <b>${value}</b>`;
-    }
-  },
-
-  grid: {
-    height: '60%',
-    top: '15%'
-  },
-
-  xAxis: {
-    type: 'category',
-    data: labels,
-    axisLabel: { rotate: 45 }
-  },
-
-  yAxis: {
-    type: 'category',
-    data: labels
-  },
-
   visualMap: {
+    type: 'continuous',
     min: -1,
     max: 1,
+    dimension: 2,
     calculable: true,
     orient: 'vertical',
-    left: 'right',
-    top: 'middle',
-    inRange: {
-      color: ['#ea7317', '#ebf2fa', '#3a7ca5'] // -1 vermelho, 0 branco, 1 azul
-    }
+    top: 5,
+    left: 'right'
   },
-
-  series: [{
-    name: 'Correlação',
+  series: {
     type: 'heatmap',
-    data: data,
+    coordinateSystem: 'matrix',
+    data,
     label: {
       show: true,
-      formatter: d => d.data[2].toFixed(2),
-      color: '#000',
-      fontSize: 12
-    },
-
-    emphasis: {
-      itemStyle: {
-        borderColor: '#000',
-        borderWidth: 1
-      }
+      formatter: (params) => params.value[2].toFixed(2)
     }
-  }]
+  }
 };
-
+var chartDom = document.getElementById('correlationHeatmap');
+var myChart = echarts.init(chartDom);
 myChart.setOption(option);
+  
 </script>
 
 
