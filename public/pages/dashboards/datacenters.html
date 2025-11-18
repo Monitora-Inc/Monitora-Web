@@ -147,6 +147,7 @@
         }
         console.log(listaIdDelete);
     }
+
     function funcao_adicionar_datacenter() {
         mensagem_erro.innerHTML = '';
         let nomeDataCenter = ipt_datacenter_nome.value
@@ -165,41 +166,60 @@
         if (!dcComple) {
             dcComple = 'Sem complemento'
         }
-        fetch(`/datacenters/adicionarDatacenter`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                DcNomeServer: nomeDataCenter,
-                DcPaisServer: dcPais,
-                DcEstadoServer: dcEstado,
-                DcCidadeServer: dcCidade,
-                DcBairroServer: dcBairro,
-                DcRuaServer: dcRua,
-                DcNumServer: dcNum,
-                DcComplementoServer: dcComple,
-                fkEmpresa: sessionStorage.empresaId
 
+        let enderecoCompleto = `${dcRua} ${dcNum}, ${dcBairro}, ${dcCidade}, ${dcEstado}, ${dcPais}`;
+        fetch(`https://nominatim.openstreetmap.org/search?q=${enderecoCompleto}&format=json&limit=1`)
+            .then(response => response.json())
+            .then(data => {
+
+                if (!data.length) {
+                    mensagem_erro.innerHTML = "Endereço não encontrado!";
+                    throw new Error("ENDERECO_INVALIDO");
+                }
+
+                let latitude = data[0].lat;
+                let longitude = data[0].lon;
+
+                return fetch(`/datacenters/adicionarDatacenter`, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        DcNomeServer: nomeDataCenter,
+                        DcPaisServer: dcPais,
+                        DcEstadoServer: dcEstado,
+                        DcCidadeServer: dcCidade,
+                        DcBairroServer: dcBairro,
+                        DcRuaServer: dcRua,
+                        DcNumServer: dcNum,
+                        DcComplementoServer: dcComple,
+                        fkEmpresa: sessionStorage.empresaId,
+                        latitudeServer: latitude,
+                        longitudeServer: longitude
+                    })
+                });
             })
-        }).then(function (resposta) {
-            console.log("resposta: ", resposta);
+            .then(resposta => {
+                if (!resposta) return;
 
-            if (resposta.ok) {
-                mensagem_erro.innerHTML = `Datacenter cadastrado com sucesso!`;
+                if (resposta.ok) {
+                    mensagem_erro.innerHTML = "Datacenter cadastrado com sucesso!";
 
-                setTimeout(function () {
-                    location.reload(true);
-                }, 2000);
-            }
-        }).catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-        });
-        fechar_popup();
+                    setTimeout(() => {
+                        fechar_popup();
+                        location.reload(true);
+                    }, 2000);
+                }
+            })
+            .catch(erro => {
+                console.error("ERRO:", erro);
+
+                if (erro.message === "ENDERECO_INVALIDO") return;
+
+                mensagem_erro.innerHTML = "Erro ao cadastrar datacenter!";
+            });
     }
 
     function funcao_editar_datacenter(idDataCenter, fkEndereco) {
-        console.log("Editar =>", idDataCenter, fkEndereco);
         mensagem_erro.innerHTML = '';
         let nomeDataCenter = ipt_datacenter_nome.value;
         let dcPais = ipt_datacenter_pais.value;
@@ -217,36 +237,59 @@
         if (!dcComple) {
             dcComple = 'Sem complemento'
         }
-        fetch(`/datacenters/atualizarDatacenter/${idDataCenter}/${fkEndereco}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                DcIdDatacenter: idDataCenter,
-                DcNomeServer: nomeDataCenter,
-                DcPaisServer: dcPais,
-                DcEstadoServer: dcEstado,
-                DcCidadeServer: dcCidade,
-                DcBairroServer: dcBairro,
-                DcRuaServer: dcRua,
-                DcNumServer: dcNum,
-                DcComplementoServer: dcComple,
-                DcfkEndereco: fkEndereco
-            })
-        }).then(function (response) {
-            if (response.ok) {
-                console.log(`Datacenter ID ${idDataCenter} atualizado com sucesso!`);
+        
+        let enderecoCompleto = `${dcRua} ${dcNum}, ${dcBairro}, ${dcCidade}, ${dcEstado}, ${dcPais}`;
 
-                location.reload();
-            } else {
-                console.error(`Falha ao atualizar o usuário ${idDataCenter}. Status: ${response.status}`);
-            }
-        })
-            .catch(function (error) {
-                console.error("Erro de rede:", error);
+        fetch(`https://nominatim.openstreetmap.org/search?q=${enderecoCompleto}&format=json&limit=1`)
+            .then(response => response.json())
+            .then(data => {
+
+                if (!data.length) {
+                    mensagem_erro.innerHTML = "Endereço não encontrado!";
+                    throw new Error("ENDERECO_INVALIDO");
+                }
+
+                let latitude = data[0].lat;
+                let longitude = data[0].lon;
+
+                return fetch(`/datacenters/atualizarDatacenter/${idDataCenter}/${fkEndereco}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        DcIdDatacenter: idDataCenter,
+                        DcNomeServer: nomeDataCenter,
+                        DcPaisServer: dcPais,
+                        DcEstadoServer: dcEstado,
+                        DcCidadeServer: dcCidade,
+                        DcBairroServer: dcBairro,
+                        DcRuaServer: dcRua,
+                        DcNumServer: dcNum,
+                        DcComplementoServer: dcComple,
+                        DcfkEndereco: fkEndereco,
+                        latitudeServer: latitude,
+                        longitudeServer: longitude
+                    })
+                });
+
+            }).then(response => {
+                if (!response) return;
+
+                if (response.ok) {
+                    mensagem_erro.innerHTML = `Datacenter atualizado com sucesso!`;
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    mensagem_erro.innerHTML = `Falha ao atualizar o Datacenter (Status ${response.status})`;
+                }
+
+            }).catch(error => {
+                console.error("ERRO:", error);
+
+                if (error.message === "ENDERECO_INVALIDO") return;
+
+                mensagem_erro.innerHTML = "Erro ao atualizar datacenter!";
             });
-        fechar_popup();
     }
 
     function funcao_deletar_datacenter() {
