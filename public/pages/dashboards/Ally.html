@@ -33,6 +33,7 @@
     <div class="direita">
       <h2 class="subtitulo">Mapa dos datacenters</h2>
       <div id="map" class="mapLeaflet">
+        <div id="popupFixo" class="popup-fixo"></div>
       </div>
 
       <div id="grafico_radar" class="grafico_radar">
@@ -60,7 +61,8 @@
   <div class="popup_IA desativada" id="popUpIA">
     <button onclick="popUp_fechar()" class="fechar_popUp"><img src="../../Images/voltar-branco.svg" alt=""></button>
     <h2>Dicas IA Monitora</h2>
-    <div class="MensagemIA" id="MensagemIA"></div>
+    <div class="MensagemIA" id="MensagemIA">
+    </div>
   </div>
 
   <footer>
@@ -164,7 +166,7 @@
       let iconComparativo = datacenters[i].up ? "lineUp.svg" : "lineDown.svg";
 
       rankDatacenter.innerHTML += `
-      <div class="popup">
+      <div class="popup-dc">
         <div class="status status_${estado}">
           <img src="../../Images/PopUpsDash/${iconStatus}" alt="">
         </div>
@@ -284,14 +286,14 @@
     MensagemIA.innerHTML = `${mensagemdaia}`;
     popUpIA.classList.remove("desativada");
     popUpIA.classList.add("ativada");
-    setTimeout(() => {logoIa.onclick = popUp_fechar}, 800)
+    setTimeout(() => { logoIa.onclick = popUp_fechar }, 800)
   }
 
   function popUp_fechar() {
     MensagemIA.innerHTML = "";
     popUpIA.classList.remove("ativada");
     popUpIA.classList.add("desativada");
-    setTimeout(() => {logoIa.onclick = popUp_IA}, 800)
+    setTimeout(() => { logoIa.onclick = popUp_IA }, 800)
   }
 
   window.onload = () => {
@@ -324,10 +326,68 @@
     });
   }
 
-  // Adiciona os marcadores
+
+
+  // POPUP MODERNO E BONITO PARA O MAPA
+  function criarPopupBonito(dc) {
+    return `
+    <div class="popup-card">
+      <div class="popup-header">
+        <div class="popup-icon">📡</div>
+        <div>
+          <h3 class="popup-title">${dc.nome}</h3>
+          <p class="popup-sub ${dc.Saude >= 90 ? "ok" : dc.Saude >= 70 ? "alerta" : "critico"}">${dc.Saude}% de saúde</p>
+        </div>
+      </div>
+
+      <div class="popup-row">
+        <span>CPU</span>
+        <p>${dc.Cpu}%</p>
+      </div>
+
+      <div class="popup-row">
+        <span>RAM</span>
+        <p>${dc.Ram}%</p>
+      </div>
+
+      <div class="popup-row">
+        <span>Rede</span>
+        <p>${dc.Rede}%</p>
+      </div>
+
+      <div class="popup-row">
+        <span>Disco</span>
+        <p>${dc.Disco}%</p>
+      </div>
+
+      <div class="popup-status ${dc.Saude >= 90 ? "ok" : dc.Saude >= 70 ? "alerta" : "critico"}">
+        ${dc.Saude >= 90 ? "Operando normalmente" :
+        dc.Saude >= 70 ? "Atenção — alta carga" :
+          "Crítico — risco de falhas"}
+      </div>
+    </div>
+  `;
+  }
+
+  const popupOptions = {
+    className: "popup-custom",
+    closeButton: false,
+    offset: [0, -5]
+  };
+
   datacenters.forEach(dc => {
-    L.marker([dc.lat, dc.lng], { icon: marker(dc.cor) })
-      .addTo(map)
-      .bindPopup(`<b>${dc.nome}</b>`);
+    const markerInstance = L.marker([dc.lat, dc.lng], { icon: marker(dc.cor) }).addTo(map);
+
+    markerInstance.on("click", () => {
+      const html = criarPopupBonito(dc);
+
+      const divFixa = document.getElementById("popupFixo");
+      divFixa.innerHTML = html;
+      divFixa.classList.remove("ok", "alerta", "critico")
+      divFixa.classList.add(`${dc.Saude >= 90 ? "ok" : dc.Saude >= 70 ? "alerta" : "critico"}`)
+      divFixa.style.display = "block";
+    });
   });
+
+
 </script>
