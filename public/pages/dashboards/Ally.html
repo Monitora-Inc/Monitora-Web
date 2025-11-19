@@ -25,12 +25,13 @@
   <div class="container">
 
     <div class="rankingDataCenter">
-      <h2 class="tituloRank">Ranking Datacenters</h2>
+      <h2 class="subtitulo">Ranking Datacenters</h2>
       <div id="rankDatacenter" class="rankDatacenter">
       </div>
     </div>
 
     <div class="direita">
+      <h2 class="subtitulo">Mapa dos datacenters</h2>
       <div id="map" class="mapLeaflet">
       </div>
 
@@ -53,16 +54,15 @@
       </div>
     </div>
   </div>
-  <button onclick="popUp_IA()" class="logo_Ia"><img src="../../assets/logos/logo_vetorizada_branca.svg" alt=""></button>
-  <div class="popup_IA">
+  <button onclick="popUp_IA()" class="logo_Ia" id="logoIa"><img src="../../assets/logos/logo_vetorizada.svg"
+      alt=""></button>
+
+  <div class="popup_IA desativada" id="popUpIA">
+    <button onclick="popUp_fechar()" class="fechar_popUp"><img src="../../Images/voltar-branco.svg" alt=""></button>
     <h2>Dicas IA Monitora</h2>
-    <div class="MensagemIA">
-      <p> 🔄 Redistribuição recomendada: mover 20% da carga do DC Paulista para o DC Orlando</p>
-      <p>⚠ Anomalia detectada: aumento de 12% de latência no DC Rússia nas últimas 3h</p>
-      <p>🟩 Orlando está apto para receber novas instâncias</p>
-      <p>🪫 Paulista perto do limite de disco (82%)</p>
-    </div>
+    <div class="MensagemIA" id="MensagemIA"></div>
   </div>
+
   <footer>
     <div class="dashButtons">
       <a href="./home.html"><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
@@ -279,6 +279,20 @@
     radarChartInstance.update();
   }
 
+  var mensagemdaia = `<p>🔄 Redistribuição recomendada: mover 20% da carga do DC Paulista para o DC Orlando <br>⚠ Anomalia detectada: aumento de 12% de latência no DC Rússia nas últimas 3h <br>🟩 Orlando está apto para receber novas instâncias <br>🪫 Paulista perto do limite de disco (82%)</p>`;
+  function popUp_IA() {
+    MensagemIA.innerHTML = `${mensagemdaia}`;
+    popUpIA.classList.remove("desativada");
+    popUpIA.classList.add("ativada");
+    setTimeout(() => {logoIa.onclick = popUp_fechar}, 800)
+  }
+
+  function popUp_fechar() {
+    MensagemIA.innerHTML = "";
+    popUpIA.classList.remove("ativada");
+    popUpIA.classList.add("desativada");
+    setTimeout(() => {logoIa.onclick = popUp_IA}, 800)
+  }
 
   window.onload = () => {
     listarPermissoesReload();

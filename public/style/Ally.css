@@ -28,6 +28,12 @@
   height: 90vh;
 }
 
+.subtitulo {
+  color: #1F547E;
+  font-size: clamp(1rem, 1vw, 1.5rem);
+  font-weight: 300;
+}
+
 /*
 ____             _    _             
 |  _ \ __ _ _ __ | | _(_)_ __   __ _ 
@@ -42,12 +48,6 @@ ____             _    _
   display: flex;
   flex-direction: column;
   height: 100%;
-}
-
-.tituloRank {
-  color: #1F547E;
-  font-size: clamp(1rem, 1vw, 1.5rem);
-  font-weight: 300;
 }
 
 .rankDatacenter {
@@ -196,7 +196,6 @@ __  __    _    ____   _
   display: flex;
   flex-direction: column;
   width: 70%;
-  justify-content: space-between;
   height: 100%;
 }
 
@@ -209,6 +208,7 @@ __  __    _    ____   _
   box-shadow: 0 2px 14px rgba(0, 0, 0, 0.08);
   width: 100%;
   height: 48%;
+  margin-bottom: 1%;
 }
 
 /* Marcadores do mapa */
@@ -239,14 +239,14 @@ __  __    _    ____   _
   height: 48%;
 }
 
-.grafico_radar .grafico_esquerda{
+.grafico_radar .grafico_esquerda {
   display: flex;
   flex-direction: column;
   margin-top: 3vh;
   margin-right: 5vw;
 }
 
-.grafico_radar .grafico_esquerda h3{
+.grafico_radar .grafico_esquerda h3 {
   color: #1F547E;
   font-size: clamp(1.5rem, 1.5vw, 2.5rem);
   font-weight: 500;
@@ -264,7 +264,7 @@ __  __    _    ____   _
 
 .grafico_radar .grafico_esquerda .card select {
   border: none;
-  
+
   border-radius: 1px;
   background-color: transparent;
   font-size: 1.1vw;
@@ -286,42 +286,82 @@ ____   ___  ____    _   _ ____    ___    _
 |_|    \___/|_|      \___/|_|     |___/_/   \_\
 */
 .logo_Ia {
+  right: 2vw;
+  bottom: 3vh;
   position: fixed;
   background: none;
-  background-color: #1F547E;
   border: none;
-  right: 5vw;
-  bottom: 30px;
-  border-radius: 100%;
-  padding: 10px;
+  transition-duration: .24s;
 }
 
 .logo_Ia img {
   width: 3vw;
 }
 
+.logo_Ia:hover {
+  cursor: pointer;
+  transition-duration: .24s;
+  transform: scale(1.1);
+}
 
 .popup_IA {
+  z-index: 1000;
+  right: 2vw;
+  bottom: 10vh;
+  position: fixed;
+  background-color: #1F547E;
+  width: 15vw;
+  height: 30vh;
+  border-radius: 1rem;
+  padding: 1.5vh 0vw 1vh .5vw;
+  color: #ffffff;
+}
+
+.ativada {
+  display: flex;
+  flex-direction: column;
+}
+
+.desativada {
   display: none;
-  padding-block: 30px;
-  padding-left: 26px;
-  font-family: "Inter", sans-serif;
-  font-size: 0.95rem;
-  line-height: 1.35rem;
-  width: 30vw;
+
+}
+
+.popup_IA button {
+  position: absolute;
+  right: .5vw;
+  top: 1.5vh;
+  width: 1.5vw;
+  max-height: 1.5rem;
+  background: none;
+  border: none;
+}
+
+.popup_IA button:hover {
+  cursor: pointer;
+}
+
+.popup_IA button img {
+  width: 100%;
+  max-height: 100%;
+}
+
+
+.popup_IA h2 {
+  font-size: 1.1vw;
+  font-weight: 600;
+  padding-bottom: 1vh;
 }
 
 .MensagemIA {
   height: 100%;
   width: 100%;
-  padding-right: 26px;
+  padding-right: 1vw;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-.Mensagem h2 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #1F547E;
+.MensagemIA p {
+  font-size: 1.1vw;
+  font-weight: 300;
 }
