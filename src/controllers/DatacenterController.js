@@ -13,7 +13,7 @@ function adicionarDatacenter(req, res) {
     let longitude = req.body.longitudeServer
     let latitude = req.body.latitudeServer
 
-    if (!nome || !pais || !estado || !cidade || !rua || !fkEmpresa) {
+    if (!nome || !pais || !estado || !cidade || !rua || !fkempresa) {
         return res.status(400).send("Há campos obrigatórios vazios.");
     }
 
