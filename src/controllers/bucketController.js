@@ -3,9 +3,6 @@ const fs = require("fs");
 const empresaModel = require("../models/empresaModel");
 
 
-const REGION = "us-east-1";
-
-
 // SDK AWS 
 const s3 = new S3Client({ region: "us-east-1" });
 
