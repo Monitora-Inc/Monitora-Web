@@ -24,6 +24,9 @@ function autenticar(req, res) {
         } else {
             res.status(403).send("Email e/ou senha inválido(s)");
         }
+    }).catch(err => {
+        console.error("Erro ao autenticar usuário: ", err);
+        res.status(500).send("Erro ao autenticar usuário.");
     });
 }
 
@@ -50,6 +53,9 @@ function confirmarSenha(req, res) {
         } else {
             res.status(403).send("Senha inválida!");
         }
+    }).catch(err => {
+        console.error("Erro ao confirmar senha: ", err);
+        res.status(500).send("Erro ao confirmar senha.");
     });
 }
 
@@ -67,7 +73,10 @@ function cadastrarUsuario(req, res) {
     //Assinatura original da função --> usuarioModel.cadastrarUsuario(nome, sobrenome, email, senha, ativo, fkEmpresa, fkCargo, telefone)
     usuarioModel.cadastrarUsuario(nome, sobrenome, email, senha, fkEmpresa, fkCargo, telefone).then((resultado) => {
         res.status(200).send('Cadastro realizado com sucesso!');
-    })
+    }).catch(err => {
+        console.error("Erro ao cadastrar usuário: ", err);
+        res.status(500).send("Erro ao cadastrar usuário.");
+    });
 }
 
 function buscarUsuarios(req, res) {
@@ -75,6 +84,9 @@ function buscarUsuarios(req, res) {
 
     usuarioModel.buscarUsuarios(fkEmpresa).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao buscar usuários: ", err);
+        res.status(500).send("Erro ao buscar usuários.");
     });
 }
 
@@ -83,6 +95,9 @@ function listarCargos(req, res) {
 
     usuarioModel.listarCargos(idEmpresa).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao listar cargos: ", err);
+        res.status(500).send("Erro ao listar cargos.");
     });
 }
 
@@ -92,6 +107,9 @@ function listarCargosEditar(req, res) {
 
     usuarioModel.listarCargosEditar(idEmpresa, idCargoAtual).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error(err);
+        res.status(500).send("Erro interno em: listarCargosEditar()");
     });
 }
 
@@ -100,6 +118,9 @@ function listarPermissoes(req, res) {
 
     usuarioModel.listarPermissoes(idCargo).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao listar permissões: ", err);
+        res.status(500).send("Erro ao listar permissões.");
     });
 }
 
@@ -108,6 +129,9 @@ function deletarUsuario(req, res) {
 
     usuarioModel.deletarUsuario(usuario_id).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao deletar usuário: ", err);
+        res.status(500).send("Erro ao deletar usuário.");
     });
 }
 
@@ -117,6 +141,9 @@ function editarCargo(req, res) {
 
     usuarioModel.editarCargo(usuario_id, cargo_id).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao editar cargo: ", err);
+        res.status(500).send("Erro ao editar cargo.");
     });
 }
 
@@ -125,6 +152,9 @@ function aprovarUsuarioAdmin(req, res) {
 
     usuarioModel.aprovarUsuarioAdmin(fkEmpresa).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao aprovar usuário como administrador: ", err);
+        res.status(500).send("Erro ao aprovar usuário como administrador.");
     });
 }
 
@@ -133,6 +163,9 @@ function negarUsuarioAdmin(req, res) {
 
     usuarioModel.negarUsuarioAdmin(fkEmpresa).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao negar usuário como administrador: ", err);
+        res.status(500).send("Erro ao negar usuário como administrador.");
     });
 }
 
@@ -173,6 +206,9 @@ function editarPerfil(req, res) {
             success: true,
             message: "Usuário atualizado com sucesso"
         });
+    }).catch(err => {
+        console.error("Erro ao editar perfil do usuário: ", err);
+        res.status(500).send("Erro ao editar perfil do usuário.");
     });
 }
 
