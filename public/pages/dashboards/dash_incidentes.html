@@ -31,23 +31,23 @@
                         </div>
                         <div class="card">
                             <p class="titulo">Em aberto</p>
-                            <h2 id="ram">14</h2>
+                            <h2 id="incidentesAbertos"></h2>
                         </div>
                         <div class="card">
                             <p class="titulo">Críticos</p>
-                            <h2 id="rede">8</h2>
+                            <h2 id="incidentesCriticos"></h2>
                         </div>
                         <div class="card">
                             <p class="titulo">Atenção</p>
-                            <h2 id="latencia">6</h2>
+                            <h2 id="incidentesAtencao"></h2>
                         </div>
                         <div class="card">
                             <p class="titulo">Fechados</p>
-                            <h2 id="disco">8</h2>
+                            <h2 id="incidentesFechados"></h2>
                         </div>
                         <div class="card" style="border-top-right-radius: 7px; border-bottom-right-radius: 7px;">
                             <p class="titulo">Registrados</p>
-                            <h2 id="cpu">22</h2>
+                            <h2 id="incidentesRegistrados"></h2>
                         </div>
                     </div>
                 </section>
@@ -126,6 +126,25 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
+    //buscarKpisJira();
+
+    function buscarKpisJira() {
+        const fetchPromise = fetch("https://baiqze345xsjipst2bsfdm7wx40tsnni.lambda-url.us-east-1.on.aws/");
+
+        fetchPromise
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                incidentesAbertos.innerHTML = `${data.abertos}`;
+                incidentesCriticos.innerHTML = `${data.criticos}`;
+                incidentesAtencao.innerHTML = `${data.atencao}`;
+                incidentesFechados.innerHTML = `${data.fechados}`;
+                incidentesRegistrados.innerHTML = `${data.totais}`;
+            });
+        
+        
+    }
+
     var options = {
         chart: {
             type: 'line'
