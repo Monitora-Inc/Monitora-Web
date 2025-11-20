@@ -77,7 +77,7 @@ body {
 .kpis .card_kpi {
     display: flex;
     flex-direction: column;
-    width: 440px;
+    width: 425px;
 }
 
 .kpis .card_kpi .card_kpi_status {
@@ -143,14 +143,16 @@ body {
     justify-content: space-between;
     margin-top: 10px;
     width: 100%;
+    flex-wrap: wrap;
 }
 
 .graficos .box_grafico {
     padding: 20px;
-    width: 890px;
-    height: 400px;
+    width: 865px;
+    height: fit-content;
     background-color: rgb(255, 255, 255);
     border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 .graficos .box_grafico .header {
@@ -246,6 +248,9 @@ body {
 
 
 .grafico {
-  width: 100%;
-  height: 260px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 40vh;
 }
+

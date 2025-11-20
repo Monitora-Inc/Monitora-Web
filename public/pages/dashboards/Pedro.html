@@ -145,7 +145,7 @@
                 </div>
               </div>
           </div>
-        </div> <!-- Fim da "div" KPIs -->
+        </div> <!-- Fim da div "KPIs" -->
 
         <div class="graficos">
           <div class="box_grafico">
@@ -167,27 +167,96 @@
               </div>
             </div>
             <div class="grafico">
-
+              <canvas id="graficoCacheMiss"></canvas>
             </div>
           </div>
           
+          <div class="box_grafico">
+            <div class="header">
+              <div class="label">
+                <h1>Cache Hit</h1>
+                <h2 id="periodo">Ultima Semana</h2>
+              </div>
+              <div class="configuracoes">
+                <a class="tooltip icone_alterar">
+                  <span class="tooltiptext">Ajustar exibição</span>
+                </a>
+                <a class="tooltip icone_ampliar">
+                  <span class="tooltiptext">Ampliar</span>
+                </a>
+                <a class="tooltip icone_tooltip">
+                  <span class="tooltiptext">O que é isso?</span>
+                </a>
+              </div>
+            </div>
+            <div class="grafico">
+              <canvas id="graficoCacheHit"></canvas>
+            </div>
+          </div>
+
+          <div class="box_grafico">
+            <div class="header">
+              <div class="label">
+                <h1>Volume de Requisições</h1>
+                <h2 id="periodo">Ultima Semana</h2>
+              </div>
+              <div class="configuracoes">
+                <a class="tooltip icone_alterar">
+                  <span class="tooltiptext">Ajustar exibição</span>
+                </a>
+                <a class="tooltip icone_ampliar">
+                  <span class="tooltiptext">Ampliar</span>
+                </a>
+                <a class="tooltip icone_tooltip">
+                  <span class="tooltiptext">O que é isso?</span>
+                </a>
+              </div>
+            </div>
+            <div class="grafico">
+              <canvas id="graficoRequisicoes"></canvas>
+            </div>
         </div>
-
+        
+          <div class="box_grafico">
+            <div class="header">
+              <div class="label">
+                <h1>Latência por Percentil</h1>
+                <h2 id="periodo">Ultima Semana</h2>
+              </div>
+              <div class="configuracoes">
+                <a class="tooltip icone_alterar">
+                  <span class="tooltiptext">Ajustar exibição</span>
+                </a>
+                <a class="tooltip icone_ampliar">
+                  <span class="tooltiptext">Ampliar</span>
+                </a>
+                <a class="tooltip icone_tooltip">
+                  <span class="tooltiptext">O que é isso?</span>
+                </a>
+              </div>
+            </div>
+            <div class="grafico">
+              <canvas id="graficoPercentil"></canvas>
+            </div>
+        </div>
     </div>
 
-    <footer>
-    <div class="dashButtons">
-      <a href="./home.html"><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
-      <a href="./Ally.html"><img src="../../Images/Colaboradores/Colaborador1.svg" alt=""></a>
-      <a href="./Gustavo.html"><img src="../../Images/Colaboradores/Colaborador2.svg" alt=""></a>
-      <a href="./Leonardo.html"><img src="../../Images/Colaboradores/Colaborador3.svg" alt=""></a>
-      <a href="./Maria.html"><img src="../../Images/Colaboradores/Colaborador4.svg" alt=""></a>
-      <a href="./Pedro.html"><img src="../../Images/Colaboradores/Colaborador5.svg" alt=""></a>
-    </div>
-    <p>Developed by <a href=""></a>Pedro Claudino Barbosa</p>
+  <footer>
+      <div class="dashButtons">
+        <a href="./home.html"><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
+        <a href="./Ally.html"><img src="../../Images/Colaboradores/Colaborador1.svg" alt=""></a>
+        <a href="./Gustavo.html"><img src="../../Images/Colaboradores/Colaborador2.svg" alt=""></a>
+        <a href="./Leonardo.html"><img src="../../Images/Colaboradores/Colaborador3.svg" alt=""></a>
+        <a href="./Maria.html"><img src="../../Images/Colaboradores/Colaborador4.svg" alt=""></a>
+        <a href="./Pedro.html"><img src="../../Images/Colaboradores/Colaborador5.svg" alt=""></a>
+      </div>
+      <p>Developed by <a href=""></a>Pedro Claudino Barbosa</p>
   </footer>
 </body>
 </html>
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script>
+<script src="../../js/pedro_dashboard.js"></script>
