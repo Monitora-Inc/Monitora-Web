@@ -82,7 +82,7 @@
                 <div class="cards_componentes">
                     <div class="card">
                         <h3>Componente(s) com mais incidentes:</h3>
-                        <p>Memória RAM</p>
+                        <p id="componentesComMaisIncidentes">Memória RAM</p>
                     </div>
                     <table>
                         <thead>
@@ -126,9 +126,10 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-    //buscarKpisJira();
+    //buscarKpisIncidentes();
+    //buscarDadosComponentes();
 
-    function buscarKpisJira() {
+    function buscarKpisIncidentes() {
         const fetchPromise = fetch("https://baiqze345xsjipst2bsfdm7wx40tsnni.lambda-url.us-east-1.on.aws/");
 
         fetchPromise
@@ -140,9 +141,24 @@
                 incidentesAtencao.innerHTML = `${data.atencao}`;
                 incidentesFechados.innerHTML = `${data.fechados}`;
                 incidentesRegistrados.innerHTML = `${data.totais}`;
+            });        
+    }
+
+    function buscarDadosComponentes() {
+        const fetchPromise = fetch("https://sxogicvqs5hrftapsoul2fmegu0sugtj.lambda-url.us-east-1.on.aws/");
+
+        fetchPromise
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                const tbody = document.getElementById('dataTable');
+                for (let i = 0; i < data.length - 1; i++) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${data[i].nomeComponente}</td><td>${data[i].criticos}</td><td>${data[i].atencao}</td><td>${data[i].totais}</td>`;
+                    tbody.appendChild(tr); 
+                }
+                componentesComMaisIncidentes.innerHTML = `${data[5].componentesComMaisIncidentes}`;
             });
-        
-        
     }
 
     var options = {
@@ -174,12 +190,12 @@
         { componente: 'Latência', incidentesTotais: 47, incidentesCriticos: 60, incidentesAtencao: 78 }
     ];
 
-    const tbody = document.getElementById('dataTable');
-    data.slice().reverse().forEach(d => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${d.componente}</td><td>${d.incidentesCriticos}</td><td>${d.incidentesAtencao}</td><td>${d.incidentesTotais}</td>`;
-        tbody.appendChild(tr);
-    });
+    // const tbody = document.getElementById('dataTable');
+    // data.slice().reverse().forEach(d => {
+    //     const tr = document.createElement('tr');
+    //     tr.innerHTML = `<td>${d.componente}</td><td>${d.incidentesCriticos}</td><td>${d.incidentesAtencao}</td><td>${d.incidentesTotais}</td>`;
+    //     tbody.appendChild(tr);
+    // });
 </script>
 </body>
 
