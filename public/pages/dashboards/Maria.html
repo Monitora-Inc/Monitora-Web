@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monitoramento de Trafego de Rede</title>
+  <title>Monitoramento de Tráfego de Rede</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -28,7 +28,7 @@
   <header>
     <div class="titulo-dash">
       <i class="fa-solid fa-chart-simple"></i>
-      <h1> Monitoramento de Trafego de Rede</h1>
+      <h1> Monitoramento de Tráfego de Rede</h1>
     </div>
 
   </header>
@@ -124,48 +124,7 @@
 
 </script>
 
-<script>
-  var options = {
-    series: [70], // valor inicial
-    colors: ["#1282a2"],
-    chart: {
-      height: 300,
-      type: "radialBar",
 
-    },
-    plotOptions: {
-      radialBar: {
-        hollow: {
-          size: "70%"
-
-        },
-        dataLabels: {
-          name: {
-            show: true,
-            fontSize: "0.8rem",
-            color: "rgb(0, 0, 0)",
-            opacity: "0.7",
-            fontFamily: "Montserrat",
-            fontWeight: "300"
-
-
-          },
-          value: {
-            show: true,
-            fontSize: "1.1rem",
-            color: "rgb(0, 0, 0)",
-            fontWeight: "bold",
-            formatter: (valor) => valor + "%"
-          }
-        }
-      }
-    },
-    labels: ["CAPACIDADE"]
-  };
-
-  var gaugeChart = new ApexCharts(document.querySelector("#gauge"), options);
-  gaugeChart.render();
-</script>
 
 <script>
   let data = [];
@@ -198,16 +157,18 @@
     }
   }
   option = {
-    
+
 
     title: {
       text: 'Correlação Entre as Variáveis',
-      left: 'center',
-      top: 8,
+      left: 45,
+      top: 0,
       textStyle: {
         color: '#1f2937',
         fontWeight: 600,
-        fontSize: 17
+        fontSize: 14,
+        fontFamily: "'Inter', sans-serif",
+        fontWeight: 'bold',
       }
     },
     tooltip: {
@@ -322,7 +283,7 @@
       labels: {
         style: {
           fontSize: '12px'
-        },
+        }
 
       },
       datetimeFormatter: {
@@ -330,6 +291,14 @@
         month: 'MMM \'yy',
         day: 'dd/MM'
       },
+       title: {
+        text: 'Data',
+        style: {
+          fontWeight: 'bold',
+          color: '#475569',
+
+        }
+      }
     },
 
     yaxis: {
@@ -337,6 +306,15 @@
       max: 1,
       labels: {
         formatter: val => val.toFixed(2)
+      },
+      title: {
+        text: 'Probabilidade de Pico (%)',
+        style: {
+          fontWeight: 'bold',
+          color: '#475569',
+          
+
+        }
       }
     },
 
@@ -344,11 +322,15 @@
       text: "Previsão de Picos de Tráfego (Regressão Logística)",
       align: "left",
       style: {
-        fontSize: '18px',
+        fontSize: 16,
         fontWeight: 'bold',
-        color: '#333'
+        color: '#1f2937',
+        fontFamily: "'Inter', sans-serif"
+        
+
       }
     },
+  
 
   };
 
@@ -379,17 +361,42 @@
       curve: 'straight'
     },
     title: {
-      text: 'Product Trends by Month',
-      align: 'left'
+      text: 'Tráfego nas Últimas Horas',
+      align: 'left',
+      style: {
+        fontFamily: "'Inter', sans-serif",
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: '#1f2937'
+
+      }
     },
     grid: {
       row: {
-        colors: ['#f3f3f3', 'transparent'], 
+        colors: ['#f3f3f3', 'transparent'],
         opacity: 0.5
       },
     },
     xaxis: {
       categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+      title: {
+        text: 'Hora',
+        style: {
+          fontWeight: 'bold',
+          color: '#475569',
+
+        }
+      }
+    },
+    yaxis: {
+      title: {
+        text: 'Velocidade do Tráfego (Taxa de Transferência)',
+        style: {
+          fontWeight: 'bold',
+          color: '#475569',
+
+        }
+      }
     }
   };
 
