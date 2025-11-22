@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Maria</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monitoramento de Trafego de Rede</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../style/sidebar.css">
   <link rel="stylesheet" href="../../style/essencial.css">
@@ -14,57 +19,87 @@
   <link rel="stylesheet" href="../../style/Maria.css">
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+
 </head>
 
 <body onload="listarPermissoesReload()">
   <nav id="id_sidebar"></nav>
 
-  <div class="page_content">
-
-    <div class="cards">
-
-      <div class="card">
-        <span class="label">INCIDENTES</span>
-        <span class="value">34</span>
-      </div>
-
-      <div class="card">
-        <span class="label">TRÁFEGO ATUAL</span>
-        <span class="value">1.2 Tbit/s</span>
-      </div>
-
-      <div class="card capacity-card">
-               <div id="gauge"></div>
-      </div>
-
+  <header>
+    <div class="titulo-dash">
+      <i class="fa-solid fa-chart-simple"></i>
+      <h1> Monitoramento de Trafego de Rede</h1>
     </div>
 
-    <div class="graficos">
-     <div id="correlationHeatmap" style="width: 60vw; height: 60vh;"></div>
+  </header>
 
-
-    </div>
+  <div class="row">
+    <button class="btn-primary">Últimas 24h</button>
+    <button>7 dias</button>
+    <button>30 dias</button>
+    <button>Período Customizado <i class="fa-regular fa-calendar"></i></button>
 
 
 
   </div>
 
-  <footer>
-    <div class="dashButtons">
-      <a href="./home.html"><img src="/public/Images/home.svg" alt=""></a>
-    <a href="./Ally.html"><img src="/public/Images/Colaboradores/Colaborador1.svg" alt=""></a>
-    <a href="./Gustavo.html"><img src="/public/Images/Colaboradores/Colaborador2.svg" alt=""></a>
-    <a href="./Leonardo.html"><img src="/public/Images/Colaboradores/Colaborador3.svg" alt=""></a>
-    <a href="./Maria.html"><img src="/public/Images/Colaboradores/Colaborador4.svg" alt=""></a>
-    <a href="./Pedro.html"><img src="/public/Images/Colaboradores/Colaborador5.svg" alt=""></a>
+  <div class="page_content main">
+
+    <div class="grid grid-6">
+      <div class="card">
+        <p class="text-kpi">Tráfego Atual
+          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+        </p>
+        <p class="value">1.2 Tbit/s</p>
+      </div>
+      <div class="card">
+        <p class="text-kpi">Perda de Pacotes
+          <i class="fa-solid fa-box-archive"></i>
+        </p>
+        <p class="value">0.05%</p>
+      </div>
+      <div class="card">
+        <p class="text-kpi">Dados Totais
+          <i class="fa-solid fa-database"></i>
+        </p>
+        <p class="value">850 TB</p>
+      </div>
+      <div class="card">
+        <p class="text-kpi">Capacidade Utilizada
+          <i class="fa-solid fa-bars-progress"></i>
+        </p>
+
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 70%;"></div>
+        </div>
+        <p class="value">70%</p>
+      </div>
+
+    </div>
+
+    <div class="container-graficos">
+      <div id="correlationHeatmap"></div>
+      <div id="chart"></div>
+    </div>
+    <div class="container-graficos">
+      <div id="previsao"></div>
+    </div>
+
   </div>
-</footer>
+
 </body>
-
-</html>
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+  integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+
+</html>
+
 <script>
 
 
@@ -89,7 +124,6 @@
 
 </script>
 
-
 <script>
   var options = {
     series: [70], // valor inicial
@@ -97,24 +131,24 @@
     chart: {
       height: 300,
       type: "radialBar",
-      
+
     },
     plotOptions: {
       radialBar: {
         hollow: {
           size: "70%"
-           
+
         },
         dataLabels: {
           name: {
             show: true,
-            fontSize:"0.8rem",
+            fontSize: "0.8rem",
             color: "rgb(0, 0, 0)",
             opacity: "0.7",
             fontFamily: "Montserrat",
             fontWeight: "300"
 
-            
+
           },
           value: {
             show: true,
@@ -131,73 +165,237 @@
 
   var gaugeChart = new ApexCharts(document.querySelector("#gauge"), options);
   gaugeChart.render();
-
 </script>
-
-
 
 <script>
+  let data = [];
 
-let data = [];
+  const correlacao = [
+    [1, 0.06, -0.10, 0.05],   // trafego
+    [0.06, 1, 0.17, -0.18],   // incidentes
+    [-0.10, 0.17, 1, -0.09],   // final_semana
+    [0.05, -0.18, -0.09, 1]       // feriado
+  ];
 
-const correlacao = [
-  [1,     0.06,  -0.10,  0.05],   // trafego
-  [0.06,  1,      0.17, -0.18],   // incidentes
-  [-0.10, 0.17,   1,    -0.09],   // final_semana
-  [0.05, -0.18,  -0.09,  1]       // feriado
-];
+  const labels = ["tráfego", "perda_pacotes", "final_semana", "feriado"];
 
-const labels = ["trafego", "incidentes", "final_semana", "feriado"];
-
-
-
-const xData = ["trafego", "incidentes", "final_semana", "feriado"];
-const yData = ["trafego", "incidentes", "final_semana", "feriado"];
-
-for (let i = 0; i < correlacao.length; ++i) {
-  for (let j = 0; j < correlacao.length; ++j) {
-      data.push([labels[j], labels[i], correlacao[i][j]]);
-  }
-}
-option = {
-   title: {
-   text: 'Correlação Entre as Variáveis',
-    left: 'center',
-    top:0
- },
-  matrix: {
-    x: {
-      data: xData
-    },
-    y: {
-      data: yData
-    },
-   
-  },
-  visualMap: {
-    type: 'continuous',
-    min: -1,
-    max: 1,
-    dimension: 2,
-    calculable: true,
-    orient: 'vertical',
-    top: 5,
-    left: 'right'
-  },
-  series: {
-    type: 'heatmap',
-    coordinateSystem: 'matrix',
-    data,
-    label: {
-      show: true,
-      formatter: (params) => params.value[2].toFixed(2)
+  for (let i = 0; i < correlacao.length; ++i) {
+    for (let j = 0; j < correlacao.length; ++j) {
+      data.push({
+        name: `${labels[i]}-${labels[j]}`,
+        value: [j, i, correlacao[i][j]]
+      });
     }
   }
-};
-var chartDom = document.getElementById('correlationHeatmap');
-var myChart = echarts.init(chartDom);
-myChart.setOption(option);
-  
+
+
+  const xData = ["trafego", "perda_pacotes", "final_semana", "feriado"];
+  const yData = ["trafego", "perda_pacotes", "final_semana", "feriado"];
+
+  for (let i = 0; i < correlacao.length; ++i) {
+    for (let j = 0; j < correlacao.length; ++j) {
+      data.push([labels[j], labels[i], correlacao[i][j]]);
+    }
+  }
+  option = {
+    
+
+    title: {
+      text: 'Correlação Entre as Variáveis',
+      left: 'center',
+      top: 8,
+      textStyle: {
+        color: '#1f2937',
+        fontWeight: 600,
+        fontSize: 17
+      }
+    },
+    tooltip: {
+      position: 'top',
+      formatter: (params) => {
+        return `
+        <b>${labels[params.value[1]]}</b> x 
+        <b>${labels[params.value[0]]}</b> <br>
+        Correlação: <b>${params.value[2].toFixed(2)}</b>
+      `;
+      },
+      backgroundColor: 'rgba(50, 50, 50, 0.85)',
+      borderRadius: 8,
+      padding: 10,
+      textStyle: {
+        color: '#fff'
+      }
+    },
+    matrix: {
+      x: {
+        data: xData
+      },
+      y: {
+        data: yData
+      },
+
+    },
+    visualMap: {
+      type: 'continuous',
+      min: -1,
+      max: 1,
+      calculable: true,
+      left: -10,
+      top: 'middle',
+      itemHeight: 120,
+      itemWidth: 10,
+      text: ['Alto', 'Baixo'],
+      textStyle: { color: '#475569', fontWeight: 600 },
+
+
+    },
+    series: {
+      type: 'heatmap',
+      coordinateSystem: 'matrix',
+      data: data,
+      label: {
+        show: true,
+        formatter: (params) => params.value[2].toFixed(2)
+      },
+
+
+    },
+
+
+  };
+  var chartDom = document.getElementById('correlationHeatmap');
+  var myChart = echarts.init(chartDom);
+  myChart.setOption(option);
+
+
+  //-------------------------------------------------------------------
+
+  const df = [
+    { data: "2025-11-20", prob: 0.12 },
+    { data: "2025-11-22", prob: 0.58 },
+    { data: "2025-12-25", prob: 0.92 }
+  ];
+
+  const serieApex = df.map(item => ({
+    x: item.data,
+    y: item.prob
+  }));
+
+
+
+  var options = {
+    chart: {
+      colors: ['#0077b6'],
+      type: 'line',
+      height: 350,
+      width: 900,
+      type: 'line',
+      height: 350,
+      width: 900,
+      toolbar: {
+        show: false
+      },
+      foreColor: '#555'
+    },
+    markers: {
+      size: 6,
+      colors: ['#0077b6'],
+      strokeColors: '#fff',
+      strokeWidth: 2,
+      hover: {
+        size: 8,
+      }
+    },
+
+    series: [{
+      name: "Probabilidade de Pico",
+      data: serieApex
+    }],
+
+    stroke: {
+      width: 4,
+      curve: "smooth"
+    },
+
+    xaxis: {
+      type: "datetime",
+      labels: {
+        style: {
+          fontSize: '12px'
+        },
+
+      },
+      datetimeFormatter: {
+        year: 'yyyy',
+        month: 'MMM \'yy',
+        day: 'dd/MM'
+      },
+    },
+
+    yaxis: {
+      min: 0,
+      max: 1,
+      labels: {
+        formatter: val => val.toFixed(2)
+      }
+    },
+
+    title: {
+      text: "Previsão de Picos de Tráfego (Regressão Logística)",
+      align: "left",
+      style: {
+        fontSize: '18px',
+        fontWeight: 'bold',
+        color: '#333'
+      }
+    },
+
+  };
+
+  var chart = new ApexCharts(document.querySelector("#previsao"), options);
+  chart.render();
+
+  //----------------------------------------------------------------------------
+  var options = {
+    series: [{
+      name: "Desktops",
+      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+    }],
+    chart: {
+      height: 350,
+      type: 'line',
+      zoom: {
+        enabled: false
+      },
+      toolbar: {
+        show: false
+      }
+    },
+
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: 'straight'
+    },
+    title: {
+      text: 'Product Trends by Month',
+      align: 'left'
+    },
+    grid: {
+      row: {
+        colors: ['#f3f3f3', 'transparent'], 
+        opacity: 0.5
+      },
+    },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+    }
+  };
+
+  var chart = new ApexCharts(document.querySelector("#chart"), options);
+  chart.render();
+
+
+
 </script>
-
-

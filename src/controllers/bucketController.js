@@ -31,7 +31,7 @@ const uploadToS3 = async (req, res) => {
     const { idEmpresa: empresaId, nome: empresaNome } = empresaResult[0];
 
     //nome da empresa para usar como nome da pasta
-    const empresaPasta = empresaNome.toLowerCase();          
+    const empresaPasta = empresaId.toLowerCase();          
 
     const nomeArquivo = file.originalname;
     
