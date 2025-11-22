@@ -77,11 +77,17 @@
 
     </div>
 
-    <div class="container-graficos">
-      <div id="correlationHeatmap"></div>
+    <div class="container-graficos first">
+      <div class="grafico-card">
+        <div class="grafico-header">
+          <h3>Correlação: Eventos de Rede x Tráfego</h3>
+          <i class="fa-regular fa-circle-question"></i>
+        </div>
+        <div id="correlationHeatmap"></div>
+      </div>
       <div id="chart"></div>
     </div>
-    <div class="container-graficos">
+    <div class="container-graficos second">
       <div id="previsao"></div>
     </div>
 
@@ -157,20 +163,6 @@
     }
   }
   option = {
-
-
-    title: {
-      text: 'Correlação Entre as Variáveis',
-      left: 45,
-      top: 0,
-      textStyle: {
-        color: '#1f2937',
-        fontWeight: 600,
-        fontSize: 14,
-        fontFamily: "'Inter', sans-serif",
-        fontWeight: 'bold',
-      }
-    },
     tooltip: {
       position: 'top',
       formatter: (params) => {
@@ -239,20 +231,16 @@
 
   const serieApex = df.map(item => ({
     x: item.data,
-    y: item.prob
+    y: item.prob 
   }));
 
 
 
   var options = {
     chart: {
-      colors: ['#0077b6'],
       type: 'line',
       height: 350,
-      width: 900,
-      type: 'line',
-      height: 350,
-      width: 900,
+      width: '100%',
       toolbar: {
         show: false
       },
@@ -260,7 +248,7 @@
     },
     markers: {
       size: 6,
-      colors: ['#0077b6'],
+      colors: ['#c1121f'],
       strokeColors: '#fff',
       strokeWidth: 2,
       hover: {
@@ -271,18 +259,22 @@
     series: [{
       name: "Probabilidade de Pico",
       data: serieApex
+      
     }],
 
     stroke: {
       width: 4,
-      curve: "smooth"
+      curve: "smooth",
+      
+      colors:['#003566']
     },
 
     xaxis: {
       type: "datetime",
       labels: {
         style: {
-          fontSize: '12px'
+          fontSize: '12px',
+          colors: '#6b7280'
         }
 
       },
@@ -291,7 +283,7 @@
         month: 'MMM \'yy',
         day: 'dd/MM'
       },
-       title: {
+      title: {
         text: 'Data',
         style: {
           fontWeight: 'bold',
@@ -305,14 +297,13 @@
       min: 0,
       max: 1,
       labels: {
-        formatter: val => val.toFixed(2)
+        formatter: val => (val * 100).toFixed(0) + '%'
       },
       title: {
         text: 'Probabilidade de Pico (%)',
         style: {
           fontWeight: 'bold',
-          color: '#475569',
-          
+
 
         }
       }
@@ -324,13 +315,12 @@
       style: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#1f2937',
         fontFamily: "'Inter', sans-serif"
-        
+
 
       }
     },
-  
+
 
   };
 

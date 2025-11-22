@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Oswald:wght@200..700&display=swap');
-*{
+
+* {
     font-family: 'Inter', sans-serif;
 }
+
 :root {
     --primary: #2563eb;
     --primary-light: #dbeafe;
@@ -43,17 +45,22 @@ header {
     display: flex;
     grid-template-rows: 80px 1fr;
 }
-.titulo-dash{
+
+.titulo-dash {
     display: flex;
-    
+
 }
-header, h1{
+
+header,
+h1 {
     display: flex;
     font-size: large;
-    align-self:flex-end;
+    align-self: flex-end;
     color: var(--on-surface);
 }
-header, .fa-chart-simple{
+
+header,
+.fa-chart-simple {
     padding-right: 15px;
     color: var(--primary-text);
     font-size: 1.5rem;
@@ -70,8 +77,8 @@ header, .fa-chart-simple{
 
 .progress-fill {
     height: 100%;
-    background: #1283a27a; 
-    
+    background: #1283a27a;
+
     transition: width 0.4s ease;
 }
 
@@ -127,7 +134,7 @@ select {
 
 }
 
-.text-kpi{
+.text-kpi {
     display: flex;
     font-size: 0.8rem;
     padding-top: 5px;
@@ -138,7 +145,7 @@ select {
 
 .grid {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     gap: 57px;
     margin-bottom: 30px;
     flex-wrap: wrap;
@@ -211,11 +218,14 @@ tr:hover {
     background: #fee2e2;
     color: #b91c1c;
 }
-
-.container-graficos{
-    display: grid;
-    grid-template-columns: 1fr 1fr; 
+.first{
+ display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
+}
+
+.container-graficos {
+   
     background-color: var(--background);
     padding: 20px;
     margin-bottom: 30px;
@@ -229,17 +239,53 @@ tr:hover {
     height: 55vh;
     border-right: 1px solid #64748b4d;
 
-    
+
 }
 
 #chart {
-    border-left:  5px;
+    border-left: 5px;
     width: 100%;
     height: 50vh;
 }
 
-#previsao{
+#previsao {
     align-self: center;
     width: 100%;
     height: 50vh;
+}
+
+.grafico-card {
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.grafico-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+
+}
+
+.grafico-header h3 {
+    margin: 0;
+    font-weight: bold;
+    font-size: 14px;
+    color: #1f2937;
+    margin-left: 40px;
+}
+
+
+.fa-circle-question {
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 16px;
+    margin-left: 10px;
+    transition: 0.4s;
+}
+
+.fa-circle-question:hover {
+    font-size: 17.5px;
+    color: #1f2937;
 }
