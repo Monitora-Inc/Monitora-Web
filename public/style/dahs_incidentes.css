@@ -100,7 +100,7 @@ $$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\
 
 .cards_kpi1 {
     width: 100%;
-    height: 13vh;
+    height: 15vh;
     display: flex;
     justify-content: space-between;
     padding-right: 1vw;
@@ -121,7 +121,7 @@ $$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\
     flex-direction: column;
     width: 30%;
     text-align: center; 
-    background-color: #0f2247; 
+    background-color: #072F4E; 
     color: #ffffff; 
     border-top-left-radius: 5px; 
     border-bottom-left-radius: 5px;
@@ -145,14 +145,14 @@ $$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\
     background-color: white;
     width: 14%;
     height: 100%;
-    border-left: solid 0.5px #0f2247;
-    border-right: solid 0.5px #0f2247;
+    border-left: solid 0.5px #072F4E;
+    border-right: solid 0.5px #072F4E;
 }
 
 .cards_kpi1 .card .titulo{
     position: absolute;
     top: 0.63rem;
-    padding-bottom: 2.5rem;
+    margin-bottom: 2vh;
     font-size: 2.6vh;
 }
 
@@ -252,7 +252,7 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
     height: 20%;
     border-radius: 0.31rem;
     font-size: 2.7vh;
-    border: solid 2px #0f2247;
+    border: solid 2px #072F4E;
 }
 
 .cards_componentes .card h3 {
@@ -260,7 +260,7 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
     top: 0rem;
     padding-top: 0.31rem;
     padding-bottom: 0.31rem;
-    background: #0f2247;
+    background: #072F4E;
     color: #ffffff;
     width: 100%;
     text-align: center;
@@ -280,7 +280,7 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
     background-color: white;
     box-shadow: 0px 0.35rem 0.35rem rgba(0, 0, 0, 0.25);
     border-radius: 0.31rem;
-    border: solid 2px #0f2247;
+    border: solid 2px #072F4E;
 }
 
 .card_grafico .card{
@@ -294,7 +294,7 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
     border-top-left-radius: 0.31rem;
     border-top-right-radius: 0.31rem;
     font-size: 3vh;
-    background: #0f2247;
+    background: #072F4E;
     color: #ffffff;
 }
 
@@ -332,7 +332,7 @@ th, td {
     padding: 0.5rem; 
     text-align: left; 
     border-bottom: 1px solid #888888;
-    border: solid 2px #0f2247;
+    border: solid 2px #072F4E;
 }
 td {
     font-size: 3vh;
@@ -340,7 +340,7 @@ td {
 }
 th {
     text-align: center;
-    background: #0f2247; 
+    background: #072F4E; 
     color: white;
     font-size: 2.5vh;
 }
@@ -348,7 +348,6 @@ tr {
     display: table-row;
 }
 thead {
-    background: #0f2247;
+    background: #072F4E;
     display: table-header-group;
 }
-
