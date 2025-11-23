@@ -15,7 +15,7 @@
 
 <body>
 
-    <body onload="listarPermissoesReload()">
+    <body onload="listarPermissoesReload(), pegarDataUltimaAtualizacao()">
         <nav id="id_sidebar"></nav>
         <div id="id_info_kpis"></div>
         <div id="popup_screen"></div>
@@ -27,7 +27,8 @@
                     <div class="kpisIncidentes">
                         <div class="tituloDiv">
                             <h3>Dashboard de Gestão de Incidentes</h3>
-                            <p>Última atualização: 12/12/2012 - 23:59:59</p>
+                            <p id="dataUltimaAtualizacao">Última atualização:</p>
+                            <p>Dados referentes aos últimos 30 dias</p>
                         </div>
                         <div class="card">
                             <p class="titulo">Registrados</p>
@@ -142,102 +143,117 @@
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-    //buscarKpisIncidentes();
-    //buscarDadosComponentes();
-    //buscarKpisPerformance();
-
+    buscarKpisIncidentes();
+    buscarDadosComponentes();
+    buscarKpisPerformance();
+    
     function buscarKpisIncidentes() {
         const fetchPromise = fetch("https://baiqze345xsjipst2bsfdm7wx40tsnni.lambda-url.us-east-1.on.aws/");
-
+        
         fetchPromise
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                incidentesAbertos.innerHTML = `${data.abertos}`;
-                incidentesCriticosAbertos.innerHTML = `${data.criticosAbertos}`;
-                incidentesCriticosTotais.innerHTML = `${data.criticosTotais}`;
-                incidentesAtencaoAbertos.innerHTML = `${data.atencaoAbertos}`;
-                incidentesAtencaoTotais.innerHTML = `${data.atencaoTotais}`;
-                incidentesFechados.innerHTML = `${data.fechados}`;
-                incidentesRegistrados.innerHTML = `${data.totais}`;
-            });
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            incidentesAbertos.innerHTML = `${data.abertos}`;
+            incidentesCriticosAbertos.innerHTML = `${data.criticosAbertos}`;
+            incidentesCriticosTotais.innerHTML = `${data.criticosTotais}`;
+            incidentesAtencaoAbertos.innerHTML = `${data.atencaoAbertos}`;
+            incidentesAtencaoTotais.innerHTML = `${data.atencaoTotais}`;
+            incidentesFechados.innerHTML = `${data.fechados}`;
+            incidentesRegistrados.innerHTML = `${data.totais}`;
+        });
     }
-
+    
     function buscarDadosComponentes() {
         const fetchPromise = fetch("https://sxogicvqs5hrftapsoul2fmegu0sugtj.lambda-url.us-east-1.on.aws/");
-
+        
         fetchPromise
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                const tbody = document.getElementById('dataTable');
-                for (let i = 0; i < data.length - 1; i++) {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `<td>${data[i].nomeComponente}</td><td>${data[i].totais}</td><td>${data[i].criticos}</td><td>${data[i].atencao}</td>`;
-                    tbody.appendChild(tr);
-                }
-                componentesComMaisIncidentes.innerHTML = `${data[5].componentesComMaisIncidentes}`;
-            });
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            const tbody = document.getElementById('dataTable');
+            for (let i = 0; i < data.length - 1; i++) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${data[i].nomeComponente}</td><td>${data[i].totais}</td><td>${data[i].criticos}</td><td>${data[i].atencao}</td>`;
+                tbody.appendChild(tr);
+            }
+            componentesComMaisIncidentes.innerHTML = `${data[5].componentesComMaisIncidentes}`;
+        });
     }
-
+    
     function buscarKpisPerformance() {
         const fetchPromise = fetch("https://srjhgfjyqkpikdxw6ecdcoiisq0cbzwa.lambda-url.us-east-1.on.aws/");
-
+        
         fetchPromise
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                if (data[0].MTBFhoras < 4) {
-                    divIconeMTBF.style.background = '#FF0267';
-                    divIconeMTBF.innerHTML = `<img src="../../assets/icons/thumbs_down.svg">`;
-                    mtbf.style.color = '#B4044B';
-                    mtbf.innerHTML = `${data[0].MTBFhoras}h${data[0].MTBFminutos}min`;
-                } else if (4 <= data[0].MTBFhoras <= 24) {
-                    divIconeMTBF.style.background = '#FFCA67';
-                    divIconeMTBF.innerHTML = `<img src="../../assets/icons/light.svg">`;
-                    mtbf.style.color = '#D2A043';
-                    mtbf.innerHTML = `${data[0].MTBFhoras}h${data[0].MTBFminutos}min`;
-                } else if (data[0].MTBFhoras > 24) {
-                    divIconeMTBF.style.background = '#00F2B9';
-                    divIconeMTBF.innerHTML = `<img src="../../assets/icons/thumbs_up.svg">`;
-                    mtbf.style.color = '#219A7E';
-                    mtbf.innerHTML = `${data[0].MTBFhoras}h${data[0].MTBFminutos}min`;
-                }
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            if (data[0].MTBFhoras < 4) {
+                divIconeMTBF.style.background = '#FF0267';
+                divIconeMTBF.innerHTML = `<img src="../../assets/icons/thumbs_down.svg">`;
+                mtbf.style.color = '#B4044B';
+                mtbf.innerHTML = `${data[0].MTBFhoras}h${data[0].MTBFminutos}min`;
+            } else if (4 <= data[0].MTBFhoras <= 24) {
+                divIconeMTBF.style.background = '#FFCA67';
+                divIconeMTBF.innerHTML = `<img src="../../assets/icons/light.svg">`;
+                mtbf.style.color = '#D2A043';
+                mtbf.innerHTML = `${data[0].MTBFhoras}h${data[0].MTBFminutos}min`;
+            } else if (data[0].MTBFhoras > 24) {
+                divIconeMTBF.style.background = '#00F2B9';
+                divIconeMTBF.innerHTML = `<img src="../../assets/icons/thumbs_up.svg">`;
+                mtbf.style.color = '#219A7E';
+                mtbf.innerHTML = `${data[0].MTBFhoras}h${data[0].MTBFminutos}min`;
+            }
+            
+            if (data[1].MTTRhoras > 10) {
+                divIconeMTTR.style.background = '#FF0267';
+                divIconeMTTR.innerHTML = `<img src="../../assets/icons/thumbs_down.svg">`;
+                mttr.style.color = '#B4044B';
+                mttr.innerHTML = `${data[1].MTTRhoras}h${data[1].MTTRminutos}min`;
+            } else if (4 <= data[1].MTTRhoras <= 10) {
+                divIconeMTTR.style.background = '#FFCA67';
+                divIconeMTTR.innerHTML = `<img src="../../assets/icons/light.svg">`;
+                mttr.style.color = '#D2A043';
+                mttr.innerHTML = `${data[1].MTTRhoras}h${data[1].MTTRminutos}min`;
+            } else if (data[1].MTTRhoras < 4) {
+                divIconeMTTR.style.background = '#00F2B9';
+                divIconeMTTR.innerHTML = `<img src="../../assets/icons/thumbs_up.svg">`;
+                mttr.style.color = '#219A7E';
+                mttr.innerHTML = `${data[1].MTTRhoras}h${data[1].MTTRminutos}min`;
+            }
+            
+            if (data[2].porcentagemSLA < 90) {
+                divIconeSLA.style.background = '#FF0267';
+                divIconeSLA.innerHTML = `<img src="../../assets/icons/thumbs_down.svg">`;
+                slaCompliance.style.color = '#B4044B';
+                slaCompliance.innerHTML = `${data[2].porcentagemSLA}%`;
+            } else if (90 <= data[2].porcentagemSLA <= 94.9) {
+                divIconeSLA.style.background = '#FFCA67';
+                divIconeSLA.innerHTML = `<img src="../../assets/icons/light.svg">`;
+                slaCompliance.style.color = '#D2A043';
+                slaCompliance.innerHTML = `${data[2].porcentagemSLA}%`;
+            } else if (data[2].porcentagemSLA >= 95) {
+                divIconeSLA.style.background = '#00F2B9';
+                divIconeSLA.innerHTML = `<img src="../../assets/icons/thumbs_up.svg">`;
+                slaCompliance.style.color = '#219A7E';
+                slaCompliance.innerHTML = `${data[2].porcentagemSLA}%`;
+            }
+        });
+    }
+    
+    function pegarDataUltimaAtualizacao() {
+        const agora = new Date();
 
-                if (data[1].MTTRhoras > 10) {
-                    divIconeMTTR.style.background = '#FF0267';
-                    divIconeMTTR.innerHTML = `<img src="../../assets/icons/thumbs_down.svg">`;
-                    mttr.style.color = '#B4044B';
-                    mttr.innerHTML = `${data[1].MTTRhoras}h${data[1].MTTRminutos}min`;
-                } else if (4 <= data[1].MTTRhoras <= 10) {
-                    divIconeMTTR.style.background = '#FFCA67';
-                    divIconeMTTR.innerHTML = `<img src="../../assets/icons/light.svg">`;
-                    mttr.style.color = '#D2A043';
-                    mttr.innerHTML = `${data[1].MTTRhoras}h${data[1].MTTRminutos}min`;
-                } else if (data[1].MTTRhoras < 4) {
-                    divIconeMTTR.style.background = '#00F2B9';
-                    divIconeMTTR.innerHTML = `<img src="../../assets/icons/thumbs_up.svg">`;
-                    mttr.style.color = '#219A7E';
-                    mttr.innerHTML = `${data[1].MTTRhoras}h${data[1].MTTRminutos}min`;
-                }
+        const dia = String(agora.getDate()).padStart(2, '0');
+        const mes = String(agora.getMonth() + 1).padStart(2, '0');
+        const ano = agora.getFullYear();
 
-                if (data[2].porcentagemSLA < 90) {
-                    divIconeSLA.style.background = '#FF0267';
-                    divIconeSLA.innerHTML = `<img src="../../assets/icons/thumbs_down.svg">`;
-                    slaCompliance.style.color = '#B4044B';
-                    slaCompliance.innerHTML = `${data[2].porcentagemSLA}%`;
-                } else if (90 <= data[2].porcentagemSLA <= 94.9) {
-                    divIconeSLA.style.background = '#FFCA67';
-                    divIconeSLA.innerHTML = `<img src="../../assets/icons/light.svg">`;
-                    slaCompliance.style.color = '#D2A043';
-                    slaCompliance.innerHTML = `${data[2].porcentagemSLA}%`;
-                } else if (data[2].porcentagemSLA >= 95) {
-                    divIconeSLA.style.background = '#00F2B9';
-                    divIconeSLA.innerHTML = `<img src="../../assets/icons/thumbs_up.svg">`;
-                    slaCompliance.style.color = '#219A7E';
-                    slaCompliance.innerHTML = `${data[2].porcentagemSLA}%`;
-                }
-            });
+        const horas = String(agora.getHours()).padStart(2, '0');
+        const minutos = String(agora.getMinutes()).padStart(2, '0');
+        const segundos = String(agora.getSeconds()).padStart(2, '0');
+
+        let dataHora = `${dia}/${mes}/${ano} - ${horas}:${minutos}:${segundos}`;
+        dataUltimaAtualizacao.innerHTML = `<p id="dataUltimaAtualizacao">Última atualização: ${dataHora}</p>`;
     }
 
     var options = {
