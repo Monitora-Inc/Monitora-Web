@@ -30,24 +30,42 @@
                             <p>Última atualização: 12/12/2012 - 23:59:59</p>
                         </div>
                         <div class="card">
+                            <p class="titulo">Registrados</p>
+                            <h2 id="incidentesRegistrados"></h2>
+                        </div>
+                        <div class="card">
                             <p class="titulo">Em aberto</p>
                             <h2 id="incidentesAbertos"></h2>
                         </div>
                         <div class="card">
                             <p class="titulo">Críticos</p>
-                            <h2 id="incidentesCriticos"></h2>
+                            <div style="width: 100%; display: flex; justify-content: space-around; margin-top: 3.2vh;">
+                                <div style="width: 50%; text-align: center; border-right: solid 0.3px #072F4E;">
+                                    <h2 id="incidentesCriticosAbertos" style="padding-top: 0;"></h2>
+                                    <p>Abertos</p>
+                                </div>
+                                <div style="border-left: solid 0.3px #072F4E; width: 50%; text-align: center;">
+                                    <h2 id="incidentesCriticosTotais" style="padding-top: 0;"></h2>
+                                    <p>Totais</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="card">
                             <p class="titulo">Atenção</p>
-                            <h2 id="incidentesAtencao"></h2>
-                        </div>
-                        <div class="card">
-                            <p class="titulo">Fechados</p>
-                            <h2 id="incidentesFechados"></h2>
+                            <div style="width: 100%; display: flex; justify-content: space-around; margin-top: 3vh;">
+                                <div style="border-right: solid 0.3px #072F4E; width: 50%; text-align: center;">
+                                    <h2 id="incidentesAtencaoAbertos" style="padding-top: 0;"></h2>
+                                    <p>Abertos</p>
+                                </div>
+                                <div style="border-left: solid 0.3px #072F4E; width: 50%; text-align: center;">
+                                    <h2 id="incidentesAtencaoTotais" style="padding-top: 0;"></h2>
+                                    <p>Totais</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="card" style="border-top-right-radius: 7px; border-bottom-right-radius: 7px;">
-                            <p class="titulo">Registrados</p>
-                            <h2 id="incidentesRegistrados"></h2>
+                            <p class="titulo">Fechados</p>
+                            <h2 id="incidentesFechados"></h2>
                         </div>
                     </div>
                 </section>
@@ -88,9 +106,9 @@
                         <thead>
                             <tr>
                                 <th>Componente</th>
+                                <th>Incidentes totais</th>
                                 <th>Incidentes críticos</th>
                                 <th>Incidentes de atenção</th>
-                                <th>Incidentes totais</th>
                             </tr>
                         </thead>
                         <tbody id="dataTable"></tbody>
@@ -122,8 +140,6 @@
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
 
-<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     //buscarKpisIncidentes();
@@ -138,11 +154,13 @@
             .then((data) => {
                 console.log(data);
                 incidentesAbertos.innerHTML = `${data.abertos}`;
-                incidentesCriticos.innerHTML = `${data.criticos}`;
-                incidentesAtencao.innerHTML = `${data.atencao}`;
+                incidentesCriticosAbertos.innerHTML = `${data.criticosAbertos}`;
+                incidentesCriticosTotais.innerHTML = `${data.criticosTotais}`;
+                incidentesAtencaoAbertos.innerHTML = `${data.atencaoAbertos}`;
+                incidentesAtencaoTotais.innerHTML = `${data.atencaoTotais}`;
                 incidentesFechados.innerHTML = `${data.fechados}`;
                 incidentesRegistrados.innerHTML = `${data.totais}`;
-            });        
+            });
     }
 
     function buscarDadosComponentes() {
@@ -155,8 +173,8 @@
                 const tbody = document.getElementById('dataTable');
                 for (let i = 0; i < data.length - 1; i++) {
                     const tr = document.createElement('tr');
-                    tr.innerHTML = `<td>${data[i].nomeComponente}</td><td>${data[i].criticos}</td><td>${data[i].atencao}</td><td>${data[i].totais}</td>`;
-                    tbody.appendChild(tr); 
+                    tr.innerHTML = `<td>${data[i].nomeComponente}</td><td>${data[i].totais}</td><td>${data[i].criticos}</td><td>${data[i].atencao}</td>`;
+                    tbody.appendChild(tr);
                 }
                 componentesComMaisIncidentes.innerHTML = `${data[5].componentesComMaisIncidentes}`;
             });
