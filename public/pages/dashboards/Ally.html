@@ -7,97 +7,81 @@
   <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../style/sidebar.css">
-  <link rel="stylesheet" href="../../style/essencial.css">
-  <link rel="stylesheet" href="../../style/tela_home.css">
-  <link rel="stylesheet" href="../../style/filtros.css">
   <link rel="stylesheet" href="../../style/popup.css">
+  <link rel="stylesheet" href="../../style/Ally.css">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 </head>
 
-<body onload="listarPermissoesReload()">
+<body>
   <nav id="id_sidebar"></nav>
   <div id="id_info_kpis"></div>
   <div id="popup_screen"></div>
+  <h1 class="titulo">Mapeamento global</h1>
+  <div class="container">
 
-  <div class="page_content">
-    <!-- Filtros de persquisa -->
-    <div class="filtros">
-      <img class="icones_filtros icone_filtro" alt="">
-      <select id="id_filtro" onchange="">
-        <option value="filtro_nivel_de_risco_crescente">Nível de risco (Crescente)</option>
-        <option value="filtro_nivel_de_risco_decrescente" selected>Nível de risco (Decrescente)</option>
-        <option value="filtro_critico">Critíco</option>
-        <option value="filtro_alerta">Alerta</option>ion>
-        <option value="filtro_estavel">Estável</option>
-      </select>
-      <img class="icones_filtros icone_pesquisar" alt="">
-      <input type="search" placeholder="Digite para pesquisar">
+    <div class="rankingDataCenter">
+      <h2 class="tituloRank">Ranking Datacenters</h2>
+      <div id="rankDatacenter" class="rankDatacenter">
+      </div>
     </div>
 
-    <!-- Lista de Usuários -->
+    <div class="direita">
+      <div id="map" class="mapLeaflet">
+      </div>
 
-    <div class="container_servidores">
-      <div class="lista_servidores">
-        <h1 class="lista_titulo">Servidores</h1> <!-- Título da Lista -->
-
-        <div class="card_servidor">
-          <div id="servidor_estado">
-            <img src="../../assets/icons/icone_critico.svg" alt="">
+      <div id="grafico_radar" class="grafico_radar">
+        <div class="grafico_esquerda">
+          <h3>Gráfico comparativo</h3>
+          <div class="card">
+            <select id="selectDataCenter" onchange="mudarDatacenter()">
+            </select>
+            <div class="kpis">
+              <p>Saude: <span id="Saude"></span>%</p>
+              <p>Rede: <span id="Rede"></span>%</p>
+              <p>Disco: <span id="Disco"></span>%</p>
+              <p>CPU: <span id="Cpu"></span>%</p>
+              <p>RAM: <span id="Ram"></span>%</p>
+            </div>
           </div>
-          <div class="servidor_informacoes">
-            <div id="servidor_nome">Servidor 1</div>
-            <div id="servidor_localizacao">São Paulo - SP</div>
-
-            <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>CPU, RAM e GPU, Rede</div>
-          </div>
-          <span class="barra_lateral critico"></span>
         </div>
-
-        <div class="card_servidor">
-          <div id="servidor_estado">
-            <img src="../../assets/icons/icone_alerta.svg" alt="">
-          </div>
-          <div class="servidor_informacoes">
-            <div id="servidor_nome">Servidor 1</div>
-            <div id="servidor_localizacao">São Paulo - SP</div>
-
-            <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>CPU, RAM e GPU, Rede</div>
-          </div>
-          <span class="barra_lateral alerta"></span>
-        </div>
-
-        <div class="card_servidor">
-          <div id="servidor_estado">
-            <img src="../../assets/icons/icone_estavel.svg" alt="">
-          </div>
-          <div class="servidor_informacoes">
-            <div id="servidor_nome">Servidor 1</div>
-            <div id="servidor_localizacao">São Paulo - SP</div>
-
-            <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>CPU, RAM e GPU, Rede</div>
-          </div>
-          <span class="barra_lateral estavel"></span>
-        </div>
+        <canvas id="radarChart" class="grafico"></canvas>
       </div>
     </div>
   </div>
-  <div class="dashButtons">
-    <a href="./home.html"><img src="/public/Images/home.svg" alt=""></a>
-    <a href="./Ally.html"><img src="/public/Images/Colaboradores/Colaborador1.svg" alt=""></a>
-    <a href="./Gustavo.html"><img src="/public/Images/Colaboradores/Colaborador2.svg" alt=""></a>
-    <a href="./Leonardo.html"><img src="/public/Images/Colaboradores/Colaborador3.svg" alt=""></a>
-    <a href="./Maria.html"><img src="/public/Images/Colaboradores/Colaborador4.svg" alt=""></a>
-    <a href="./Pedro.html"><img src="/public/Images/Colaboradores/Colaborador5.svg" alt=""></a>
+  <button onclick="popUp_IA()" class="logo_Ia"><img src="../../assets/logos/logo_vetorizada_branca.svg" alt=""></button>
+  <div class="popup_IA">
+    <h2>Dicas IA Monitora</h2>
+    <div class="MensagemIA">
+      <p> 🔄 Redistribuição recomendada: mover 20% da carga do DC Paulista para o DC Orlando</p>
+      <p>⚠ Anomalia detectada: aumento de 12% de latência no DC Rússia nas últimas 3h</p>
+      <p>🟩 Orlando está apto para receber novas instâncias</p>
+      <p>🪫 Paulista perto do limite de disco (82%)</p>
+    </div>
   </div>
+  <footer>
+    <div class="dashButtons">
+      <a href="./home.html"><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
+      <a href="./Ally.html"><img src="../../Images/Colaboradores/Colaborador1.svg" alt=""></a>
+      <a href="./Gustavo.html"><img src="../../Images/Colaboradores/Colaborador2.svg" alt=""></a>
+      <a href="./Leonardo.html"><img src="../../Images/Colaboradores/Colaborador3.svg" alt=""></a>
+      <a href="./Maria.html"><img src="../../Images/Colaboradores/Colaborador4.svg" alt=""></a>
+      <a href="./Pedro.html"><img src="../../Images/Colaboradores/Colaborador5.svg" alt=""></a>
+    </div>
+    <p>Developed by <a href="https://www.linkedin.com/in/ally-awada">AllyAwada</a></p>
+  </footer>
 </body>
 
 </html>
+
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
 <script>
-  listarServidores();
-
-
   if (sessionStorage.empresaCnpj == undefined) {
     listarPermissoesReload();
     verificarPermissoesSideBar();
@@ -111,144 +95,225 @@
     }
   }
 
-
-  function listarServidores() {
-    let idEmpresa = sessionStorage.empresaId;
-
-    fetch(`/servidores/listar/${idEmpresa}`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(response => {
-      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
-      return response.json();
-    }).then(dadosServidores => {
-      console.log(dadosServidores);
-
-      const container = document.querySelector(".lista_servidores");
-      container.innerHTML = `<h1 class="lista_titulo">Servidores</h1>`;
-
-      for (let servidor of dadosServidores) {
-        container.innerHTML += `
-                <div class="card_servidor" id="srv-${servidor.idServidor}" onclick="abrir_dashboard(this)">
-                    <div id="servidor_estado">
-                        <img src="../../assets/icons/icone_estavel.svg" alt="">
-                    </div>
-                    <div class="servidor_informacoes">
-                        <div id="servidor_nome">${servidor.nome}</div>
-                        <div id="servidor_localizacao">R. ${servidor.rua}, ${servidor.numero} - ${servidor.bairro}, ${servidor.cidade}, ${servidor.estado}, ${servidor.pais}</div>
-                        <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>Nenhum</div>
-                    </div>
-                    <span class="barra_lateral estavel"></span>
-                </div>
-            `;
-      }
-    }).catch(erro => console.log(`#ERRO: ${erro}`));
-  }
-
-
-  function abrir_dashboard(card) {
-    const nome = card.querySelector('#servidor_nome').textContent;
-    const localizacao = card.querySelector('#servidor_localizacao').textContent;
-
-    sessionStorage.setItem('servidorNome', nome);
-    sessionStorage.setItem('servidorLocalizacao', localizacao);
-
-    window.location = "tela_dashboard.html";
-  }
-
-</script>
-
-<script>
-  listarServidores();
-
   if (sessionStorage.empresaCnpj == undefined) {
     verificarPermissoesSideBar();
   }
 
-  let dadosServidores = [];
 
-  async function listarServidores() {
-    let idEmpresa = sessionStorage.empresaId;
+  var radarChartInstance;
 
-    try {
-      const response = await fetch(`/servidores/listar/${idEmpresa}`);
-      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+  const datacenters = [{
+    nome: "Datacenter Orlando",
+    Saude: 99.54,
+    diferenca: 1.54,
+    up: true,
+    lat: 28.5383,
+    lng: -81.3792,
+    cor: "#00D4C4",
+    Rede: 85,
+    Disco: 70,
+    Cpu: 65,
+    Ram: 80
+  }, {
+    nome: "Datacenter Paulista",
+    Saude: 72,
+    diferenca: 5,
+    up: true,
+    lat: -23.5505,
+    lng: -46.6333,
+    cor: "#FFB94A",
+    Rede: 65,
+    Disco: 60,
+    Cpu: 70,
+    Ram: 85
+  }, {
+    nome: "Datacenter Russia",
+    Saude: 65.98,
+    diferenca: 5.4,
+    up: false,
+    lat: 55.7558,
+    lng: 37.6173,
+    cor: "#FF3F72",
+    Rede: 55,
+    Disco: 50,
+    Cpu: 60,
+    Ram: 70
+  }];
 
-      dadosServidores = await response.json();
-      renderizarServidores(dadosServidores);
-    } catch (erro) {
-      console.log(`#ERRO: ${erro}`);
+
+  function rankingDataCenter() {
+    rankDatacenter.innerHTML = "";
+
+
+    for (let i = 0; i < datacenters.length; i++) {
+
+      let estado = "";
+      let iconStatus = "";
+
+      if (datacenters[i].Saude >= 90) {
+        estado = "ok";
+        iconStatus = "ok.svg";
+      } else if (datacenters[i].Saude >= 70) {
+        estado = "alerta";
+        iconStatus = "alerta.svg";
+      } else {
+        estado = "critico";
+        iconStatus = "critico.svg";
+      }
+      let clsComparativo = datacenters[i].up ? "comparativo_up" : "comparativo_down";
+      let iconComparativo = datacenters[i].up ? "lineUp.svg" : "lineDown.svg";
+
+      rankDatacenter.innerHTML += `
+      <div class="popup">
+        <div class="status status_${estado}">
+          <img src="../../Images/PopUpsDash/${iconStatus}" alt="">
+        </div>
+        <div class="contentDc">
+          <div class="first">
+            <img class="icon" src="../../Images/PopUpsDash/iconDc.svg" alt="">
+              <p>${datacenters[i].nome}</p>
+          </div>
+          <div class="seccond seccond_${estado}">
+            <h3 class="kpi">${datacenters[i].Saude}%</h3>
+            <section class="comparativo ${clsComparativo}">
+              <p class="kpi">
+                <img src="../../Images/PopUpsDash/${iconComparativo}" alt="">
+                  ${datacenters[i].diferenca}%
+              </p>
+              <p>vs última semana</p>
+            </section>
+          </div>
+        </div>
+      </div>`;
     }
   }
 
-  function renderizarServidores(lista) {
-    const container = document.querySelector(".lista_servidores");
-    container.innerHTML = `<h1 class="lista_titulo">Servidores</h1>`;
+  function carregarSelectRadar() {
+    const select = document.getElementById("selectDataCenter");
+    select.innerHTML = "";
 
-    lista.forEach(servidor => {
-      container.innerHTML += `
-      <div class="card_servidor" id="srv-${servidor.idServidor}" onclick="abrir_dashboard(this)">
-        <div id="servidor_estado">
-          <img src="../../assets/icons/icone_${servidor.status || 'estavel'}.svg" alt="">
-        </div>
-        <div class="servidor_informacoes">
-          <div id="servidor_nome">${servidor.nome}</div>
-          <div id="servidor_localizacao">R. ${servidor.rua}, ${servidor.numero} - ${servidor.bairro}, ${servidor.cidade}, ${servidor.estado}, ${servidor.pais}</div>
-          <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>${servidor.componentes || 'Nenhum'}</div>
-        </div>
-        <span class="barra_lateral ${servidor.status || 'estavel'}"></span>
-      </div>
-    `;
+    datacenters.forEach((dc, index) => {
+      select.innerHTML += `<option value="${index}">${dc.nome}</option>`;
+    });
+
+    mudarDatacenter();
+  }
+
+  function criarRadarInicial() {
+    const ctx = document.getElementById("radarChart");
+
+    radarChartInstance = new Chart(ctx, {
+      type: "radar",
+      data: {
+        labels: ["Saúde", "Disco", "RAM", "CPU", "Rede"],
+        datasets: [
+          {
+            label: "Datacenter selecionado",
+            data: [0, 0, 0, 0, 0],
+            backgroundColor: "rgba(0, 0, 0, 0.15)",
+            borderColor: "#000000",
+            fill: true,
+            borderWidth: 2
+          },
+          {
+            label: "Limites",
+            data: [82, 70, 68, 80, 88],
+            backgroundColor: "rgba(31, 84, 126, 0.15)",
+            borderColor: "#1F547E",
+            fill: true,
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
+        responsive: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: "#1F547E"
+            }
+          }
+        },
+        scales: {
+          r: {
+            grid: {
+              color: "#E5E4E2"
+            },
+            pointLabels: {
+              color: "#1F547E"
+            },
+            suggestedMin: 0,
+            suggestedMax: 100
+          }
+        }
+      }
     });
   }
 
-  // Filtros
-  document.getElementById("id_filtro").addEventListener("change", filtrarServidores);
-  document.querySelector(".filtros input[type='search']").addEventListener("input", filtrarServidores);
+  function mudarDatacenter() {
+    const index = document.getElementById("selectDataCenter").value;
+    const dc = datacenters[index];
 
-  function filtrarServidores() {
-    let filtro = document.getElementById("id_filtro").value;
-    let pesquisa = document.querySelector(".filtros input[type='search']").value.toLowerCase();
+    document.getElementById("Saude").innerText = dc.Saude;
+    document.getElementById("Rede").innerText = dc.Rede;
+    document.getElementById("Disco").innerText = dc.Disco;
+    document.getElementById("Cpu").innerText = dc.Cpu;
+    document.getElementById("Ram").innerText = dc.Ram;
 
-    let filtrados = [...dadosServidores];
-
-    if (filtro === "filtro_critico") filtrados = filtrados.filter(s => s.status === "critico");
-    if (filtro === "filtro_alerta") filtrados = filtrados.filter(s => s.status === "alerta");
-    if (filtro === "filtro_estavel") filtrados = filtrados.filter(s => s.status === "estavel");
-
-    if (filtro === "filtro_nivel_de_risco_crescente") {
-      filtrados.sort((a, b) => nivelRisco(a.status) - nivelRisco(b.status));
-    }
-    if (filtro === "filtro_nivel_de_risco_decrescente") {
-      filtrados.sort((a, b) => nivelRisco(b.status) - nivelRisco(a.status));
-    }
-
-    if (pesquisa.trim() !== "") {
-      filtrados = filtrados.filter(s =>
-        s.nome.toLowerCase().includes(pesquisa) ||
-        `${s.cidade} ${s.estado} ${s.rua}`.toLowerCase().includes(pesquisa)
-      );
-    }
-
-    renderizarServidores(filtrados);
+    atualizarRadar(dc);
   }
 
-  function nivelRisco(status) {
-    if (status === "critico") return 3;
-    if (status === "alerta") return 2;
-    if (status === "estavel") return 1;
-    return 0;
+  function atualizarRadar(dc) {
+    radarChartInstance.data.datasets[0].label = dc.nome;
+    radarChartInstance.data.datasets[0].data = [
+      dc.Saude,
+      dc.Disco,
+      dc.Ram,
+      dc.Cpu,
+      dc.Rede
+    ];
+
+    radarChartInstance.data.datasets[0].backgroundColor = dc.cor + "33";
+    radarChartInstance.data.datasets[0].borderColor = dc.cor;
+
+    radarChartInstance.update();
   }
 
-  function abrir_dashboard(card) {
-    const nome = card.querySelector('#servidor_nome').textContent;
-    const localizacao = card.querySelector('#servidor_localizacao').textContent;
 
-    sessionStorage.setItem('servidorNome', nome);
-    sessionStorage.setItem('servidorLocalizacao', localizacao);
+  window.onload = () => {
+    listarPermissoesReload();
+  };
+  rankingDataCenter();
+  criarRadarInicial();
+  carregarSelectRadar();
+</script>
 
-    window.location = "tela_dashboard.html";
+<script>
+  // Inicializa o mapa no centro do mundo
+  var map = L.map('map', {
+    zoomControl: false,       // remove o controle de zoom
+    attributionControl: false // remove créditos extras
+  }).setView([20, 0], 2);
+
+  // Tile minimalista igual ao mockup
+  L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+    maxZoom: 20
+  }).addTo(map);
+
+  // Função dos marcadores estilo bolinha colorida
+  function marker(color) {
+    return L.divIcon({
+      className: "",
+      html: `<div class="marker-dot" style="background:${color}"></div>`,
+      iconSize: [16, 16],
+      iconAnchor: [8, 8]
+    });
   }
+
+  // Adiciona os marcadores
+  datacenters.forEach(dc => {
+    L.marker([dc.lat, dc.lng], { icon: marker(dc.cor) })
+      .addTo(map)
+      .bindPopup(`<b>${dc.nome}</b>`);
+  });
 </script>
