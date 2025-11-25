@@ -104,8 +104,7 @@ header,
 
 }
 
-button,
-select {
+button {
     padding: 8px 16px;
     border-radius: var(--radius);
     border: none;
@@ -151,73 +150,6 @@ select {
     flex-wrap: wrap;
 }
 
-@media (min-width: 640px) {
-    .grid-6 {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (min-width: 768px) {
-    .grid-6 {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (min-width: 1024px) {
-    .grid-6 {
-        grid-template-columns: repeat(6, 1fr);
-    }
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th,
-td {
-    padding: 12px 20px;
-    text-align: left;
-}
-
-thead {
-    background: var(--background);
-    color: var(--muted);
-    text-transform: uppercase;
-    font-size: 12px;
-}
-
-tr {
-    border-bottom: 1px solid var(--subtle);
-}
-
-tr:hover {
-    background: var(--background);
-}
-
-.status {
-    padding: 4px 8px;
-    border-radius: 16px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-}
-
-.ok {
-    background: #dcfce7;
-    color: #166534;
-}
-
-.warn {
-    background: #ffedd5;
-    color: #c2410c;
-}
-
-.crit {
-    background: #fee2e2;
-    color: #b91c1c;
-}
 .first{
  display: grid;
     grid-template-columns: 1fr 1fr;
@@ -277,7 +209,7 @@ tr:hover {
 }
 
 
-.fa-circle-question {
+.fa-circle-question, .fa-circle-xmark {
     cursor: pointer;
     color: var(--muted);
     font-size: 16px;
@@ -285,7 +217,48 @@ tr:hover {
     transition: 0.4s;
 }
 
-.fa-circle-question:hover {
+.fa-circle-question:hover, .fa-circle-xmark:hover {
     font-size: 17.5px;
     color: #1f2937;
+}
+
+/*--------Modal-------*/
+.sombra_modal{
+  position: fixed;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  width: 100vw;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease;
+  z-index: 100;
+
+}
+
+.modal{
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 90%;
+  max-height: 500px;
+  max-width: 400px;
+  padding: 35px;
+  border-radius: 16px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+  position: relative;
+  transition: 0.4s ease;
+}
+
+.modal h2{
+    display: flex;
+    justify-content: space-between;
+    font-size: medium ;
+    margin-bottom: 10px;
+}
+.modal li{
+    padding: 5px;
+    text-align: justify;
+
 }

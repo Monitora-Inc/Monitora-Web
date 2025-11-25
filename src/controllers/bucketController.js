@@ -31,13 +31,14 @@ const uploadToS3 = async (req, res) => {
     const { idEmpresa: empresaId, nome: empresaNome } = empresaResult[0];
 
     //nome da empresa para usar como nome da pasta
-    const empresaPasta = empresaId.toLowerCase();          
+    const empresaPasta = empresaId;          
 
     const nomeArquivo = file.originalname;
     
     const agora = new Date();
     const ano = agora.getFullYear();
     const mes = String(agora.getMonth() + 1).padStart(2, "0");
+    
 
     // Estrutura: empresaa/servidor/ano/mes/arquivo.csv
     const key = `${empresaPasta}/${servidorId}/${ano}/${mes}/${nomeArquivo}`;

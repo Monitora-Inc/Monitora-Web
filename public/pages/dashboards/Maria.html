@@ -25,6 +25,24 @@
 <body onload="listarPermissoesReload()">
   <nav id="id_sidebar"></nav>
 
+  <div class="sombra_modal" id="sombra_modal">
+    <div class="modal">
+      <h2>Interpretação do Gráfico <i class="fa-regular fa-circle-xmark" onclick="fecharModal()"></i> </h2>
+      <p>
+        <li>Cada célula mostra o quanto duas variáveis estão relacionadas, de -1 a 1.</li>
+
+          <li>Cor mais escura = relação mais forte.</li>
+
+         <li> Valor positivo: quando uma sobe, a outra tende a subir.</li>
+
+          <li>Valor negativo: quando uma sobe, a outra tende a cair.</li>
+
+          <li>Valor próximo ou igual à zero: pouca ou nenhuma relação.</li>
+
+         <li> Linhas e colunas representam os eventos; a célula mostra a força da relação entre eles.</li>
+      </p>
+    </div>
+  </div>
   <header>
     <div class="titulo-dash">
       <i class="fa-solid fa-chart-simple"></i>
@@ -47,7 +65,7 @@
 
     <div class="grid grid-6">
       <div class="card">
-        <p class="text-kpi">Tráfego Atual
+        <p class="text-kpi">Tráfego Médio na <br> Última Hora
           <i class="fa-solid fa-arrow-right-arrow-left"></i>
         </p>
         <p class="value">1.2 Tbit/s</p>
@@ -81,7 +99,7 @@
       <div class="grafico-card">
         <div class="grafico-header">
           <h3>Correlação: Eventos de Rede x Tráfego</h3>
-          <i class="fa-regular fa-circle-question"></i>
+          <i class="fa-regular fa-circle-question" onclick="abrirModal()"></i>
         </div>
         <div id="correlationHeatmap"></div>
       </div>
@@ -92,6 +110,7 @@
     </div>
 
   </div>
+
 
 </body>
 <script src="../../js/sidebar.js"></script>
@@ -130,7 +149,15 @@
 
 </script>
 
+<Script>
+  function abrirModal() {
+    document.getElementById("sombra_modal").style.display = "flex";
+  }
 
+  function fecharModal() {
+    document.getElementById("sombra_modal").style.display = "none";
+  }
+</Script>
 
 <script>
   let data = [];
@@ -231,7 +258,7 @@
 
   const serieApex = df.map(item => ({
     x: item.data,
-    y: item.prob 
+    y: item.prob
   }));
 
 
@@ -259,14 +286,14 @@
     series: [{
       name: "Probabilidade de Pico",
       data: serieApex
-      
+
     }],
 
     stroke: {
       width: 4,
       curve: "smooth",
-      
-      colors:['#003566']
+
+      colors: ['#003566']
     },
 
     xaxis: {
@@ -368,9 +395,9 @@
       },
     },
     xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+      categories: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h'],
       title: {
-        text: 'Hora',
+        text: 'Horário',
         style: {
           fontWeight: 'bold',
           color: '#475569',
