@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Ally</title>
+  <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../style/sidebar.css">
+  <link rel="stylesheet" href="../../style/popup.css">
+  <link rel="stylesheet" href="../../style/Ally2.css">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</head>
+
+<body>
+  <nav id="id_sidebar"></nav>
+  <div id="id_info_kpis"></div>
+  <div id="popup_screen"></div>
+  <h1 class="titulo" id="titulo">Datacenter Orlando</h1>
+  <div class="container">
+
+    <div class="cards">
+      <section class="cards_kpi">
+        <div class="card">
+          <p>CPU (últ.)</p>
+          <h2 id="cpu">47%</h2>
+        </div>
+        <div class="card">
+          <p>RAM (últ.)</p>
+          <h2 id="ram">61%</h2>
+        </div>
+        <div class="card">
+          <p>Disco (últ.)</p>
+          <h2 id="disco">78%</h2>
+        </div>
+        <div class="card">
+          <p>Latência</p>
+          <h2 id="latencia">0.032s</h2>
+        </div>
+        <div class="card">
+          <p>Rede</p>
+          <h2 id="rede">2.8 MB</h2>
+        </div>
+        <div class="card">
+          <p>Processos</p>
+          <h2 id="processos">135</h2>
+        </div>
+      </section>
+    </div>
+
+    <div class="rankingServidores">
+      <h2 class="subtitulo">Servidores</h2>
+      <div id="rankServer" class="rankServer">
+      </div>
+    </div>
+
+    <div id="grafico_radar" class="grafico_radar">
+      <div class="grafico">
+        <h3>Gráfico comparativo</h3>
+        <div class="card">
+          <select id="selectServer" onchange="mudarServidor()">
+          </select>
+          <div class="kpis">
+            <p>Saude: <span id="Saude"></span>%</p>
+            <p>Rede: <span id="Rede"></span>%</p>
+            <p>Disco: <span id="Disco"></span>%</p>
+            <p>CPU: <span id="Cpu"></span>%</p>
+            <p>RAM: <span id="Ram"></span>%</p>
+          </div>
+        </div>
+      </div>
+      <canvas id="radarChart" class="grafico"></canvas>
+    </div>
+  </div>
+  </div>
+  <button onclick="popUp_IA()" class="logo_Ia" id="logoIa"><img src="../../assets/logos/logo_vetorizada.svg"
+      alt=""></button>
+
+  <div class="popup_IA desativada" id="popUpIA">
+    <button onclick="popUp_fechar()" class="fechar_popUp"><img src="../../Images/voltar-branco.svg" alt=""></button>
+    <h2>Dicas IA Monitora</h2>
+    <div class="MensagemIA" id="MensagemIA">
+    </div>
+  </div>
+
+  <footer>
+    <div class="dashButtons">
+      <a href="./home.html"><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
+      <a href="./Ally.html"><img src="../../Images/Colaboradores/Colaborador1.svg" alt=""></a>
+      <a href="./Gustavo.html"><img src="../../Images/Colaboradores/Colaborador2.svg" alt=""></a>
+      <a href="./Leonardo.html"><img src="../../Images/Colaboradores/Colaborador3.svg" alt=""></a>
+      <a href="./Maria.html"><img src="../../Images/Colaboradores/Colaborador4.svg" alt=""></a>
+      <a href="./Pedro.html"><img src="../../Images/Colaboradores/Colaborador5.svg" alt=""></a>
+    </div>
+    <p>Developed by <a href="https://www.linkedin.com/in/ally-awada">AllyAwada</a></p>
+  </footer>
+</body>
+
+</html>
+
+<script src="../../js/sidebar.js"></script>
+<script src="../../js/popups.js"></script>
+<script src="../../js/verificacaoPermissoes.js"></script>
+<script>
+  if (sessionStorage.empresaCnpj == undefined) {
+    listarPermissoesReload();
+    verificarPermissoesSideBar();
+    setInterval(executarVerificacaoPermissoes, 30000);
+  }
+
+  function executarVerificacaoPermissoes() {
+    if (sessionStorage.empresaCnpj == undefined) {
+      listarPermissoesReload();
+      verificarPermissoesSideBar();
+    }
+  }
+
+  if (sessionStorage.empresaCnpj == undefined) {
+    verificarPermissoesSideBar();
+  }
+
+
+  var radarChartInstance;
+
+  const Servidores = [{
+    nome: "Datacenter Orlando",
+    Saude: 99.54,
+    diferenca: 1.54,
+    up: true,
+    lat: 28.5383,
+    lng: -81.3792,
+    cor: "#00D4C4",
+    Rede: 85,
+    Disco: 70,
+    Cpu: 65,
+    Ram: 80
+  }, {
+    nome: "Datacenter Paulista",
+    Saude: 72,
+    diferenca: 5,
+    up: true,
+    lat: -23.5505,
+    lng: -46.6333,
+    cor: "#FFB94A",
+    Rede: 65,
+    Disco: 60,
+    Cpu: 70,
+    Ram: 85
+  }, {
+    nome: "Datacenter Russia",
+    Saude: 65.98,
+    diferenca: 5.4,
+    up: false,
+    lat: 55.7558,
+    lng: 37.6173,
+    cor: "#FF3F72",
+    Rede: 55,
+    Disco: 50,
+    Cpu: 60,
+    Ram: 70
+  },
+{
+    nome: "Datacenter Orlando",
+    Saude: 99.54,
+    diferenca: 1.54,
+    up: true,
+    lat: 28.5383,
+    lng: -81.3792,
+    cor: "#00D4C4",
+    Rede: 85,
+    Disco: 70,
+    Cpu: 65,
+    Ram: 80
+  }, {
+    nome: "Datacenter Paulista",
+    Saude: 72,
+    diferenca: 5,
+    up: true,
+    lat: -23.5505,
+    lng: -46.6333,
+    cor: "#FFB94A",
+    Rede: 65,
+    Disco: 60,
+    Cpu: 70,
+    Ram: 85
+  }, {
+    nome: "Datacenter Russia",
+    Saude: 65.98,
+    diferenca: 5.4,
+    up: false,
+    lat: 55.7558,
+    lng: 37.6173,
+    cor: "#FF3F72",
+    Rede: 55,
+    Disco: 50,
+    Cpu: 60,
+    Ram: 70
+  },
+{
+    nome: "Datacenter Orlando",
+    Saude: 99.54,
+    diferenca: 1.54,
+    up: true,
+    lat: 28.5383,
+    lng: -81.3792,
+    cor: "#00D4C4",
+    Rede: 85,
+    Disco: 70,
+    Cpu: 65,
+    Ram: 80
+  }, {
+    nome: "Datacenter Paulista",
+    Saude: 72,
+    diferenca: 5,
+    up: true,
+    lat: -23.5505,
+    lng: -46.6333,
+    cor: "#FFB94A",
+    Rede: 65,
+    Disco: 60,
+    Cpu: 70,
+    Ram: 85
+  }, {
+    nome: "Datacenter Russia",
+    Saude: 65.98,
+    diferenca: 5.4,
+    up: false,
+    lat: 55.7558,
+    lng: 37.6173,
+    cor: "#FF3F72",
+    Rede: 55,
+    Disco: 50,
+    Cpu: 60,
+    Ram: 70
+  },
+{
+    nome: "Datacenter Orlando",
+    Saude: 99.54,
+    diferenca: 1.54,
+    up: true,
+    lat: 28.5383,
+    lng: -81.3792,
+    cor: "#00D4C4",
+    Rede: 85,
+    Disco: 70,
+    Cpu: 65,
+    Ram: 80
+  }, {
+    nome: "Datacenter Paulista",
+    Saude: 72,
+    diferenca: 5,
+    up: true,
+    lat: -23.5505,
+    lng: -46.6333,
+    cor: "#FFB94A",
+    Rede: 65,
+    Disco: 60,
+    Cpu: 70,
+    Ram: 85
+  }, {
+    nome: "Datacenter Russia",
+    Saude: 65.98,
+    diferenca: 5.4,
+    up: false,
+    lat: 55.7558,
+    lng: 37.6173,
+    cor: "#FF3F72",
+    Rede: 55,
+    Disco: 50,
+    Cpu: 60,
+    Ram: 70
+  }];
+
+
+  function rankingServidores() {
+    rankServer.innerHTML = "";
+
+
+    for (let i = 0; i < Servidores.length; i++) {
+
+      let estado = "";
+      let iconStatus = "";
+
+      if (Servidores[i].Saude >= 90) {
+        estado = "ok";
+        iconStatus = "ok.svg";
+      } else if (Servidores[i].Saude >= 70) {
+        estado = "alerta";
+        iconStatus = "alerta.svg";
+      } else {
+        estado = "critico";
+        iconStatus = "critico.svg";
+      }
+      let clsComparativo = Servidores[i].up ? "comparativo_up" : "comparativo_down";
+      let iconComparativo = Servidores[i].up ? "lineUp.svg" : "lineDown.svg";
+
+      rankServer.innerHTML += `
+      <div class="popup-Server">
+        <div class="status status_${estado}">
+          <img src="../../Images/PopUpsDash/${iconStatus}" alt="">
+        </div>
+        <div class="contentServer">
+          <div class="first">
+            <img class="icon" src="../../Images/PopUpsDash/iconServer.svg" alt="">
+              <p>${Servidores[i].nome}</p>
+          </div>
+          <div class="seccond seccond_${estado}">
+            <h3 class="kpi">${Servidores[i].Saude}%</h3>
+            <section class="comparativo ${clsComparativo}">
+              <p class="kpi">
+                <img src="../../Images/PopUpsDash/${iconComparativo}" alt="">
+                  ${Servidores[i].diferenca}%
+              </p>
+              <p>vs última semana</p>
+            </section>
+          </div>
+        </div>
+      </div>`;
+    }
+  }
+
+  function carregarSelectRadar() {
+    const select = document.getElementById("selectServer");
+    select.innerHTML = "";
+
+    Servidores.forEach((dc, index) => {
+      select.innerHTML += `<option value="${index}">${dc.nome}</option>`;
+    });
+
+    mudarDatacenter();
+  }
+
+  function criarRadarInicial() {
+    const ctx = document.getElementById("radarChart");
+
+    radarChartInstance = new Chart(ctx, {
+      type: "radar",
+      data: {
+        labels: ["Saúde", "Disco", "RAM", "CPU", "Rede"],
+        datasets: [
+          {
+            label: "Datacenter selecionado",
+            data: [0, 0, 0, 0, 0],
+            backgroundColor: "rgba(0, 0, 0, 0.15)",
+            borderColor: "#000000",
+            fill: true,
+            borderWidth: 2
+          },
+          {
+            label: "Limites",
+            data: [82, 70, 68, 80, 88],
+            backgroundColor: "rgba(31, 84, 126, 0.15)",
+            borderColor: "#1F547E",
+            fill: true,
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
+        responsive: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: "#1F547E"
+            }
+          }
+        },
+        scales: {
+          r: {
+            grid: {
+              color: "#E5E4E2"
+            },
+            pointLabels: {
+              color: "#1F547E"
+            },
+            suggestedMin: 0,
+            suggestedMax: 100
+          }
+        }
+      }
+    });
+  }
+
+  function mudarDatacenter() {
+    const index = document.getElementById("selectServer").value;
+    const dc = Servidores[index];
+
+    document.getElementById("Saude").innerText = dc.Saude;
+    document.getElementById("Rede").innerText = dc.Rede;
+    document.getElementById("Disco").innerText = dc.Disco;
+    document.getElementById("Cpu").innerText = dc.Cpu;
+    document.getElementById("Ram").innerText = dc.Ram;
+
+    atualizarRadar(dc);
+  }
+
+  function atualizarRadar(dc) {
+    radarChartInstance.data.datasets[0].label = dc.nome;
+    radarChartInstance.data.datasets[0].data = [
+      dc.Saude,
+      dc.Disco,
+      dc.Ram,
+      dc.Cpu,
+      dc.Rede
+    ];
+
+    radarChartInstance.data.datasets[0].backgroundColor = dc.cor + "33";
+    radarChartInstance.data.datasets[0].borderColor = dc.cor;
+
+    radarChartInstance.update();
+  }
+
+  var mensagemdaia = `<p>🔄 Redistribuição recomendada: mover 20% da carga do DC Paulista para o DC Orlando <br>⚠ Anomalia detectada: aumento de 12% de latência no DC Rússia nas últimas 3h <br>🟩 Orlando está apto para receber novas instâncias <br>🪫 Paulista perto do limite de disco (82%)</p>`;
+  function popUp_IA() {
+    MensagemIA.innerHTML = `${mensagemdaia}`;
+    popUpIA.classList.remove("desativada");
+    popUpIA.classList.add("ativada");
+    setTimeout(() => { logoIa.onclick = popUp_fechar }, 800)
+  }
+
+  function popUp_fechar() {
+    MensagemIA.innerHTML = "";
+    popUpIA.classList.remove("ativada");
+    popUpIA.classList.add("desativada");
+    setTimeout(() => { logoIa.onclick = popUp_IA }, 800)
+  }
+
+  window.onload = () => {
+    listarPermissoesReload();
+  };
+  rankingServidores();
+  criarRadarInicial();
+  carregarSelectRadar();
+</script>
