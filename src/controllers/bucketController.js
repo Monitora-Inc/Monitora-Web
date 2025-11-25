@@ -39,20 +39,24 @@ const uploadToS3 = async (req, res) => {
     const ano = agora.getFullYear();
     const mes = String(agora.getMonth() + 1).padStart(2, "0");
 
-    // Estrutura: empresaa/servidor/ano/mes/arquivo.csv
+    // Estrutura: empresa/servidor/ano/mes/arquivo.csv
     const key = `${empresaPasta}/${servidorId}/${ano}/${mes}/${nomeArquivo}`;
 
     filePath = file.path;
     const fileStream = fs.createReadStream(filePath);
 
+    // Nome do bucket
+    //monitora-raw
+    const bucket = "monitora-raw"
+
     const uploadParams = {
-      Bucket: "monitora-raw", // nome do bucket
+      Bucket: bucket,
       Key: key,
       Body: fileStream,
       ContentType: "text/csv",  
     };
 
-    console.log(`Uploading CSV to S3 bucket=monitora-raw key=${key}`);
+    console.log(`Uploading CSV to S3 bucket=${bucket} key=${key}`);
 
     await s3.send(new PutObjectCommand(uploadParams));
 
@@ -60,7 +64,7 @@ const uploadToS3 = async (req, res) => {
     return res.json({ 
       message: "Upload realizado com sucesso no S3!", 
       key,
-      bucket: "monitora-raw",
+      bucket: bucket,
       empresaId,
       empresaNome
     });
