@@ -25,7 +25,7 @@
   <div class="container">
 
     <div class="cards">
-      <section class="cards_kpi">
+      <section class="cards_kpi" id="cards_kpi">
         <div class="card">
           <p>CPU (últ.)</p>
           <h2 id="cpu">47%</h2>
@@ -60,18 +60,16 @@
     </div>
 
     <div id="grafico_radar" class="grafico_radar">
-      <div class="grafico">
+      <div class="kpi">
         <h3>Gráfico comparativo</h3>
-        <div class="card">
-          <select id="selectServer" onchange="mudarServidor()">
-          </select>
-          <div class="kpis">
-            <p>Saude: <span id="Saude"></span>%</p>
-            <p>Rede: <span id="Rede"></span>%</p>
-            <p>Disco: <span id="Disco"></span>%</p>
-            <p>CPU: <span id="Cpu"></span>%</p>
-            <p>RAM: <span id="Ram"></span>%</p>
-          </div>
+        <select id="selectServer" onchange="mudarServidor()">
+        </select>
+        <div class="kpis">
+          <p>Saude: <span id="Saude"></span>%</p>
+          <p>Rede: <span id="Rede"></span>%</p>
+          <p>Disco: <span id="Disco"></span>%</p>
+          <p>CPU: <span id="Cpu"></span>%</p>
+          <p>RAM: <span id="Ram"></span>%</p>
         </div>
       </div>
       <canvas id="radarChart" class="grafico"></canvas>
@@ -128,7 +126,7 @@
   var radarChartInstance;
 
   const Servidores = [{
-    nome: "Datacenter Orlando",
+    nome: "Servidor Orlando",
     Saude: 99.54,
     diferenca: 1.54,
     up: true,
@@ -140,7 +138,7 @@
     Cpu: 65,
     Ram: 80
   }, {
-    nome: "Datacenter Paulista",
+    nome: "Servidor Paulista",
     Saude: 72,
     diferenca: 5,
     up: true,
@@ -152,7 +150,7 @@
     Cpu: 70,
     Ram: 85
   }, {
-    nome: "Datacenter Russia",
+    nome: "Servidor Russia",
     Saude: 65.98,
     diferenca: 5.4,
     up: false,
@@ -164,8 +162,8 @@
     Cpu: 60,
     Ram: 70
   },
-{
-    nome: "Datacenter Orlando",
+  {
+    nome: "Servidor Orlando",
     Saude: 99.54,
     diferenca: 1.54,
     up: true,
@@ -177,7 +175,7 @@
     Cpu: 65,
     Ram: 80
   }, {
-    nome: "Datacenter Paulista",
+    nome: "Servidor Paulista",
     Saude: 72,
     diferenca: 5,
     up: true,
@@ -189,7 +187,7 @@
     Cpu: 70,
     Ram: 85
   }, {
-    nome: "Datacenter Russia",
+    nome: "Servidor Russia",
     Saude: 65.98,
     diferenca: 5.4,
     up: false,
@@ -201,8 +199,8 @@
     Cpu: 60,
     Ram: 70
   },
-{
-    nome: "Datacenter Orlando",
+  {
+    nome: "Servidor Orlando",
     Saude: 99.54,
     diferenca: 1.54,
     up: true,
@@ -214,7 +212,7 @@
     Cpu: 65,
     Ram: 80
   }, {
-    nome: "Datacenter Paulista",
+    nome: "Servidor Paulista",
     Saude: 72,
     diferenca: 5,
     up: true,
@@ -226,7 +224,7 @@
     Cpu: 70,
     Ram: 85
   }, {
-    nome: "Datacenter Russia",
+    nome: "Servidor Russia",
     Saude: 65.98,
     diferenca: 5.4,
     up: false,
@@ -238,8 +236,8 @@
     Cpu: 60,
     Ram: 70
   },
-{
-    nome: "Datacenter Orlando",
+  {
+    nome: "Servidor Orlando",
     Saude: 99.54,
     diferenca: 1.54,
     up: true,
@@ -251,7 +249,7 @@
     Cpu: 65,
     Ram: 80
   }, {
-    nome: "Datacenter Paulista",
+    nome: "Servidor Paulista",
     Saude: 72,
     diferenca: 5,
     up: true,
@@ -263,7 +261,7 @@
     Cpu: 70,
     Ram: 85
   }, {
-    nome: "Datacenter Russia",
+    nome: "Servidor Russia",
     Saude: 65.98,
     diferenca: 5.4,
     up: false,
@@ -275,7 +273,6 @@
     Cpu: 60,
     Ram: 70
   }];
-
 
   function rankingServidores() {
     rankServer.innerHTML = "";
@@ -328,11 +325,11 @@
     const select = document.getElementById("selectServer");
     select.innerHTML = "";
 
-    Servidores.forEach((dc, index) => {
-      select.innerHTML += `<option value="${index}">${dc.nome}</option>`;
+    Servidores.forEach((server, index) => {
+      select.innerHTML += `<option value="${index}">${server.nome}</option>`;
     });
 
-    mudarDatacenter();
+    mudarServidor();
   }
 
   function criarRadarInicial() {
@@ -344,7 +341,7 @@
         labels: ["Saúde", "Disco", "RAM", "CPU", "Rede"],
         datasets: [
           {
-            label: "Datacenter selecionado",
+            label: "Servidor selecionado",
             data: [0, 0, 0, 0, 0],
             backgroundColor: "rgba(0, 0, 0, 0.15)",
             borderColor: "#000000",
@@ -386,31 +383,31 @@
     });
   }
 
-  function mudarDatacenter() {
+  function mudarServidor() {
     const index = document.getElementById("selectServer").value;
-    const dc = Servidores[index];
+    const server = Servidores[index];
 
-    document.getElementById("Saude").innerText = dc.Saude;
-    document.getElementById("Rede").innerText = dc.Rede;
-    document.getElementById("Disco").innerText = dc.Disco;
-    document.getElementById("Cpu").innerText = dc.Cpu;
-    document.getElementById("Ram").innerText = dc.Ram;
+    document.getElementById("Saude").innerText = server.Saude;
+    document.getElementById("Rede").innerText = server.Rede;
+    document.getElementById("Disco").innerText = server.Disco;
+    document.getElementById("Cpu").innerText = server.Cpu;
+    document.getElementById("Ram").innerText = server.Ram;
 
-    atualizarRadar(dc);
+    atualizarRadar(server);
   }
 
-  function atualizarRadar(dc) {
-    radarChartInstance.data.datasets[0].label = dc.nome;
+  function atualizarRadar(server) {
+    radarChartInstance.data.datasets[0].label = server.nome;
     radarChartInstance.data.datasets[0].data = [
-      dc.Saude,
-      dc.Disco,
-      dc.Ram,
-      dc.Cpu,
-      dc.Rede
+      server.Saude,
+      server.Disco,
+      server.Ram,
+      server.Cpu,
+      server.Rede
     ];
 
-    radarChartInstance.data.datasets[0].backgroundColor = dc.cor + "33";
-    radarChartInstance.data.datasets[0].borderColor = dc.cor;
+    radarChartInstance.data.datasets[0].backgroundColor = server.cor + "33";
+    radarChartInstance.data.datasets[0].borderColor = server.cor;
 
     radarChartInstance.update();
   }
