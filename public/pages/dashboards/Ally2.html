@@ -124,6 +124,8 @@
 
 
   var radarChartInstance;
+  const dadosDc = JSON.parse(sessionStorage.datacenter);
+  console.log(dadosDc);
 
   const Servidores = [{
     nome: "Servidor Orlando",
@@ -273,6 +275,16 @@
     Cpu: 60,
     Ram: 70
   }];
+
+  function inicial(){
+    titulo.innerHTML = `${dadosDc.nome}`;
+    cpu.innerHTML = `${dadosDc.Cpu}%`;
+    ram.innerHTML = `${dadosDc.Ram}%`;
+    disco.innerHTML = `${dadosDc.Disco}%`;
+    // latencia.innerHTML = `${dadosDc.Latencia}S`;
+    rede.innerHTML = `${dadosDc.Rede}%`;
+    // processos.innerHTML = `${dadosDc.Processos}`;
+  }
 
   function rankingServidores() {
     rankServer.innerHTML = "";
@@ -428,6 +440,7 @@
   }
 
   window.onload = () => {
+    inicial();
     listarPermissoesReload();
   };
   rankingServidores();

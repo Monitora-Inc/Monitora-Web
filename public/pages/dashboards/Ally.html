@@ -166,7 +166,7 @@
       let iconComparativo = datacenters[i].up ? "lineUp.svg" : "lineDown.svg";
 
       rankDatacenter.innerHTML += `
-      <div class="popup-dc">
+      <div class="popup-dc" onclick="dashDC(${i})">
         <div class="status status_${estado}">
           <img src="../../Images/PopUpsDash/${iconStatus}" alt="">
         </div>
@@ -188,6 +188,11 @@
         </div>
       </div>`;
     }
+  }
+
+  function dashDC(index) {
+    sessionStorage.datacenter = JSON.stringify(datacenters[index]);
+    window.location = "./Ally2.html";
   }
 
   function carregarSelectRadar() {

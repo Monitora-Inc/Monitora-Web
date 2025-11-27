@@ -71,6 +71,11 @@ ____             _    _
   transition: 0.24s;
 }
 
+.popup-dc:hover {
+  transition: .24s;
+  transform: scale(0.9);
+  cursor: pointer;
+}
 
 .status {
   width: 100%;
