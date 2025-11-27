@@ -36,6 +36,7 @@ const uploadToS3 = async (req, res) => {
     const nomeArquivo = file.originalname;
 
 
+    
     filePath = file.path;
     const fileStream = fs.createReadStream(filePath);
 
