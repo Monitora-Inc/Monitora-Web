@@ -178,7 +178,7 @@ $$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\
     background-color: white;
     box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
     width: 24%;
-    height: 25vh;
+    height: 30vh;
     border-radius: 0.31rem;
     font-size: 1.13rem;
 }
@@ -196,22 +196,44 @@ $$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\
     padding-top: 0.31rem;
 }
 
+.cards_kpi2 .card .divIcone #iconeInfo{
+    position: absolute;
+    right: 0;
+    padding-right: 0.3vw;
+    cursor: pointer;
+}
+
 .cards_kpi2 .card .titulo{
     position: absolute;
-    top: 2.5rem;
-    font-size: 2vh;
+    width: 100%;
+    top: 2rem;
+    font-size: 2.1vh;
+    padding-top: 1.5vh;
 }
 
 .cards_kpi2 .card .descricao{
     position: absolute;
     bottom: 0.94rem;
     text-align: center;
-    font-size: 1.3vh;
+    font-size: 1.8vh;
+    width: 100%;
 }
 
 .cards_kpi2 .card h2{
     padding-top: 0.94rem;
-    font-size: 5vh;
+    font-size: 6vh;
+}
+
+.cards_kpi2 .card .conteudoCardPerformance{
+    width: 100%;
+    text-align: center;
+}
+
+.cards_kpi2 .card .conteudoCardPerformance .explicacao{
+    padding-top: 1vh;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
+    font-size: 1.8vh;
 }
 
 /* 

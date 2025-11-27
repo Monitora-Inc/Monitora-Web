@@ -74,34 +74,48 @@
                     <div class="card">
                         <div id="divIconeMTBF" class="divIcone" style="background-color: #FFCA67;">
                             <img src="../../assets/icons/light.svg">
+                            <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMTBF()">
                         </div>
-                        <p class="titulo">Mean Time Between Failures (MTBF)</p>
-                        <h2 id="mtbf" style="color: #D2A043;"></h2>
-                        <p class="descricao"><i>Tempo médio que o sistema opera antes de falhas.</i></p>
+                        <div id="conteudoMTBF" class="conteudoCardPerformance">
+                            <p class="titulo">Mean Time Between Failures (MTBF)</p>
+                            <h2 id="mtbf" style="color: #D2A043;"></h2>
+                            <p class="descricao"><i>Tempo médio que o sistema opera antes de falhas.</i></p>
+                        </div>
                     </div>
                     <div class="card">
                         <div id="divIconeMTTRCritico" class="divIcone" style="background-color: #FF0267;">
                             <img src="../../assets/icons/thumbs_down.svg">
+                            <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg"
+                                onclick="verInfoMttrCritico()">
                         </div>
-                        <p class="titulo">Mean Time to Resolve (MTTR) - Críticos</p>
-                        <h2 id="mttrCritico" style="color: #B4044B;"></h2>
-                        <p class="descricao"><i>Tempo médio gasto para resolução de um incidente crítico.</i></p>
+                        <div id="conteudoMTTRCritico" class="conteudoCardPerformance">
+                            <p class="titulo">Mean Time to Resolve (MTTR) - Críticos</p>
+                            <h2 id="mttrCritico" style="color: #B4044B;"></h2>
+                            <p class="descricao"><i>Tempo médio gasto para resolução de um incidente crítico.</i></p>
+                        </div>
                     </div>
                     <div class="card">
                         <div id="divIconeMTTRAtencao" class="divIcone" style="background-color: #FF0267;">
                             <img src="../../assets/icons/thumbs_down.svg">
+                            <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg"
+                                onclick="verInfoMttrAtencao()">
                         </div>
-                        <p class="titulo">Mean Time to Resolve (MTTR) - Atenção</p>
-                        <h2 id="mttrAtencao" style="color: #B4044B;"></h2>
-                        <p class="descricao"><i>Tempo médio gasto para resolução de um incidente de atenção.</i></p>
+                        <div id="conteudoMTTRAtencao" class="conteudoCardPerformance">
+                            <p class="titulo">Mean Time to Resolve (MTTR) - Atenção</p>
+                            <h2 id="mttrAtencao" style="color: #B4044B;"></h2>
+                            <p class="descricao"><i>Tempo médio gasto para resolução de um incidente de atenção.</i></p>
+                        </div>
                     </div>
                     <div class="card">
                         <div id="divIconeSLA" class="divIcone" style="background-color: #00F2B9;">
                             <img src="../../assets/icons/thumbs_up.svg">
+                            <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoSLA()">
                         </div>
-                        <p class="titulo">SLA Compliance - Incidentes Resolvidos</p>
-                        <h2 id="slaCompliance" style="color: #219A7E;"></h2>
-                        <p class="descricao"><i>Taxa de incidentes resolvidos no prazo definido em SLA.</i></p>
+                        <div id="conteudoSLA" class="conteudoCardPerformance">
+                            <p class="titulo">SLA Compliance - Incidentes Resolvidos</p>
+                            <h2 id="slaCompliance" style="color: #219A7E;"></h2>
+                            <p class="descricao"><i>Taxa de incidentes resolvidos no prazo definido em SLA.</i></p>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -151,121 +165,290 @@
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-    //buscarKpisIncidentes();
-    //buscarDadosComponentes();
-    //buscarKpisPerformance();
-    
+    buscarKpisIncidentes();
+    buscarDadosComponentes();
+    buscarKpisPerformance();
+
+    let jsonKpisIncidentes;
+
     function buscarKpisIncidentes() {
         const fetchPromise = fetch("https://baiqze345xsjipst2bsfdm7wx40tsnni.lambda-url.us-east-1.on.aws/");
-        
+
         fetchPromise
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            incidentesAbertos.innerHTML = `${data.abertos}`;
-            incidentesCriticosAbertos.innerHTML = `${data.criticosAbertos}`;
-            incidentesCriticosTotais.innerHTML = `${data.criticosTotais}`;
-            incidentesAtencaoAbertos.innerHTML = `${data.atencaoAbertos}`;
-            incidentesAtencaoTotais.innerHTML = `${data.atencaoTotais}`;
-            incidentesFechados.innerHTML = `${data.fechados}`;
-            incidentesRegistrados.innerHTML = `${data.totais}`;
-        });
+            .then((response) => response.json())
+            .then((data) => {
+                jsonKpisIncidentes = data;
+                console.log(data);
+                incidentesAbertos.innerHTML = `${data.abertos}`;
+                incidentesCriticosAbertos.innerHTML = `${data.criticosAbertos}`;
+                incidentesCriticosTotais.innerHTML = `${data.criticosTotais}`;
+                incidentesAtencaoAbertos.innerHTML = `${data.atencaoAbertos}`;
+                incidentesAtencaoTotais.innerHTML = `${data.atencaoTotais}`;
+                incidentesFechados.innerHTML = `${data.fechados}`;
+                incidentesRegistrados.innerHTML = `${data.totais}`;
+            });
     }
-    
+
+    let jsonDadosComponentes;
+
     function buscarDadosComponentes() {
         const fetchPromise = fetch("https://sxogicvqs5hrftapsoul2fmegu0sugtj.lambda-url.us-east-1.on.aws/");
-        
+
         fetchPromise
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            const tbody = document.getElementById('dataTable');
-            for (let i = 0; i < data.length - 1; i++) {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${data[i].nomeComponente}</td><td>${data[i].totais}</td><td>${data[i].criticos}</td><td>${data[i].atencao}</td>`;
-                tbody.appendChild(tr);
-            }
-            componentesComMaisIncidentes.innerHTML = `${data[5].componentesComMaisIncidentes}`;
-        });
+            .then((response) => response.json())
+            .then((data) => {
+                jsonDadosComponentes = data;
+                console.log(data);
+                const tbody = document.getElementById('dataTable');
+                for (let i = 0; i < data.length - 1; i++) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${data[i].nomeComponente}</td><td>${data[i].totais}</td><td>${data[i].criticos}</td><td>${data[i].atencao}</td>`;
+                    tbody.appendChild(tr);
+                }
+                componentesComMaisIncidentes.innerHTML = `${data[5].componentesComMaisIncidentes}`;
+            });
     }
-    
+
+    let listaJsonsKpisPerformance;
+
     function buscarKpisPerformance() {
         const fetchPromise = fetch("https://srjhgfjyqkpikdxw6ecdcoiisq0cbzwa.lambda-url.us-east-1.on.aws/");
-        
-        fetchPromise
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            if (data[0].MTBFhoras < 4) {
-                divIconeMTBF.style.background = '#FF0267';
-                divIconeMTBF.innerHTML = `<img src="../../assets/icons/thumbs_down.svg">`;
-                mtbf.style.color = '#B4044B';
-                mtbf.innerHTML = `${data[0].MTBFhoras}h${data[0].MTBFminutos}min`;
-            } else if (4 <= data[0].MTBFhoras <= 24) {
-                divIconeMTBF.style.background = '#FFCA67';
-                divIconeMTBF.innerHTML = `<img src="../../assets/icons/light.svg">`;
-                mtbf.style.color = '#D2A043';
-                mtbf.innerHTML = `${data[0].MTBFhoras}h${data[0].MTBFminutos}min`;
-            } else if (data[0].MTBFhoras > 24) {
-                divIconeMTBF.style.background = '#00F2B9';
-                divIconeMTBF.innerHTML = `<img src="../../assets/icons/thumbs_up.svg">`;
-                mtbf.style.color = '#219A7E';
-                mtbf.innerHTML = `${data[0].MTBFhoras}h${data[0].MTBFminutos}min`;
-            }
-            
-            if (data[1].MTTRCriticosHoras > 10) {
-                divIconeMTTRCritico.style.background = '#FF0267';
-                divIconeMTTRCritico.innerHTML = `<img src="../../assets/icons/thumbs_down.svg">`;
-                mttrCritico.style.color = '#B4044B';
-                mttrCritico.innerHTML = `${data[1].MTTRCriticosHoras}h${data[1].MTTRCriticosMinutos}min`;
-            } else if (4 <= data[1].MTTRCriticosHoras <= 10) {
-                divIconeMTTRCritico.style.background = '#FFCA67';
-                divIconeMTTRCritico.innerHTML = `<img src="../../assets/icons/light.svg">`;
-                mttrCritico.style.color = '#D2A043';
-                mttrCritico.innerHTML = `${data[1].MTTRCriticosHoras}h${data[1].MTTRCriticosMinutos}min`;
-            } else if (data[1].MTTRCriticosHoras < 4) {
-                divIconeMTTRCritico.style.background = '#00F2B9';
-                divIconeMTTRCritico.innerHTML = `<img src="../../assets/icons/thumbs_up.svg">`;
-                mttrCritico.style.color = '#219A7E';
-                mttrCritico.innerHTML = `${data[1].MTTRCriticosHoras}h${data[1].MTTRCriticosMinutos}min`;
-            }
 
-            if (data[1].MTTRAtencaoHoras > 10) {
-                divIconeMTTRAtencao.style.background = '#FF0267';
-                divIconeMTTRAtencao.innerHTML = `<img src="../../assets/icons/thumbs_down.svg">`;
-                mttrAtencao.style.color = '#B4044B';
-                mttrAtencao.innerHTML = `${data[1].MTTRAtencaoHoras}h${data[1].MTTRAtencaoMinutos}min`;
-            } else if (4 <= data[1].MTTRAtencaoHoras <= 10) {
-                divIconeMTTRAtencao.style.background = '#FFCA67';
-                divIconeMTTRAtencao.innerHTML = `<img src="../../assets/icons/light.svg">`;
-                mttrAtencao.style.color = '#D2A043';
-                mttrAtencao.innerHTML = `${data[1].MTTRAtencaoHoras}h${data[1].MTTRAtencaoMinutos}min`;
-            } else if (data[1].MTTRAtencaoHoras < 4) {
-                divIconeMTTRAtencao.style.background = '#00F2B9';
-                divIconeMTTRAtencao.innerHTML = `<img src="../../assets/icons/thumbs_up.svg">`;
-                mttrAtencao.style.color = '#219A7E';
-                mttrAtencao.innerHTML = `${data[1].MTTRAtencaoHoras}h${data[1].MTTRAtencaoMinutos}min`;
-            }
-            
-            if (data[2].porcentagemSLA < 90) {
-                divIconeSLA.style.background = '#FF0267';
-                divIconeSLA.innerHTML = `<img src="../../assets/icons/thumbs_down.svg">`;
-                slaCompliance.style.color = '#B4044B';
-                slaCompliance.innerHTML = `${data[2].porcentagemSLA}%`;
-            } else if (90 <= data[2].porcentagemSLA <= 94.9) {
-                divIconeSLA.style.background = '#FFCA67';
-                divIconeSLA.innerHTML = `<img src="../../assets/icons/light.svg">`;
-                slaCompliance.style.color = '#D2A043';
-                slaCompliance.innerHTML = `${data[2].porcentagemSLA}%`;
-            } else if (data[2].porcentagemSLA >= 95) {
-                divIconeSLA.style.background = '#00F2B9';
-                divIconeSLA.innerHTML = `<img src="../../assets/icons/thumbs_up.svg">`;
-                slaCompliance.style.color = '#219A7E';
-                slaCompliance.innerHTML = `${data[2].porcentagemSLA}%`;
-            }
-        });
+        fetchPromise
+            .then((response) => response.json())
+            .then((data) => {
+                listaJsonsKpisPerformance = data;
+                console.log(data);
+                if (data[0].MTBFhoras < 4) {
+                    divIconeMTBF.style.background = '#FF0267';
+                    divIconeMTBF.innerHTML = `<img src="../../assets/icons/thumbs_down.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMTBF()">`;
+                    conteudoMTBF.innerHTML = `<p class="titulo">Mean Time Between Failures (MTBF)</p>
+                    <h2 id="mtbf">${data[0].MTBFhoras}h${data[0].MTBFminutos}min</h2>
+                    <p class="descricao"><i>Tempo médio que o sistema opera antes de falhas.</i></p>`
+                    mtbf.style.color = '#B4044B';
+                } else if (4 <= data[0].MTBFhoras && data[0].MTBFhoras <= 24) {
+                    divIconeMTBF.style.background = '#FFCA67';
+                    divIconeMTBF.innerHTML = `<img src="../../assets/icons/light.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMTBF()">`;
+                    conteudoMTBF.innerHTML = `<p class="titulo">Mean Time Between Failures (MTBF)</p>
+                    <h2 id="mtbf">${data[0].MTBFhoras}h${data[0].MTBFminutos}min</h2>
+                    <p class="descricao"><i>Tempo médio que o sistema opera antes de falhas.</i></p>`
+                    mtbf.style.color = '#D2A043';
+                } else if (data[0].MTBFhoras > 24) {
+                    divIconeMTBF.style.background = '#00F2B9';
+                    divIconeMTBF.innerHTML = `<img src="../../assets/icons/thumbs_up.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMTBF()">`;
+                    conteudoMTBF.innerHTML = `<p class="titulo">Mean Time Between Failures (MTBF)</p>
+                    <h2 id="mtbf">${data[0].MTBFhoras}h${data[0].MTBFminutos}min</h2>
+                    <p class="descricao"><i>Tempo médio que o sistema opera antes de falhas.</i></p>`
+                    mtbf.style.color = '#219A7E';
+                }
+
+                if (data[1].MTTRCriticosHoras > 24) {
+                    divIconeMTTRCritico.style.background = '#FF0267';
+                    divIconeMTTRCritico.innerHTML = `<img src="../../assets/icons/thumbs_down.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrCritico()">`;
+                    conteudoMTTRCritico.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Críticos</p>
+                            <h2 id="mttrCritico">${data[1].MTTRCriticosHoras}h${data[1].MTTRCriticosMinutos}min</h2>
+                            <p class="descricao"><i>Tempo médio gasto para resolução de um incidente crítico.</i></p>`;
+                    mttrCritico.style.color = '#B4044B';
+                } else if (12 <= data[1].MTTRCriticosHoras && data[1].MTTRCriticosHoras <= 24) {
+                    divIconeMTTRCritico.style.background = '#FFCA67';
+                    divIconeMTTRCritico.innerHTML = `<img src="../../assets/icons/light.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrCritico()">`;
+                    conteudoMTTRCritico.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Críticos</p>
+                            <h2 id="mttrCritico">${data[1].MTTRCriticosHoras}h${data[1].MTTRCriticosMinutos}min</h2>
+                            <p class="descricao"><i>Tempo médio gasto para resolução de um incidente crítico.</i></p>`;
+                    mttrCritico.style.color = '#D2A043';
+                } else if (data[1].MTTRCriticosHoras < 12) {
+                    divIconeMTTRCritico.style.background = '#00F2B9';
+                    divIconeMTTRCritico.innerHTML = `<img src="../../assets/icons/thumbs_up.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrCritico()">`;
+                    conteudoMTTRCritico.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Críticos</p>
+                            <h2 id="mttrCritico">${data[1].MTTRCriticosHoras}h${data[1].MTTRCriticosMinutos}min</h2>
+                            <p class="descricao"><i>Tempo médio gasto para resolução de um incidente crítico.</i></p>`;
+                    mttrCritico.style.color = '#219A7E';
+                }
+
+                if (data[1].MTTRAtencaoHoras > 48) {
+                    divIconeMTTRAtencao.style.background = '#FF0267';
+                    divIconeMTTRAtencao.innerHTML = `<img src="../../assets/icons/thumbs_down.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrAtencao()">`;
+                    conteudoMTTRAtencao.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Atenção</p>
+                            <h2 id="mttrAtencao">${data[1].MTTRAtencaoHoras}h${data[1].MTTRAtencaoMinutos}min</h2>
+                            <p class="descricao"><i>Tempo médio gasto para resolução de um incidente de atenção.</i></p>`;
+                    mttrAtencao.style.color = '#B4044B';
+                } else if (24 <= data[1].MTTRAtencaoHoras && data[1].MTTRAtencaoHoras <= 48) {
+                    divIconeMTTRAtencao.style.background = '#FFCA67';
+                    divIconeMTTRAtencao.innerHTML = `<img src="../../assets/icons/light.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrAtencao()">`;
+                    conteudoMTTRAtencao.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Atenção</p>
+                            <h2 id="mttrAtencao">${data[1].MTTRAtencaoHoras}h${data[1].MTTRAtencaoMinutos}min</h2>
+                            <p class="descricao"><i>Tempo médio gasto para resolução de um incidente de atenção.</i></p>`;
+                    mttrAtencao.style.color = '#D2A043';
+                } else if (data[1].MTTRAtencaoHoras < 24) {
+                    divIconeMTTRAtencao.style.background = '#00F2B9';
+                    divIconeMTTRAtencao.innerHTML = `<img src="../../assets/icons/thumbs_up.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrAtencao()">`;
+                    conteudoMTTRAtencao.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Atenção</p>
+                            <h2 id="mttrAtencao">${data[1].MTTRAtencaoHoras}h${data[1].MTTRAtencaoMinutos}min</h2>
+                            <p class="descricao"><i>Tempo médio gasto para resolução de um incidente de atenção.</i></p>`;
+                    mttrAtencao.style.color = '#219A7E';
+                }
+
+                if (data[2].porcentagemSLA < 90) {
+                    divIconeSLA.style.background = '#FF0267';
+                    divIconeSLA.innerHTML = `<img src="../../assets/icons/thumbs_down.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoSLA()">`;
+                    conteudoSLA.innerHTML = `<p class="titulo">SLA Compliance - Incidentes Resolvidos</p>
+                            <h2 id="slaCompliance">${data[2].porcentagemSLA}%</h2>
+                            <p class="descricao"><i>Taxa de incidentes resolvidos no prazo definido em SLA.</i></p>`;
+                    slaCompliance.style.color = '#B4044B';
+                } else if (90 <= data[2].porcentagemSLA && data[2].porcentagemSLA <= 94.9) {
+                    divIconeSLA.style.background = '#FFCA67';
+                    divIconeSLA.innerHTML = `<img src="../../assets/icons/light.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoSLA()">`;
+                    conteudoSLA.innerHTML = `<p class="titulo">SLA Compliance - Incidentes Resolvidos</p>
+                            <h2 id="slaCompliance">${data[2].porcentagemSLA}%</h2>
+                            <p class="descricao"><i>Taxa de incidentes resolvidos no prazo definido em SLA.</i></p>`;
+                    slaCompliance.style.color = '#D2A043';
+                } else if (data[2].porcentagemSLA >= 95) {
+                    divIconeSLA.style.background = '#00F2B9';
+                    divIconeSLA.innerHTML = `<img src="../../assets/icons/thumbs_up.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoSLA()">`;
+                    conteudoSLA.innerHTML = `<p class="titulo">SLA Compliance - Incidentes Resolvidos</p>
+                            <h2 id="slaCompliance">${data[2].porcentagemSLA}%</h2>
+                            <p class="descricao"><i>Taxa de incidentes resolvidos no prazo definido em SLA.</i></p>`;
+                    slaCompliance.style.color = '#219A7E';
+                }
+            });
     }
-    
+
+    let displayInfoMtbf = false;
+    function verInfoMTBF() {
+        if (displayInfoMtbf == false) {
+            divIconeMTBF.innerHTML = `<img id="iconeInfo" src="../../Images/voltar.svg" onclick="verInfoMTBF()">`;
+            conteudoMTBF.innerHTML = `<p class="explicacao">Indica a estabilidade do sistema. Quanto maior o tempo, melhor a confiabilidade da operação.<br><br>
+            Parâmetros de Saúde:<br> 🟢 Ideal: Acima de 24h<br> 🟡 Atenção: Entre 4h e 24h<br> 🔴 Crítico: Abaixo de 4h</p>`;
+            displayInfoMtbf = true;
+        } else if (displayInfoMtbf == true) {
+            if (listaJsonsKpisPerformance[0].MTBFhoras < 4) {
+                divIconeMTBF.style.background = '#FF0267';
+                divIconeMTBF.innerHTML = `<img src="../../assets/icons/thumbs_down.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMTBF()">`;
+                conteudoMTBF.innerHTML = `<p class="titulo">Mean Time Between Failures (MTBF)</p>
+                <h2 id="mtbf">${listaJsonsKpisPerformance[0].MTBFhoras}h${listaJsonsKpisPerformance[0].MTBFminutos}min</h2>
+                <p class="descricao"><i>Tempo médio que o sistema opera antes de falhas.</i></p>`
+                mtbf.style.color = '#B4044B';
+            } else if (4 <= listaJsonsKpisPerformance[0].MTBFhoras && listaJsonsKpisPerformance[0].MTBFhoras <= 24) {
+                divIconeMTBF.style.background = '#FFCA67';
+                divIconeMTBF.innerHTML = `<img src="../../assets/icons/light.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMTBF()">`;
+                conteudoMTBF.innerHTML = `<p class="titulo">Mean Time Between Failures (MTBF)</p>
+                <h2 id="mtbf">${listaJsonsKpisPerformance[0].MTBFhoras}h${listaJsonsKpisPerformance[0].MTBFminutos}min</h2>
+                <p class="descricao"><i>Tempo médio que o sistema opera antes de falhas.</i></p>`
+                mtbf.style.color = '#D2A043';
+            } else if (listaJsonsKpisPerformance[0].MTBFhoras > 24) {
+                divIconeMTBF.style.background = '#00F2B9';
+                divIconeMTBF.innerHTML = `<img src="../../assets/icons/thumbs_up.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMTBF()">`;
+                conteudoMTBF.innerHTML = `<p class="titulo">Mean Time Between Failures (MTBF)</p>
+                <h2 id="mtbf">${listaJsonsKpisPerformance[0].MTBFhoras}h${listaJsonsKpisPerformance[0].MTBFminutos}min</h2>
+                <p class="descricao"><i>Tempo médio que o sistema opera antes de falhas.</i></p>`
+                mtbf.style.color = '#219A7E';
+            }
+            displayInfoMtbf = false;
+        }
+    }
+
+    let displayInfoMttrCritico = false;
+    function verInfoMttrCritico() {
+        if (displayInfoMttrCritico == false) {
+            divIconeMTTRCritico.innerHTML = `<img id="iconeInfo" src="../../Images/voltar.svg" onclick="verInfoMttrCritico()">`;
+            conteudoMTTRCritico.innerHTML = `<p class="explicacao">Mede o tempo médio que a equipe leva para resolver uma falha crítica. Para incidentes críticos, o tempo deve ser o menor possível.<br><br>
+            Parâmetros de Saúde:<br> 🟢 Ideal: Abaixo de 12h<br> 🟡 Atenção: Entre 12h e 18h<br> 🔴 Crítico: Acima de 18h</p>`;
+            displayInfoMttrCritico = true;
+        } else if (displayInfoMttrCritico == true) {
+            if (listaJsonsKpisPerformance[1].MTTRCriticosHoras > 18) {
+                divIconeMTTRCritico.style.background = '#FF0267';
+                divIconeMTTRCritico.innerHTML = `<img src="../../assets/icons/thumbs_down.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrCritico()">`;
+                conteudoMTTRCritico.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Críticos</p>
+                            <h2 id="mttrCritico">${listaJsonsKpisPerformance[1].MTTRCriticosHoras}h${listaJsonsKpisPerformance[1].MTTRCriticosMinutos}min</h2>
+                            <p class="descricao"><i>Tempo médio gasto para resolução de um incidente crítico.</i></p>`;
+                mttrCritico.style.color = '#B4044B';
+            } else if (12 <= listaJsonsKpisPerformance[1].MTTRCriticosHoras && listaJsonsKpisPerformance[1].MTTRCriticosHoras <= 18) {
+                divIconeMTTRCritico.style.background = '#FFCA67';
+                divIconeMTTRCritico.innerHTML = `<img src="../../assets/icons/light.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrCritico()">`;
+                conteudoMTTRCritico.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Críticos</p>
+                            <h2 id="mttrCritico">${listaJsonsKpisPerformance[1].MTTRCriticosHoras}h${listaJsonsKpisPerformance[1].MTTRCriticosMinutos}min</h2>
+                            <p class="descricao"><i>Tempo médio gasto para resolução de um incidente crítico.</i></p>`;
+                mttrCritico.style.color = '#D2A043';
+            } else if (listaJsonsKpisPerformance[1].MTTRCriticosHoras < 12) {
+                divIconeMTTRCritico.style.background = '#00F2B9';
+                divIconeMTTRCritico.innerHTML = `<img src="../../assets/icons/thumbs_up.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrCritico()">`;
+                conteudoMTTRCritico.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Críticos</p>
+                            <h2 id="mttrCritico">${listaJsonsKpisPerformance[1].MTTRCriticosHoras}h${listaJsonsKpisPerformance[1].MTTRCriticosMinutos}min</h2>
+                            <p class="descricao"><i>Tempo médio gasto para resolução de um incidente crítico.</i></p>`;
+                mttrCritico.style.color = '#219A7E';
+            }
+            displayInfoMttrCritico = false;
+        }
+    }
+
+    let displayInfoMttrAtencao = false;
+    function verInfoMttrAtencao() {
+        if (displayInfoMttrAtencao == false) {
+            divIconeMTTRAtencao.innerHTML = `<img id="iconeInfo" src="../../Images/voltar.svg" onclick="verInfoMttrAtencao()">`;
+            conteudoMTTRAtencao.innerHTML = `<p class="explicacao">Mede a eficiência na resolução de problemas de menor impacto. O objetivo é manter o fluxo contínuo e evitar acúmulo de chamados.<br><br>
+            Parâmetros de Saúde:<br> 🟢 Ideal: Abaixo de 24h<br> 🟡 Atenção: Entre 24h e 36h<br> 🔴 Crítico: Acima de 36h</p>`;
+            displayInfoMttrAtencao = true;
+        } else if (displayInfoMttrAtencao == true) {
+            if (listaJsonsKpisPerformance[1].MTTRAtencaoHoras > 36) {
+                divIconeMTTRAtencao.style.background = '#FF0267';
+                divIconeMTTRAtencao.innerHTML = `<img src="../../assets/icons/thumbs_down.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrAtencao()">`;
+                conteudoMTTRAtencao.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Atenção</p>
+                            <h2 id="mttrAtencao">${listaJsonsKpisPerformance[1].MTTRAtencaoHoras}h${listaJsonsKpisPerformance[1].MTTRAtencaoMinutos}min</h2>
+                            <p class="descricao"><i>Tempo médio gasto para resolução de um incidente de atenção.</i></p>`;
+                mttrAtencao.style.color = '#B4044B';
+            } else if (24 <= listaJsonsKpisPerformance[1].MTTRAtencaoHoras && listaJsonsKpisPerformance[1].MTTRAtencaoHoras <= 36) {
+                divIconeMTTRAtencao.style.background = '#FFCA67';
+                divIconeMTTRAtencao.innerHTML = `<img src="../../assets/icons/light.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrAtencao()">`;
+                conteudoMTTRAtencao.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Atenção</p>
+                            <h2 id="mttrAtencao">${listaJsonsKpisPerformance[1].MTTRAtencaoHoras}h${listaJsonsKpisPerformance[1].MTTRAtencaoMinutos}min</h2>
+                            <p class="descricao"><i>Tempo médio gasto para resolução de um incidente de atenção.</i></p>`;
+                mttrAtencao.style.color = '#D2A043';
+            } else if (listaJsonsKpisPerformance[1].MTTRAtencaoHoras < 24) {
+                divIconeMTTRAtencao.style.background = '#00F2B9';
+                divIconeMTTRAtencao.innerHTML = `<img src="../../assets/icons/thumbs_up.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrAtencao()">`;
+                conteudoMTTRAtencao.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Atenção</p>
+                            <h2 id="mttrAtencao">${listaJsonsKpisPerformance[1].MTTRAtencaoHoras}h${listaJsonsKpisPerformance[1].MTTRAtencaoMinutos}min</h2>
+                            <p class="descricao"><i>Tempo médio gasto para resolução de um incidente de atenção.</i></p>`;
+                mttrAtencao.style.color = '#219A7E';
+            }
+            displayInfoMttrAtencao = false;
+        }
+    }
+
+    let displayInfoSLA = false;
+    function verInfoSLA() {
+        if (displayInfoSLA == false) {
+            divIconeSLA.innerHTML = `<img id="iconeInfo" src="../../Images/voltar.svg" onclick="verInfoSLA()">`;
+            conteudoSLA.innerHTML = `<p class="explicacao">Representa a porcentagem total de incidentes que foram resolvidos dentro do prazo acordado. É o principal indicador de compromisso com o nível de serviço.<br><br>
+            Parâmetros de Saúde:<br> 🟢 Ideal: Acima de 95%<br> 🟡 Atenção: Entre 90% e 95%<br> 🔴 Crítico: Abaixo de 90%</p>`;
+            displayInfoSLA = true;
+        } else if (displayInfoSLA == true) {
+            if (listaJsonsKpisPerformance[2].porcentagemSLA < 90) {
+                divIconeSLA.style.background = '#FF0267';
+                divIconeSLA.innerHTML = `<img src="../../assets/icons/thumbs_down.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoSLA()">`;
+                conteudoSLA.innerHTML = `<p class="titulo">SLA Compliance - Incidentes Resolvidos</p>
+                            <h2 id="slaCompliance">${listaJsonsKpisPerformance[2].porcentagemSLA}%</h2>
+                            <p class="descricao"><i>Taxa de incidentes resolvidos no prazo definido em SLA.</i></p>`;
+                slaCompliance.style.color = '#B4044B';
+            } else if (90 <= listaJsonsKpisPerformance[2].porcentagemSLA && listaJsonsKpisPerformance[2].porcentagemSLA <= 94.9) {
+                divIconeSLA.style.background = '#FFCA67';
+                divIconeSLA.innerHTML = `<img src="../../assets/icons/light.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoSLA()">`;
+                conteudoSLA.innerHTML = `<p class="titulo">SLA Compliance - Incidentes Resolvidos</p>
+                            <h2 id="slaCompliance">${listaJsonsKpisPerformance[2].porcentagemSLA}%</h2>
+                            <p class="descricao"><i>Taxa de incidentes resolvidos no prazo definido em SLA.</i></p>`;
+                slaCompliance.style.color = '#D2A043';
+            } else if (listaJsonsKpisPerformance[2].porcentagemSLA >= 95) {
+                divIconeSLA.style.background = '#00F2B9';
+                divIconeSLA.innerHTML = `<img src="../../assets/icons/thumbs_up.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoSLA()">`;
+                conteudoSLA.innerHTML = `<p class="titulo">SLA Compliance - Incidentes Resolvidos</p>
+                            <h2 id="slaCompliance">${listaJsonsKpisPerformance[2].porcentagemSLA}%</h2>
+                            <p class="descricao"><i>Taxa de incidentes resolvidos no prazo definido em SLA.</i></p>`;
+                slaCompliance.style.color = '#219A7E';
+            }
+            displayInfoSLA = false;
+        }
+    }
+
     function pegarDataUltimaAtualizacao() {
         const agora = new Date();
 
