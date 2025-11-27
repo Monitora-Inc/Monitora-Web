@@ -80,12 +80,20 @@
                         <p class="descricao"><i>Tempo médio que o sistema opera antes de falhas.</i></p>
                     </div>
                     <div class="card">
-                        <div id="divIconeMTTR" class="divIcone" style="background-color: #FF0267;">
+                        <div id="divIconeMTTRCritico" class="divIcone" style="background-color: #FF0267;">
                             <img src="../../assets/icons/thumbs_down.svg">
                         </div>
-                        <p class="titulo">Mean Time to Resolve (MTTR)</p>
-                        <h2 id="mttr" style="color: #B4044B;"></h2>
-                        <p class="descricao"><i>Tempo médio gasto para resolução de um incidente.</i></p>
+                        <p class="titulo">Mean Time to Resolve (MTTR) - Críticos</p>
+                        <h2 id="mttrCritico" style="color: #B4044B;"></h2>
+                        <p class="descricao"><i>Tempo médio gasto para resolução de um incidente crítico.</i></p>
+                    </div>
+                    <div class="card">
+                        <div id="divIconeMTTRAtencao" class="divIcone" style="background-color: #FF0267;">
+                            <img src="../../assets/icons/thumbs_down.svg">
+                        </div>
+                        <p class="titulo">Mean Time to Resolve (MTTR) - Atenção</p>
+                        <h2 id="mttrAtencao" style="color: #B4044B;"></h2>
+                        <p class="descricao"><i>Tempo médio gasto para resolução de um incidente de atenção.</i></p>
                     </div>
                     <div class="card">
                         <div id="divIconeSLA" class="divIcone" style="background-color: #00F2B9;">
@@ -143,9 +151,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-    buscarKpisIncidentes();
-    buscarDadosComponentes();
-    buscarKpisPerformance();
+    //buscarKpisIncidentes();
+    //buscarDadosComponentes();
+    //buscarKpisPerformance();
     
     function buscarKpisIncidentes() {
         const fetchPromise = fetch("https://baiqze345xsjipst2bsfdm7wx40tsnni.lambda-url.us-east-1.on.aws/");
@@ -205,21 +213,38 @@
                 mtbf.innerHTML = `${data[0].MTBFhoras}h${data[0].MTBFminutos}min`;
             }
             
-            if (data[1].MTTRhoras > 10) {
-                divIconeMTTR.style.background = '#FF0267';
-                divIconeMTTR.innerHTML = `<img src="../../assets/icons/thumbs_down.svg">`;
-                mttr.style.color = '#B4044B';
-                mttr.innerHTML = `${data[1].MTTRhoras}h${data[1].MTTRminutos}min`;
-            } else if (4 <= data[1].MTTRhoras <= 10) {
-                divIconeMTTR.style.background = '#FFCA67';
-                divIconeMTTR.innerHTML = `<img src="../../assets/icons/light.svg">`;
-                mttr.style.color = '#D2A043';
-                mttr.innerHTML = `${data[1].MTTRhoras}h${data[1].MTTRminutos}min`;
-            } else if (data[1].MTTRhoras < 4) {
-                divIconeMTTR.style.background = '#00F2B9';
-                divIconeMTTR.innerHTML = `<img src="../../assets/icons/thumbs_up.svg">`;
-                mttr.style.color = '#219A7E';
-                mttr.innerHTML = `${data[1].MTTRhoras}h${data[1].MTTRminutos}min`;
+            if (data[1].MTTRCriticosHoras > 10) {
+                divIconeMTTRCritico.style.background = '#FF0267';
+                divIconeMTTRCritico.innerHTML = `<img src="../../assets/icons/thumbs_down.svg">`;
+                mttrCritico.style.color = '#B4044B';
+                mttrCritico.innerHTML = `${data[1].MTTRCriticosHoras}h${data[1].MTTRCriticosMinutos}min`;
+            } else if (4 <= data[1].MTTRCriticosHoras <= 10) {
+                divIconeMTTRCritico.style.background = '#FFCA67';
+                divIconeMTTRCritico.innerHTML = `<img src="../../assets/icons/light.svg">`;
+                mttrCritico.style.color = '#D2A043';
+                mttrCritico.innerHTML = `${data[1].MTTRCriticosHoras}h${data[1].MTTRCriticosMinutos}min`;
+            } else if (data[1].MTTRCriticosHoras < 4) {
+                divIconeMTTRCritico.style.background = '#00F2B9';
+                divIconeMTTRCritico.innerHTML = `<img src="../../assets/icons/thumbs_up.svg">`;
+                mttrCritico.style.color = '#219A7E';
+                mttrCritico.innerHTML = `${data[1].MTTRCriticosHoras}h${data[1].MTTRCriticosMinutos}min`;
+            }
+
+            if (data[1].MTTRAtencaoHoras > 10) {
+                divIconeMTTRAtencao.style.background = '#FF0267';
+                divIconeMTTRAtencao.innerHTML = `<img src="../../assets/icons/thumbs_down.svg">`;
+                mttrAtencao.style.color = '#B4044B';
+                mttrAtencao.innerHTML = `${data[1].MTTRAtencaoHoras}h${data[1].MTTRAtencaoMinutos}min`;
+            } else if (4 <= data[1].MTTRAtencaoHoras <= 10) {
+                divIconeMTTRAtencao.style.background = '#FFCA67';
+                divIconeMTTRAtencao.innerHTML = `<img src="../../assets/icons/light.svg">`;
+                mttrAtencao.style.color = '#D2A043';
+                mttrAtencao.innerHTML = `${data[1].MTTRAtencaoHoras}h${data[1].MTTRAtencaoMinutos}min`;
+            } else if (data[1].MTTRAtencaoHoras < 4) {
+                divIconeMTTRAtencao.style.background = '#00F2B9';
+                divIconeMTTRAtencao.innerHTML = `<img src="../../assets/icons/thumbs_up.svg">`;
+                mttrAtencao.style.color = '#219A7E';
+                mttrAtencao.innerHTML = `${data[1].MTTRAtencaoHoras}h${data[1].MTTRAtencaoMinutos}min`;
             }
             
             if (data[2].porcentagemSLA < 90) {
