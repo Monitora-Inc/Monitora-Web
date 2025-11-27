@@ -1,101 +1,130 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Maria</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monitoramento de Tráfego de Rede</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../style/sidebar.css">
   <link rel="stylesheet" href="../../style/essencial.css">
   <link rel="stylesheet" href="../../style/tela_home.css">
   <link rel="stylesheet" href="../../style/filtros.css">
   <link rel="stylesheet" href="../../style/popup.css">
+  <link rel="stylesheet" href="../../style/Maria.css">
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+
 </head>
 
 <body onload="listarPermissoesReload()">
   <nav id="id_sidebar"></nav>
-  <div id="id_info_kpis"></div>
-  <div id="popup_screen"></div>
 
-  <div class="page_content">
-    <!-- Filtros de persquisa -->
-    <div class="filtros">
-      <img class="icones_filtros icone_filtro" alt="">
-      <select id="id_filtro" onchange="">
-        <option value="filtro_nivel_de_risco_crescente">Nível de risco (Crescente)</option>
-        <option value="filtro_nivel_de_risco_decrescente" selected>Nível de risco (Decrescente)</option>
-        <option value="filtro_critico">Critíco</option>
-        <option value="filtro_alerta">Alerta</option>ion>
-        <option value="filtro_estavel">Estável</option>
-      </select>
-      <img class="icones_filtros icone_pesquisar" alt="">
-      <input type="search" placeholder="Digite para pesquisar">
+  <div class="sombra_modal" id="sombra_modal">
+    <div class="modal">
+      <h2>Interpretação do Gráfico <i class="fa-regular fa-circle-xmark" onclick="fecharModal()"></i> </h2>
+      <p>
+        <li>Cada célula mostra o quanto duas variáveis estão relacionadas, de -1 a 1.</li>
+
+        <li>Cor mais escura = relação mais forte.</li>
+
+        <li> Valor positivo: quando uma sobe, a outra tende a subir.</li>
+
+        <li>Valor negativo: quando uma sobe, a outra tende a cair.</li>
+
+        <li>Valor próximo ou igual à zero: pouca ou nenhuma relação.</li>
+
+        <li> Linhas e colunas representam os eventos; a célula mostra a força da relação entre eles.</li>
+      </p>
+    </div>
+  </div>
+  <header>
+    <div class="titulo-dash">
+      <i class="fa-solid fa-chart-simple"></i>
+      <h1> Monitoramento de Tráfego de Rede</h1>
     </div>
 
-    <!-- Lista de Usuários -->
+  </header>
 
-    <div class="container_servidores">
-      <div class="lista_servidores">
-        <h1 class="lista_titulo">Servidores</h1> <!-- Título da Lista -->
+  <div class="row">
+    <button class="btn-primary">Últimas 24h</button>
+    <button>7 dias</button>
+    <button>30 dias</button>
+    <button>Período Customizado <i class="fa-regular fa-calendar"></i></button>
 
-        <div class="card_servidor">
-          <div id="servidor_estado">
-            <img src="../../assets/icons/icone_critico.svg" alt="">
-          </div>
-          <div class="servidor_informacoes">
-            <div id="servidor_nome">Servidor 1</div>
-            <div id="servidor_localizacao">São Paulo - SP</div>
 
-            <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>CPU, RAM e GPU, Rede</div>
-          </div>
-          <span class="barra_lateral critico"></span>
+
+  </div>
+
+  <div class="page_content main">
+
+    <div class="grid grid-6">
+      <div class="card">
+        <p class="text-kpi">Tráfego Médio na <br> Última Hora
+          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+        </p>
+        <p class="value">1.2 Gbit/s</p>
+      </div>
+      <div class="card">
+        <p class="text-kpi">Perda de Pacotes
+          <i class="fa-solid fa-box-archive"></i>
+        </p>
+        <p class="value">0.05%</p>
+      </div>
+      <div class="card">
+        <p class="text-kpi">Dados Enviados
+          <i class="fa-solid fa-database"></i>
+        </p>
+        <p class="value">850 GB</p>
+      </div>
+      <div class="card">
+        <p class="text-kpi">Dados Recebidos
+          <i class="fa-solid fa-bars-progress"></i>
+        </p>
+        <p class="value">80 GB</p>
+
+
+      </div>
+
+    </div>
+
+    <div class="container-graficos first">
+      <div id="chart"></div>
+      <div class="grafico-card">
+        <div class="grafico-header">
+          <h3>Quantidade de Pacotes Enviados e Recebidos</h3>
+          <i class="fa-regular fa-circle-question" onclick="abrirModal()"></i>
         </div>
-
-        <div class="card_servidor">
-          <div id="servidor_estado">
-            <img src="../../assets/icons/icone_alerta.svg" alt="">
-          </div>
-          <div class="servidor_informacoes">
-            <div id="servidor_nome">Servidor 1</div>
-            <div id="servidor_localizacao">São Paulo - SP</div>
-
-            <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>CPU, RAM e GPU, Rede</div>
-          </div>
-          <span class="barra_lateral alerta"></span>
-        </div>
-
-        <div class="card_servidor">
-          <div id="servidor_estado">
-            <img src="../../assets/icons/icone_estavel.svg" alt="">
-          </div>
-          <div class="servidor_informacoes">
-            <div id="servidor_nome">Servidor 1</div>
-            <div id="servidor_localizacao">São Paulo - SP</div>
-
-            <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>CPU, RAM e GPU, Rede</div>
-          </div>
-          <span class="barra_lateral estavel"></span>
-        </div>
+        <div id="graficoPacotes"></div>
       </div>
     </div>
-  </div>
-  <div class="dashButtons">
-    <a href="./home.html"><img src="/public/Images/home.svg" alt=""></a>
-    <a href="./Ally.html"><img src="/public/Images/Colaboradores/Colaborador1.svg" alt=""></a>
-    <a href="./Gustavo.html"><img src="/public/Images/Colaboradores/Colaborador2.svg" alt=""></a>
-    <a href="./Leonardo.html"><img src="/public/Images/Colaboradores/Colaborador3.svg" alt=""></a>
-    <a href="./Maria.html"><img src="/public/Images/Colaboradores/Colaborador4.svg" alt=""></a>
-    <a href="./Pedro.html"><img src="/public/Images/Colaboradores/Colaborador5.svg" alt=""></a>
-  </div>
-</body>
+    <div class="container-graficos second">
+      <div id="previsao"></div>
+    </div>
 
-</html>
+  </div>
+
+
+</body>
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+  integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+
+</html>
+
 <script>
-  listarServidores();
+
 
 
   if (sessionStorage.empresaCnpj == undefined) {
@@ -111,144 +140,263 @@
     }
   }
 
-
-  function listarServidores() {
-    let idEmpresa = sessionStorage.empresaId;
-
-    fetch(`/servidores/listar/${idEmpresa}`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(response => {
-      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
-      return response.json();
-    }).then(dadosServidores => {
-      console.log(dadosServidores);
-
-      const container = document.querySelector(".lista_servidores");
-      container.innerHTML = `<h1 class="lista_titulo">Servidores</h1>`;
-
-      for (let servidor of dadosServidores) {
-        container.innerHTML += `
-                <div class="card_servidor" id="srv-${servidor.idServidor}" onclick="abrir_dashboard(this)">
-                    <div id="servidor_estado">
-                        <img src="../../assets/icons/icone_estavel.svg" alt="">
-                    </div>
-                    <div class="servidor_informacoes">
-                        <div id="servidor_nome">${servidor.nome}</div>
-                        <div id="servidor_localizacao">R. ${servidor.rua}, ${servidor.numero} - ${servidor.bairro}, ${servidor.cidade}, ${servidor.estado}, ${servidor.pais}</div>
-                        <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>Nenhum</div>
-                    </div>
-                    <span class="barra_lateral estavel"></span>
-                </div>
-            `;
-      }
-    }).catch(erro => console.log(`#ERRO: ${erro}`));
-  }
-
-
-  function abrir_dashboard(card) {
-    const nome = card.querySelector('#servidor_nome').textContent;
-    const localizacao = card.querySelector('#servidor_localizacao').textContent;
-
-    sessionStorage.setItem('servidorNome', nome);
-    sessionStorage.setItem('servidorLocalizacao', localizacao);
-
-    window.location = "tela_dashboard.html";
-  }
-
-</script>
-
-<script>
-  listarServidores();
-
   if (sessionStorage.empresaCnpj == undefined) {
     verificarPermissoesSideBar();
   }
 
-  let dadosServidores = [];
 
-  async function listarServidores() {
-    let idEmpresa = sessionStorage.empresaId;
+</script>
 
-    try {
-      const response = await fetch(`/servidores/listar/${idEmpresa}`);
-      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+<Script>
+  function abrirModal() {
+    document.getElementById("sombra_modal").style.display = "flex";
+  }
 
-      dadosServidores = await response.json();
-      renderizarServidores(dadosServidores);
-    } catch (erro) {
-      console.log(`#ERRO: ${erro}`);
+  function fecharModal() {
+    document.getElementById("sombra_modal").style.display = "none";
+  }
+</Script>
+
+<script>
+
+  //-------------------------------------------------------------------
+
+  const df = [
+    { data: "2025-11-20", prob: 0.12 },
+    { data: "2025-11-22", prob: 0.58 },
+    { data: "2025-12-25", prob: 0.92 }
+  ];
+
+  const serieApex = df.map(item => ({
+    x: item.data,
+    y: item.prob
+  }));
+
+
+
+  var options = {
+    chart: {
+      type: 'line',
+      height: 350,
+      width: '100%',
+      toolbar: {
+        show: false
+      },
+      foreColor: '#555'
+    },
+    markers: {
+      size: 6,
+      colors: ['#c1121f'],
+      strokeColors: '#fff',
+      strokeWidth: 2,
+      hover: {
+        size: 8,
+      }
+    },
+
+    series: [{
+      name: "Probabilidade de Pico",
+      data: serieApex
+
+    }],
+
+    stroke: {
+      width: 4,
+      curve: "smooth",
+
+      colors: ['#003566']
+    },
+
+    xaxis: {
+      type: "datetime",
+      labels: {
+        style: {
+          fontSize: '12px',
+          colors: '#6b7280'
+        }
+
+      },
+      datetimeFormatter: {
+        year: 'yyyy',
+        month: 'MMM \'yy',
+        day: 'dd/MM'
+      },
+      title: {
+        text: 'Data',
+        style: {
+          fontWeight: 'bold',
+          color: '#475569',
+
+        }
+      }
+    },
+
+    yaxis: {
+      min: 0,
+      max: 1,
+      labels: {
+        formatter: val => (val * 100).toFixed(0) + '%'
+      },
+      title: {
+        text: 'Probabilidade de Pico (%)',
+        style: {
+          fontWeight: 'bold',
+
+
+        }
+      }
+    },
+
+    title: {
+      text: "Previsão de Picos de Tráfego (Regressão Logística)",
+      align: "left",
+      style: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        fontFamily: "'Inter', sans-serif"
+
+
+      }
+    },
+
+
+  };
+
+  var chart = new ApexCharts(document.querySelector("#previsao"), options);
+  chart.render();
+
+  //---------------------------------------------------
+  var options = {
+    series: [{
+      name: 'Pacotes Recebidos',
+      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+
+    },
+    {
+      name: 'Pacotes Enviados',
+      data: [10, 31, 65, 51, 49, 62, 69, 91, 148]
     }
-  }
+    ],
+    chart: {
+      type: 'area',
+      stacked: false,
+      
+      toolbar: {
 
-  function renderizarServidores(lista) {
-    const container = document.querySelector(".lista_servidores");
-    container.innerHTML = `<h1 class="lista_titulo">Servidores</h1>`;
+        show: false
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    markers: {
+      size: 0,
+    },
 
-    lista.forEach(servidor => {
-      container.innerHTML += `
-      <div class="card_servidor" id="srv-${servidor.idServidor}" onclick="abrir_dashboard(this)">
-        <div id="servidor_estado">
-          <img src="../../assets/icons/icone_${servidor.status || 'estavel'}.svg" alt="">
-        </div>
-        <div class="servidor_informacoes">
-          <div id="servidor_nome">${servidor.nome}</div>
-          <div id="servidor_localizacao">R. ${servidor.rua}, ${servidor.numero} - ${servidor.bairro}, ${servidor.cidade}, ${servidor.estado}, ${servidor.pais}</div>
-          <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>${servidor.componentes || 'Nenhum'}</div>
-        </div>
-        <span class="barra_lateral ${servidor.status || 'estavel'}"></span>
-      </div>
-    `;
-    });
-  }
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 1,
+        inverseColors: false,
+        opacityFrom: 0.5,
+        opacityTo: 0,
+        stops: [0, 90, 100]
+      },
+    },
+    yaxis: {
+      labels: {
+        formatter: function (val) {
+          return (val / 1000000).toFixed(0);
+        },
+      },
+      title: {
+        text: 'Quantidade de Pacotes'
+      },
+    },
+    xaxis: {
+      categories: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h']
+    },
+    tooltip: {
+      shared: false,
 
-  // Filtros
-  document.getElementById("id_filtro").addEventListener("change", filtrarServidores);
-  document.querySelector(".filtros input[type='search']").addEventListener("input", filtrarServidores);
-
-  function filtrarServidores() {
-    let filtro = document.getElementById("id_filtro").value;
-    let pesquisa = document.querySelector(".filtros input[type='search']").value.toLowerCase();
-
-    let filtrados = [...dadosServidores];
-
-    if (filtro === "filtro_critico") filtrados = filtrados.filter(s => s.status === "critico");
-    if (filtro === "filtro_alerta") filtrados = filtrados.filter(s => s.status === "alerta");
-    if (filtro === "filtro_estavel") filtrados = filtrados.filter(s => s.status === "estavel");
-
-    if (filtro === "filtro_nivel_de_risco_crescente") {
-      filtrados.sort((a, b) => nivelRisco(a.status) - nivelRisco(b.status));
+      y: {
+        formatter: function (val) {
+          return (val / 1000000).toFixed(0)
+        }
+      }
     }
-    if (filtro === "filtro_nivel_de_risco_decrescente") {
-      filtrados.sort((a, b) => nivelRisco(b.status) - nivelRisco(a.status));
+  };
+
+  var chart = new ApexCharts(document.querySelector("#graficoPacotes"), options);
+  chart.render();
+
+
+  //----------------------------------------------------------------------------
+  var options = {
+    series: [{
+      name: "Desktops",
+      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+    }],
+    chart: {
+      height: 350,
+      type: 'line',
+      zoom: {
+        enabled: false
+      },
+      toolbar: {
+        show: false
+      }
+    },
+
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: 'straight'
+    },
+    title: {
+      text: 'Tráfego nas Últimas Horas',
+      align: 'left',
+      style: {
+        fontFamily: "'Inter', sans-serif",
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: '#1f2937'
+
+      }
+    },
+    grid: {
+      row: {
+        colors: ['#f3f3f3', 'transparent'],
+        opacity: 0.5
+      },
+    },
+    xaxis: {
+      categories: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h'],
+      title: {
+        text: 'Horário',
+        style: {
+          fontWeight: 'bold',
+          color: '#475569',
+
+        }
+      }
+    },
+    yaxis: {
+      title: {
+        text: 'Velocidade do Tráfego (Taxa de Transferência)',
+        style: {
+          fontWeight: 'bold',
+          color: '#475569',
+
+        }
+      }
     }
+  };
 
-    if (pesquisa.trim() !== "") {
-      filtrados = filtrados.filter(s =>
-        s.nome.toLowerCase().includes(pesquisa) ||
-        `${s.cidade} ${s.estado} ${s.rua}`.toLowerCase().includes(pesquisa)
-      );
-    }
+  var chart = new ApexCharts(document.querySelector("#chart"), options);
+  chart.render();
 
-    renderizarServidores(filtrados);
-  }
 
-  function nivelRisco(status) {
-    if (status === "critico") return 3;
-    if (status === "alerta") return 2;
-    if (status === "estavel") return 1;
-    return 0;
-  }
 
-  function abrir_dashboard(card) {
-    const nome = card.querySelector('#servidor_nome').textContent;
-    const localizacao = card.querySelector('#servidor_localizacao').textContent;
-
-    sessionStorage.setItem('servidorNome', nome);
-    sessionStorage.setItem('servidorLocalizacao', localizacao);
-
-    window.location = "tela_dashboard.html";
-  }
 </script>

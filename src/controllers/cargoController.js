@@ -5,6 +5,9 @@ function buscarCargos(req, res) {
 
     cargoModel.buscarCargos(fkEmpresa).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao buscar cargos: ", err);
+        res.status(500).send("Erro ao buscar cargos.");
     });
 }
 
@@ -14,6 +17,9 @@ function adicionarCargo(req, res) {
 
     cargoModel.adicionarCargo(fkEmpresa, nomeCargo).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao adicionar cargo: ", err);
+        res.status(500).send("Erro ao adicionar cargo.");
     });
 }
 
@@ -22,6 +28,9 @@ function deletarCargo(req, res) {
 
     cargoModel.deletarCargo(cargoId).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao deletar cargo: ", err);
+        res.status(500).send("Erro ao deletar cargo.");
     });
 }
 
@@ -30,6 +39,9 @@ function listarPermissoes(req, res) {
 
     cargoModel.listarPermissoes(idCargo).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao listar permissões: ", err);
+        res.status(500).send("Erro ao listar permissões.");
     });
 }
 
@@ -39,6 +51,9 @@ function adicionarPermissao(req, res) {
 
     cargoModel.adicionarPermissao(fkCargo, fkPermissao).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao adicionar permissão: ", err);
+        res.status(500).send("Erro ao adicionar permissão.");
     });
 }
 
@@ -48,6 +63,9 @@ function removerPermissao(req, res) {
 
     cargoModel.removerPermissao(cargoId, permissaoId).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao remover permissão: ", err);
+        res.status(500).send("Erro ao remover permissão.");
     });
 }
 

@@ -3,16 +3,13 @@ const fs = require("fs");
 const empresaModel = require("../models/empresaModel");
 
 
-const REGION = "us-east-1";
-
-
 // SDK AWS 
 const s3 = new S3Client({ region: "us-east-1" });
 
 const uploadToS3 = async (req, res) => {
   let filePath;
   try {
-    
+
     const file = req.file;
     const { servidorId } = req.body;  // id que vem do python
 
@@ -27,32 +24,39 @@ const uploadToS3 = async (req, res) => {
     }
 
     // Busca a empresa do servidor
-    const empresaResult = await empresaModel.getNomeEmpresa(servidorId);
+    const empresaResult = await empresaModel.getIdEmpresa(servidorId);
     if (!empresaResult || empresaResult.length === 0) {
       return res.status(404).json({ error: "Servidor não encontrado ou não está associado a uma empresa" });
     }
     const { idEmpresa: empresaId, nome: empresaNome } = empresaResult[0];
 
     //nome da empresa para usar como nome da pasta
-    const empresaPasta = empresaNome.toLowerCase();          
+    const empresaPasta = empresaId;
 
     const nomeArquivo = file.originalname;
+
+
     
-    const agora = new Date();
-    const ano = agora.getFullYear();
-    const mes = String(agora.getMonth() + 1).padStart(2, "0");
-
-    // Estrutura: empresaa/servidor/ano/mes/arquivo.csv
-    const key = `${empresaPasta}/${servidorId}/${ano}/${mes}/${nomeArquivo}`;
-
     filePath = file.path;
     const fileStream = fs.createReadStream(filePath);
+
+    const conteudo = fileStream.trim().split("\n");
+    const primeiraLinhaDados = conteudo[1];
+    const colunas = primeiraLinhaDados.split(";");
+    const data = colunas[1];
+
+    
+    const [ano, mes, dia] = data.split("-");
+
+
+    // Estrutura: empresaa/servidor/ano/mes/arquivo.csv
+    const key = `${empresaPasta}/${servidorId}/${ano}/${mes}/${dia}/${nomeArquivo}`;
 
     const uploadParams = {
       Bucket: "monitora-raw", // nome do bucket
       Key: key,
       Body: fileStream,
-      ContentType: "text/csv",  
+      ContentType: "text/csv",
     };
 
     console.log(`Uploading CSV to S3 bucket=monitora-raw key=${key}`);
@@ -60,8 +64,8 @@ const uploadToS3 = async (req, res) => {
     await s3.send(new PutObjectCommand(uploadParams));
 
     console.log(`Sucesso Upload empresa=${empresaId} (${empresaNome}), servidor=${servidorId}`);
-    return res.json({ 
-      message: "Upload realizado com sucesso no S3!", 
+    return res.json({
+      message: "Upload realizado com sucesso no S3!",
       key,
       bucket: "monitora-raw",
       empresaId,
@@ -81,5 +85,5 @@ const uploadToS3 = async (req, res) => {
 };
 
 module.exports = {
-    uploadToS3
+  uploadToS3
 };

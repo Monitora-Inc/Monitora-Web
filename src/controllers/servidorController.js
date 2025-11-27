@@ -65,7 +65,6 @@ function atualizarServidor(req, res) {
 
 
 
-//Não está excluindo, parametro vindo como undefined
 function excluirServidor(req, res) {
     let idServidor = req.params.id;
 
