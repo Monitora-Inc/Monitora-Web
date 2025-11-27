@@ -207,7 +207,7 @@ $$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\
     position: absolute;
     width: 100%;
     top: 2rem;
-    font-size: 2.1vh;
+    font-size: 2vh;
     padding-top: 1.5vh;
 }
 
@@ -215,7 +215,7 @@ $$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\
     position: absolute;
     bottom: 0.94rem;
     text-align: center;
-    font-size: 1.8vh;
+    font-size: 1.7vh;
     width: 100%;
 }
 
