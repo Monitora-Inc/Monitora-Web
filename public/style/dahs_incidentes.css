@@ -177,7 +177,7 @@ $$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\
     align-items: center;
     background-color: white;
     box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
-    width: 31%;
+    width: 24%;
     height: 25vh;
     border-radius: 0.31rem;
     font-size: 1.13rem;
@@ -199,15 +199,14 @@ $$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\
 .cards_kpi2 .card .titulo{
     position: absolute;
     top: 2.5rem;
-    font-size: 2.5vh;
+    font-size: 2vh;
 }
 
 .cards_kpi2 .card .descricao{
     position: absolute;
     bottom: 0.94rem;
-    font-size: 0.81rem;
     text-align: center;
-    font-size: 1.8vh;
+    font-size: 1.3vh;
 }
 
 .cards_kpi2 .card h2{
