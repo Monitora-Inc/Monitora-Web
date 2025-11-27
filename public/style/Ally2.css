@@ -1,0 +1,375 @@
+/*____                _ 
+/ ___| ___ _ __ __ _| |
+| |  _ / _ \ '__/ _` | |
+| |_| |  __/ | | (_| | |
+\____|\___|_|  \__,_|_| */
+
+* {
+  box-sizing: border-box;
+  padding: none;
+  margin: none;
+}
+
+.titulo {
+  color: #1F547E;
+  font-size: clamp(1.5rem, 1.6vw, 3rem);
+  font-weight: 300;
+  position: absolute;
+  margin-left: 6vw;
+  padding-top: 10vh;
+}
+
+.container {
+  margin-left: 6vw;
+  padding-top: 15vh;
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+}
+
+.subtitulo {
+  color: #1F547E;
+  font-size: clamp(1rem, 1vw, 1.5rem);
+  font-weight: 300;
+  margin-left: 55px;
+}
+
+/* 
+__  ______ ___ _ ____  
+| |/ /  _ \_ _( ) ___| 
+| ' /| |_) | ||/\___ \ 
+| . \|  __/| |   ___) |
+|_|\_\_|  |___| |____/ 
+ */
+
+.cards_kpi {
+  width: 98%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cards_kpi .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 14vw;
+  height: fit-content;
+  padding-block: 1rem;
+  border-radius: 5px;
+}
+
+/*
+____             _    _             
+|  _ \ __ _ _ __ | | _(_)_ __   __ _ 
+| |_) / _` | '_ \| |/ / | '_ \ / _` |
+|  _ < (_| | | | |   <| | | | | (_| |
+|_| \_\__,_|_| |_|_|\_\_|_| |_|\__, |
+                              |___/ */
+
+.rankingServidores {
+  margin-block: 1vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 280px;
+}
+
+.rankServer {
+  width: 98%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 22px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+  background-color: transparent;
+}
+
+.popup-Server {
+  margin-block: 1vh;
+  width: 22%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  transition: .24s ease;
+}
+
+.popup-Server:hover {
+  transition: .24s;
+  transform: scale(0.9);
+  cursor: pointer;
+}
+
+
+.status {
+  width: 100%;
+  border-radius: 10px 10px 0px 0px;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  padding: 7px;
+}
+
+.status_critico {
+  background: #FF0267;
+}
+
+.status_alerta {
+  background: #FFCA67;
+}
+
+.status_ok {
+  background: #00F1B9;
+}
+
+/* Conteúdo interno */
+.contentServer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  padding: 7px 15px;
+  width: 100%;
+}
+
+.first {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.first .icon {
+  width: 22px;
+  height: 22px;
+}
+
+.first p {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.seccond {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.seccond .kpi {
+  font-size: 1.4rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+.seccond_critico .kpi {
+  color: #ff4d4d;
+}
+
+.seccond_alerta .kpi {
+  color: #ffcc00;
+}
+
+.seccond_ok .kpi {
+  color: #38b95a;
+}
+
+
+/* comparativo */
+.comparativo {
+  margin-top: 2px;
+  font-size: 0.70rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.comparativo .kpi {
+  font-size: .7rem;
+  font-weight: 200;
+  align-self: flex-start;
+  gap: 2px;
+  display: flex;
+  align-items: center;
+
+  font-weight: 700;
+}
+
+.comparativo_up .kpi {
+  color: #34C759;
+}
+
+.comparativo_down .kpi {
+  color: #FF0000;
+}
+
+.comparativo img {
+  width: 12px;
+}
+
+.popup:hover {
+  transform: scale(.98);
+  cursor: pointer;
+  transition: .24s;
+}
+
+/* 
+ ____      _    ____    _    ____  
+|  _ \    / \  |  _ \  / \  |  _ \ 
+| |_) |  / _ \ | | | |/ _ \ | |_) |
+|  _ <  / ___ \| |_| / ___ \|  _ < 
+|_| \_\/_/   \_\____/_/   \_\_| \_\
+*/
+
+.grafico_radar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 8%;
+  border-radius: 22px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background-color: transparent;
+  width: 98%;
+  height: 40%;
+}
+
+.grafico_radar .kpi {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3vh;
+  margin-right: 5vw;
+}
+
+.grafico_radar .kpi h3{
+  color: #1F547E;
+  font-size: clamp(1.5rem, 1.5vw, 2.5rem);
+  font-weight: 500;
+}
+
+.grafico_radar .kpi select {
+  margin-top: 1vh;
+  border: none;
+  border-radius: 1px;
+  background-color: transparent;
+  font-size: 1.1vw;
+  font-weight: 300;
+  padding-left: 1vw;
+  cursor: pointer;
+}
+
+.grafico_radar .kpi .kpis {
+  margin-top: 1vh;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 30%;
+}
+
+.grafico_radar .kpi .kpis p{
+  color: #000;
+  font-size: clamp(.5rem, .9vw, 1rem);
+  font-weight: 500;
+}
+
+.grafico_radar .grafico {
+  width: 20% !important;
+  height: 80% !important;
+}
+
+/*
+____   ___  ____    _   _ ____    ___    _    
+|  _ \ / _ \|  _ \  | | | |  _ \  |_ _|  / \   
+| |_) | | | | |_) | | | | | |_) |  | |  / _ \  
+|  __/| |_| |  __/  | |_| |  __/   | | / ___ \ 
+|_|    \___/|_|      \___/|_|     |___/_/   \_\
+*/
+.logo_Ia {
+  right: 2vw;
+  bottom: 3vh;
+  position: fixed;
+  background: none;
+  border: none;
+  transition-duration: .24s;
+}
+
+.logo_Ia img {
+  width: 3vw;
+}
+
+.logo_Ia:hover {
+  cursor: pointer;
+  transition-duration: .24s;
+  transform: scale(1.1);
+}
+
+.popup_IA {
+  z-index: 1000;
+  right: 2vw;
+  bottom: 10vh;
+  position: fixed;
+  background-color: #1F547E;
+  width: 15vw;
+  height: 30vh;
+  border-radius: 1rem;
+  padding: 1.5vh 0vw 1vh .5vw;
+  color: #ffffff;
+}
+
+.ativada {
+  display: flex;
+  flex-direction: column;
+}
+
+.desativada {
+  display: none;
+
+}
+
+.popup_IA button {
+  position: absolute;
+  right: .5vw;
+  top: 1.5vh;
+  width: 1.5vw;
+  max-height: 1.5rem;
+  background: none;
+  border: none;
+}
+
+.popup_IA button:hover {
+  cursor: pointer;
+}
+
+.popup_IA button img {
+  width: 100%;
+  max-height: 100%;
+}
+
+
+.popup_IA h2 {
+  font-size: 1.1vw;
+  font-weight: 600;
+  padding-bottom: 1vh;
+}
+
+.MensagemIA {
+  height: 100%;
+  width: 100%;
+  padding-right: 1vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.MensagemIA p {
+  font-size: 1.1vw;
+  font-weight: 300;
+}

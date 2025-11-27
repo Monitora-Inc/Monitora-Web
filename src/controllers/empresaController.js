@@ -5,17 +5,20 @@ function cadastrarEmpresa(req, res) {
     let cnpj = req.body.cnpjServer;
     let senha = req.body.senhaServer;
     if (nome == undefined) {
-        res.status(400).send("Seu nome está undefined!");
+        return res.status(400).send("Seu nome está undefined!");
     }
     if (cnpj == undefined) {
-        res.status(400).send("Seu cnpj está undefined!");
+        return res.status(400).send("Seu cnpj está undefined!");
     }
     if (senha == undefined) {
-        res.status(400).send("Sua senha está undefined!");
+        return res.status(400).send("Sua senha está undefined!");
     }
 
     empresaModel.cadastrarEmpresa(nome, cnpj, senha).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao cadastrar empresa: ", err);
+        res.status(500).send("Erro ao cadastrar empresa.");
     });
 }
 
@@ -36,6 +39,9 @@ function autenticar(req, res) {
         } else {
             res.status(403).send("CNPJ e/ou senha inválido(s)");
         }
+    }).catch(err => {
+        console.error("Erro ao autenticar empresa: ", err);
+        res.status(500).send("Erro ao autenticar empresa.");
     });
 }
 
@@ -44,6 +50,9 @@ function negarEmpresa(req, res) {
 
     empresaModel.negarEmpresa(idEmpresa).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao negar empresa: ", err);
+        res.status(500).send("Erro ao negar empresa.");
     });
 }
 
@@ -52,12 +61,18 @@ function autorizarEmpresa(req, res) {
 
     empresaModel.autorizarEmpresa(idEmpresa).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao autorizar a empresa: ", err);
+        res.status(500).send("Erro ao autorizar a empresa.");
     });
 }
 
-function buscarEmpresas(req, res){
+function buscarEmpresas(req, res) {
     empresaModel.buscarEmpresas().then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao buscar empresas: ", err);
+        res.status(500).send("Erro ao buscar empresas.");
     });
 }
 
@@ -79,6 +94,9 @@ function confirmarSenha(req, res) {
         } else {
             res.status(403).send("Senha inválida!");
         }
+    }).catch(err => {
+        console.error("Erro ao confirmar a senha: ", err);
+        res.status(500).send("Erro ao confirmar a senha.");
     });
 }
 
@@ -103,25 +121,28 @@ function editarPerfil(req, res) {
 
     // Verificar se a senha antiga está correta
     empresaModel.editarPerfil(
-        empresa_nome, 
-        empresa_cnpj, 
+        empresa_nome,
+        empresa_cnpj,
         empresa_senha,
         id
     )
-    .then(resposta => {
-        res.json({
-            success: true,
-            message: "Usuário atualizado com sucesso"
+        .then(resposta => {
+            res.json({
+                success: true,
+                message: "Usuário atualizado com sucesso"
+            });
+        }).catch(err => {
+            console.error(err);
+            res.status(500).send("Erro ao editar perfil da empresa.");
         });
-}) .catch(err => {
-    console.error(err);
-    res.status(500).send("CNPJ já existente");
-});
 }
 
 function editarFoto(req, res) {
+    if (!req.file) {
+        return res.status(400).send("Nenhuma foto enviada!");
+    }
     const id = req.body.id;
-    const foto = req.file.filename; 
+    const foto = req.file.filename;
 
     empresaModel.editarFoto(id, foto)
         .then(() => {
@@ -139,11 +160,15 @@ function editarFoto(req, res) {
 
 function getNomeEmpresa(req, res) {
     const idServidor = req.body.servidorId;
-    if (idServidor == undefined){
+    if (idServidor == undefined) {
         console.log("Id do servidor undefined")
+        return res.status(400).send("O Id do servidor é obrigatório!");
     }
     empresaModel.getNomeEmpresa(idServidor).then((resultado) => {
         res.json(resultado);
+    }).catch(err => {
+        console.error("Erro ao buscar o nome da empresa: ", err);
+        res.status(500).send("Erro ao buscar o nome da empresa.");
     });
 }
 

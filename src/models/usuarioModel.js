@@ -27,7 +27,8 @@ function autenticar(email, senha) {
         JOIN permissoes_has_cargos AS pc ON pc.cargos_idCargo = u.fkCargo
         JOIN permissoes AS p ON p.idPermissao = pc.permissoes_idPermissao
         WHERE u.email = '${email}' 
-        AND u.senha = SHA2('${senha}', 512);
+        AND u.senha = SHA2('${senha}', 512)
+        HAVING permissoes IS NOT NULL AND permissoes != '';
     `;
 
     return database.executar(instrucaoSql);
