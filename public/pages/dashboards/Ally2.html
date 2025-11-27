@@ -309,9 +309,9 @@
       let iconComparativo = Servidores[i].up ? "lineUp.svg" : "lineDown.svg";
 
       rankServer.innerHTML += `
-      <div class="popup-Server">
+      <div class="popup-Server" onclick="dashServer(${i})">
         <div class="status status_${estado}">
-          <img src="../../Images/PopUpsDash/${iconStatus}" alt="">
+          <img src="../../Servidores/PopUpsDash/${iconStatus}" alt="">
         </div>
         <div class="contentServer">
           <div class="first">
@@ -331,6 +331,10 @@
         </div>
       </div>`;
     }
+  }
+  function dashServer(index) {
+    sessionStorage.servidor = JSON.stringify(Servidores[index]);
+    window.location = "./Pedro.html";
   }
 
   function carregarSelectRadar() {
