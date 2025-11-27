@@ -100,21 +100,21 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script>
 <script>
-  if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
-    listarPermissoesReload();
-    verificarPermissoesSideBar();
-    setInterval(executarVerificacaoPermissoes, 30000);
-  }
+  // if (sessionStorage.empresaCnpj == undefined && sessionStorage.empresaId != 1) {
+  //   listarPermissoesReload();
+  //   verificarPermissoesSideBar();
+  //   setInterval(executarVerificacaoPermissoes, 30000);
+  // }
 
-  function executarVerificacaoPermissoes() {
-    if (sessionStorage.empresaCnpj == undefined) {
-      listarPermissoesReload();
-      verificarPermissoesSideBar();
-    }
-  }
+  // function executarVerificacaoPermissoes() {
+  //   if (sessionStorage.empresaCnpj == undefined) {
+  //     listarPermissoesReload();
+  //     verificarPermissoesSideBar();
+  //   }
+  // }
 
-  servidor_nome.innerHTML = sessionStorage.servidorNome;
-  servidor_localizacao.innerHTML = sessionStorage.servidorLocalizacao;
+  // servidor_nome.innerHTML = sessionStorage.servidorNome;
+  // servidor_localizacao.innerHTML = sessionStorage.servidorLocalizacao;
 
   const data = [
     { timestamp: '2025-10-26 10:00:00', cpu: 35, ram: 52, disk: 70, rede: 1.2, lat: 0.025, proc: 120 },
