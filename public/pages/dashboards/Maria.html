@@ -31,15 +31,15 @@
       <p>
         <li>Cada célula mostra o quanto duas variáveis estão relacionadas, de -1 a 1.</li>
 
-          <li>Cor mais escura = relação mais forte.</li>
+        <li>Cor mais escura = relação mais forte.</li>
 
-         <li> Valor positivo: quando uma sobe, a outra tende a subir.</li>
+        <li> Valor positivo: quando uma sobe, a outra tende a subir.</li>
 
-          <li>Valor negativo: quando uma sobe, a outra tende a cair.</li>
+        <li>Valor negativo: quando uma sobe, a outra tende a cair.</li>
 
-          <li>Valor próximo ou igual à zero: pouca ou nenhuma relação.</li>
+        <li>Valor próximo ou igual à zero: pouca ou nenhuma relação.</li>
 
-         <li> Linhas e colunas representam os eventos; a célula mostra a força da relação entre eles.</li>
+        <li> Linhas e colunas representam os eventos; a célula mostra a força da relação entre eles.</li>
       </p>
     </div>
   </div>
@@ -80,12 +80,14 @@
         <p class="text-kpi">Dados Enviados
           <i class="fa-solid fa-database"></i>
         </p>
-        <p class="value">850 TB</p>
+        <p class="value">850 GB</p>
       </div>
       <div class="card">
         <p class="text-kpi">Dados Recebidos
           <i class="fa-solid fa-bars-progress"></i>
         </p>
+        <p class="value">80 GB</p>
+
 
       </div>
 
@@ -94,10 +96,10 @@
     <div class="container-graficos first">
       <div class="grafico-card">
         <div class="grafico-header">
-          <h3>Correlação: Eventos de Rede x Tráfego</h3>
+          <h3>Pacotes Enviados e Recebidos</h3>
           <i class="fa-regular fa-circle-question" onclick="abrirModal()"></i>
         </div>
-        <div id="correlationHeatmap"></div>
+        <div id="graficoPacotes"></div>
       </div>
       <div id="chart"></div>
     </div>
@@ -156,93 +158,6 @@
 </Script>
 
 <script>
-  let data = [];
-
-  const correlacao = [
-    [1, 0.06, -0.10, 0.05],   // trafego
-    [0.06, 1, 0.17, -0.18],   // incidentes
-    [-0.10, 0.17, 1, -0.09],   // final_semana
-    [0.05, -0.18, -0.09, 1]       // feriado
-  ];
-
-  const labels = ["tráfego", "perda_pacotes", "final_semana", "feriado"];
-
-  for (let i = 0; i < correlacao.length; ++i) {
-    for (let j = 0; j < correlacao.length; ++j) {
-      data.push({
-        name: `${labels[i]}-${labels[j]}`,
-        value: [j, i, correlacao[i][j]]
-      });
-    }
-  }
-
-
-  const xData = ["trafego", "perda_pacotes", "final_semana", "feriado"];
-  const yData = ["trafego", "perda_pacotes", "final_semana", "feriado"];
-
-  for (let i = 0; i < correlacao.length; ++i) {
-    for (let j = 0; j < correlacao.length; ++j) {
-      data.push([labels[j], labels[i], correlacao[i][j]]);
-    }
-  }
-  option = {
-    tooltip: {
-      position: 'top',
-      formatter: (params) => {
-        return `
-        <b>${labels[params.value[1]]}</b> x 
-        <b>${labels[params.value[0]]}</b> <br>
-        Correlação: <b>${params.value[2].toFixed(2)}</b>
-      `;
-      },
-      backgroundColor: 'rgba(50, 50, 50, 0.85)',
-      borderRadius: 8,
-      padding: 10,
-      textStyle: {
-        color: '#fff'
-      }
-    },
-    matrix: {
-      x: {
-        data: xData
-      },
-      y: {
-        data: yData
-      },
-
-    },
-    visualMap: {
-      type: 'continuous',
-      min: -1,
-      max: 1,
-      calculable: true,
-      left: -10,
-      top: 'middle',
-      itemHeight: 120,
-      itemWidth: 10,
-      text: ['Alto', 'Baixo'],
-      textStyle: { color: '#475569', fontWeight: 600 },
-
-
-    },
-    series: {
-      type: 'heatmap',
-      coordinateSystem: 'matrix',
-      data: data,
-      label: {
-        show: true,
-        formatter: (params) => params.value[2].toFixed(2)
-      },
-
-
-    },
-
-
-  };
-  var chartDom = document.getElementById('correlationHeatmap');
-  var myChart = echarts.init(chartDom);
-  myChart.setOption(option);
-
 
   //-------------------------------------------------------------------
 
@@ -349,6 +264,68 @@
 
   var chart = new ApexCharts(document.querySelector("#previsao"), options);
   chart.render();
+
+  //---------------------------------------------------
+  var options = {
+    series: [{
+      name: 'Quantidade de Pacotes',
+      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+
+    }],
+    chart: {
+      type: 'area',
+      stacked: false,
+      
+      toolbar: {
+
+        show: false
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    markers: {
+      size: 0,
+    },
+
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 1,
+        inverseColors: false,
+        opacityFrom: 0.5,
+        opacityTo: 0,
+        stops: [0, 90, 100]
+      },
+    },
+    yaxis: {
+      labels: {
+        formatter: function (val) {
+          return (val / 1000000).toFixed(0);
+        },
+      },
+      title: {
+        text: 'Quantidade de Pacotes'
+      },
+    },
+    xaxis: {
+      type: 'datetime',
+      categories: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h']
+    },
+    tooltip: {
+      shared: false,
+
+      y: {
+        formatter: function (val) {
+          return (val / 1000000).toFixed(0)
+        }
+      }
+    }
+  };
+
+  var chart = new ApexCharts(document.querySelector("#graficoPacotes"), options);
+  chart.render();
+
 
   //----------------------------------------------------------------------------
   var options = {
