@@ -94,14 +94,14 @@
     </div>
 
     <div class="container-graficos first">
+      <div id="chart"></div>
       <div class="grafico-card">
         <div class="grafico-header">
-          <h3>Pacotes Enviados e Recebidos</h3>
+          <h3>Quantidade de Pacotes Enviados e Recebidos</h3>
           <i class="fa-regular fa-circle-question" onclick="abrirModal()"></i>
         </div>
         <div id="graficoPacotes"></div>
       </div>
-      <div id="chart"></div>
     </div>
     <div class="container-graficos second">
       <div id="previsao"></div>
@@ -268,10 +268,15 @@
   //---------------------------------------------------
   var options = {
     series: [{
-      name: 'Quantidade de Pacotes',
+      name: 'Pacotes Recebidos',
       data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
 
-    }],
+    },
+    {
+      name: 'Pacotes Enviados',
+      data: [10, 31, 65, 51, 49, 62, 69, 91, 148]
+    }
+    ],
     chart: {
       type: 'area',
       stacked: false,
@@ -309,7 +314,6 @@
       },
     },
     xaxis: {
-      type: 'datetime',
       categories: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h']
     },
     tooltip: {
