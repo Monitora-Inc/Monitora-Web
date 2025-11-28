@@ -43,7 +43,8 @@ const uploadToS3 = async (req, res) => {
     if (!data || !data.includes("-"))
       return res.status(400).json({ error: "CSV inválido: data não encontrada" });
 
-    const [ano, mes, dia] = data.split("-"); 
+    const [partdata] = data.split(" ");
+    const [ano, mes, dia] = partdata.split("-"); 
 
     // -------------------------
     // 3. STREAM PARA S3
