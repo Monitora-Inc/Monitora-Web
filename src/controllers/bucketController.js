@@ -43,14 +43,14 @@ const uploadToS3 = async (req, res) => {
     if (!data || !data.includes("-"))
       return res.status(400).json({ error: "CSV inválido: data não encontrada" });
 
-    const [ano, mes] = data.split("-"); 
+    const [ano, mes, dia] = data.split("-"); 
 
     // -------------------------
     // 3. STREAM PARA S3
     // -------------------------
     const fileStream = fs.createReadStream(filePath);
 
-    const key = `${empresaPasta}/${servidorId}/${ano}/${mes}/${nomeArquivo}`;
+    const key = `${empresaPasta}/${servidorId}/${ano}/${mes}/${dia}/${nomeArquivo}`;
 
     const uploadParams = {
       Bucket: "monitora-raw",
