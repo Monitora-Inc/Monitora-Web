@@ -105,99 +105,108 @@
   var radarChartInstance;
   var datacenters = [];
   var datacentersAnteriores = [];
+  var mensagemdaia = "";
   async function buscarDados() {
-    var caminho = `${sessionStorage.empresaId}%2Fglobal%2Fsnapshots%2F`;
+    try {
+      const caminho = `${sessionStorage.empresaId}%2Fglobal%2Fsnapshots%2F`;
+      const resAnterior = await fetch(`/bucket/read/${caminho}/1`);
+      if (!resAnterior.ok) throw new Error("Erro ao buscar snapshot anterior: " + resAnterior.status);
 
-    return fetch(`/bucket/read/${caminho}/1`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(function (response) {
-      if (!response.ok) {
-        throw new Error("Erro ao buscar snapshot: " + response.status);
-      }
-      return response.json()
-    }).then(function (data) {
+      const jsonAnterior = await resAnterior.json();
+      const rowsAnt = jsonAnterior.rows;
 
-      var dados = data.rows;
-      var retorno = [];
-      for (let i = 0; i < dados.length; i++) {
-        dataAtual = dados[i];
-        var temp = {
-          cor: dataAtual.cor,
-          Cpu: Number(dataAtual.cpu).toFixed(2),
-          diferenca: Number(dataAtual.diferenca).toFixed(2),
-          Disco: Number(dataAtual.disco).toFixed(2),
-          IdDataCenter: dataAtual.idDataCenter,
-          Ram: Number(dataAtual.ram).toFixed(2),
-          Rede: Number(dataAtual.rede).toFixed(2),
-          Saude: Number(dataAtual.saude).toFixed(2),
-          Timestamp: dataAtual.timestamp,
-          up: Boolean(dataAtual.up)
-        }
-        datacentersAnteriores.push(temp)
+      for (let d of rowsAnt) {
+        datacentersAnteriores.push({
+          cor: d.cor,
+          Cpu: Number(d.cpu).toFixed(2),
+          diferenca: Number(d.diferenca).toFixed(2),
+          Disco: Number(d.disco).toFixed(2),
+          IdDataCenter: d.idDataCenter,
+          Ram: Number(d.ram).toFixed(2),
+          Rede: Number(d.rede).toFixed(2),
+          Saude: Number(d.saude).toFixed(2),
+          Timestamp: d.timestamp,
+          up: Boolean(d.up)
+        });
       }
-      return fetch(`/bucket/read/${caminho}/0`, {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then(function (response) {
-        if (!response.ok) {
-          throw new Error("Erro ao buscar snapshot: " + response.status);
-        }
-        return response.json()
-      }).then(function (data) {
 
-        var dados = data.rows;
-        var retorno = [];
-        for (let i = 0; i < dados.length; i++) {
-          dataAtual = dados[i];
-          var temp = {
-            cor: dataAtual.cor,
-            Cpu: Number(dataAtual.cpu).toFixed(2),
-            diferenca: Number(dataAtual.diferenca).toFixed(2),
-            Disco: Number(dataAtual.disco).toFixed(2),
-            IdDataCenter: dataAtual.idDataCenter,
-            Ram: Number(dataAtual.ram).toFixed(2),
-            Rede: Number(dataAtual.rede).toFixed(2),
-            Saude: Number(dataAtual.saude).toFixed(2),
-            Timestamp: dataAtual.timestamp,
-            up: Boolean(dataAtual.up)
+      const resAtual = await fetch(`/bucket/read/${caminho}/0`);
+      if (!resAtual.ok) throw new Error("Erro ao buscar snapshot atual: " + resAtual.status);
+
+      const jsonAtual = await resAtual.json();
+      const rowsAtual = jsonAtual.rows;
+
+      for (let d of rowsAtual) {
+        datacenters.push({
+          cor: d.cor,
+          Cpu: Number(d.cpu).toFixed(2),
+          diferenca: Number(d.diferenca).toFixed(2),
+          Disco: Number(d.disco).toFixed(2),
+          IdDataCenter: d.idDataCenter,
+          Ram: Number(d.ram).toFixed(2),
+          Rede: Number(d.rede).toFixed(2),
+          Saude: Number(d.saude).toFixed(2),
+          Timestamp: d.timestamp,
+          up: Boolean(d.up)
+        });
+      }
+
+      await Promise.all(
+        datacenters.map(async (dc, idx) => {
+          try {
+            const res = await fetch(`/datacenters/buscarLngLatNomeDatacenter/${dc.IdDataCenter}`);
+            if (!res.ok) throw new Error("Erro ao buscar info do datacenter: " + res.status);
+
+            const info = await res.json();
+
+            datacenters[idx].nome = info[0].nome;
+            datacenters[idx].lat = info[0].latitude;
+            datacenters[idx].lng = info[0].longitude;
+
+          } catch (erro) {
+            console.log("Erro ao buscar detalhe do DC:", erro);
           }
-          datacenters.push(temp)
-        }
+        })
+      );
 
-        for (let i = 0; i <= datacenters.length - 1; i++) {
-          var dcId = datacenters[i].IdDataCenter;
-          return fetch(`/datacenters/buscarLngLatNomeDatacenter/${dcId}`, {
-            method: 'GET',
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }).then(function (response) {
-            if (!response.ok) {
-              throw new Error(`Erro HTTP: ${response.status}`);
-            }
-            return response.json();
-          }).then(function (dadosDc) {
-            datacenters[i].nome = dadosDc[0].nome;
-            datacenters[i].lat = dadosDc[0].latitude;
-            datacenters[i].lng = dadosDc[0].longitude;
-          }).catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-          });
-          console.log(datacenters);
-        }
-      }).catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
+      const resIA = await fetch(`/bobia/perguntar`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: `
+          Você é uma inteligência especializada em análise de infraestrutura distribuída. 
+          Os dados recebidos são snapshots globais.
+          Métricas atuais: ${JSON.stringify(datacenters)}
+          Métricas da última leitura: ${JSON.stringify(datacentersAnteriores)}
+          Com base nisso, faça:
+          1. Análise completa do estado geral da operação global.
+          2. Identificação de datacenters com risco iminente.
+          3. Anomalias e comportamento fora do padrão.
+          4. Recomendação de redistribuição de carga.
+          5. Comparação entre datacenters: melhor e pior.
+          6. Sugestões para melhorar performance e capacidade.
+          7. Riscos operacionais prováveis nas próximas horas.
+          8. Oportunidades de otimização (CPU/Disco/Rede).
+          9. Pontos críticos com ação imediata.
+          10. Insight final geral.
+          Use linguagem clara, objetiva e curta.
+          
+          Para pular linhas ultilize de <br>
+          para deixar algo em negrito ultilize <b>
+          Não ultilize nada alem disso e responda de maneira mais simples para uma visualização rápida
+          `
+        })
       });
-    }).catch(function (resposta) {
-      console.log(`#ERRO: ${resposta}`);
-    });
-  }
 
+      if (!resIA.ok) throw new Error("Erro IA: " + resIA.status);
+
+      const respostaIA = await resIA.json();
+      mensagemdaia = respostaIA.resultado;
+      popUp_IA();
+    } catch (erro) {
+      console.error("Erro geral:", erro);
+    }
+  }
   function rankingDataCenter() {
     rankDatacenter.innerHTML = "";
 
@@ -349,9 +358,8 @@
     radarChartInstance.update();
   }
 
-  var mensagemdaia = `<p>🔄 Redistribuição recomendada: mover 20% da carga do DC Paulista para o DC Orlando <br>⚠ Anomalia detectada: aumento de 12% de latência no DC Rússia nas últimas 3h <br>🟩 Orlando está apto para receber novas instâncias <br>🪫 Paulista perto do limite de disco (82%)</p>`;
   function popUp_IA() {
-    MensagemIA.innerHTML = `${mensagemdaia}`;
+    MensagemIA.innerHTML = `<p>${mensagemdaia}</p>`;
     popUpIA.classList.remove("desativada");
     popUpIA.classList.add("ativada");
     setTimeout(() => { logoIa.onclick = popUp_fechar }, 800)
