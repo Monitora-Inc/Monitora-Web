@@ -21,6 +21,10 @@ router.delete("/excluir/:id", function(req, res){
 });
 router.get("/parametros/:id", function(req, res){
     servidorController.parametros(req, res)
+});
+
+router.get("/buscarNomeServidor/:id", function(req, res){
+    servidorController.buscarNomeServidor(req, res)
 })
 
 module.exports = router;
