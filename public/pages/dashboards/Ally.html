@@ -44,7 +44,7 @@
             </select>
             <div class="kpis">
               <p>Saude: <span id="Saude"></span>%</p>
-              <p>Rede: <span id="Rede"></span>%</p>
+              <p>Uso de rede: <span id="Rede"></span>%</p>
               <p>Disco: <span id="Disco"></span>%</p>
               <p>CPU: <span id="Cpu"></span>%</p>
               <p>RAM: <span id="Ram"></span>%</p>
@@ -103,52 +103,72 @@
 
 
   var radarChartInstance;
+  var datacenters = [];
+  async function buscarDados() {
+    var caminho = `${sessionStorage.empresaId}%2Fglobal%2Fsnapshots%2F`;
+    return fetch(`/bucket/read/${caminho}/0`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(function (response) {
+      if (!response.ok) {
+        throw new Error("Erro ao buscar snapshot: " + response.status);
+      }
+      return response.json()
+    }).then(function (data) {
 
-  const datacenters = [{
-    nome: "Datacenter Orlando",
-    Saude: 99.54,
-    diferenca: 1.54,
-    up: true,
-    lat: 28.5383,
-    lng: -81.3792,
-    cor: "#00D4C4",
-    Rede: 85,
-    Disco: 70,
-    Cpu: 65,
-    Ram: 80
-  }, {
-    nome: "Datacenter Paulista",
-    Saude: 72,
-    diferenca: 5,
-    up: true,
-    lat: -23.5505,
-    lng: -46.6333,
-    cor: "#FFB94A",
-    Rede: 65,
-    Disco: 60,
-    Cpu: 70,
-    Ram: 85
-  }, {
-    nome: "Datacenter Russia",
-    Saude: 65.98,
-    diferenca: 5.4,
-    up: false,
-    lat: 55.7558,
-    lng: 37.6173,
-    cor: "#FF3F72",
-    Rede: 55,
-    Disco: 50,
-    Cpu: 60,
-    Ram: 70
-  }];
+      var dados = data.rows;
+      var retorno = [];
+      for (let i = 0; i < dados.length; i++) {
+        dataAtual = dados[i];
+        var temp = {
+          cor: dataAtual.cor,
+          Cpu: Number(dataAtual.cpu).toFixed(2),
+          diferenca: Number(dataAtual.diferenca).toFixed(2),
+          Disco: Number(dataAtual.disco).toFixed(2),
+          IdDataCenter: dataAtual.idDataCenter,
+          Ram: Number(dataAtual.ram).toFixed(2),
+          Rede: Number(dataAtual.rede).toFixed(2),
+          Saude: Number(dataAtual.saude).toFixed(2),
+          Timestamp: dataAtual.timestamp,
+          up: Boolean(dataAtual.up)
+        }
+        datacenters.push(temp)
+      }
 
+      for (let i = 0; i <= datacenters.length - 1; i++) {
+        var dcId = datacenters[i].IdDataCenter;
+        return fetch(`/datacenters/buscarLngLatNomeDatacenter/${dcId}`, {
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }).then(function (response) {
+          if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+          }
+          return response.json();
+        }).then(function (dadosDc) {
+          datacenters[i].nome = dadosDc[0].nome;
+          datacenters[i].lat = dadosDc[0].latitude;
+          datacenters[i].lng = dadosDc[0].longitude;
+        }).catch(function (resposta) {
+          console.log(`#ERRO: ${resposta}`);
+        });
+        console.log(datacenters);
+      }
+    }).catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    });
+  }
 
   function rankingDataCenter() {
     rankDatacenter.innerHTML = "";
 
 
     for (let i = 0; i < datacenters.length; i++) {
-
+      console.log(datacenters[i])
       let estado = "";
       let iconStatus = "";
 
@@ -182,7 +202,7 @@
                 <img src="../../Images/PopUpsDash/${iconComparativo}" alt="">
                   ${datacenters[i].diferenca}%
               </p>
-              <p>vs última semana</p>
+              <p>vs última leitura</p>
             </section>
           </div>
         </div>
@@ -303,10 +323,13 @@
 
   window.onload = () => {
     listarPermissoesReload();
+    buscarDados().then(() => {
+      rankingDataCenter();
+      criarRadarInicial();
+      carregarSelectRadar();
+      popUpMapa();
+    });
   };
-  rankingDataCenter();
-  criarRadarInicial();
-  carregarSelectRadar();
 </script>
 
 <script>
@@ -380,19 +403,19 @@
     offset: [0, -5]
   };
 
-  datacenters.forEach(dc => {
-    const markerInstance = L.marker([dc.lat, dc.lng], { icon: marker(dc.cor) }).addTo(map);
+  function popUpMapa() {
+    datacenters.forEach(dc => {
+      const markerInstance = L.marker([dc.lat, dc.lng], { icon: marker(dc.cor) }).addTo(map);
 
-    markerInstance.on("click", () => {
-      const html = criarPopupBonito(dc);
+      markerInstance.on("click", () => {
+        const html = criarPopupBonito(dc);
 
-      const divFixa = document.getElementById("popupFixo");
-      divFixa.innerHTML = html;
-      divFixa.classList.remove("ok", "alerta", "critico")
-      divFixa.classList.add(`${dc.Saude >= 90 ? "ok" : dc.Saude >= 70 ? "alerta" : "critico"}`)
-      divFixa.style.display = "block";
+        const divFixa = document.getElementById("popupFixo");
+        divFixa.innerHTML = html;
+        divFixa.classList.remove("ok", "alerta", "critico")
+        divFixa.classList.add(`${dc.Saude >= 90 ? "ok" : dc.Saude >= 70 ? "alerta" : "critico"}`)
+        divFixa.style.display = "block";
+      });
     });
-  });
-
-
+  }
 </script>
