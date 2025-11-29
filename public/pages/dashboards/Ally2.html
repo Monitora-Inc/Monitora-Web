@@ -127,113 +127,122 @@
   const dadosDc = JSON.parse(sessionStorage.datacenter);
   const Servidores = [];
   const ServidoresAnteriores = [];
+  var mensagemdaia = "";
   async function dadosServidores() {
-    var caminho = `${sessionStorage.empresaId}%2FdataCenter%2F${dadosDc.IdDataCenter}%2Fsnapshots%2F`;
+    try {
+      const caminho = `${sessionStorage.empresaId}%2FdataCenter%2F${dadosDc.IdDataCenter}%2Fsnapshots%2F`;
 
-    return fetch(`/bucket/read/${caminho}/1`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json"
+      let resAnterior = await fetch(`/bucket/read/${caminho}/1`);
+      if (!resAnterior.ok) throw new Error("Erro ao buscar snapshot anterior: " + resAnterior.status);
+
+      let dadosAnteriores = await resAnterior.json();
+      let rowsAnt = dadosAnteriores.rows;
+
+      for (let i = 0; i < rowsAnt.length; i++) {
+        let d = rowsAnt[i];
+        ServidoresAnteriores.push({
+          idServidor: d.idServidor,
+          timestamp: d.timestamp,
+          Cpu: Number(d.cpu),
+          Ram: Number(d.ram),
+          Disco: Number(d.disco),
+          Rede: Number(d.rede),
+          latencia: Number(d.latencia),
+          processos: Number(d.processos),
+          Saude: Number(d.saude),
+          up: d.up,
+          cor: d.cor
+        });
       }
-    }).then(function (response) {
-      if (!response.ok) {
-        throw new Error("Erro ao buscar snapshot: " + response.status);
+
+      let resAtual = await fetch(`/bucket/read/${caminho}/0`);
+      if (!resAtual.ok) throw new Error("Erro ao buscar snapshot atual: " + resAtual.status);
+
+      let dadosAtuais = await resAtual.json();
+      let rowsAtual = dadosAtuais.rows;
+
+      let somaLatencia = 0;
+      let somaProcessos = 0;
+
+      for (let i = 0; i < rowsAtual.length; i++) {
+        let d = rowsAtual[i];
+
+        let diffVar = Number(d.saude) - ServidoresAnteriores[i].Saude;
+        let upVar = diffVar >= 0;
+
+        somaLatencia += Number(d.latencia);
+        somaProcessos += Number(d.processos);
+
+        Servidores.push({
+          idServidor: d.idServidor,
+          timestamp: d.timestamp,
+          Cpu: Number(d.cpu).toFixed(2),
+          Ram: Number(d.ram).toFixed(2),
+          Disco: Number(d.disco).toFixed(2),
+          Rede: Number(d.rede).toFixed(2),
+          latencia: Number(d.latencia).toFixed(2),
+          processos: Number(d.processos).toFixed(2),
+          Saude: Number(d.saude).toFixed(2),
+          up: upVar,
+          cor: d.cor,
+          diferenca: diffVar.toFixed(2)
+        });
       }
-      return response.json()
-    }).then(function (data) {
 
-      var dados = data.rows;
-      var retorno = [];
+      dadosDc.Latencia = (somaLatencia / rowsAtual.length).toFixed(2);
+      dadosDc.Processos = somaProcessos.toFixed(2);
 
-      for (let i = 0; i < dados.length; i++) {
-        dataAtual = dados[i];
-        var temp = {
-          idServidor: dataAtual.idServidor,
-          timestamp: dataAtual.timestamp,
-          Cpu: Number(dataAtual.cpu),
-          Ram: Number(dataAtual.ram),
-          Disco: Number(dataAtual.disco),
-          Rede: Number(dataAtual.rede),
-          latencia: Number(dataAtual.latencia),
-          processos: Number(dataAtual.processos),
-          Saude: Number(dataAtual.saude),
-          up: dataAtual.up,
-          cor: dataAtual.cor
-        }
-        ServidoresAnteriores.push(temp)
-      }
-      return fetch(`/bucket/read/${caminho}/0`, {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then(function (response) {
-        if (!response.ok) {
-          throw new Error("Erro ao buscar snapshot: " + response.status);
-        }
-        return response.json()
-      }).then(function (data) {
+      await Promise.all(
+        Servidores.map(async (server, idx) => {
+          try {
+            let r = await fetch(`/servidores/buscarNomeServidor/${server.idServidor}`);
+            if (!r.ok) throw new Error("Erro nome servidor: " + r.status);
 
-        var dados = data.rows;
-        var retorno = [];
-        var MediaLatencia = 0;
-        var processosTotais = 0;
-        for (let i = 0; i < dados.length; i++) {
-          console.log("Estou no for " + dados.length)
-          dataAtual = dados[i];
-          var diferencaVar =  Number(dataAtual.saude) - ServidoresAnteriores[i].Saude;
-          if (diferencaVar >= 0){
-            var upVar = true;
-          } else{
-            var upVar = false;
+            let json = await r.json();
+            Servidores[idx].nome = json[0].nome;
+          } catch (e) {
+            console.log("Erro ao buscar nome:", e);
           }
+        })
+      );
+      let resIA = await fetch(`/bobia/perguntar`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: `
+          Você é uma inteligência especializada em análise de infraestrutura distribuída. 
+          Recebe como entrada:
+          Metricas atuais: ${JSON.stringify(Servidores)}
+          Metricas da última leitura: ${JSON.stringify(ServidoresAnteriores)}
+          Este datacenter: ${JSON.stringify(dadosDc)}
+          Realize:
+          1. Análise da saúde geral do datacenter.
+          2. Identificação dos servidores que mais impactam negativamente o DC.
+          3. Gargalos de CPU, RAM, Disco ou Rede.
+          4. Riscos de queda ou saturação.
+          5. Sensibilidade do DC a falhas.
+          6. Recomendação de balanceamento interno.
+          7. Possíveis incidentes em andamento.
+          8. Ações sugeridas para otimização imediata.
+          9. Sugestões de expansão ou redistribuição.
+          10. Insight final sobre estabilidade, performance e continuidade.
+          A resposta deve ser específica e baseada nos dados enviados.
 
-          MediaLatencia += Number(dataAtual.latencia);
-          processosTotais += Number(dataAtual.processos);
-          var temp = {
-            idServidor: dataAtual.idServidor,
-            timestamp: dataAtual.timestamp,
-            Cpu: Number(dataAtual.cpu).toFixed(2),
-            Ram: Number(dataAtual.ram).toFixed(2),
-            Disco: Number(dataAtual.disco).toFixed(2),
-            Rede: Number(dataAtual.rede).toFixed(2),
-            latencia: Number(dataAtual.latencia).toFixed(2),
-            processos: Number(dataAtual.processos).toFixed(2),
-            Saude: Number(dataAtual.saude).toFixed(2),
-            up: upVar,
-            cor: dataAtual.cor,
-            diferenca: diferencaVar.toFixed(2)
-          }
-          MediaLatencia = MediaLatencia / dados.length;
-          dadosDc.Latencia = MediaLatencia.toFixed(2);
-          dadosDc.Processos = processosTotais.toFixed(2);
-          Servidores.push(temp)
-        }
-
-        for (let i = 0; i <= Servidores.length - 1; i++) {
-          var idServer = Servidores[i].idServidor;
-          return fetch(`/servidores/buscarNomeServidor/${idServer}`, {
-            method: 'GET',
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }).then(function (response) {
-            if (!response.ok) {
-              throw new Error(`Erro HTTP: ${response.status}`);
-            }
-            return response.json();
-          }).then(function (nomeServer) {
-            Servidores[i].nome = nomeServer[0].nome;
-          }).catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-          });
-        }
-      }).catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
+          Para pular linhas ultilize de <br>
+          para deixar algo em negrito ultilize <b>
+          Não ultilize nada alem disso e responda de maneira mais simples para uma visualização rápida
+          `
+        })
       });
-    }).catch(function (resposta) {
-      console.log(`#ERRO: ${resposta}`);
-    });
+
+      if (!resIA.ok) throw new Error("Erro IA: " + resIA.status);
+
+      let respostaIA = await resIA.json();
+      mensagemdaia = respostaIA.resultado;
+      popUp_IA();
+    } catch (erro) {
+      console.error("Erro geral:", erro);
+    }
   }
 
   function inicial() {
@@ -396,9 +405,9 @@
     radarChartInstance.update();
   }
 
-  var mensagemdaia = `<p>🔄 Redistribuição recomendada: mover 20% da carga do DC Paulista para o DC Orlando <br>⚠ Anomalia detectada: aumento de 12% de latência no DC Rússia nas últimas 3h <br>🟩 Orlando está apto para receber novas instâncias <br>🪫 Paulista perto do limite de disco (82%)</p>`;
+
   function popUp_IA() {
-    MensagemIA.innerHTML = `${mensagemdaia}`;
+    MensagemIA.innerHTML = `<p>${mensagemdaia}</p>`;
     popUpIA.classList.remove("desativada");
     popUpIA.classList.add("ativada");
     setTimeout(() => { logoIa.onclick = popUp_fechar }, 800)
@@ -413,7 +422,7 @@
 
   window.onload = () => {
     listarPermissoesReload();
-    dadosServidores().then(() =>{
+    dadosServidores().then(() => {
       inicial();
       rankingServidores();
       criarRadarInicial();

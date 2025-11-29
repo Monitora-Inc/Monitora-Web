@@ -34,8 +34,8 @@ function atualizarServidor(req, res) {
     let ramCritico = req.body.ramCriticoServer;
     let discoAlerta = req.body.discoAlertaServer;
     let discoCritico = req.body.discoCriticoServer;
-    let redeAlertaPercent = req.body.redeAlertaPercentServer;
-    let redeCriticoPercent = req.body.redeCriticoPercentServer;
+    let redeAlertaMb = req.body.redeAlertaMbServer;
+    let redeCriticoMb = req.body.redeCriticoMbServer;
     let redeAlertaMs = req.body.redeAlertaMsServer;
     let redeCriticoMs = req.body.redeCriticoMsServer;
     console.log(idServidor);
@@ -48,12 +48,12 @@ function atualizarServidor(req, res) {
     if (ramCritico == undefined) console.log("ramCritico está como: " + ramCritico)
     if (discoAlerta == undefined) console.log("discoAlerta está como: " + discoAlerta)
     if (discoCritico == undefined) console.log("discoCritico está como: " + discoCritico)
-    if (redeAlertaPercent == undefined) console.log("redeAlertaPercent está como: " + redeAlertaPercent)
-    if (redeCriticoPercent == undefined) console.log("redeCriticoPercent está como: " + redeCriticoPercent)
+    if (redeAlertaMb == undefined) console.log("redeAlertaMb está como: " + redeAlertaMb)
+    if (redeCriticoMb == undefined) console.log("redeCriticoMb está como: " + redeCriticoMb)
     if (redeAlertaMs == undefined) console.log("redeAlertaMs está como: " + redeAlertaMs)
     if (redeCriticoMs == undefined) console.log("redeCriticoMs está como: " + redeCriticoMs)
 
-    servidorModel.atualizarServidor(idServidor, nomeServidor, idDatacenter, cpuAlerta, cpuCritico, ramAlerta, ramCritico, discoAlerta, discoCritico, redeAlertaPercent, redeCriticoPercent, redeAlertaMs, redeCriticoMs)
+    servidorModel.atualizarServidor(idServidor, nomeServidor, idDatacenter, cpuAlerta, cpuCritico, ramAlerta, ramCritico, discoAlerta, discoCritico, redeAlertaMb, redeCriticoMb, redeAlertaMs, redeCriticoMs)
         .then(() => res.status(200).send("✅ Servidor atualizado com sucesso!"))
         .catch(erro => {
             console.error(erro);
