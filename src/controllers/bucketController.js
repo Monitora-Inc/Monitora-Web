@@ -1,9 +1,22 @@
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client, GetObjectCommand, PutObjectCommand, ListObjectsV2Command } = require("@aws-sdk/client-s3");
+const Papa = require("papaparse");
+
 const fs = require("fs");
 const empresaModel = require("../models/empresaModel");
+var s3;
 
-// SDK AWS 
-const s3 = new S3Client({ region: "us-east-1" });
+if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+  s3 = new S3Client({
+    region: process.env.AWS_REGION,
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY,
+      secretAccessKey: process.env.AWS_SECRET_KEY,
+      sessionToken: process.env.AWS_SESSION_TOKEN
+    }
+  });
+}else {
+  s3 = new S3Client({ region: "us-east-1" });
+}
 
 const uploadToS3 = async (req, res) => {
   let filePath;
@@ -39,12 +52,12 @@ const uploadToS3 = async (req, res) => {
     const primeiraLinhaDados = linhas[1];
     const colunas = primeiraLinhaDados.split(";");
 
-    const data = colunas[1]; 
+    const data = colunas[1];
     if (!data || !data.includes("-"))
       return res.status(400).json({ error: "CSV inválido: data não encontrada" });
 
     const [partdata] = data.split(" ");
-    const [ano, mes, dia] = partdata.split("-"); 
+    const [ano, mes, dia] = partdata.split("-");
 
     // -------------------------
     // 3. STREAM PARA S3
@@ -85,6 +98,109 @@ const uploadToS3 = async (req, res) => {
   }
 };
 
+
+async function streamToString(stream) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    stream.on("data", (chunk) => chunks.push(chunk));
+    stream.on("error", reject);
+    stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf-8")));
+  });
+}
+
+function readCSV(req, res) {
+  const bucket = "monitora-client";
+  // prefix = caminho do arquivo (sem o arquivo final)
+  var prefix = req.params.prefix;
+  // 0 = ultimo, 1 = penutimo ...
+  var index = req.params.index;
+
+  // Validação
+  if (!prefix) {
+    return res.status(400).send("O prefixo é obrigatório!");
+  }
+  if (index === undefined) {
+    return res.status(400).send("O index é obrigatório!");
+  }
+
+  // Corrigindo o caminho caso venha da maneira incorreta
+  if (!prefix.endsWith("/")) prefix += "/";
+
+  index = Number(index);
+  if (isNaN(index)) {
+    return res.status(400).send("O index deve ser um número!");
+  }
+
+  // Listando os arquivos encontrados na S3
+  const listCommand = new ListObjectsV2Command({
+    Bucket: bucket,
+    Prefix: prefix
+  });
+
+  s3.send(listCommand)
+    .then(list => {
+
+      if (!list.Contents || list.Contents.length === 0) {
+        return res.status(404).send("Nenhum arquivo encontrado nesse prefixo.");
+      }
+
+      // Ordenar os arquivos
+      const sorted = list.Contents.sort(
+        (a, b) => b.LastModified - a.LastModified
+      );
+
+      if (index < 0 || index >= sorted.length) {
+        return res.status(400).send(`Index inválido. Existem apenas ${sorted.length} arquivos.`);
+      }
+
+      const fileKey = sorted[index].Key;
+
+      const getCommand = new GetObjectCommand({
+        Bucket: bucket,
+        Key: fileKey
+      });
+
+      return s3.send(getCommand)
+        .then(async file => {
+          const text = await streamToString(file.Body);
+
+          // Transformando csv para json
+          const parsed = Papa.parse(text, {
+            delimiter: ";",
+            skipEmptyLines: true
+          }).data;
+
+          // Formatando o json
+          const header = parsed[0];
+          const formated = []; 
+          for(var i = 1; i < parsed.length; i++) {
+            const thread = parsed[i];
+            if(!thread || thread.length == 0) continue;
+            let object = {};
+
+            for(let j = 0; j < header.length; j++){
+              object[header[j]] = thread[j];
+            }
+            formated.push(object);
+          }
+
+          return res.json({
+            success: true,
+            prefix,
+            index,
+            key: fileKey,
+            totalArquivos: sorted.length,
+            rows: formated
+          });
+        });
+    })
+    .catch(err => {
+      console.error("Erro ao ler CSV:", err);
+      return res.status(500).send("Erro interno ao ler CSV do S3.");
+    });
+}
+
 module.exports = {
   uploadToS3,
+  readCSV
 };
