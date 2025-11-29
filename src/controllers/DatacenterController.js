@@ -88,11 +88,22 @@ function buscarDatacenter(req, res) {
         res.status(500).send("Erro ao buscar Datacenter.");
     });
 }
+function buscarLngLatNomeDatacenter(req, res) {
+    let idDatacenter = req.params.idDatacenter;
+
+    DatacenterModel.buscarLngLatNomeDatacenter(idDatacenter).then((resultado) => {
+        res.status(200).json(resultado);
+    }).catch(err => {
+        console.error("Erro ao buscar Datacenter: ", err);
+        res.status(500).send("Erro ao buscar Datacenter.");
+    });
+}
 
 module.exports = {
     adicionarDatacenter,
     buscarIDdatacenter,
     atualizarDatacenter,
     excluirDatacenter,
-    buscarDatacenter
+    buscarDatacenter,
+    buscarLngLatNomeDatacenter
 }
