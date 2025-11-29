@@ -104,9 +104,11 @@
 
   var radarChartInstance;
   var datacenters = [];
+  var datacentersAnteriores = [];
   async function buscarDados() {
     var caminho = `${sessionStorage.empresaId}%2Fglobal%2Fsnapshots%2F`;
-    return fetch(`/bucket/read/${caminho}/0`, {
+
+    return fetch(`/bucket/read/${caminho}/1`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"
@@ -134,30 +136,63 @@
           Timestamp: dataAtual.timestamp,
           up: Boolean(dataAtual.up)
         }
-        datacenters.push(temp)
+        datacentersAnteriores.push(temp)
       }
+      return fetch(`/bucket/read/${caminho}/0`, {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function (response) {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar snapshot: " + response.status);
+        }
+        return response.json()
+      }).then(function (data) {
 
-      for (let i = 0; i <= datacenters.length - 1; i++) {
-        var dcId = datacenters[i].IdDataCenter;
-        return fetch(`/datacenters/buscarLngLatNomeDatacenter/${dcId}`, {
-          method: 'GET',
-          headers: {
-            "Content-Type": "application/json"
+        var dados = data.rows;
+        var retorno = [];
+        for (let i = 0; i < dados.length; i++) {
+          dataAtual = dados[i];
+          var temp = {
+            cor: dataAtual.cor,
+            Cpu: Number(dataAtual.cpu).toFixed(2),
+            diferenca: Number(dataAtual.diferenca).toFixed(2),
+            Disco: Number(dataAtual.disco).toFixed(2),
+            IdDataCenter: dataAtual.idDataCenter,
+            Ram: Number(dataAtual.ram).toFixed(2),
+            Rede: Number(dataAtual.rede).toFixed(2),
+            Saude: Number(dataAtual.saude).toFixed(2),
+            Timestamp: dataAtual.timestamp,
+            up: Boolean(dataAtual.up)
           }
-        }).then(function (response) {
-          if (!response.ok) {
-            throw new Error(`Erro HTTP: ${response.status}`);
-          }
-          return response.json();
-        }).then(function (dadosDc) {
-          datacenters[i].nome = dadosDc[0].nome;
-          datacenters[i].lat = dadosDc[0].latitude;
-          datacenters[i].lng = dadosDc[0].longitude;
-        }).catch(function (resposta) {
-          console.log(`#ERRO: ${resposta}`);
-        });
-        console.log(datacenters);
-      }
+          datacenters.push(temp)
+        }
+
+        for (let i = 0; i <= datacenters.length - 1; i++) {
+          var dcId = datacenters[i].IdDataCenter;
+          return fetch(`/datacenters/buscarLngLatNomeDatacenter/${dcId}`, {
+            method: 'GET',
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }).then(function (response) {
+            if (!response.ok) {
+              throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+          }).then(function (dadosDc) {
+            datacenters[i].nome = dadosDc[0].nome;
+            datacenters[i].lat = dadosDc[0].latitude;
+            datacenters[i].lng = dadosDc[0].longitude;
+          }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+          });
+          console.log(datacenters);
+        }
+      }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     });
@@ -243,7 +278,7 @@
             borderWidth: 2
           },
           {
-            label: "Limites",
+            label: "Ultima Leitura",
             data: [82, 70, 68, 80, 88],
             backgroundColor: "rgba(31, 84, 126, 0.15)",
             borderColor: "#1F547E",
@@ -280,17 +315,17 @@
   function mudarDatacenter() {
     const index = document.getElementById("selectDataCenter").value;
     const dc = datacenters[index];
-
+    const anterior = datacentersAnteriores[index];
     document.getElementById("Saude").innerText = dc.Saude;
     document.getElementById("Rede").innerText = dc.Rede;
     document.getElementById("Disco").innerText = dc.Disco;
     document.getElementById("Cpu").innerText = dc.Cpu;
     document.getElementById("Ram").innerText = dc.Ram;
 
-    atualizarRadar(dc);
+    atualizarRadar(dc, anterior);
   }
 
-  function atualizarRadar(dc) {
+  function atualizarRadar(dc, anterior) {
     radarChartInstance.data.datasets[0].label = dc.nome;
     radarChartInstance.data.datasets[0].data = [
       dc.Saude,
@@ -298,6 +333,14 @@
       dc.Ram,
       dc.Cpu,
       dc.Rede
+    ];
+
+    radarChartInstance.data.datasets[1].data = [
+      anterior.Saude,
+      anterior.Disco,
+      anterior.Ram,
+      anterior.Cpu,
+      anterior.Rede
     ];
 
     radarChartInstance.data.datasets[0].backgroundColor = dc.cor + "33";
