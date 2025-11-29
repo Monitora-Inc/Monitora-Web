@@ -10,7 +10,7 @@ function adicionarServidorJAVA(req, res) {
     let nome = req.body.nome;
     let fkDataCenter = req.body.fkDataCenter;
 
-        servidorModel.adicionarServidorJAVA(id, nome, fkDataCenter)
+    servidorModel.adicionarServidorJAVA(id, nome, fkDataCenter)
         .then(() => res.status(200).send("✅ Servidor cadastrado com sucesso!"))
         .catch(erro => {
             console.error(erro);
@@ -39,19 +39,19 @@ function atualizarServidor(req, res) {
     let redeAlertaMs = req.body.redeAlertaMsServer;
     let redeCriticoMs = req.body.redeCriticoMsServer;
     console.log(idServidor);
-    if(idServidor == undefined) console.log("idServidor está como: " + idServidor)
-    if(nomeServidor == undefined) console.log("nomeServidor está como: " + nomeServidor)
-    if(idDatacenter == undefined) console.log("idDatacenter está como: " + idDatacenter)
-    if(cpuAlerta == undefined) console.log("cpuAlerta está como: " + cpuAlerta)
-    if(cpuCritico == undefined) console.log("cpuCritico está como: " + cpuCritico)
-    if(ramAlerta == undefined) console.log("ramAlerta está como: " + ramAlerta)
-    if(ramCritico == undefined) console.log("ramCritico está como: " + ramCritico)
-    if(discoAlerta == undefined) console.log("discoAlerta está como: " + discoAlerta)
-    if(discoCritico == undefined) console.log("discoCritico está como: " + discoCritico)
-    if(redeAlertaPercent == undefined) console.log("redeAlertaPercent está como: " + redeAlertaPercent)
-    if(redeCriticoPercent == undefined) console.log("redeCriticoPercent está como: " + redeCriticoPercent)
-    if(redeAlertaMs == undefined) console.log("redeAlertaMs está como: " + redeAlertaMs)
-    if(redeCriticoMs == undefined) console.log("redeCriticoMs está como: " + redeCriticoMs)
+    if (idServidor == undefined) console.log("idServidor está como: " + idServidor)
+    if (nomeServidor == undefined) console.log("nomeServidor está como: " + nomeServidor)
+    if (idDatacenter == undefined) console.log("idDatacenter está como: " + idDatacenter)
+    if (cpuAlerta == undefined) console.log("cpuAlerta está como: " + cpuAlerta)
+    if (cpuCritico == undefined) console.log("cpuCritico está como: " + cpuCritico)
+    if (ramAlerta == undefined) console.log("ramAlerta está como: " + ramAlerta)
+    if (ramCritico == undefined) console.log("ramCritico está como: " + ramCritico)
+    if (discoAlerta == undefined) console.log("discoAlerta está como: " + discoAlerta)
+    if (discoCritico == undefined) console.log("discoCritico está como: " + discoCritico)
+    if (redeAlertaPercent == undefined) console.log("redeAlertaPercent está como: " + redeAlertaPercent)
+    if (redeCriticoPercent == undefined) console.log("redeCriticoPercent está como: " + redeCriticoPercent)
+    if (redeAlertaMs == undefined) console.log("redeAlertaMs está como: " + redeAlertaMs)
+    if (redeCriticoMs == undefined) console.log("redeCriticoMs está como: " + redeCriticoMs)
 
     servidorModel.atualizarServidor(idServidor, nomeServidor, idDatacenter, cpuAlerta, cpuCritico, ramAlerta, ramCritico, discoAlerta, discoCritico, redeAlertaPercent, redeCriticoPercent, redeAlertaMs, redeCriticoMs)
         .then(() => res.status(200).send("✅ Servidor atualizado com sucesso!"))
@@ -98,11 +98,23 @@ function parametros(req, res) {
         });
 }
 
+function buscarNomeServidor(req, res) {
+    let idServidor = req.params.id;
+
+    servidorModel.buscarNomeServidor(idServidor)
+        .then(resultado => res.status(200).json(resultado))
+        .catch(erro => {
+            console.error(erro);
+            res.status(500).send("Erro ao buscar nome do servidores.");
+        });
+}
+
 module.exports = {
     // adicionarServidor,
     adicionarServidorJAVA,
     atualizarServidor,
     excluirServidor,
     listarServidores,
-    parametros
+    parametros,
+    buscarNomeServidor
 };

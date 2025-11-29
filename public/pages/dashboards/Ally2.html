@@ -125,165 +125,125 @@
 
   var radarChartInstance;
   const dadosDc = JSON.parse(sessionStorage.datacenter);
-  console.log(dadosDc);
+  const Servidores = [];
+  const ServidoresAnteriores = [];
+  async function dadosServidores() {
+    var caminho = `${sessionStorage.empresaId}%2FdataCenter%2F${dadosDc.IdDataCenter}%2Fsnapshots%2F`;
 
-  const Servidores = [{
-    nome: "Servidor Orlando",
-    Saude: 99.54,
-    diferenca: 1.54,
-    up: true,
-    lat: 28.5383,
-    lng: -81.3792,
-    cor: "#00D4C4",
-    Rede: 85,
-    Disco: 70,
-    Cpu: 65,
-    Ram: 80
-  }, {
-    nome: "Servidor Paulista",
-    Saude: 72,
-    diferenca: 5,
-    up: true,
-    lat: -23.5505,
-    lng: -46.6333,
-    cor: "#FFB94A",
-    Rede: 65,
-    Disco: 60,
-    Cpu: 70,
-    Ram: 85
-  }, {
-    nome: "Servidor Russia",
-    Saude: 65.98,
-    diferenca: 5.4,
-    up: false,
-    lat: 55.7558,
-    lng: 37.6173,
-    cor: "#FF3F72",
-    Rede: 55,
-    Disco: 50,
-    Cpu: 60,
-    Ram: 70
-  },
-  {
-    nome: "Servidor Orlando",
-    Saude: 99.54,
-    diferenca: 1.54,
-    up: true,
-    lat: 28.5383,
-    lng: -81.3792,
-    cor: "#00D4C4",
-    Rede: 85,
-    Disco: 70,
-    Cpu: 65,
-    Ram: 80
-  }, {
-    nome: "Servidor Paulista",
-    Saude: 72,
-    diferenca: 5,
-    up: true,
-    lat: -23.5505,
-    lng: -46.6333,
-    cor: "#FFB94A",
-    Rede: 65,
-    Disco: 60,
-    Cpu: 70,
-    Ram: 85
-  }, {
-    nome: "Servidor Russia",
-    Saude: 65.98,
-    diferenca: 5.4,
-    up: false,
-    lat: 55.7558,
-    lng: 37.6173,
-    cor: "#FF3F72",
-    Rede: 55,
-    Disco: 50,
-    Cpu: 60,
-    Ram: 70
-  },
-  {
-    nome: "Servidor Orlando",
-    Saude: 99.54,
-    diferenca: 1.54,
-    up: true,
-    lat: 28.5383,
-    lng: -81.3792,
-    cor: "#00D4C4",
-    Rede: 85,
-    Disco: 70,
-    Cpu: 65,
-    Ram: 80
-  }, {
-    nome: "Servidor Paulista",
-    Saude: 72,
-    diferenca: 5,
-    up: true,
-    lat: -23.5505,
-    lng: -46.6333,
-    cor: "#FFB94A",
-    Rede: 65,
-    Disco: 60,
-    Cpu: 70,
-    Ram: 85
-  }, {
-    nome: "Servidor Russia",
-    Saude: 65.98,
-    diferenca: 5.4,
-    up: false,
-    lat: 55.7558,
-    lng: 37.6173,
-    cor: "#FF3F72",
-    Rede: 55,
-    Disco: 50,
-    Cpu: 60,
-    Ram: 70
-  },
-  {
-    nome: "Servidor Orlando",
-    Saude: 99.54,
-    diferenca: 1.54,
-    up: true,
-    lat: 28.5383,
-    lng: -81.3792,
-    cor: "#00D4C4",
-    Rede: 85,
-    Disco: 70,
-    Cpu: 65,
-    Ram: 80
-  }, {
-    nome: "Servidor Paulista",
-    Saude: 72,
-    diferenca: 5,
-    up: true,
-    lat: -23.5505,
-    lng: -46.6333,
-    cor: "#FFB94A",
-    Rede: 65,
-    Disco: 60,
-    Cpu: 70,
-    Ram: 85
-  }, {
-    nome: "Servidor Russia",
-    Saude: 65.98,
-    diferenca: 5.4,
-    up: false,
-    lat: 55.7558,
-    lng: 37.6173,
-    cor: "#FF3F72",
-    Rede: 55,
-    Disco: 50,
-    Cpu: 60,
-    Ram: 70
-  }];
+    return fetch(`/bucket/read/${caminho}/1`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(function (response) {
+      if (!response.ok) {
+        throw new Error("Erro ao buscar snapshot: " + response.status);
+      }
+      return response.json()
+    }).then(function (data) {
 
-  function inicial(){
+      var dados = data.rows;
+      var retorno = [];
+
+      for (let i = 0; i < dados.length; i++) {
+        dataAtual = dados[i];
+        var temp = {
+          idServidor: dataAtual.idServidor,
+          timestamp: dataAtual.timestamp,
+          Cpu: Number(dataAtual.cpu),
+          Ram: Number(dataAtual.ram),
+          Disco: Number(dataAtual.disco),
+          Rede: Number(dataAtual.rede),
+          latencia: Number(dataAtual.latencia),
+          processos: Number(dataAtual.processos),
+          Saude: Number(dataAtual.saude),
+          up: dataAtual.up,
+          cor: dataAtual.cor
+        }
+        ServidoresAnteriores.push(temp)
+      }
+      return fetch(`/bucket/read/${caminho}/0`, {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function (response) {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar snapshot: " + response.status);
+        }
+        return response.json()
+      }).then(function (data) {
+
+        var dados = data.rows;
+        var retorno = [];
+        var MediaLatencia = 0;
+        var processosTotais = 0;
+        for (let i = 0; i < dados.length; i++) {
+          console.log("Estou no for " + dados.length)
+          dataAtual = dados[i];
+          var diferencaVar =  Number(dataAtual.saude) - ServidoresAnteriores[i].Saude;
+          if (diferencaVar >= 0){
+            var upVar = true;
+          } else{
+            var upVar = false;
+          }
+
+          MediaLatencia += Number(dataAtual.latencia);
+          processosTotais += Number(dataAtual.processos);
+          var temp = {
+            idServidor: dataAtual.idServidor,
+            timestamp: dataAtual.timestamp,
+            Cpu: Number(dataAtual.cpu).toFixed(2),
+            Ram: Number(dataAtual.ram).toFixed(2),
+            Disco: Number(dataAtual.disco).toFixed(2),
+            Rede: Number(dataAtual.rede).toFixed(2),
+            latencia: Number(dataAtual.latencia).toFixed(2),
+            processos: Number(dataAtual.processos).toFixed(2),
+            Saude: Number(dataAtual.saude).toFixed(2),
+            up: upVar,
+            cor: dataAtual.cor,
+            diferenca: diferencaVar.toFixed(2)
+          }
+          MediaLatencia = MediaLatencia / dados.length;
+          dadosDc.Latencia = MediaLatencia.toFixed(2);
+          dadosDc.Processos = processosTotais.toFixed(2);
+          Servidores.push(temp)
+        }
+
+        for (let i = 0; i <= Servidores.length - 1; i++) {
+          var idServer = Servidores[i].idServidor;
+          return fetch(`/servidores/buscarNomeServidor/${idServer}`, {
+            method: 'GET',
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }).then(function (response) {
+            if (!response.ok) {
+              throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+          }).then(function (nomeServer) {
+            Servidores[i].nome = nomeServer[0].nome;
+          }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+          });
+        }
+      }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+    }).catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    });
+  }
+
+  function inicial() {
     titulo.innerHTML = `${dadosDc.nome}`;
     cpu.innerHTML = `${dadosDc.Cpu}%`;
     ram.innerHTML = `${dadosDc.Ram}%`;
     disco.innerHTML = `${dadosDc.Disco}%`;
-    // latencia.innerHTML = `${dadosDc.Latencia}S`;
+    latencia.innerHTML = `${dadosDc.Latencia}S`;
     rede.innerHTML = `${dadosDc.Rede}%`;
-    // processos.innerHTML = `${dadosDc.Processos}`;
+    processos.innerHTML = `${dadosDc.Processos}`;
   }
 
   function rankingServidores() {
@@ -311,7 +271,7 @@
       rankServer.innerHTML += `
       <div class="popup-Server" onclick="dashServer(${i})">
         <div class="status status_${estado}">
-          <img src="../../Servidores/PopUpsDash/${iconStatus}" alt="">
+          <img src="../../Images/PopUpsDash/${iconStatus}" alt="">
         </div>
         <div class="contentServer">
           <div class="first">
@@ -444,10 +404,12 @@
   }
 
   window.onload = () => {
-    inicial();
     listarPermissoesReload();
+    dadosServidores().then(() =>{
+      inicial();
+      rankingServidores();
+      carregarSelectRadar();
+      criarRadarInicial();
+    });
   };
-  rankingServidores();
-  criarRadarInicial();
-  carregarSelectRadar();
 </script>

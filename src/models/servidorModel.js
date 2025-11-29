@@ -195,11 +195,21 @@ function parametros(idServer) {
     return database.executar(sql);
 }
 
+
+function buscarNomeServidor(idServer) {
+    let sql = `
+        select nome from servidores where idServidor = '${idServer}';
+    `;
+
+    return database.executar(sql);
+}
+
 module.exports = {
     // adicionarServidor,
     adicionarServidorJAVA,
     atualizarServidor,
     excluirServidor,
     listarServidores,
-    parametros
+    parametros,
+    buscarNomeServidor
 };
