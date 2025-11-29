@@ -362,17 +362,17 @@
   function mudarServidor() {
     const index = document.getElementById("selectServer").value;
     const server = Servidores[index];
-
+    const serverAnterior = ServidoresAnteriores[index];
     document.getElementById("Saude").innerText = server.Saude;
     document.getElementById("Rede").innerText = server.Rede;
     document.getElementById("Disco").innerText = server.Disco;
     document.getElementById("Cpu").innerText = server.Cpu;
     document.getElementById("Ram").innerText = server.Ram;
 
-    atualizarRadar(server);
+    atualizarRadar(server, serverAnterior);
   }
 
-  function atualizarRadar(server) {
+  function atualizarRadar(server, serverAnterior) {
     radarChartInstance.data.datasets[0].label = server.nome;
     radarChartInstance.data.datasets[0].data = [
       server.Saude,
@@ -380,6 +380,14 @@
       server.Ram,
       server.Cpu,
       server.Rede
+    ];
+
+    radarChartInstance.data.datasets[1].data = [
+      serverAnterior.Saude,
+      serverAnterior.Disco,
+      serverAnterior.Ram,
+      serverAnterior.Cpu,
+      serverAnterior.Rede
     ];
 
     radarChartInstance.data.datasets[0].backgroundColor = server.cor + "33";
@@ -408,8 +416,8 @@
     dadosServidores().then(() =>{
       inicial();
       rankingServidores();
-      carregarSelectRadar();
       criarRadarInicial();
+      carregarSelectRadar();
     });
   };
 </script>
