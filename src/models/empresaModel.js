@@ -87,7 +87,7 @@ function editarPerfil(empresa_nome, empresa_cnpj, empresa_senha, id) {
 }
 
 
-function getNomeEmpresa(idServidor){
+function getIdEmpresa(idServidor){
     console.log("Estou na modle com o " + idServidor + " para buscar o nome da empresa")
 
     const instrucaoSql = `
@@ -108,5 +108,5 @@ module.exports = {
     buscarEmpresas,
     editarFoto,
     editarPerfil,
-    getNomeEmpresa
+    getIdEmpresa
 }

@@ -89,10 +89,23 @@ function buscarDatacenter(idEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+function buscarLngLatNomeDatacenter(idDatacenter) {
+    let instrucaoSql = `
+        SELECT dc.nome, e.latitude, e.longitude
+        FROM datacenters dc
+        JOIN endereco e ON e.idEndereco = dc.fkEndereco
+        WHERE dc.idDatacenter = ${idDatacenter};
+    `;
+    
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     adicionarDatacenter,
     buscarIDdatacenter,
     atualizarDatacenter,
     excluirDatacenter,
-    buscarDatacenter
+    buscarDatacenter,
+    buscarLngLatNomeDatacenter
 }

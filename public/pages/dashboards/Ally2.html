@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Ally</title>
+  <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../style/sidebar.css">
+  <link rel="stylesheet" href="../../style/popup.css">
+  <link rel="stylesheet" href="../../style/Ally2.css">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</head>
+
+<body>
+  <nav id="id_sidebar"></nav>
+  <div id="id_info_kpis"></div>
+  <div id="popup_screen"></div>
+  <h1 class="titulo" id="titulo">Datacenter Orlando</h1>
+  <div class="container">
+
+    <div class="cards">
+      <section class="cards_kpi" id="cards_kpi">
+        <div class="card">
+          <p>CPU (últ.)</p>
+          <h2 id="cpu">47%</h2>
+        </div>
+        <div class="card">
+          <p>RAM (últ.)</p>
+          <h2 id="ram">61%</h2>
+        </div>
+        <div class="card">
+          <p>Disco (últ.)</p>
+          <h2 id="disco">78%</h2>
+        </div>
+        <div class="card">
+          <p>Latência</p>
+          <h2 id="latencia">0.032s</h2>
+        </div>
+        <div class="card">
+          <p>Rede</p>
+          <h2 id="rede">2.8 MB</h2>
+        </div>
+        <div class="card">
+          <p>Processos</p>
+          <h2 id="processos">135</h2>
+        </div>
+      </section>
+    </div>
+
+    <div class="rankingServidores">
+      <h2 class="subtitulo">Servidores</h2>
+      <div id="rankServer" class="rankServer">
+      </div>
+    </div>
+
+    <div id="grafico_radar" class="grafico_radar">
+      <div class="kpi">
+        <h3>Gráfico comparativo</h3>
+        <select id="selectServer" onchange="mudarServidor()">
+        </select>
+        <div class="kpis">
+          <p>Saude: <span id="Saude"></span>%</p>
+          <p>Rede: <span id="Rede"></span>%</p>
+          <p>Disco: <span id="Disco"></span>%</p>
+          <p>CPU: <span id="Cpu"></span>%</p>
+          <p>RAM: <span id="Ram"></span>%</p>
+        </div>
+      </div>
+      <canvas id="radarChart" class="grafico"></canvas>
+    </div>
+  </div>
+  </div>
+  <button onclick="popUp_IA()" class="logo_Ia" id="logoIa"><img src="../../assets/logos/logo_vetorizada.svg"
+      alt=""></button>
+
+  <div class="popup_IA desativada" id="popUpIA">
+    <button onclick="popUp_fechar()" class="fechar_popUp"><img src="../../Images/voltar-branco.svg" alt=""></button>
+    <h2>Dicas IA Monitora</h2>
+    <div class="MensagemIA" id="MensagemIA">
+    </div>
+  </div>
+
+  <footer>
+    <div class="dashButtons">
+      <a href="./home.html"><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
+      <a href="./Ally.html"><img src="../../Images/Colaboradores/Colaborador1.svg" alt=""></a>
+      <a href="./Gustavo.html"><img src="../../Images/Colaboradores/Colaborador2.svg" alt=""></a>
+      <a href="./Leonardo.html"><img src="../../Images/Colaboradores/Colaborador3.svg" alt=""></a>
+      <a href="./Maria.html"><img src="../../Images/Colaboradores/Colaborador4.svg" alt=""></a>
+      <a href="./Pedro.html"><img src="../../Images/Colaboradores/Colaborador5.svg" alt=""></a>
+    </div>
+    <p>Developed by <a href="https://www.linkedin.com/in/ally-awada">AllyAwada</a></p>
+  </footer>
+</body>
+
+</html>
+
+<script src="../../js/sidebar.js"></script>
+<script src="../../js/popups.js"></script>
+<script src="../../js/verificacaoPermissoes.js"></script>
+<script>
+  if (sessionStorage.empresaCnpj == undefined) {
+    listarPermissoesReload();
+    verificarPermissoesSideBar();
+    setInterval(executarVerificacaoPermissoes, 30000);
+  }
+
+  function executarVerificacaoPermissoes() {
+    if (sessionStorage.empresaCnpj == undefined) {
+      listarPermissoesReload();
+      verificarPermissoesSideBar();
+    }
+  }
+
+  if (sessionStorage.empresaCnpj == undefined) {
+    verificarPermissoesSideBar();
+  }
+
+
+  var radarChartInstance;
+  const dadosDc = JSON.parse(sessionStorage.datacenter);
+  const Servidores = [];
+  const ServidoresAnteriores = [];
+  var mensagemdaia = "";
+  async function dadosServidores() {
+    try {
+      const caminho = `${sessionStorage.empresaId}%2FdataCenter%2F${dadosDc.IdDataCenter}%2Fsnapshots%2F`;
+
+      let resAnterior = await fetch(`/bucket/read/${caminho}/1`);
+      if (!resAnterior.ok) throw new Error("Erro ao buscar snapshot anterior: " + resAnterior.status);
+
+      let dadosAnteriores = await resAnterior.json();
+      let rowsAnt = dadosAnteriores.rows;
+
+      for (let i = 0; i < rowsAnt.length; i++) {
+        let d = rowsAnt[i];
+        ServidoresAnteriores.push({
+          idServidor: d.idServidor,
+          timestamp: d.timestamp,
+          Cpu: Number(d.cpu),
+          Ram: Number(d.ram),
+          Disco: Number(d.disco),
+          Rede: Number(d.rede),
+          latencia: Number(d.latencia),
+          processos: Number(d.processos),
+          Saude: Number(d.saude),
+          up: d.up,
+          cor: d.cor
+        });
+      }
+
+      let resAtual = await fetch(`/bucket/read/${caminho}/0`);
+      if (!resAtual.ok) throw new Error("Erro ao buscar snapshot atual: " + resAtual.status);
+
+      let dadosAtuais = await resAtual.json();
+      let rowsAtual = dadosAtuais.rows;
+
+      let somaLatencia = 0;
+      let somaProcessos = 0;
+
+      for (let i = 0; i < rowsAtual.length; i++) {
+        let d = rowsAtual[i];
+
+        let diffVar = Number(d.saude) - ServidoresAnteriores[i].Saude;
+        let upVar = diffVar >= 0;
+
+        somaLatencia += Number(d.latencia);
+        somaProcessos += Number(d.processos);
+
+        Servidores.push({
+          idServidor: d.idServidor,
+          timestamp: d.timestamp,
+          Cpu: Number(d.cpu).toFixed(2),
+          Ram: Number(d.ram).toFixed(2),
+          Disco: Number(d.disco).toFixed(2),
+          Rede: Number(d.rede).toFixed(2),
+          latencia: Number(d.latencia).toFixed(2),
+          processos: Number(d.processos).toFixed(2),
+          Saude: Number(d.saude).toFixed(2),
+          up: upVar,
+          cor: d.cor,
+          diferenca: diffVar.toFixed(2)
+        });
+      }
+
+      dadosDc.Latencia = (somaLatencia / rowsAtual.length).toFixed(2);
+      dadosDc.Processos = somaProcessos.toFixed(2);
+
+      await Promise.all(
+        Servidores.map(async (server, idx) => {
+          try {
+            let r = await fetch(`/servidores/buscarNomeServidor/${server.idServidor}`);
+            if (!r.ok) throw new Error("Erro nome servidor: " + r.status);
+
+            let json = await r.json();
+            Servidores[idx].nome = json[0].nome;
+          } catch (e) {
+            console.log("Erro ao buscar nome:", e);
+          }
+        })
+      );
+      let resIA = await fetch(`/bobia/perguntar`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: `
+          Você é uma inteligência especializada em análise de infraestrutura distribuída. 
+          Recebe como entrada:
+          Metricas atuais: ${JSON.stringify(Servidores)}
+          Metricas da última leitura: ${JSON.stringify(ServidoresAnteriores)}
+          Este datacenter: ${JSON.stringify(dadosDc)}
+          Realize:
+          1. Análise da saúde geral do datacenter.
+          2. Identificação dos servidores que mais impactam negativamente o DC.
+          3. Gargalos de CPU, RAM, Disco ou Rede.
+          4. Riscos de queda ou saturação.
+          5. Sensibilidade do DC a falhas.
+          6. Recomendação de balanceamento interno.
+          7. Possíveis incidentes em andamento.
+          8. Ações sugeridas para otimização imediata.
+          9. Sugestões de expansão ou redistribuição.
+          10. Insight final sobre estabilidade, performance e continuidade.
+          A resposta deve ser específica e baseada nos dados enviados.
+
+          Para pular linhas ultilize de <br>
+          para deixar algo em negrito ultilize <b>
+          Não ultilize nada alem disso e responda de maneira mais simples para uma visualização rápida
+          `
+        })
+      });
+
+      if (!resIA.ok) throw new Error("Erro IA: " + resIA.status);
+
+      let respostaIA = await resIA.json();
+      mensagemdaia = respostaIA.resultado;
+      popUp_IA();
+    } catch (erro) {
+      console.error("Erro geral:", erro);
+    }
+  }
+
+  function inicial() {
+    titulo.innerHTML = `${dadosDc.nome}`;
+    cpu.innerHTML = `${dadosDc.Cpu}%`;
+    ram.innerHTML = `${dadosDc.Ram}%`;
+    disco.innerHTML = `${dadosDc.Disco}%`;
+    latencia.innerHTML = `${dadosDc.Latencia}S`;
+    rede.innerHTML = `${dadosDc.Rede}%`;
+    processos.innerHTML = `${dadosDc.Processos}`;
+  }
+
+  function rankingServidores() {
+    rankServer.innerHTML = "";
+
+
+    for (let i = 0; i < Servidores.length; i++) {
+
+      let estado = "";
+      let iconStatus = "";
+
+      if (Servidores[i].Saude >= 90) {
+        estado = "ok";
+        iconStatus = "ok.svg";
+      } else if (Servidores[i].Saude >= 70) {
+        estado = "alerta";
+        iconStatus = "alerta.svg";
+      } else {
+        estado = "critico";
+        iconStatus = "critico.svg";
+      }
+      let clsComparativo = Servidores[i].up ? "comparativo_up" : "comparativo_down";
+      let iconComparativo = Servidores[i].up ? "lineUp.svg" : "lineDown.svg";
+
+      rankServer.innerHTML += `
+      <div class="popup-Server" onclick="dashServer(${i})">
+        <div class="status status_${estado}">
+          <img src="../../Images/PopUpsDash/${iconStatus}" alt="">
+        </div>
+        <div class="contentServer">
+          <div class="first">
+            <img class="icon" src="../../Images/PopUpsDash/iconServer.svg" alt="">
+              <p>${Servidores[i].nome}</p>
+          </div>
+          <div class="seccond seccond_${estado}">
+            <h3 class="kpi">${Servidores[i].Saude}%</h3>
+            <section class="comparativo ${clsComparativo}">
+              <p class="kpi">
+                <img src="../../Images/PopUpsDash/${iconComparativo}" alt="">
+                  ${Servidores[i].diferenca}%
+              </p>
+              <p>vs última semana</p>
+            </section>
+          </div>
+        </div>
+      </div>`;
+    }
+  }
+  function dashServer(index) {
+    sessionStorage.servidor = JSON.stringify(Servidores[index]);
+    window.location = "./Pedro.html";
+  }
+
+  function carregarSelectRadar() {
+    const select = document.getElementById("selectServer");
+    select.innerHTML = "";
+
+    Servidores.forEach((server, index) => {
+      select.innerHTML += `<option value="${index}">${server.nome}</option>`;
+    });
+
+    mudarServidor();
+  }
+
+  function criarRadarInicial() {
+    const ctx = document.getElementById("radarChart");
+
+    radarChartInstance = new Chart(ctx, {
+      type: "radar",
+      data: {
+        labels: ["Saúde", "Disco", "RAM", "CPU", "Rede"],
+        datasets: [
+          {
+            label: "Servidor selecionado",
+            data: [0, 0, 0, 0, 0],
+            backgroundColor: "rgba(0, 0, 0, 0.15)",
+            borderColor: "#000000",
+            fill: true,
+            borderWidth: 2
+          },
+          {
+            label: "Limites",
+            data: [82, 70, 68, 80, 88],
+            backgroundColor: "rgba(31, 84, 126, 0.15)",
+            borderColor: "#1F547E",
+            fill: true,
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
+        responsive: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: "#1F547E"
+            }
+          }
+        },
+        scales: {
+          r: {
+            grid: {
+              color: "#E5E4E2"
+            },
+            pointLabels: {
+              color: "#1F547E"
+            },
+            suggestedMin: 0,
+            suggestedMax: 100
+          }
+        }
+      }
+    });
+  }
+
+  function mudarServidor() {
+    const index = document.getElementById("selectServer").value;
+    const server = Servidores[index];
+    const serverAnterior = ServidoresAnteriores[index];
+    document.getElementById("Saude").innerText = server.Saude;
+    document.getElementById("Rede").innerText = server.Rede;
+    document.getElementById("Disco").innerText = server.Disco;
+    document.getElementById("Cpu").innerText = server.Cpu;
+    document.getElementById("Ram").innerText = server.Ram;
+
+    atualizarRadar(server, serverAnterior);
+  }
+
+  function atualizarRadar(server, serverAnterior) {
+    radarChartInstance.data.datasets[0].label = server.nome;
+    radarChartInstance.data.datasets[0].data = [
+      server.Saude,
+      server.Disco,
+      server.Ram,
+      server.Cpu,
+      server.Rede
+    ];
+
+    radarChartInstance.data.datasets[1].data = [
+      serverAnterior.Saude,
+      serverAnterior.Disco,
+      serverAnterior.Ram,
+      serverAnterior.Cpu,
+      serverAnterior.Rede
+    ];
+
+    radarChartInstance.data.datasets[0].backgroundColor = server.cor + "33";
+    radarChartInstance.data.datasets[0].borderColor = server.cor;
+
+    radarChartInstance.update();
+  }
+
+
+  function popUp_IA() {
+    MensagemIA.innerHTML = `<p>${mensagemdaia}</p>`;
+    popUpIA.classList.remove("desativada");
+    popUpIA.classList.add("ativada");
+    setTimeout(() => { logoIa.onclick = popUp_fechar }, 800)
+  }
+
+  function popUp_fechar() {
+    MensagemIA.innerHTML = "";
+    popUpIA.classList.remove("ativada");
+    popUpIA.classList.add("desativada");
+    setTimeout(() => { logoIa.onclick = popUp_IA }, 800)
+  }
+
+  window.onload = () => {
+    listarPermissoesReload();
+    dadosServidores().then(() => {
+      inicial();
+      rankingServidores();
+      criarRadarInicial();
+      carregarSelectRadar();
+    });
+  };
+</script>
