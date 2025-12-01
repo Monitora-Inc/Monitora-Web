@@ -252,11 +252,12 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
     justify-content: space-between;
     padding-right: 1vw;
     margin-top: 2.5vh;
+    align-items: stretch;
 }
 
 .cards_componentes {
     margin-top: 0.63rem;
-    width: 49%;
+    width: 38%;
     height: 76vh;
     margin-bottom: 2vh;
 }
@@ -296,8 +297,8 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
 
 .card_grafico {
     margin-top: 0.63rem;
-    width: 49%;
-    height: 76vh;
+    width: 60%;
+    height: fit-content;
     background-color: white;
     box-shadow: 0px 0.35rem 0.35rem rgba(0, 0, 0, 0.25);
     border-radius: 0.31rem;
@@ -342,7 +343,7 @@ $$$$$$$$\        $$\                 $$\
 table {
     margin-top: 1vw;
     width: 100%;
-    height: 77.5%;
+    height: 93.45%;
     border-collapse: collapse; 
     background: #d8e7f3; 
     border-radius: 5px; 
