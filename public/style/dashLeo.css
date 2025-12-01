@@ -258,7 +258,7 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
 .cards_componentes {
     margin-top: 0.63rem;
     width: 38%;
-    height: 76vh;
+    /* height: 76vh; */
     margin-bottom: 2vh;
 }
 
@@ -271,7 +271,7 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
     background-color: white;
     box-shadow: 0px 0.35rem 0.35rem rgba(0, 0, 0, 0.25);
     width: 100%;
-    height: 20%;
+    height: 15%;
     border-radius: 0.31rem;
     font-size: 2.7vh;
     border: solid 2px #072F4E;
@@ -343,7 +343,7 @@ $$$$$$$$\        $$\                 $$\
 table {
     margin-top: 1vw;
     width: 100%;
-    height: 93.45%;
+    height: 85%;
     border-collapse: collapse; 
     background: #d8e7f3; 
     border-radius: 5px; 
