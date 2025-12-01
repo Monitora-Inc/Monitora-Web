@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="../../style/pedro.css">
 
 </head>
-
 <body onload="listarDatacenters(), listarPermissoesReload()">
     <nav id="id_sidebar"></nav>
     <div id="id_info_kpis"></div>
@@ -21,6 +20,7 @@
 
 
     <div class="page_content">
+      <div id="grafico_overlay"></div>
         <div class="header">
           <div class="server_info">
             <h1 id="server_nome">Servidor SP-A12</h1>
@@ -29,7 +29,7 @@
           <div class="filtro_periodo">
             <a href="">Últimas 24 horas</a>
             <a href="">Última semana</a>
-            <a href="">Última mês</a>
+            <a href="">Último mês</a>
           </div>
         </div>
 
@@ -131,7 +131,7 @@
               <div class="card_kpi_info">
                 <div class="card_kpi_label">
                   <img src="../../assets/icons/icone_transferencia.svg" alt="" class="eficiencia">
-                  <h3>Latência Média de Origem</h3>
+                  <h3>Eficiência de Entrega</h3>
                 </div>
                 <div class="card_kpi_metrica">
                   <h1 class="critico_texto" id="metrica_entrega">65.98%</h1>
@@ -146,112 +146,158 @@
               </div>
           </div>
         </div> <!-- Fim da div "KPIs" -->
+<div class="graficos">
 
-        <div class="graficos">
-          <div class="box_grafico">
-            <div class="header">
-              <div class="label">
-                <h1>Cache Miss</h1>
-                <h2 id="periodo">Ultima Semana</h2>
-              </div>
-              <div class="configuracoes">
-                <a class="tooltip icone_alterar">
-                  <span class="tooltiptext">Ajustar exibição</span>
-                </a>
-                <a class="tooltip icone_ampliar">
-                  <span class="tooltiptext">Ampliar</span>
-                </a>
-                <a class="tooltip icone_tooltip">
-                  <span class="tooltiptext">O que é isso?</span>
-                </a>
-              </div>
-            </div>
-            <div class="grafico">
-              <canvas id="graficoCacheMiss"></canvas>
-            </div>
-          </div>
-          
-          <div class="box_grafico">
-            <div class="header">
-              <div class="label">
-                <h1>Cache Hit</h1>
-                <h2 id="periodo">Ultima Semana</h2>
-              </div>
-              <div class="configuracoes">
-                <a class="tooltip icone_alterar">
-                  <span class="tooltiptext">Ajustar exibição</span>
-                </a>
-                <a class="tooltip icone_ampliar">
-                  <span class="tooltiptext">Ampliar</span>
-                </a>
-                <a class="tooltip icone_tooltip">
-                  <span class="tooltiptext">O que é isso?</span>
-                </a>
-              </div>
-            </div>
-            <div class="grafico">
-              <canvas id="graficoCacheHit"></canvas>
-            </div>
-          </div>
+  <!-- CACHE MISS -->
+  <div class="box_grafico">
+    <div class="header">
+      <div class="label">
+        <h1>Cache Miss</h1>
+        <h2 id="periodo">Ultima Semana</h2>
+      </div>
+      <div class="configuracoes">
 
-          <div class="box_grafico">
-            <div class="header">
-              <div class="label">
-                <h1>Volume de Requisições</h1>
-                <h2 id="periodo">Ultima Semana</h2>
-              </div>
-              <div class="configuracoes">
-                <a class="tooltip icone_alterar">
-                  <span class="tooltiptext">Ajustar exibição</span>
-                </a>
-                <a class="tooltip icone_ampliar">
-                  <span class="tooltiptext">Ampliar</span>
-                </a>
-                <a class="tooltip icone_tooltip">
-                  <span class="tooltiptext">O que é isso?</span>
-                </a>
-              </div>
-            </div>
-            <div class="grafico">
-              <canvas id="graficoRequisicoes"></canvas>
-            </div>
-        </div>
-        
-          <div class="box_grafico">
-            <div class="header">
-              <div class="label">
-                <h1>Latência por Percentil</h1>
-                <h2 id="periodo">Ultima Semana</h2>
-              </div>
-              <div class="configuracoes">
-                <a class="tooltip icone_alterar">
-                  <span class="tooltiptext">Ajustar exibição</span>
-                </a>
-                <a class="tooltip icone_ampliar">
-                  <span class="tooltiptext">Ampliar</span>
-                </a>
-                <a class="tooltip icone_tooltip">
-                  <span class="tooltiptext">O que é isso?</span>
-                </a>
-              </div>
-            </div>
-            <div class="grafico">
-              <canvas id="graficoPercentil"></canvas>
-            </div>
-        </div>
+
+        <a class="tooltip icone_ampliar" onclick="expandirGrafico(this)">
+
+          <span class="tooltiptext">Ampliar</span>
+        </a>
+
+        <a class="tooltip icone_tooltip"
+          onclick="pop_up_info('Cache Miss (%)\n\nPercentual de requisições que não foram atendidas pelo cache e precisaram buscar o conteúdo no servidor de origem.\n\nPor que é importante:\n• Aumenta a latência.\n• Eleva o uso e custo da origem.\n• Indica baixa eficiência do cache.\n\nComo interpretar:\n• Valores altos são indesejáveis.\n• Linha vermelha = crítico.\n• Linha amarela = atenção.')">
+
+          <span class="tooltiptext">O que é isso?</span>
+        </a>
+      </div>
+    </div>
+    <div class="grafico">
+      <canvas id="graficoCacheMiss"></canvas>
+    </div>
+  </div>
+
+
+  <!-- CACHE HIT -->
+  <div class="box_grafico">
+    <div class="header">
+      <div class="label">
+        <h1>Cache Hit</h1>
+        <h2 id="periodo">Ultima Semana</h2>
+      </div>
+      <div class="configuracoes">
+
+
+
+        <a class="tooltip icone_ampliar" onclick="expandirGrafico(this)">
+
+          <span class="tooltiptext">Ampliar</span>
+        </a>
+
+        <a class="tooltip icone_tooltip"
+          onclick="pop_up_info('Cache Hit (%)\n\nPercentual de requisições entregues diretamente pelo cache.\n\nPor que é importante:\n• Reduz a latência.\n• Reduz carga na origem.\n• Melhora a experiência do usuário.\n\nComo interpretar:\n• Quanto maior, melhor.\n• Linha vermelha indica valor crítico.\n• Linha amarela indica tendência negativa.')">
+
+          <span class="tooltiptext">O que é isso?</span>
+        </a>
+      </div>
     </div>
 
-  <footer>
-      <div class="dashButtons">
-        <a href="./home.html"><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
-        <a href="./Ally.html"><img src="../../Images/Colaboradores/Colaborador1.svg" alt=""></a>
-        <a href="./Gustavo.html"><img src="../../Images/Colaboradores/Colaborador2.svg" alt=""></a>
-        <a href="./Leonardo.html"><img src="../../Images/Colaboradores/Colaborador3.svg" alt=""></a>
-        <a href="./Maria.html"><img src="../../Images/Colaboradores/Colaborador4.svg" alt=""></a>
-        <a href="./Pedro.html"><img src="../../Images/Colaboradores/Colaborador5.svg" alt=""></a>
+    <div class="grafico"><canvas id="graficoCacheHit"></canvas></div>
+  </div>
+
+
+  <!-- VOLUME DE REQUISIÇÕES -->
+  <div class="box_grafico">
+    <div class="header">
+
+      <div class="label">
+        <h1>Volume de Requisições</h1>
+        <h2 id="periodo">Ultima Semana</h2>
       </div>
-      <p>Developed by <a href=""></a>Pedro Claudino Barbosa</p>
-  </footer>
+
+      <div class="configuracoes">
+        
+
+        <a class="tooltip icone_ampliar" onclick="expandirGrafico(this)">
+<span class="tooltiptext">Ampliar</span></a>
+
+        <a class="tooltip icone_tooltip"
+          onclick="pop_up_info('Volume de Requisições\n\nQuantidade total de requisições processadas pelo CDN.\n\nPor que é importante:\n• Revela padrões de uso.\n• Identifica picos e comportamento dos usuários.\n• Auxilia no planejamento de capacidade.\n\nComo interpretar:\n• Picos podem indicar eventos ou aumento de consumo.\n• Quedas podem indicar baixa demanda ou falhas.')">
+
+          <span class="tooltiptext">O que é isso?</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="grafico"><canvas id="graficoRequisicoes"></canvas></div>
+  </div>
+
+
+  <!-- LATÊNCIA POR PERCENTIL -->
+  <div class="box_grafico">
+    <div class="header">
+
+      <div class="label">
+        <h1>Latência por Percentil</h1>
+        <h2 id="periodo">Ultima Semana</h2>
+      </div>
+
+      <div class="configuracoes">
+        
+
+        <a class="tooltip icone_ampliar" onclick="expandirGrafico(this)">
+<span class="tooltiptext">Ampliar</span></a>
+
+        <a class="tooltip icone_tooltip"
+          onclick="pop_up_info('Latência por Percentil\n\nMede o tempo de resposta do CDN separando p50, p90 e p99.\n\nPor que é importante:\n• Avalia experiência real dos usuários.\n• Mostra estabilidade e consistência.\n• Ajuda a identificar gargalos.\n\nComo interpretar:\n• p50 = maioria das requisições.\n• p90 = usuários mais lentos.\n• p99 = casos extremos.\n• Todos subindo = problema geral.\n• Só p99 subindo = instabilidade localizada.')">
+
+          <span class="tooltiptext">O que é isso?</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="grafico"><canvas id="graficoPercentil"></canvas></div>
+  </div>
+
+
+  <!-- EVENTOS SAZONAIS -->
+  <div class="box_grafico grande">
+    <div class="header">
+
+      <div class="label">
+        <h1>Eventos Sazonais de Maior Impacto na Saúde do CDN</h1>
+      </div>
+
+      <div class="configuracoes">
+        
+
+        <a class="tooltip icone_ampliar" onclick="expandirGrafico(this)">
+<span class="tooltiptext">Ampliar</span></a>
+
+        <a class="tooltip icone_tooltip"
+          onclick="pop_up_info('Eventos Sazonais\n\nRelação entre datas especiais, clima, feriados e performance do CDN.\n\nPor que é importante:\n• Ajuda a prever demanda.\n• Facilita planejamento de infraestrutura.\n• Relaciona eventos externos ao comportamento do tráfego.\n\nComo interpretar:\n• Aumentos podem indicar maior consumo de mídia.\n• Quedas podem indicar horários de pouco uso ou instabilidade.')">
+
+          <span class="tooltiptext">O que é isso?</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="grafico"><canvas id="graficoEventos"></canvas></div>
+  </div>
+
+</div>
+
+
+
+<footer>
+  <div class="dashButtons">
+<a href="./home.html"><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
+<a href="./Ally.html"><img src="../../Images/Colaboradores/Colaborador1.svg" alt=""></a>
+<a href="./Gustavo.html"><img src="../../Images/Colaboradores/Colaborador2.svg" alt=""></a>
+<a href="./Leonardo.html"><img src="../../Images/Colaboradores/Colaborador3.svg" alt=""></a>
+<a href="./Maria.html"><img src="../../Images/Colaboradores/Colaborador4.svg" alt=""></a>
+<a href="./Pedro.html"><img src="../../Images/Colaboradores/Colaborador5.svg" alt=""></a>
+</div>
+<p>Developed by <a href=""></a>Pedro Claudino Barbosa</p>
+</footer>
 </body>
 </html>
 <script src="../../js/sidebar.js"></script>
@@ -259,4 +305,83 @@
 <script src="../../js/verificacaoPermissoes.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.3.0/dist/chartjs-chart-matrix.min.js"></script>
 <script src="../../js/pedro_dashboard.js"></script>
+<script>
+
+let info_popup;
+
+function pop_up_info(texto) {
+    // converte \n em <br>
+    const formatado = texto.replace(/\n/g, "<br>");
+
+    document.getElementById("popup_screen").innerHTML = `        
+        <div class="popup_container">
+            <div class="popup">
+                <h1 style="margin-bottom: 10px;">Informações</h1>
+
+                <div class="subtitulo_popup" style="text-align: center; margin-bottom: 10px; font-weight: bold;">
+                    ${formatado.split("<br>")[0]}
+                </div>
+
+                <div class="inputs" style="text-align: justify; line-height: 22px; padding: 40px;">
+                    <div>${formatado.substring(formatado.indexOf("<br>")+4)}</div>
+                </div>
+
+                <div class="btns_popup">
+                    <button onclick="fechar_popup()">Fechar</button>
+                </div>
+            </div>
+        </div>`;
+}
+
+function fecharPopupGrafico() {
+    const overlay = document.getElementById("grafico_overlay");
+    overlay.style.display = "none";
+    overlay.innerHTML = "";
+}
+
+// FECHAR AO CLICAR FORA
+document.getElementById("grafico_overlay").addEventListener("click", function(e) {
+    if (e.target.id === "grafico_overlay") {
+        fecharPopupGrafico();
+    }
+});
+
+// EXPANDIR GRAFICO (FINAL)
+function expandirGrafico(element) {
+    const boxOriginal = element.closest(".box_grafico");
+    const overlay = document.getElementById("grafico_overlay");
+
+    // Abrindo popup
+    overlay.innerHTML = "";
+    overlay.style.display = "flex";
+
+    // Clonar box
+    const clone = boxOriginal.cloneNode(true);
+    clone.classList.add("popup_mode");
+
+    // Botão X
+    const btnFechar = document.createElement("div");
+    btnFechar.classList.add("btn_fechar_popup_grafico");
+    btnFechar.innerHTML = "&times;";
+    btnFechar.onclick = fecharPopupGrafico;
+
+    overlay.appendChild(clone);
+
+    // RENDERIZA O GRAFICO NO CLONE
+    const canvasOriginal = boxOriginal.querySelector("canvas");
+    const canvasClone = clone.querySelector("canvas");
+    const ctxClone = canvasClone.getContext("2d");
+
+    const chartInstance = Chart.getChart(canvasOriginal);
+    const data = chartInstance.data;
+    const options = chartInstance.options;
+
+    new Chart(ctxClone, {
+        type: chartInstance.config.type,
+        data: JSON.parse(JSON.stringify(data)),
+        options: JSON.parse(JSON.stringify(options))
+    });
+}
+</script>
