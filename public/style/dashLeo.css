@@ -1,0 +1,375 @@
+/*
+$$\   $$\                           $$\                     
+$$ |  $$ |                          $$ |                    
+$$ |  $$ | $$$$$$\   $$$$$$\   $$$$$$$ | $$$$$$\   $$$$$$\  
+$$$$$$$$ |$$  __$$\  \____$$\ $$  __$$ |$$  __$$\ $$  __$$\ 
+$$  __$$ |$$$$$$$$ | $$$$$$$ |$$ /  $$ |$$$$$$$$ |$$ |  \__|
+$$ |  $$ |$$   ____|$$  __$$ |$$ |  $$ |$$   ____|$$ |      
+$$ |  $$ |\$$$$$$$\ \$$$$$$$ |\$$$$$$$ |\$$$$$$$\ $$ |      
+\__|  \__| \_______| \_______| \_______| \_______|\__|                                                                 
+*/
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 1vw;
+    margin-bottom: 1vw;
+    margin-right: 1vw;
+}
+
+.header .servidor_alertas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+.header .servidor_alertas .info_alertas{
+    display: flex;
+    align-items: center;
+    margin-right: 1vw;
+    cursor: pointer;
+}
+
+.header .servidor_alertas .info_alertas:hover{
+    background-color: rgb(155, 163, 162);
+    border-radius: 10px;
+    padding: 5px;
+    transition: 0.3s ease-in-out;
+}
+
+.header .servidor_alertas #quantidade_alertas{
+    font-size: 1vw;
+    padding-left: 0.6vw;
+    padding-right: 0.1vw;
+    color: #0f2247;
+}
+
+#servidor_nome {
+    font-size: 1.3vw;
+    color: #0f2247;
+}
+
+#servidor_localizacao {
+    color: #888888;
+    font-size: 0.8vw;
+}
+
+.alert-popup {
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #124574;
+    border-radius: 5px;
+    padding: 10px;
+    width: 500px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 10;
+
+    top: 15%;  
+    left: 80.4%;
+    transform: translateX(-50%);
+}
+
+.alert-popup ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.alert-popup li {
+    padding: 5px 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+.alert-popup li:last-child {
+    border-bottom: none;
+}
+
+
+/*
+ $$$$$$\                            $$\           
+$$  __$$\                           $$ |          
+$$ /  \__| $$$$$$\   $$$$$$\   $$$$$$$ | $$$$$$$\ 
+$$ |       \____$$\ $$  __$$\ $$  __$$ |$$  _____|
+$$ |       $$$$$$$ |$$ |  \__|$$ /  $$ |\$$$$$$\  
+$$ |  $$\ $$  __$$ |$$ |      $$ |  $$ | \____$$\ 
+\$$$$$$  |\$$$$$$$ |$$ |      \$$$$$$$ |$$$$$$$  |
+ \______/  \_______|\__|       \_______|\_______/ 
+*/
+
+.cards_kpi1 {
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 1vw;
+}
+
+.cards_kpi1 .kpisIncidentes {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    border: 2px solid #0f2247;
+}
+
+.cards_kpi1 .kpisIncidentes .tituloDiv {
+    display: flex; 
+    justify-content: center; 
+    flex-direction: column;
+    width: 30%;
+    text-align: center; 
+    background-color: #072F4E; 
+    color: #ffffff; 
+    border-top-left-radius: 5px; 
+    border-bottom-left-radius: 5px;
+}
+
+.cards_kpi1 .kpisIncidentes .tituloDiv h3{
+    font-size: 2.7vh;
+}
+
+.cards_kpi1 .kpisIncidentes .tituloDiv p{
+    font-size: 1.5vh;
+    font-style: italic;
+}
+
+.cards_kpi1 .card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    width: 14%;
+    height: 100%;
+    border-left: solid 0.5px #072F4E;
+    border-right: solid 0.5px #072F4E;
+}
+
+.cards_kpi1 .card .titulo{
+    position: absolute;
+    top: 0.63rem;
+    margin-bottom: 2vh;
+    font-size: 2.6vh;
+}
+
+.cards_kpi1 .card h2{
+    padding-top: 0.94rem;
+    font-size: 4.8vh;
+}
+
+.cards_kpi2 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 1vw;
+    margin-top: 2.5vh;
+}
+
+.cards_kpi2 .card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    width: 24%;
+    height: 30vh;
+    border-radius: 0.31rem;
+    font-size: 1.13rem;
+}
+
+.cards_kpi2 .card .divIcone{
+    position: absolute;
+    top: 0rem;
+    width: 100%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    text-align: center;
+}
+
+.cards_kpi2 .card .divIcone img{
+    padding-top: 0.31rem;
+}
+
+.cards_kpi2 .card .divIcone #iconeInfo{
+    position: absolute;
+    right: 0;
+    padding-right: 0.3vw;
+    cursor: pointer;
+}
+
+.cards_kpi2 .card .titulo{
+    position: absolute;
+    width: 100%;
+    top: 2rem;
+    font-size: 2vh;
+    padding-top: 1.5vh;
+}
+
+.cards_kpi2 .card .descricao{
+    position: absolute;
+    bottom: 0.94rem;
+    text-align: center;
+    font-size: 1.7vh;
+    width: 100%;
+}
+
+.cards_kpi2 .card h2{
+    padding-top: 0.94rem;
+    font-size: 6vh;
+}
+
+.cards_kpi2 .card .conteudoCardPerformance{
+    width: 100%;
+    text-align: center;
+}
+
+.cards_kpi2 .card .conteudoCardPerformance .explicacao{
+    padding-top: 1vh;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
+    font-size: 1.8vh;
+}
+
+/* 
+ $$$$$$\                      $$$$$$\  $$\                               
+$$  __$$\                    $$  __$$\ \__|                              
+$$ /  \__| $$$$$$\  $$$$$$\  $$ /  \__|$$\  $$$$$$$\  $$$$$$\   $$$$$$$\ 
+$$ |$$$$\ $$  __$$\ \____$$\ $$$$\     $$ |$$  _____|$$  __$$\ $$  _____|
+$$ |\_$$ |$$ |  \__|$$$$$$$ |$$  _|    $$ |$$ /      $$ /  $$ |\$$$$$$\  
+$$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\ 
+\$$$$$$  |$$ |     \$$$$$$$ |$$ |      $$ |\$$$$$$$\ \$$$$$$  |$$$$$$$  |
+ \______/ \__|      \_______|\__|      \__| \_______| \______/ \_______/ 
+*/
+
+.cards_grandes {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 1vw;
+    margin-top: 2.5vh;
+    align-items: stretch;
+}
+
+.cards_componentes {
+    margin-top: 0.63rem;
+    width: 38%;
+    height: 76vh;
+    margin-bottom: 2vh;
+}
+
+.cards_componentes .card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0px 0.35rem 0.35rem rgba(0, 0, 0, 0.25);
+    width: 100%;
+    height: 20%;
+    border-radius: 0.31rem;
+    font-size: 2.7vh;
+    border: solid 2px #072F4E;
+}
+
+.cards_componentes .card h3 {
+    position: absolute;
+    top: 0rem;
+    padding-top: 0.31rem;
+    padding-bottom: 0.31rem;
+    background: #072F4E;
+    color: #ffffff;
+    width: 100%;
+    text-align: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.cards_componentes .card p {
+    position: absolute;
+    bottom: 1.8rem;
+}
+
+.card_grafico {
+    margin-top: 0.63rem;
+    width: 60%;
+    height: fit-content;
+    background-color: white;
+    box-shadow: 0px 0.35rem 0.35rem rgba(0, 0, 0, 0.25);
+    border-radius: 0.31rem;
+    border: solid 2px #072F4E;
+}
+
+.card_grafico .card{
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    width: 100%;
+    height: 15vh;
+    border-top-left-radius: 0.31rem;
+    border-top-right-radius: 0.31rem;
+    font-size: 3vh;
+    background: #072F4E;
+    color: #ffffff;
+}
+
+.card_grafico .card select {
+    background-color: rgb(255, 255, 255);
+    padding: 0.63rem;
+    border: solid 0.0625rem rgb(228, 228, 228);
+    border-radius: 0.31rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/*
+$$$$$$$$\        $$\                 $$\           
+\__$$  __|       $$ |                $$ |          
+   $$ | $$$$$$\  $$$$$$$\   $$$$$$\  $$ | $$$$$$\  
+   $$ | \____$$\ $$  __$$\ $$  __$$\ $$ | \____$$\ 
+   $$ | $$$$$$$ |$$ |  $$ |$$$$$$$$ |$$ | $$$$$$$ |
+   $$ |$$  __$$ |$$ |  $$ |$$   ____|$$ |$$  __$$ |
+   $$ |\$$$$$$$ |$$$$$$$  |\$$$$$$$\ $$ |\$$$$$$$ |
+   \__| \_______|\_______/  \_______|\__| \_______|
+
+*/
+table {
+    margin-top: 1vw;
+    width: 100%;
+    height: 93.45%;
+    border-collapse: collapse; 
+    background: #d8e7f3; 
+    border-radius: 5px; 
+    overflow: hidden;
+    font-size: 0.94rem;
+}
+th, td {
+    padding: 0.5rem; 
+    text-align: left; 
+    border-bottom: 1px solid #888888;
+    border: solid 2px #072F4E;
+}
+td {
+    font-size: 3vh;
+    text-align: center;
+}
+th {
+    text-align: center;
+    background: #072F4E; 
+    color: white;
+    font-size: 2.5vh;
+}
+tr {
+    display: table-row;
+}
+thead {
+    background: #072F4E;
+    display: table-header-group;
+}
