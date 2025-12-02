@@ -11,8 +11,4 @@ router.get("/read/:prefix/:index", function(req, res) {
     bucketController.readCSV(req, res);
 });
 
-
-router.get('/kpi/trafego/24h', bucketController.getKPITrafego24h);
-
-
 module.exports = router;

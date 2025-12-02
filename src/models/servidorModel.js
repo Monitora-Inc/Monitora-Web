@@ -204,17 +204,6 @@ function buscarNomeServidor(idServer) {
     return database.executar(sql);
 }
 
-function contarServidores(idEmpresa) {
-    let instrucaoSql = `
-    SELECT count(*) AS contagem FROM servidores s
-    INNER JOIN datacenters dc ON s.FkDataCenter = dc.idDataCenter
-    INNER JOIN empresas e ON dc.FkEmpresa = e.idEmpresa
-    WHERE e.idEmpresa = ${idEmpresa};
-    `;
-
-    return database.executar(instrucaoSql);
-}
-
 module.exports = {
     // adicionarServidor,
     adicionarServidorJAVA,
@@ -222,6 +211,5 @@ module.exports = {
     excluirServidor,
     listarServidores,
     parametros,
-    buscarNomeServidor,
-    contarServidores
+    buscarNomeServidor
 };

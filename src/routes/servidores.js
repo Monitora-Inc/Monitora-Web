@@ -27,8 +27,4 @@ router.get("/buscarNomeServidor/:id", function(req, res){
     servidorController.buscarNomeServidor(req, res)
 })
 
-router.get("/contarServidores/:idEmpresa", function(req, res) {
-    servidorController.contarServidores(req, res);
-});
-
 module.exports = router;

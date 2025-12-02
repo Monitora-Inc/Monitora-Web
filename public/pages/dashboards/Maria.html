@@ -22,7 +22,7 @@
 
 </head>
 
-<body onload="listarPermissoesReload(), preencherKpisServidoresAlertas()">
+<body onload="listarPermissoesReload()">
   <nav id="id_sidebar"></nav>
 
   <div class="sombra_modal" id="sombra_modal">
@@ -55,7 +55,7 @@
     <button class="btn-primary">Últimas 24h</button>
     <button>7 dias</button>
     <button>30 dias</button>
-    <!-- <input type="date">Período Customizado <i class="fa-regular fa-calendar"></i> -->
+    <button>Período Customizado <i class="fa-regular fa-calendar"></i></button>
 
 
 
@@ -105,43 +105,12 @@
     </div>
     <div class="container-graficos second">
       <div id="previsao"></div>
-    
     </div>
 
   </div>
 
 
-<script>
-const empresaId = sessionStorage.getItem('empresaId');
-const servidorId = sessionStorage.getItem('servidorId');
-
-
-async function carregarKPIs() {
-    try {
-        const response = await fetch(`/bucket/kpi/trafego/24h?empresaId=${empresaId}&servidorId=${servidorId}`);
-        const data = await response.json();
-        
-        //atualizando os cards
-        document.querySelector('.grid-6 .card:nth-child(1) .value').textContent = data.trafegoMedioUltimaHora;
-        document.querySelector('.grid-6 .card:nth-child(2) .value').textContent = data.perdaPacotes;
-        document.querySelector('.grid-6 .card:nth-child(3) .value').textContent = data.dadosEnviados;
-        document.querySelector('.grid-6 .card:nth-child(4) .value').textContent = data.dadosRecebidos;
-        
-        console.log('KPIs atualizadas:', data);
-    } catch (error) {
-        console.error('Erro KPIs:', error);
-       
-        document.querySelectorAll('.grid-6 .card .value').forEach(el => el.textContent = 'Erro');
-    }
-}
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    carregarKPIs();
-    setInterval(carregarKPIs, 300000); //atualizando a cada 5 minutos
-});
-</script>
-
+</body>
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
@@ -151,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
   integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
   integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
-</body>
 
 </html>
 
@@ -176,39 +144,10 @@ document.addEventListener('DOMContentLoaded', () => {
     verificarPermissoesSideBar();
   }
 
-//buscar dados do CSV
-async function fetchCSV(prefix, index = 0) {
-    try {
-        const response = await fetch(`/csv/${encodeURIComponent(prefix)}/${index}`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        return data.rows; // array de objetos com os campos do CSV
-    } catch (error) {
-        console.error('Erro ao buscar CSV:', error);
-        return [];
-    }
-}
 
-//listar arquivos de um prefixo (últimos N dias)
-async function listCSVFiles(prefix) {
-    try {
-        const response = await fetch(`/csv/${encodeURIComponent(prefix)}/0`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        return {
-            total: data.totalArquivos,
-            prefix: data.prefix,
-            key: data.key
-        };
-    } catch (error) {
-        console.error('Erro ao listar CSVs:', error);
-        return { total: 0, prefix, key: '' };
-    }
-}
+</script>
 
-
-
-
+<Script>
   function abrirModal() {
     document.getElementById("sombra_modal").style.display = "flex";
   }
@@ -216,99 +155,117 @@ async function listCSVFiles(prefix) {
   function fecharModal() {
     document.getElementById("sombra_modal").style.display = "none";
   }
+</Script>
+
+<script>
 
   //-------------------------------------------------------------------
-  // Grafico Previsão de Pico
- var options = {
-          series: [{
-          name: 'Probalidade de Pico (%)',
-          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
-        }],
-          chart: {
-          height: 350,
-          type: 'bar',
-        },
-         toolbar:{
-          show: false
-        },
-        plotOptions: {
-          bar: {
-            borderRadius: 10,
-            dataLabels: {
-              position: 'top', 
-            },
-          }
-        },
-        dataLabels: {
-          enabled: true,
-          formatter: function (val) {
-            return val + "%";
-          },
-          offsetY: -20,
-          style: {
-            fontSize: '12px',
-            colors: ["#304758"]
-          }
-        },
-        
-        xaxis: {
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-          position: 'bottom',
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          crosshairs: {
-            fill: {
-              type: 'gradient',
-              gradient: {
-                colorFrom: '#D8E3F0',
-                colorTo: '#BED1E6',
-                stops: [0, 100],
-                opacityFrom: 0.4,
-                opacityTo: 0.5,
-              }
-            }
-          },
-          tooltip: {
-            enabled: true,
-          }
-        },
-       
-        yaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false,
-          },
-          labels: {
-            show: false,
-            formatter: function (val) {
-              return val + "%";
-            }
-          }
-        
-        },
-        title: {
-          text: 'Probabilidade de pico',
-          position: 'top',
-          floating: true,
-          
-          align: 'center',
-          style: {
-            color: '#444'
-          }
-        }
-        };
 
-        var chart = new ApexCharts(document.querySelector("#previsao"), options);
-        chart.render();
+  const df = [
+    { data: "2025-11-20", prob: 0.12 },
+    { data: "2025-11-22", prob: 0.58 },
+    { data: "2025-12-25", prob: 0.92 }
+  ];
+
+  const serieApex = df.map(item => ({
+    x: item.data,
+    y: item.prob
+  }));
+
+
+
+  var options = {
+    chart: {
+      type: 'line',
+      height: 350,
+      width: '100%',
+      toolbar: {
+        show: false
+      },
+      foreColor: '#555'
+    },
+    markers: {
+      size: 6,
+      colors: ['#c1121f'],
+      strokeColors: '#fff',
+      strokeWidth: 2,
+      hover: {
+        size: 8,
+      }
+    },
+
+    series: [{
+      name: "Probabilidade de Pico",
+      data: serieApex
+
+    }],
+
+    stroke: {
+      width: 4,
+      curve: "smooth",
+
+      colors: ['#003566']
+    },
+
+    xaxis: {
+      type: "datetime",
+      labels: {
+        style: {
+          fontSize: '12px',
+          colors: '#6b7280'
+        }
+
+      },
+      datetimeFormatter: {
+        year: 'yyyy',
+        month: 'MMM \'yy',
+        day: 'dd/MM'
+      },
+      title: {
+        text: 'Data',
+        style: {
+          fontWeight: 'bold',
+          color: '#475569',
+
+        }
+      }
+    },
+
+    yaxis: {
+      min: 0,
+      max: 1,
+      labels: {
+        formatter: val => (val * 100).toFixed(0) + '%'
+      },
+      title: {
+        text: 'Probabilidade de Pico (%)',
+        style: {
+          fontWeight: 'bold',
+
+
+        }
+      }
+    },
+
+    title: {
+      text: "Previsão de Picos de Tráfego (Regressão Logística)",
+      align: "left",
+      style: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        fontFamily: "'Inter', sans-serif"
+
+
+      }
+    },
+
+
+  };
+
+  var chart = new ApexCharts(document.querySelector("#previsao"), options);
+  chart.render();
 
   //---------------------------------------------------
-  // Grafico Pacotes Enviados e Recebidos
   var options = {
     series: [{
       name: 'Pacotes Recebidos',
@@ -349,7 +306,7 @@ async function listCSVFiles(prefix) {
     yaxis: {
       labels: {
         formatter: function (val) {
-          return (val)
+          return (val / 1000000).toFixed(0);
         },
       },
       title: {
@@ -364,7 +321,7 @@ async function listCSVFiles(prefix) {
 
       y: {
         formatter: function (val) {
-          return (val.toFixed(0))
+          return (val / 1000000).toFixed(0)
         }
       }
     }
@@ -375,7 +332,6 @@ async function listCSVFiles(prefix) {
 
 
   //----------------------------------------------------------------------------
-  // Grafico Trafego Últimas Horas
   var options = {
     series: [{
       name: "Desktops",

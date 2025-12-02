@@ -168,23 +168,22 @@ button {
 
 #graficoPacotes {
     width: 100%;
-    height: 50vh;
-    border-left: 1px solid #64748b4d;
+    height: 55vh;
+    border-right: 1px solid #64748b4d;
+
+
 }
 
 #chart {
     border-left: 5px;
     width: 100%;
     height: 50vh;
-    
 }
 
 #previsao {
     align-self: center;
     width: 100%;
     height: 50vh;
-    border-left: 1px solid #64748b4d;
-
 }
 
 .grafico-card {
@@ -262,19 +261,4 @@ button {
     padding: 5px;
     text-align: justify;
 
-}
-
-.containerFeriado {
-    display: flex;
-    width: 50%;
-    height: 100%;
-    justify-content: center;
-    border-right: 1px solid #64748b4d;
-
-
-}
-.alertFeriado{
-    display: flex;
-    width: 70%;
-    border: 1px solid #34a0a4;
 }

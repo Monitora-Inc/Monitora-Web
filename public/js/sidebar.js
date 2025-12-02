@@ -160,11 +160,11 @@ if (sessionStorage.empresaNome != "admin") {
 
                   <div class="kpi_servidores_status">
                   <img src="../../assets/icons/icone_sino_info.svg" alt="">
-                  <h1 id="qtdAlertasCriticos" class="servidores_criticos tooltipKPI" onclick="dashboard_home()">
-                        <span class="tooltiptextKPI">Alertas críticos</span>
+                  <h1 class="servidores_criticos tooltipKPI" onclick="dashboard_home()">0
+                        <span class="tooltiptextKPI">Servidores em Risco</span>
                   </h1>
-                  <h1 id="qtdAlertasAtencao" class="servidores_alertas tooltipKPI" onclick="dashboard_home()">
-                        <span class="tooltiptextKPI">Alertas de atenção</span>
+                  <h1 class="servidores_alertas tooltipKPI" onclick="dashboard_home()">0
+                        <span class="tooltiptextKPI">Servidores em Alerta</span>
                   </h1>
             </div>`;
 
