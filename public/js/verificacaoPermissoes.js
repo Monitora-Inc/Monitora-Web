@@ -105,11 +105,48 @@ function listarPermissoesReload() {
     }
 }
 
+function preencherKpisServidoresAlertas() {
+    footerButons.innerHTML = `
+        <a href="./home.html" class="tooltip"><span class="tooltip-text">Dahboard home.</span><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
+        <a href="./Ally.html" class="tooltip"><span class="tooltip-text">Dashboard de mapeamento global.</span><img src="../../Images/Colaboradores/Colaborador1.svg" alt=""></a>
+        <a href="./Leonardo.html" class="tooltip"><span class="tooltip-text">Dashboard de tickets do JIRA.</span><img src="../../Images/Colaboradores/Colaborador3.svg" alt=""></a>
+        <a href="./Maria.html" class="tooltip"><span class="tooltip-text">Dashboard trafego de rede.</span><img src="../../Images/Colaboradores/Colaborador4.svg" alt=""></a>
+    `
+    fetch(`/servidores/contarServidores/${sessionStorage.empresaId}`,
+        {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+        }).then(function (valorContagem) {
+            let elementoHtml = document.getElementById("servidores_monitorados");
+            elementoHtml.innerHTML = valorContagem[0].contagem;
+        }
+        );
+    const fetchPromise = fetch("https://baiqze345xsjipst2bsfdm7wx40tsnni.lambda-url.us-east-1.on.aws/");
+
+    fetchPromise
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            let elementoCriticos = document.getElementById("qtdAlertasCriticos");
+            let elementoAtencao = document.getElementById("qtdAlertasAtencao");
+            elementoCriticos.insertAdjacentHTML('afterbegin', `${data.criticosAbertos}`);
+            elementoAtencao.insertAdjacentHTML('afterbegin', `${data.atencaoAbertos}`);
+        });
+}
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         verificarPermissoesSideBar,
         verificarPermissao,
         listarPermissoesReload,
-        redirecionarPaginaInicial
+        redirecionarPaginaInicial,
+        preencherKpisServidoresAlertas
     };
 } 

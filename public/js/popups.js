@@ -63,6 +63,17 @@ document.addEventListener('input', function (e) {
     }
 });
 
+function popup_carregar() {
+    popup_screen.innerHTML = `        
+    <div class="popup_container">
+        <div class="popup">
+            <img src="../../Images/PopUpsDash/loading.gif" alt="">
+            <h1>Conteudo sendo carregado...</h1>
+        </div>
+    </div>
+    `
+}
+
 function popup_sair() {
     popup_screen.innerHTML = `        
         <div class="popup_container">

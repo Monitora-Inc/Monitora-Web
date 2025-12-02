@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../../style/popup.css">
 </head>
 
-<body onload="listarPermissoesReload()">
+<body onload="listarPermissoesReload(), preencherKpisServidoresAlertas(), listarServidores()">
   <nav id="id_sidebar"></nav>
   <div id="id_info_kpis"></div>
   <div id="popup_screen"></div>
@@ -22,11 +22,12 @@
     <!-- Filtros de persquisa -->
     <div class="filtros">
       <img class="icones_filtros icone_filtro" alt="">
-      <select id="id_filtro" onchange="">
+      <select id="id_filtro">
+        <option value="" selected disabled>Selcione um filtro...</option>
         <option value="filtro_nivel_de_risco_crescente">Nível de risco (Crescente)</option>
-        <option value="filtro_nivel_de_risco_decrescente" selected>Nível de risco (Decrescente)</option>
-        <option value="filtro_critico">Critíco</option>
-        <option value="filtro_alerta">Alerta</option>ion>
+        <option value="filtro_nivel_de_risco_decrescente">Nível de risco (Decrescente)</option>
+        <option value="filtro_critico">Crítico</option>
+        <option value="filtro_alerta">Alerta</option>
         <option value="filtro_estavel">Estável</option>
       </select>
       <img class="icones_filtros icone_pesquisar" alt="">
@@ -39,7 +40,7 @@
       <div class="lista_servidores">
         <h1 class="lista_titulo">Servidores</h1> <!-- Título da Lista -->
 
-        <div class="card_servidor">
+        <!-- <div class="card_servidor">
           <div id="servidor_estado">
             <img src="../../assets/icons/icone_critico.svg" alt="">
           </div>
@@ -76,7 +77,7 @@
             <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>CPU, RAM e GPU, Rede</div>
           </div>
           <span class="barra_lateral estavel"></span>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -98,9 +99,6 @@
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
 <script>
-  listarServidores();
-
-
   if (sessionStorage.empresaCnpj == undefined) {
     listarPermissoesReload();
     verificarPermissoesSideBar();
@@ -114,42 +112,37 @@
     }
   }
 
+  async function buscarStatusServidoresJira(idServidor) {
+    const lambdaUrl = 'https://qjo2jkyyhm65g44pbc5v2456tm0fdbos.lambda-url.us-east-1.on.aws/';
 
-  function listarServidores() {
-    let idEmpresa = sessionStorage.empresaId;
+    const payload = {
+      idServidor: idServidor
+    };
 
-    fetch(`/servidores/listar/${idEmpresa}`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json"
+    try {
+      const response = await fetch(lambdaUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erro na requisição: ${response.status} ${response.statusText}`);
       }
-    }).then(response => {
-      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
-      return response.json();
-    }).then(dadosServidores => {
-      console.log(dadosServidores);
 
-      const container = document.querySelector(".lista_servidores");
-      container.innerHTML = `<h1 class="lista_titulo">Servidores</h1>`;
+      const data = await response.json();
 
-      for (let servidor of dadosServidores) {
-        container.innerHTML += `
-                <div class="card_servidor" id="srv-${servidor.idServidor}" onclick="abrir_dashboard(this)">
-                    <div id="servidor_estado">
-                        <img src="../../assets/icons/icone_estavel.svg" alt="">
-                    </div>
-                    <div class="servidor_informacoes">
-                        <div id="servidor_nome">${servidor.nome}</div>
-                        <div id="servidor_localizacao">R. ${servidor.rua}, ${servidor.numero} - ${servidor.bairro}, ${servidor.cidade}, ${servidor.estado}, ${servidor.pais}</div>
-                        <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>Nenhum</div>
-                    </div>
-                    <span class="barra_lateral estavel"></span>
-                </div>
-            `;
-      }
-    }).catch(erro => console.log(`#ERRO: ${erro}`));
+      console.log('Sucesso! Dados recebidos do Lambda:', data);
+
+      return data;
+
+    } catch (error) {
+      console.error('Ocorreu um problema com a operação fetch:', error);
+      alert(`Falha ao conectar com o Lambda: ${error.message}`);
+    }
   }
-
 
   function abrir_dashboard(card) {
     const nome = card.querySelector('#servidor_nome').textContent;
@@ -161,15 +154,6 @@
     window.location = "tela_dashboard.html";
   }
 
-</script>
-
-<script>
-  listarServidores();
-
-  if (sessionStorage.empresaCnpj == undefined) {
-    verificarPermissoesSideBar();
-  }
-
   let dadosServidores = [];
 
   async function listarServidores() {
@@ -179,31 +163,46 @@
       const response = await fetch(`/servidores/listar/${idEmpresa}`);
       if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
 
-      dadosServidores = await response.json();
+      const servidores = await response.json();
+
+      const servidoresComStatus = await Promise.all(servidores.map(async servidor => {
+        try {
+          const statusObj = await buscarStatusServidoresJira(servidor.idServidor);
+          return {
+            ...servidor,
+            status: statusObj.tipoBarraLateral || 'estavel',
+            icone: statusObj.icone || 'icone_estavel'
+          };
+        } catch (err) {
+          console.error('Erro ao obter status do servidor', servidor.idServidor, err);
+          return { ...servidor, status: 'estavel', icone: 'icone_estavel' };
+        }
+      }));
+
+      dadosServidores = servidoresComStatus;
       renderizarServidores(dadosServidores);
     } catch (erro) {
       console.log(`#ERRO: ${erro}`);
     }
   }
 
-  function renderizarServidores(lista) {
+  async function renderizarServidores(lista) {
     const container = document.querySelector(".lista_servidores");
     container.innerHTML = `<h1 class="lista_titulo">Servidores</h1>`;
 
-    lista.forEach(servidor => {
+    lista.forEach(async servidor => {
       container.innerHTML += `
-      <div class="card_servidor" id="srv-${servidor.idServidor}" onclick="abrir_dashboard(this)">
-        <div id="servidor_estado">
-          <img src="../../assets/icons/icone_${servidor.status || 'estavel'}.svg" alt="">
-        </div>
-        <div class="servidor_informacoes">
-          <div id="servidor_nome">${servidor.nome}</div>
-          <div id="servidor_localizacao">R. ${servidor.rua}, ${servidor.numero} - ${servidor.bairro}, ${servidor.cidade}, ${servidor.estado}, ${servidor.pais}</div>
-          <div id="servidor_recursos_em_risco"><span>Componentes em Risco: </span><br>${servidor.componentes || 'Nenhum'}</div>
-        </div>
-        <span class="barra_lateral ${servidor.status || 'estavel'}"></span>
-      </div>
-    `;
+                <div class="card_servidor" id="srv-${servidor.idServidor}" onclick="abrir_dashboard(this)">
+                    <div id="servidor_estado">
+                        <img src="../../assets/icons/${servidor.icone}.svg" alt="">
+                    </div>
+                    <div class="servidor_informacoes">
+                        <div id="servidor_nome">${servidor.nome}</div>
+                        <div id="servidor_localizacao">R. ${servidor.rua}, ${servidor.numero} - ${servidor.bairro}, ${servidor.cidade}, ${servidor.estado}, ${servidor.pais}</div>
+                    </div>
+                    <span class="barra_lateral ${servidor.status}"></span>
+                </div>
+            `;
     });
   }
 
