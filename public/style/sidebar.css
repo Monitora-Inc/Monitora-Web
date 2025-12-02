@@ -15,11 +15,16 @@
 
 /* Reset global + estilo base */
 * {
-    font-family: "Montserrat", sans-serif; /* Define Montserrat como fonte padrão */
-    margin: 0px; /* Remove margens padrão */
-    padding: 0px; /* Remove espaçamentos padrão */
-    box-sizing: border-box; /* Inclui borda e padding no cálculo do tamanho */
-    text-decoration: none; /* Remove sublinhado de links */
+    font-family: "Montserrat", sans-serif;
+    /* Define Montserrat como fonte padrão */
+    margin: 0px;
+    /* Remove margens padrão */
+    padding: 0px;
+    /* Remove espaçamentos padrão */
+    box-sizing: border-box;
+    /* Inclui borda e padding no cálculo do tamanho */
+    text-decoration: none;
+    /* Remove sublinhado de links */
 }
 
 
@@ -27,17 +32,50 @@
 .links {}
 
 /* ---------- ÍCONES ---------- */
-.icone_perfil           {background-image: url('../assets/icons/icone_perfil.svg');}
-.icone_dashboard        {background-image: url('../assets/icons/icone_home.svg');}
-.icone_servidores       {background-image: url('../assets/icons/icone_servidores.svg');}
-.icone_datacenters      {background-image: url('../assets/icons/icone_datacenters.svg');}
-.icone_logs             {background-image: url('../assets/icons/icone_logs.svg');}
-.icone_usuarios         {background-image: url('../assets/icons/icone_usuarios.svg');}
-.icone_configuracoes    {background-image: url('../assets/icons/icone_configuracoes.svg');}
-.icone_empresas         {background-image: url('../assets/icons/icone_empresas.svg');}
-.icone_sair             {background-image: url('../assets/icons/icone_sair.svg'); cursor: pointer;}
-.icone_suporte          {background-image: url('../assets/icons/icone_suporte.svg');}
-.icone_cargos          {background-image: url('../assets/icons/icone_cargos.svg');}
+.icone_perfil {
+    background-image: url('../assets/icons/icone_perfil.svg');
+}
+
+.icone_dashboard {
+    background-image: url('../assets/icons/icone_home.svg');
+}
+
+.icone_servidores {
+    background-image: url('../assets/icons/icone_servidores.svg');
+}
+
+.icone_datacenters {
+    background-image: url('../assets/icons/icone_datacenters.svg');
+}
+
+.icone_logs {
+    background-image: url('../assets/icons/icone_logs.svg');
+}
+
+.icone_usuarios {
+    background-image: url('../assets/icons/icone_usuarios.svg');
+}
+
+.icone_configuracoes {
+    background-image: url('../assets/icons/icone_configuracoes.svg');
+}
+
+.icone_empresas {
+    background-image: url('../assets/icons/icone_empresas.svg');
+}
+
+.icone_sair {
+    background-image: url('../assets/icons/icone_sair.svg');
+    cursor: pointer;
+}
+
+.icone_suporte {
+    background-image: url('../assets/icons/icone_suporte.svg');
+}
+
+.icone_cargos {
+    background-image: url('../assets/icons/icone_cargos.svg');
+}
 
 /* ---------- ESTILO GERAL ---------- */
 body {
@@ -54,7 +92,8 @@ nav {
     align-items: center;
     padding: 3.5vh 0;
     height: 100vh;
-    width: clamp(60px, 4vw, 100px); /* largura mínima e máxima */
+    width: clamp(60px, 4vw, 100px);
+    /* largura mínima e máxima */
     z-index: 1000;
     transition: width 0.3s ease;
 }
@@ -104,12 +143,13 @@ nav .logo {
     align-items: center;
 }
 
-#perfil_foto img{
+#perfil_foto img {
     width: clamp(30px, 2vw, 50px);
     height: clamp(30px, 2vw, 50px);
     border-radius: 50%;
     object-fit: cover;
 }
+
 /* ---------- TOOLTIP NAVBAR ---------- */
 .tooltipNav {
     left: 120%;
@@ -127,11 +167,15 @@ nav .logo {
     display: flex;
     justify-content: center;
     align-items: center;
-    visibility: hidden; /* Escondido por padrão */
+    visibility: hidden;
+    /* Escondido por padrão */
     position: absolute;
-    left: 145%; /* Lado direito do ícone */
-    z-index: 999; /* Fica acima de tudo */
-    width: 0px; /* Inicia "fechado" */
+    left: 145%;
+    /* Lado direito do ícone */
+    z-index: 999;
+    /* Fica acima de tudo */
+    width: 0px;
+    /* Inicia "fechado" */
     padding: 0px 1vw;
     border-radius: 5px;
     background-color: #12598f;
@@ -142,18 +186,18 @@ nav .logo {
 
 /* Tooltip aparece no hover */
 .tooltipNav:hover .tooltiptextNav {
-  visibility: visible;
-  width: 12rem;
-  height: 2rem;
-  font-size: 1rem;
-  transition: .4s ease;
+    visibility: visible;
+    width: 12rem;
+    height: 2rem;
+    font-size: 1rem;
+    transition: .4s ease;
 }
 
 /* ---------- TOOLTIP KPI ---------- */
 .tooltipKPI {
-  position: relative;
-  width: fit-content;
-  height: fit-content;
+    position: relative;
+    width: fit-content;
+    height: fit-content;
 }
 
 /* Texto escondido do tooltip dos KPIs */
@@ -163,7 +207,8 @@ nav .logo {
     align-items: center;
     visibility: hidden;
     position: absolute;
-    top: +120.5%; /* Abaixo do elemento */
+    top: +120.5%;
+    /* Abaixo do elemento */
     z-index: 999;
     width: 0px;
     padding: 0px 1vw;
@@ -176,12 +221,58 @@ nav .logo {
 
 /* Tooltip dos KPIs aparece no hover */
 .tooltipKPI:hover .tooltiptextKPI {
-  visibility: visible;
-  width: 12rem;
-  height: 3rem;
-  font-size: 1rem;
-  transition: .4s ease;
-  font-weight: 400;
+    visibility: visible;
+    width: 12rem;
+    height: 3rem;
+    font-size: 1rem;
+    transition: .4s ease;
+    font-weight: 400;
+}
+
+/* ---------- TOOLTIP GLOBAL MONITORA ---------- */
+.tooltip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: help;
+}
+
+.tooltip .tooltip-text {
+    z-index: 100000;
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 12px;
+    background: #12598f;
+    color: #fff;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    white-space: wrap;
+    text-align: center;
+    width: max-content;
+    max-width: 220px;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Seta */
+.tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: #12598f transparent transparent transparent;
 }
 
 /*
@@ -198,8 +289,9 @@ nav .logo {
 /* Container geral de informações */
 #id_info_kpis {
     display: flex;
-    flex-wrap: wrap; /* quebra linha quando necessário */
-/* espaçamento entre KPIs */
+    flex-wrap: wrap;
+    /* quebra linha quando necessário */
+    /* espaçamento entre KPIs */
     align-items: center;
     justify-content: flex-start;
     width: calc(100% - 6rem);
@@ -230,7 +322,8 @@ nav .logo {
     width: clamp(30px, 2.5vw, 50px);
     height: clamp(30px, 2.5vw, 50px);
     padding: 0.5em;
-    border-radius: 10px 0 0 10px;/* Bordas arredondadas à esquerda */
+    border-radius: 10px 0 0 10px;
+    /* Bordas arredondadas à esquerda */
 }
 
 /* Texto do KPI */
@@ -243,7 +336,8 @@ nav .logo {
     font-size: clamp(0.8rem, 1vw, 1.2rem);
     padding: 0 1em;
     border-radius: 0 10px 10px 0;
-    height: clamp(30px, 2.5vw, 50px);/* Bordas arredondadas à direita */
+    height: clamp(30px, 2.5vw, 50px);
+    /* Bordas arredondadas à direita */
 }
 
 /* Container dos status */
@@ -253,8 +347,8 @@ nav .logo {
 
 }
 
-.kpi_servidores_status h1{
-font-size: clamp(0.8rem, 1vw, 1.2rem);
+.kpi_servidores_status h1 {
+    font-size: clamp(0.8rem, 1vw, 1.2rem);
 
 }
 
@@ -322,11 +416,12 @@ font-size: clamp(0.8rem, 1vw, 1.2rem);
         gap: 2vw;
     }
 
-    .tooltipNav .tooltiptextNav, .tooltipKPI .tooltiptextKPI{
-        display: none; 
+    .tooltipNav .tooltiptextNav,
+    .tooltipKPI .tooltiptextKPI {
+        display: none;
     }
 
-    
+
     #perfil_foto img {
         width: 20px;
         height: 20px;
