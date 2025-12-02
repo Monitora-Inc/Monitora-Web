@@ -109,6 +109,17 @@ function buscarNomeServidor(req, res) {
         });
 }
 
+function contarServidores(req, res) {
+    let idEmpresa = req.params.idEmpresa;
+
+    servidorModel.contarServidores(idEmpresa).then((resultado) => {
+        res.status(200).json(resultado);
+    }).catch(err => {
+        console.error("Erro ao contar servidores: ", err);
+        res.status(500).send("Erro ao contar servidores.");
+    });
+}
+
 module.exports = {
     // adicionarServidor,
     adicionarServidorJAVA,
@@ -116,5 +127,6 @@ module.exports = {
     excluirServidor,
     listarServidores,
     parametros,
-    buscarNomeServidor
+    buscarNomeServidor,
+    contarServidores
 };
