@@ -106,6 +106,12 @@ function listarPermissoesReload() {
 }
 
 function preencherKpisServidoresAlertas() {
+    footerButons.innerHTML = `
+        <a href="./home.html" class="tooltip"><span class="tooltip-text">Dahboard home.</span><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
+        <a href="./Ally.html" class="tooltip"><span class="tooltip-text">Dashboard de mapeamento global.</span><img src="../../Images/Colaboradores/Colaborador1.svg" alt=""></a>
+        <a href="./Leonardo.html" class="tooltip"><span class="tooltip-text">Dashboard de tickets do JIRA.</span><img src="../../Images/Colaboradores/Colaborador3.svg" alt=""></a>
+        <a href="./Maria.html" class="tooltip"><span class="tooltip-text">Dashboard trafego de rede.</span><img src="../../Images/Colaboradores/Colaborador4.svg" alt=""></a>
+    `
     fetch(`/servidores/contarServidores/${sessionStorage.empresaId}`,
         {
             method: 'GET',

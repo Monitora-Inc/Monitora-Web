@@ -17,7 +17,7 @@
 
 </head>
 
-<body onload="preencherKpisServidoresAlertas()">
+<body>
   <nav id="id_sidebar"></nav>
   <div id="id_info_kpis"></div>
   <div id="popup_screen"></div>
@@ -26,42 +26,55 @@
 
     <div class="cards">
       <section class="cards_kpi" id="cards_kpi">
-        <div class="card">
+        <div class="card tooltip">
           <p>CPU (últ.)</p>
+          <span class="tooltip-text">Última leitura do uso de processamento deste datacenter.</span>
           <h2 id="cpu">47%</h2>
         </div>
-        <div class="card">
+        <div class="card tooltip">
           <p>RAM (últ.)</p>
+          <span class="tooltip-text">Uso atual de memória RAM somado de todos os servidores.</span>
           <h2 id="ram">61%</h2>
         </div>
-        <div class="card">
+        <div class="card tooltip">
           <p>Disco (últ.)</p>
+          <span class="tooltip-text">Porcentagem de uso do armazenamento total do DC.</span>
           <h2 id="disco">78%</h2>
         </div>
-        <div class="card">
+        <div class="card tooltip">
           <p>Latência</p>
+          <span class="tooltip-text">Tempo médio de resposta entre servidores internos.</span>
           <h2 id="latencia">0.032s</h2>
         </div>
-        <div class="card">
+        <div class="card tooltip">
           <p>Rede</p>
+          <span class="tooltip-text">Média de tráfego de rede atual dos servidores.</span>
           <h2 id="rede">2.8 MB</h2>
         </div>
-        <div class="card">
+        <div class="card tooltip">
           <p>Processos</p>
+          <span class="tooltip-text">Quantidade total de processos executando nos servidores.</span>
           <h2 id="processos">135</h2>
         </div>
       </section>
     </div>
 
     <div class="rankingServidores">
-      <h2 class="subtitulo">Servidores</h2>
+      <h2 class="subtitulo tooltip">
+        Servidores
+        <span class="tooltip-text">Lista todos os servidores ordenados pela saúde atual.</span>
+      </h2>
+
       <div id="rankServer" class="rankServer">
       </div>
     </div>
 
     <div id="grafico_radar" class="grafico_radar">
       <div class="kpi">
-        <h3>Gráfico comparativo</h3>
+        <h3 class="tooltip">
+          Gráfico comparativo
+          <span class="tooltip-text">Compara o servidor selecionado com seus valores anteriores.</span>
+        </h3>
         <select id="selectServer" onchange="mudarServidor()">
         </select>
         <div class="kpis">
@@ -76,9 +89,10 @@
     </div>
   </div>
   </div>
-  <button onclick="popUp_IA()" class="logo_Ia" id="logoIa"><img src="../../assets/logos/logo_vetorizada.svg"
-      alt=""></button>
-
+  <button onclick="popUp_IA()" class="logo_Ia tooltip" id="logoIa">
+    <img src="../../assets/logos/logo_vetorizada.svg" alt="">
+    <span class="tooltip-text">Dicas da IA.</span>
+  </button>
   <div class="popup_IA desativada" id="popUpIA">
     <button onclick="popUp_fechar()" class="fechar_popUp"><img src="../../Images/voltar-branco.svg" alt=""></button>
     <h2>Dicas IA Monitora</h2>
@@ -87,13 +101,7 @@
   </div>
 
   <footer>
-    <div class="dashButtons">
-      <a href="./home.html"><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
-      <a href="./Ally.html"><img src="../../Images/Colaboradores/Colaborador1.svg" alt=""></a>
-      <a href="./Gustavo.html"><img src="../../Images/Colaboradores/Colaborador2.svg" alt=""></a>
-      <a href="./Leonardo.html"><img src="../../Images/Colaboradores/Colaborador3.svg" alt=""></a>
-      <a href="./Maria.html"><img src="../../Images/Colaboradores/Colaborador4.svg" alt=""></a>
-      <a href="./Pedro.html"><img src="../../Images/Colaboradores/Colaborador5.svg" alt=""></a>
+    <div class="dashButtons" id="footerButons">
     </div>
     <p>Developed by <a href="https://www.linkedin.com/in/ally-awada">AllyAwada</a></p>
   </footer>
@@ -251,7 +259,7 @@
     ram.innerHTML = `${dadosDc.Ram}%`;
     disco.innerHTML = `${dadosDc.Disco}%`;
     latencia.innerHTML = `${dadosDc.Latencia}S`;
-    rede.innerHTML = `${dadosDc.Rede}%`;
+    rede.innerHTML = `${dadosDc.Rede}mb`;
     processos.innerHTML = `${dadosDc.Processos}`;
   }
 
@@ -288,9 +296,12 @@
               <p>${Servidores[i].nome}</p>
           </div>
           <div class="seccond seccond_${estado}">
-            <h3 class="kpi">${Servidores[i].Saude}%</h3>
+            <h3 class="kpi tooltip">${Servidores[i].Saude}%
+              <span class="tooltip-text">Saúde do servidor.</span>
+            </h3>                            
             <section class="comparativo ${clsComparativo}">
-              <p class="kpi">
+              <p class="kpi tooltip">
+                  <span class="tooltip-text">Diferença da ultima leitura da saúde do servidor.</span>
                 <img src="../../Images/PopUpsDash/${iconComparativo}" alt="">
                   ${Servidores[i].diferenca}%
               </p>
@@ -423,6 +434,7 @@
   window.onload = () => {
     popup_carregar();
     listarPermissoesReload();
+    preencherKpisServidoresAlertas();
     dadosServidores().then(() => {
       popup_screen.innerHTML = ``;
       inicial();
