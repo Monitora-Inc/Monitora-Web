@@ -103,7 +103,9 @@ function listarPermissoesReload() {
         }
         )
     }
+}
 
+function preencherKpisServidoresAlertas() {
     fetch(`/servidores/contarServidores/${sessionStorage.empresaId}`,
         {
             method: 'GET',
@@ -138,6 +140,7 @@ if (typeof module !== 'undefined' && module.exports) {
         verificarPermissoesSideBar,
         verificarPermissao,
         listarPermissoesReload,
-        redirecionarPaginaInicial
+        redirecionarPaginaInicial,
+        preencherKpisServidoresAlertas
     };
 } 
