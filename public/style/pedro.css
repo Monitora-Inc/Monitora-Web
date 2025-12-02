@@ -166,7 +166,6 @@ body {
     padding: 20px;
     background-color: #1F547E;
     color: white;
-    padding-right: 50px;
 }
 
 .graficos .box_grafico .header h1{
@@ -260,7 +259,8 @@ body {
     justify-content: center;
     width: 100%;
     height: 40vh;
-    padding: 30px;
+    padding:0px;
+    margin-bottom: 10px;
 }
 
 .grande {
@@ -320,6 +320,7 @@ body {
 /* AUMENTA O CANVAS */
 .box_grafico.popup_mode .grafico {
     height: 65vh !important;
+    padding: 40px;
 }
 
 /* REMOVE BOTÃO DE AJUSTAR E TOOLTIP NO POPUP */
@@ -353,4 +354,22 @@ body {
 /* HEADER MAIS ESPAÇADO NO POPUP */
 .box_grafico.popup_mode .header {
     padding: 30px 40px;
+}
+
+
+.filtro_periodo a {
+    padding: 10px;
+    border-radius: 2px;
+}
+
+.filtro_periodo a:hover {
+    cursor: pointer;
+    background-color: #0d2b53;
+    transition: 0.3s ease-in-out;
+    color: white !important;
+}
+
+.filtro_periodo a.active {
+    font-weight: bold;
+    color: #0d2b53;
 }
