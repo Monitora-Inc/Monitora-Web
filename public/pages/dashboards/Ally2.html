@@ -421,8 +421,10 @@
   }
 
   window.onload = () => {
+    popup_carregar();
     listarPermissoesReload();
     dadosServidores().then(() => {
+      popup_screen.innerHTML = ``;
       inicial();
       rankingServidores();
       criarRadarInicial();
