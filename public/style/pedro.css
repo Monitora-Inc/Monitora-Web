@@ -1,0 +1,398 @@
+
+.page_content { 
+    position: relative;
+    margin-right: 2rem; }
+
+body {
+    background-color: #f5fdff;
+}
+
+
+.saude { background-color: #C0FFF8; }
+.disponibilidade { background-color: #C0C4FF; }
+.latencia { background-color: #B2F3FF; }
+.eficiencia { background-color: #E6CEFF; }
+.estavel { background-color: #00F1B9; }
+.estavel_texto { color: #219A7E; }
+.atencao { background-color: #FFCA67; }
+.atencao_texto { color: #D2A043; }
+.critico { background-color: #FF0267; }
+.critico_texto { color: #B4044B; }
+
+
+/*
+ █████   █████                        █████                   
+▒▒███   ▒▒███                        ▒▒███                    
+ ▒███    ▒███   ██████   ██████    ███████   ██████  ████████ 
+ ▒███████████  ███▒▒███ ▒▒▒▒▒███  ███▒▒███  ███▒▒███▒▒███▒▒███
+ ▒███▒▒▒▒▒███ ▒███████   ███████ ▒███ ▒███ ▒███████  ▒███ ▒▒▒ 
+ ▒███    ▒███ ▒███▒▒▒   ███▒▒███ ▒███ ▒███ ▒███▒▒▒   ▒███     
+ █████   █████▒▒██████ ▒▒████████▒▒████████▒▒██████  █████    
+▒▒▒▒▒   ▒▒▒▒▒  ▒▒▒▒▒▒   ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒  ▒▒▒▒▒     
+*/
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items:end;
+    background-color: #072F4E;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+}
+
+.header .server_info h1 {
+    font-size: 32px;
+}
+
+.header .server_info h2 {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.header .filtro_periodo {
+    display: flex;
+    min-width: 400px;
+    justify-content: end;
+
+}
+
+.header .filtro_periodo a{
+    font: inherit;
+    color: inherit;
+}
+
+#dataFiltro {
+    background-color: #072F4E;
+    color: white;
+    border: solid 1px white;
+    padding: 5px;
+}
+
+#dataFiltro::-webkit-calendar-picker-indicator {
+    filter: invert(1);   /* deixa branco */
+    cursor: pointer;
+}
+
+/*
+ █████   ████            ███ 
+▒▒███   ███▒            ▒▒▒  
+ ▒███  ███    ████████  ████ 
+ ▒███████    ▒▒███▒▒███▒▒███ 
+ ▒███▒▒███    ▒███ ▒███ ▒███ 
+ ▒███ ▒▒███   ▒███ ▒███ ▒███ 
+ █████ ▒▒████ ▒███████  █████
+▒▒▒▒▒   ▒▒▒▒  ▒███▒▒▒  ▒▒▒▒▒ 
+              ▒███           
+              █████          
+             ▒▒▒▒▒           
+*/
+
+.kpis {
+    display: flex;
+    margin-top: 1rem;
+    justify-content: space-between;
+}
+
+.kpis .card_kpi {
+    display: flex;
+    flex-direction: column;
+    width: 435px;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+.kpis .card_kpi .card_kpi_status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 30px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.kpis .card_kpi .card_kpi_info {
+    background-color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.kpis .card_kpi .card_kpi_info .card_kpi_label{
+    display: flex;
+    align-items: center;
+}
+
+.kpis .card_kpi .card_kpi_info .card_kpi_label h3{
+    font-weight: 400;
+    margin-left: 10px;
+}
+
+.kpis .card_kpi .card_kpi_info .card_kpi_label img{
+    padding: 5px;
+    border-radius: 50px;
+}
+
+.kpis .card_kpi .card_kpi_info .card_kpi_metrica {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+   
+.kpis .card_kpi .card_kpi_info .card_kpi_metrica h1{
+    font-size: 50px;
+}
+
+.kpis .card_kpi .card_kpi_info .card_kpi_info_comparacao{
+    display: flex;
+    gap: 10px;
+}
+
+/*
+   █████████                         ██████   ███                           
+  ███▒▒▒▒▒███                       ███▒▒███ ▒▒▒                            
+ ███     ▒▒▒  ████████   ██████    ▒███ ▒▒▒  ████   ██████   ██████   █████ 
+▒███         ▒▒███▒▒███ ▒▒▒▒▒███  ███████   ▒▒███  ███▒▒███ ███▒▒███ ███▒▒  
+▒███    █████ ▒███ ▒▒▒   ███████ ▒▒▒███▒     ▒███ ▒███ ▒▒▒ ▒███ ▒███▒▒█████ 
+▒▒███  ▒▒███  ▒███      ███▒▒███   ▒███      ▒███ ▒███  ███▒███ ▒███ ▒▒▒▒███
+ ▒▒█████████  █████    ▒▒████████  █████     █████▒▒██████ ▒▒██████  ██████ 
+  ▒▒▒▒▒▒▒▒▒  ▒▒▒▒▒      ▒▒▒▒▒▒▒▒  ▒▒▒▒▒     ▒▒▒▒▒  ▒▒▒▒▒▒   ▒▒▒▒▒▒  ▒▒▒▒▒▒  
+                                                                                                                                                                                                                     
+*/
+
+.graficos {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+    margin-top: 8vh;
+    padding-bottom: 12vh;
+}
+
+.graficos .box_grafico {
+    width: 890px;
+    height: fit-content;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: solid 2px #072F4E;
+}
+
+.graficos .box_grafico .header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #072F4E;
+    color: white;
+}
+
+.graficos .box_grafico .header h1{
+    font-size: 25px;
+}
+
+.graficos .box_grafico .header h2{
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.graficos .box_grafico .header .configuracoes{
+    display: flex;
+    justify-content: space-evenly;
+}
+.graficos .box_grafico .header .configuracoes a{
+    cursor: pointer;
+}
+
+.tooltip {
+    width: auto;
+    white-space: nowrap;
+    font-size: clamp(0.7rem, 1vw, 1rem);
+    padding: 0.5em 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tooltip .tooltiptext {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    position: absolute; 
+    bottom: 150%;
+    z-index: 999;
+    width: auto;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    background: rgb(255, 255, 255);
+    backdrop-filter: blur(8px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.938);
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+    color: #000000;
+    font-size: 0.9rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    opacity: 0;
+    transform: translateY(5px);
+    transition: opacity .25s ease, transform .25s ease;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+.icone_alterar {
+    background-image: url('../assets/icons/icone_alterar.svg');
+}
+
+.icone_ampliar {
+    background-image: url('../assets/icons/icone_ampliar.svg');
+}
+
+.icone_tooltip {
+    background-image: url('../assets/icons/icone_tooltip.svg');
+}
+
+.icone_alterar, .icone_ampliar, .icone_tooltip {
+    width: 20px;
+    height: 30px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-clip: 10%;
+    margin-left: 10px;
+    transition: 0.3s ease-in-out;
+    border-radius: 5px;
+}
+
+.icone_alterar:hover, .icone_ampliar:hover, .icone_tooltip:hover {
+    background-color: #072F4E;
+    scale: 1.3;
+}
+
+
+.grafico {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 40vh;
+    padding:0px;
+    margin-bottom: 10px;
+}
+
+.grande {
+    width: 93.4vw !important;
+}
+
+/* OVERLAY COM BLUR E DEGRADE AZUL */
+#grafico_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background: linear-gradient(
+        to top,
+        rgba(17, 57, 105, 0.45),
+        rgba(0, 0, 0, 0.25)
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+/* MODAL DO GRAFICO */
+.box_grafico.popup_mode {
+    width: 100%;
+    max-width: 1150px;
+    height: 80vh;
+    background: white;
+    border-radius: 14px;
+    border: 3px solid #072F4E;
+    padding-bottom: 20px;
+    overflow: hidden;
+
+    /* ANIMAÇÃO SUAVE */
+    animation: abrirGrafico 0.30s ease-in-out;
+}
+
+/* ANIMAÇÃO: escala + fade */
+@keyframes abrirGrafico {
+    0% {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* AUMENTA O CANVAS */
+.box_grafico.popup_mode .grafico {
+    height: 65vh !important; 
+    width: 90% !important;
+}
+/* REMOVE BOTÃO DE AJUSTAR E TOOLTIP NO POPUP */
+.box_grafico.popup_mode .icone_ampliar,
+.box_grafico.popup_mode .icone_tooltip {
+    display: none !important;
+}
+
+/* BOTÃO X */
+.btn_fechar_popup_grafico {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #ffffff;
+    z-index: 10000;
+
+    background: rgba(0,0,0,0.35);
+    padding: 4px 10px;
+    border-radius: 6px;
+
+    transition: .2s ease-in-out;
+}
+
+.btn_fechar_popup_grafico:hover {
+    background: rgba(0,0,0,0.55);
+}
+
+/* HEADER MAIS ESPAÇADO NO POPUP */
+.box_grafico.popup_mode .header {
+    padding: 30px 40px;
+}
+
+
+.filtro_periodo a {
+    padding: 10px;
+    border-radius: 2px;
+}
+
+.filtro_periodo a:hover {
+    cursor: pointer;
+    background-color: #072F4E;
+    transition: 0.3s ease-in-out;
+    color: white !important;
+}
+
+.filtro_periodo a.active {
+    font-weight: bold;
+    color: #072F4E;
+}
+
+
+.chart-container {
+    width: 100% !important;   /* largura realmente usada pelo Apex */
+    min-width: 500px !important;
+}
