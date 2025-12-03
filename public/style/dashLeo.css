@@ -253,6 +253,7 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
     padding-right: 1vw;
     margin-top: 2.5vh;
     align-items: stretch;
+    padding-bottom: 4vh;
 }
 
 .cards_componentes {
@@ -292,7 +293,7 @@ $$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |$$ |      $$ |  $$ | \____$$\
 
 .cards_componentes .card p {
     position: absolute;
-    bottom: 1.8rem;
+    bottom: 1rem;
 }
 
 .card_grafico {
