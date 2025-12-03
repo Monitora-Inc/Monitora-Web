@@ -27,8 +27,8 @@
     <!-- ======================================================== -->
     <div class="header">
       <div class="server_info">
-        <h1 id="server_nome">Servidor SP-A12</h1>
-        <h2 id="server_localizacao">Rua Haddock Lobo, 595 - Cerqueira César, São Paulo - SP</h2>
+        <h1 id="server_nome"></h1>
+        <h2 id="server_localizacao"></h2>
       </div>
       <div class="filtro_periodo">
         <input type="date" id="dataFiltro" onchange="selecionarData()" />
@@ -253,6 +253,9 @@
 <!--              POPUP DE EXPLICAÇÃO (OFICIAL)             -->
 <!-- ======================================================= -->
 <script>
+  server_nome.innerHTML= `${sessionStorage.servidorNome}`;
+  server_localizacao.innerHTML= `${sessionStorage.servidorLocalizacao}`;
+
   function pop_up_info(texto) {
     const f = texto.replace(/\n/g, "<br>");
 
@@ -329,10 +332,75 @@
 
     const popupOptions = JSON.parse(JSON.stringify(baseOptions));
 
+// 🔥 REAPLICA FORMATTERS QUE O JSON REMOVE
+if (popupOptions.yaxis && popupOptions.yaxis.labels) {
+  popupOptions.yaxis.labels.formatter = function (val) {
+    if (popupOptions.series && popupOptions.series[0].name.includes('%')) {
+      return val.toFixed(0) + "%";
+    }
+    if (popupOptions.series && popupOptions.series[0].name.includes('ms')) {
+      return val.toFixed(0) + " ms";
+    }
+    return val.toFixed(0);
+  };
+}
+
+if (popupOptions.tooltip) {
+  popupOptions.tooltip.y = {
+    formatter: function (val) {
+      if (popupOptions.series && popupOptions.series[0].name.includes('%')) {
+        return val.toFixed(2) + "%";
+      }
+      if (popupOptions.series && popupOptions.series[0].name.includes('ms')) {
+        return val.toFixed(2) + " ms";
+      }
+      return val.toFixed(2);
+    }
+  };
+}
+
+// 🔥 FORÇAR FORMATTER DO EIXO Y NO POPUP (sem bug de decimais)
+if (popupOptions.yaxis) {
+
+  // Se for múltiplos eixos
+  if (Array.isArray(popupOptions.yaxis)) {
+    popupOptions.yaxis = popupOptions.yaxis.map(axis => ({
+      ...axis,
+      labels: {
+        formatter: function (val) {
+          if (axis.title && axis.title.text?.toLowerCase().includes("ms")) {
+            return val.toFixed(0) + " ms";
+          }
+          if (axis.title && axis.title.text?.toLowerCase().includes("%")) {
+            return val.toFixed(0) + "%";
+          }
+          return val.toFixed(0);
+        }
+      }
+    }));
+  }
+
+  // Y único
+  else {
+    popupOptions.yaxis.labels = {
+      formatter: function (val) {
+        const seriesName = popupOptions.series?.[0]?.name?.toLowerCase() || "";
+
+        if (seriesName.includes("%")) return val.toFixed(0) + "%";
+        if (seriesName.includes("ms")) return val.toFixed(0) + " ms";
+
+        return val.toFixed(0);
+      }
+    };
+  }
+
+}
+
+
     popupOptions.chart = popupOptions.chart || {};
 
     popupOptions.chart.height = 600;   // aumenta a altura real
-    popupOptions.chart.width = 1200; // força largura total no popup
+    popupOptions.chart.width = 1000; // força largura total no popup
     popupOptions.chart.toolbar = popupOptions.chart.toolbar || {};
     popupOptions.chart.toolbar.offsetY = 0;
 
@@ -367,9 +435,9 @@
   async function buscarCSVsPorData(dataCompleta) {
     const [ano, mes, dia] = dataCompleta.split("-");
 
-    const empresaId = 2;
+    let empresaId = sessionStorage.empresaId;
     const categoria = "eficiencia_entrega";
-    const servidorId = "87cbdc6a-8bb1-4be8-b881-dd7d847bb256";
+    let servidorId = sessionStorage.servidorUuid;
 
     const prefixo = `${empresaId}/${categoria}/${servidorId}/${ano}/${mes}/${dia}/`;
     const pURL = encodeURIComponent(prefixo);

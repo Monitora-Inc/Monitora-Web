@@ -310,7 +310,7 @@ body {
 
 /* MODAL DO GRAFICO */
 .box_grafico.popup_mode {
-    width: 90%;
+    width: 100%;
     max-width: 1150px;
     height: 80vh;
     background: white;
