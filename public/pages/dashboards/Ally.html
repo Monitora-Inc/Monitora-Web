@@ -17,37 +17,61 @@
 
 </head>
 
-<body onload="preencherKpisServidoresAlertas()">
+<body>
   <nav id="id_sidebar"></nav>
   <div id="id_info_kpis"></div>
   <div id="popup_screen"></div>
-  <h1 class="titulo">Mapeamento global</h1>
+  <h1 class="titulo tooltip">
+    Mapeamento global
+    <span class="tooltip-text">Visão geral da operação global dos datacenters em tempo real.</span>
+  </h1>
   <div class="container">
 
     <div class="rankingDataCenter">
-      <h2 class="subtitulo">Ranking Datacenters</h2>
+      <h2 class="subtitulo tooltip">
+        Ranking Datacenters
+        <span class="tooltip-text">Lista os datacenters ordenados pela saúde operacional.</span>
+      </h2>
+
       <div id="rankDatacenter" class="rankDatacenter">
       </div>
     </div>
 
     <div class="direita">
-      <h2 class="subtitulo">Mapa dos datacenters</h2>
+      <h2 class="subtitulo tooltip">
+        Mapa dos datacenters
+        <span class="tooltip-text">Cada ponto representa um datacenter e sua cor indica o estado atual.</span>
+      </h2>
       <div id="map" class="mapLeaflet">
         <div id="popupFixo" class="popup-fixo"></div>
       </div>
 
       <div id="grafico_radar" class="grafico_radar">
         <div class="grafico_esquerda">
-          <h3>Gráfico comparativo</h3>
+          <h3 class="tooltip">
+            Gráfico comparativo
+            <span class="tooltip-text">Compara a saúde atual do datacenter versus a última leitura.</span>
+          </h3>
           <div class="card">
             <select id="selectDataCenter" onchange="mudarDatacenter()">
             </select>
             <div class="kpis">
-              <p>Saude: <span id="Saude"></span>%</p>
-              <p>Uso de rede: <span id="Rede"></span>%</p>
-              <p>Disco: <span id="Disco"></span>%</p>
-              <p>CPU: <span id="Cpu"></span>%</p>
-              <p>RAM: <span id="Ram"></span>%</p>
+              <p class="tooltip">Saúde:<span id="Saude"></span>%
+                <span class="tooltip-text">Indicador geral que combina CPU, RAM, Disco e Rede.</span>
+              </p>
+              <p class="tooltip">Rede: <span id="Rede"></span>%
+                <span class="tooltip-text">Uso da banda de rede em relação ao limite máximo.</span>
+              </p>
+              <p class="tooltip">Disco: <span id="Disco"></span>%
+                <span class="tooltip-text">Uso do armazenamento físico do datacenter.</span>
+              </p>
+              <p class="tooltip">CPU: <span id="Cpu"></span>%
+                <span class="tooltip-text">Carga atual de processamento do datacenter.</span>
+              </p>
+              <p class="tooltip">RAM: <span id="Ram"></span>%
+                <span class="tooltip-text">Porcentagem da memória sendo utilizada.</span>
+              </p>
+
             </div>
           </div>
         </div>
@@ -55,9 +79,10 @@
       </div>
     </div>
   </div>
-  <button onclick="popUp_IA()" class="logo_Ia" id="logoIa"><img src="../../assets/logos/logo_vetorizada.svg"
-      alt=""></button>
-
+  <button onclick="popUp_IA()" class="logo_Ia tooltip" id="logoIa">
+    <img src="../../assets/logos/logo_vetorizada.svg" alt="">
+    <span class="tooltip-text">Dicas da IA.</span>
+  </button>
   <div class="popup_IA desativada" id="popUpIA">
     <button onclick="popUp_fechar()" class="fechar_popUp"><img src="../../Images/voltar-branco.svg" alt=""></button>
     <h2>Dicas IA Monitora</h2>
@@ -66,13 +91,7 @@
   </div>
 
   <footer>
-    <div class="dashButtons">
-      <a href="./home.html"><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
-      <a href="./Ally.html"><img src="../../Images/Colaboradores/Colaborador1.svg" alt=""></a>
-      <a href="./Gustavo.html"><img src="../../Images/Colaboradores/Colaborador2.svg" alt=""></a>
-      <a href="./Leonardo.html"><img src="../../Images/Colaboradores/Colaborador3.svg" alt=""></a>
-      <a href="./Maria.html"><img src="../../Images/Colaboradores/Colaborador4.svg" alt=""></a>
-      <a href="./Pedro.html"><img src="../../Images/Colaboradores/Colaborador5.svg" alt=""></a>
+    <div class="dashButtons" id="footerButons">
     </div>
     <p>Developed by <a href="https://www.linkedin.com/in/ally-awada">AllyAwada</a></p>
   </footer>
@@ -123,7 +142,8 @@
           Disco: Number(d.disco).toFixed(2),
           IdDataCenter: d.idDataCenter,
           Ram: Number(d.ram).toFixed(2),
-          Rede: Number(d.rede).toFixed(2),
+          RedeMb: Number(d.redeMb).toFixed(2),
+          RedeMbS: Number(d.redeMbS).toFixed(2),
           Saude: Number(d.saude).toFixed(2),
           Timestamp: d.timestamp,
           up: Boolean(d.up)
@@ -144,7 +164,8 @@
           Disco: Number(d.disco).toFixed(2),
           IdDataCenter: d.idDataCenter,
           Ram: Number(d.ram).toFixed(2),
-          Rede: Number(d.rede).toFixed(2),
+          RedeMb: Number(d.redeMb).toFixed(2),
+          RedeMbS: Number(d.redeMbS).toFixed(2),
           Saude: Number(d.saude).toFixed(2),
           Timestamp: d.timestamp,
           up: Boolean(d.up)
@@ -233,17 +254,20 @@
       <div class="popup-dc" onclick="dashDC(${i})">
         <div class="status status_${estado}">
           <img src="../../Images/PopUpsDash/${iconStatus}" alt="">
-        </div>
-        <div class="contentDc">
-          <div class="first">
-            <img class="icon" src="../../Images/PopUpsDash/iconDc.svg" alt="">
-              <p>${datacenters[i].nome}</p>
           </div>
-          <div class="seccond seccond_${estado}">
-            <h3 class="kpi">${datacenters[i].Saude}%</h3>
-            <section class="comparativo ${clsComparativo}">
-              <p class="kpi">
-                <img src="../../Images/PopUpsDash/${iconComparativo}" alt="">
+          <div class="contentDc">
+            <div class="first">
+              <img class="icon" src="../../Images/PopUpsDash/iconDc.svg" alt="">
+              <p>${datacenters[i].nome}</p>
+              </div>
+              <div class="seccond seccond_${estado}">
+                <h3 class="kpi tooltip">${datacenters[i].Saude}%
+                  <span class="tooltip-text">Saúde do datacenter.</span>
+                </h3>
+                <section class="comparativo ${clsComparativo}">
+                  <p class="kpi tooltip">
+                  <span class="tooltip-text">Diferença da ultima leitura da saúde do datacenter.</span>
+                    <img src="../../Images/PopUpsDash/${iconComparativo}" alt="">
                   ${datacenters[i].diferenca}%
               </p>
               <p>vs última leitura</p>
@@ -326,7 +350,7 @@
     const dc = datacenters[index];
     const anterior = datacentersAnteriores[index];
     document.getElementById("Saude").innerText = dc.Saude;
-    document.getElementById("Rede").innerText = dc.Rede;
+    document.getElementById("Rede").innerText = dc.RedeMbS;
     document.getElementById("Disco").innerText = dc.Disco;
     document.getElementById("Cpu").innerText = dc.Cpu;
     document.getElementById("Ram").innerText = dc.Ram;
@@ -341,7 +365,7 @@
       dc.Disco,
       dc.Ram,
       dc.Cpu,
-      dc.Rede
+      dc.RedeMbS
     ];
 
     radarChartInstance.data.datasets[1].data = [
@@ -349,7 +373,7 @@
       anterior.Disco,
       anterior.Ram,
       anterior.Cpu,
-      anterior.Rede
+      anterior.RedeMbS
     ];
 
     radarChartInstance.data.datasets[0].backgroundColor = dc.cor + "33";
@@ -373,8 +397,11 @@
   }
 
   window.onload = () => {
+    popup_carregar();
+    preencherKpisServidoresAlertas();
     listarPermissoesReload();
     buscarDados().then(() => {
+      popup_screen.innerHTML = ``;
       rankingDataCenter();
       criarRadarInicial();
       carregarSelectRadar();
@@ -396,10 +423,12 @@
   }).addTo(map);
 
   // Função dos marcadores estilo bolinha colorida
-  function marker(color) {
+  function marker(color, nome) {
     return L.divIcon({
       className: "",
-      html: `<div class="marker-dot" style="background:${color}"></div>`,
+      html: `<div class="marker-dot tooltip" style="background:${color}">
+          <span class="tooltip-text">${nome}</span>
+        </div>`,
       iconSize: [16, 16],
       iconAnchor: [8, 8]
     });
@@ -430,8 +459,8 @@
       </div>
 
       <div class="popup-row">
-        <span>Rede</span>
-        <p>${dc.Rede}%</p>
+        <span>Uso de rede</span>
+        <p>${dc.RedeMb}Mb</p>
       </div>
 
       <div class="popup-row">
@@ -456,7 +485,7 @@
 
   function popUpMapa() {
     datacenters.forEach(dc => {
-      const markerInstance = L.marker([dc.lat, dc.lng], { icon: marker(dc.cor) }).addTo(map);
+      const markerInstance = L.marker([dc.lat, dc.lng], { icon: marker(dc.cor, dc.nome) }).addTo(map);
 
       markerInstance.on("click", () => {
         const html = criarPopupBonito(dc);

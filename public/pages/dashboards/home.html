@@ -82,7 +82,7 @@
     </div>
   </div>
   <footer>
-    <div class="dashButtons">
+    <div class="dashButtons" id="footerButons">
       <a href="./home.html"><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
       <a href="./Ally.html"><img src="../../Images/Colaboradores/Colaborador1.svg" alt=""></a>
       <a href="./Gustavo.html"><img src="../../Images/Colaboradores/Colaborador2.svg" alt=""></a>
@@ -151,7 +151,7 @@
     sessionStorage.setItem('servidorNome', nome);
     sessionStorage.setItem('servidorLocalizacao', localizacao);
 
-    window.location = "tela_dashboard.html";
+    window.location = "Pedro.html";
   }
 
   let dadosServidores = [];
@@ -192,7 +192,7 @@
 
     lista.forEach(async servidor => {
       container.innerHTML += `
-                <div class="card_servidor" id="srv-${servidor.idServidor}" onclick="abrir_dashboard(this)">
+                <div class="card_servidor" id="srv-${servidor.idServidor}" data-nome="${servidor.nome}"data-uuid="${servidor.idServidor}"onclick="abrir_dashboard(this)">
                     <div id="servidor_estado">
                         <img src="../../assets/icons/${servidor.icone}.svg" alt="">
                     </div>
@@ -245,12 +245,16 @@
   }
 
   function abrir_dashboard(card) {
-    const nome = card.querySelector('#servidor_nome').textContent;
+    const nome = card.dataset.nome;
+    const uuid = card.dataset.uuid;
     const localizacao = card.querySelector('#servidor_localizacao').textContent;
 
     sessionStorage.setItem('servidorNome', nome);
+    sessionStorage.setItem('servidorUuid', uuid);
     sessionStorage.setItem('servidorLocalizacao', localizacao);
 
-    window.location = "tela_dashboard.html";
-  }
+    window.location = "Pedro.html";
+}
+
+  
 </script>
