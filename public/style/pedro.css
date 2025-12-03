@@ -35,6 +35,11 @@ body {
     display: flex;
     justify-content: space-between;
     align-items:end;
+    background-color: #072F4E;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
 }
 
 .header .server_info h1 {
@@ -49,13 +54,25 @@ body {
 .header .filtro_periodo {
     display: flex;
     min-width: 400px;
-    justify-content: space-between;
+    justify-content: end;
 
 }
 
 .header .filtro_periodo a{
     font: inherit;
     color: inherit;
+}
+
+#dataFiltro {
+    background-color: #072F4E;
+    color: white;
+    border: solid 1px white;
+    padding: 5px;
+}
+
+#dataFiltro::-webkit-calendar-picker-indicator {
+    filter: invert(1);   /* deixa branco */
+    cursor: pointer;
 }
 
 /*
@@ -74,7 +91,7 @@ body {
 
 .kpis {
     display: flex;
-    margin-top: 2rem;
+    margin-top: 1rem;
     justify-content: space-between;
 }
 
@@ -82,6 +99,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 435px;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
 }
 
 .kpis .card_kpi .card_kpi_status {
@@ -122,7 +140,7 @@ body {
 }
    
 .kpis .card_kpi .card_kpi_info .card_kpi_metrica h1{
-    font-size: 40px;
+    font-size: 50px;
 }
 
 .kpis .card_kpi .card_kpi_info .card_kpi_info_comparacao{
@@ -157,14 +175,14 @@ body {
     background-color: rgb(255, 255, 255);
     border-radius: 5px;
     margin-bottom: 10px;
-    border: solid 2px #1F547E;
+    border: solid 2px #072F4E;
 }
 
 .graficos .box_grafico .header {
     display: flex;
     align-items: center;
     padding: 20px;
-    background-color: #1F547E;
+    background-color: #072F4E;
     color: white;
 }
 
@@ -249,7 +267,7 @@ body {
 }
 
 .icone_alterar:hover, .icone_ampliar:hover, .icone_tooltip:hover {
-    background-color: #0d2b53;
+    background-color: #072F4E;
     scale: 1.3;
 }
 
@@ -297,7 +315,7 @@ body {
     height: 80vh;
     background: white;
     border-radius: 14px;
-    border: 3px solid #1F547E;
+    border: 3px solid #072F4E;
     padding-bottom: 20px;
     overflow: hidden;
 
@@ -319,10 +337,9 @@ body {
 
 /* AUMENTA O CANVAS */
 .box_grafico.popup_mode .grafico {
-    height: 65vh !important;
-    padding: 40px;
+    height: 65vh !important; 
+    width: 90% !important;
 }
-
 /* REMOVE BOTÃO DE AJUSTAR E TOOLTIP NO POPUP */
 .box_grafico.popup_mode .icone_ampliar,
 .box_grafico.popup_mode .icone_tooltip {
@@ -364,12 +381,18 @@ body {
 
 .filtro_periodo a:hover {
     cursor: pointer;
-    background-color: #0d2b53;
+    background-color: #072F4E;
     transition: 0.3s ease-in-out;
     color: white !important;
 }
 
 .filtro_periodo a.active {
     font-weight: bold;
-    color: #0d2b53;
+    color: #072F4E;
+}
+
+
+.chart-container {
+    width: 100% !important;   /* largura realmente usada pelo Apex */
+    min-width: 500px !important;
 }

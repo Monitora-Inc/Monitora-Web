@@ -19,263 +19,244 @@
   <div id="id_info_kpis"></div>
   <div id="popup_screen"></div>
 
-    <div class="page_content">
-      <div id="grafico_overlay"></div>
+  <div class="page_content">
+    <div id="grafico_overlay"></div>
 
-      <!-- ======================================================== -->
-      <!--                       HEADER                             -->
-      <!-- ======================================================== -->
-      <div class="header">
-        <div class="server_info">
-          <h1 id="server_nome">Servidor SP-A12</h1>
-          <h2 id="server_localizacao">Rua Haddock Lobo, 595 - Cerqueira César, São Paulo - SP</h2>
-        </div>
-
-        <div class="filtro_periodo">
-<a onclick="trocarPeriodo('24h', this)">Últimas 24 horas</a>
-<a onclick="trocarPeriodo('7d', this)">Última semana</a>
-<a onclick="trocarPeriodo('30d', this)">Último mês</a>
-
-        </div>
+    <!-- ======================================================== -->
+    <!--                       HEADER                             -->
+    <!-- ======================================================== -->
+    <div class="header">
+      <div class="server_info">
+        <h1 id="server_nome">Servidor SP-A12</h1>
+        <h2 id="server_localizacao">Rua Haddock Lobo, 595 - Cerqueira César, São Paulo - SP</h2>
       </div>
-
-      <!-- ======================================================== -->
-      <!--                       KPIS                               -->
-      <!-- ======================================================== -->
-      <div class="kpis">
-
-        <!-- SAÚDE -->
-        <div class="card_kpi">
-            <div class="card_kpi_status atencao">
-              <img src="../../assets/icons/icone_atencao.svg">
-            </div>
-
-            <div class="card_kpi_info">
-              <div class="card_kpi_label">
-                <img src="../../assets/icons/icone_coracao.svg" class="saude">
-                <h3>Saúde do CDN</h3>
-              </div>
-
-              <div class="card_kpi_metrica">
-                <h1 class="atencao_texto" id="metrica_saude">62%</h1>
-                <div>
-                  <div class="card_kpi_info_comparacao">
-                    <img src="../../assets/icons/icone_subindo_positivo.svg">
-                    <p class="estavel_texto">5%</p>
-                  </div>
-                  vs última semana
-                </div>
-              </div>
-            </div>
-        </div>
-
-        <!-- DISPONIBILIDADE -->
-        <div class="card_kpi">
-            <div class="card_kpi_status estavel">
-              <img src="../../assets/icons/icone_positivo.svg">
-            </div>
-
-            <div class="card_kpi_info">
-              <div class="card_kpi_label">
-                <img src="../../assets/icons/icone_disponibilidade.svg" class="disponibilidade">
-                <h3>Disponibilidade de Serviço</h3>
-              </div>
-
-              <div class="card_kpi_metrica">
-                <h1 class="estavel_texto" id="metrica_disponibilidade">99.4%</h1>
-                <div>
-                  <div class="card_kpi_info_comparacao">
-                    <img src="../../assets/icons/icone_subindo_positivo.svg">
-                    <p class="estavel_texto">1.5%</p>
-                  </div>
-                  vs última semana
-                </div>
-              </div>
-            </div>
-        </div>
-
-        <!-- LATÊNCIA -->
-        <div class="card_kpi">
-            <div class="card_kpi_status estavel">
-              <img src="../../assets/icons/icone_positivo.svg">
-            </div>
-
-            <div class="card_kpi_info">
-              <div class="card_kpi_label">
-                <img src="../../assets/icons/icone_latencia.svg" class="latencia">
-                <h3>Latência Média de Origem</h3>
-              </div>
-
-              <div class="card_kpi_metrica">
-                <h1 class="estavel_texto" id="metrica_latencia">3ms</h1>
-                <div>
-                  <div class="card_kpi_info_comparacao">
-                    <img src="../../assets/icons/icone_descendo_positivo.svg">
-                    <p class="estavel_texto">1ms</p>
-                  </div>
-                  vs última semana
-                </div>
-              </div>
-            </div>
-        </div>
-
-        <!-- EFICIÊNCIA -->
-        <div class="card_kpi">
-            <div class="card_kpi_status critico">
-              <img src="../../assets/icons/icone_negativo.svg">
-            </div>
-
-            <div class="card_kpi_info">
-              <div class="card_kpi_label">
-                <img src="../../assets/icons/icone_transferencia.svg" class="eficiencia">
-                <h3>Eficiência de Entrega</h3>
-              </div>
-
-              <div class="card_kpi_metrica">
-                <h1 class="critico_texto" id="metrica_entrega">65.98%</h1>
-                <div>
-                  <div class="card_kpi_info_comparacao">
-                    <img src="../../assets/icons/icone_descendo_negativo.svg">
-                    <p class="critico_texto">5,4%</p>
-                  </div>
-                  vs última semana
-                </div>
-              </div>
-            </div>
-        </div>
-
-      </div>
-
-      <!-- ======================================================== -->
-      <!--                       GRÁFICOS                           -->
-      <!-- ======================================================== -->
-      <div class="graficos">
-
-        <!-- CACHE MISS -->
-        <div class="box_grafico">
-          <div class="header">
-            <div class="label">
-              <h1>Cache Miss</h1>
-              <h2>Última Semana</h2>
-            </div>
-
-            <div class="configuracoes">
-              <a class="tooltip icone_ampliar" onclick="expandirGrafico(this)">
-                <span class="tooltiptext">Ampliar</span>
-              </a>
-              <a class="tooltip icone_tooltip"
-                onclick="pop_up_info('Cache Miss (%)\n\nPercentual de requisições que não foram atendidas pelo cache e precisaram buscar o conteúdo no servidor de origem.\n\nPor que é importante:\n• Aumenta a latência.\n• Eleva o uso e custo da origem.\n• Indica baixa eficiência do cache.\n\nComo interpretar:\n• Valores altos são indesejáveis.\n• Linha vermelha = crítico.\n• Linha amarela = atenção.')">
-                <span class="tooltiptext">O que é isso?</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="grafico"><canvas id="graficoCacheMiss"></canvas></div>
-        </div>
-
-
-        <!-- CACHE HIT -->
-        <div class="box_grafico">
-          <div class="header">
-            <div class="label">
-              <h1>Cache Hit</h1>
-              <h2>Última Semana</h2>
-            </div>
-
-            <div class="configuracoes">
-              <a class="tooltip icone_ampliar" onclick="expandirGrafico(this)">
-                <span class="tooltiptext">Ampliar</span>
-              </a>
-
-              <a class="tooltip icone_tooltip"
-                onclick="pop_up_info('Cache Hit (%)\n\nPercentual de requisições entregues diretamente pelo cache.\n\nPor que é importante:\n• Reduz a latência.\n• Reduz carga na origem.\n• Melhora a experiência do usuário.\n\nComo interpretar:\n• Quanto maior, melhor.\n• Linha vermelha indica valor crítico.\n• Linha amarela indica tendência negativa.')">
-                <span class="tooltiptext">O que é isso?</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="grafico"><canvas id="graficoCacheHit"></canvas></div>
-        </div>
-
-
-        <!-- VOLUME DE REQUISIÇÕES -->
-        <div class="box_grafico">
-          <div class="header">
-            <div class="label">
-              <h1>Volume de Requisições</h1>
-              <h2>Última Semana</h2>
-            </div>
-
-            <div class="configuracoes">
-              <a class="tooltip icone_ampliar" onclick="expandirGrafico(this)">
-                <span class="tooltiptext">Ampliar</span>
-              </a>
-
-              <a class="tooltip icone_tooltip"
-                onclick="pop_up_info('Volume de Requisições\n\nQuantidade total de requisições processadas pelo CDN.\n\nPor que é importante:\n• Revela padrões de uso.\n• Identifica picos e comportamento dos usuários.\n• Auxilia no planejamento de capacidade.\n\nComo interpretar:\n• Picos podem indicar eventos ou aumento de consumo.\n• Quedas podem indicar baixa demanda ou falhas.')">
-                <span class="tooltiptext">O que é isso?</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="grafico"><canvas id="graficoRequisicoes"></canvas></div>
-        </div>
-
-
-        <!-- LATÊNCIA PERCENTIL -->
-        <div class="box_grafico">
-          <div class="header">
-            <div class="label">
-              <h1>Latência por Percentil</h1>
-              <h2>Última Semana</h2>
-            </div>
-
-            <div class="configuracoes">
-              <a class="tooltip icone_ampliar" onclick="expandirGrafico(this)">
-                <span class="tooltiptext">Ampliar</span>
-              </a>
-
-              <a class="tooltip icone_tooltip"
-                onclick="pop_up_info('Latência por Percentil\n\nMede o tempo de resposta do CDN separando p50, p90 e p99.\n\nPor que é importante:\n• Avalia experiência real dos usuários.\n• Mostra estabilidade e consistência.\n• Ajuda a identificar gargalos.\n\nComo interpretar:\n• p50 = maioria das requisições.\n• p90 = usuários mais lentos.\n• p99 = casos extremos.')">
-                <span class="tooltiptext">O que é isso?</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="grafico"><canvas id="graficoPercentil"></canvas></div>
-        </div>
-
+      <div class="filtro_periodo">
+        <input type="date" id="dataFiltro" onchange="selecionarData()" />
       </div>
 
     </div>
 
-    <footer>
-      <div class="dashButtons">
-        <a href="./home.html"><img style="border-radius:0" src="../../Images/home.svg"></a>
-        <a href="./Ally.html"><img src="../../Images/Colaboradores/Colaborador1.svg"></a>
-        <a href="./Gustavo.html"><img src="../../Images/Colaboradores/Colaborador2.svg"></a>
-        <a href="./Leonardo.html"><img src="../../Images/Colaboradores/Colaborador3.svg"></a>
-        <a href="./Maria.html"><img src="../../Images/Colaboradores/Colaborador4.svg"></a>
-        <a href="./Pedro.html"><img src="../../Images/Colaboradores/Colaborador5.svg"></a>
+    <!-- ======================================================== -->
+    <!--                       KPIS                               -->
+    <!-- ======================================================== -->
+    <div class="kpis">
+
+      <!-- SAÚDE -->
+      <div class="card_kpi">
+        <div class="card_kpi_status atencao">
+          <img src="../../assets/icons/icone_atencao.svg">
+        </div>
+
+        <div class="card_kpi_info">
+          <div class="card_kpi_label">
+            <img src="../../assets/icons/icone_coracao.svg" class="saude">
+            <h3>Saúde do CDN</h3>
+          </div>
+
+          <div class="card_kpi_metrica">
+            <h1 class="atencao_texto" id="metrica_saude">62%</h1>
+
+          </div>
+        </div>
       </div>
-      <p>Developed by Pedro Claudino Barbosa</p>
-    </footer>
+
+      <!-- DISPONIBILIDADE -->
+      <div class="card_kpi">
+        <div class="card_kpi_status estavel">
+          <img src="../../assets/icons/icone_positivo.svg">
+        </div>
+
+        <div class="card_kpi_info">
+          <div class="card_kpi_label">
+            <img src="../../assets/icons/icone_disponibilidade.svg" class="disponibilidade">
+            <h3>Disponibilidade de Serviço</h3>
+          </div>
+
+          <div class="card_kpi_metrica">
+            <h1 class="estavel_texto" id="metrica_disponibilidade">99.4%</h1>
+          </div>
+        </div>
+      </div>
+
+      <!-- LATÊNCIA -->
+      <div class="card_kpi">
+        <div class="card_kpi_status estavel">
+          <img src="../../assets/icons/icone_positivo.svg">
+        </div>
+
+        <div class="card_kpi_info">
+          <div class="card_kpi_label">
+            <img src="../../assets/icons/icone_latencia.svg" class="latencia">
+            <h3>Latência Média de Origem</h3>
+          </div>
+
+          <div class="card_kpi_metrica">
+            <h1 class="estavel_texto" id="metrica_latencia">3ms</h1>
+          </div>
+        </div>
+      </div>
+
+      <!-- EFICIÊNCIA -->
+      <div class="card_kpi">
+        <div class="card_kpi_status critico">
+          <img src="../../assets/icons/icone_negativo.svg">
+        </div>
+
+        <div class="card_kpi_info">
+          <div class="card_kpi_label">
+            <img src="../../assets/icons/icone_transferencia.svg" class="eficiencia">
+            <h3>Eficiência de Entrega</h3>
+          </div>
+
+          <div class="card_kpi_metrica">
+            <h1 class="critico_texto" id="metrica_entrega">65.98%</h1>
+            <div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ======================================================== -->
+    <!--                       GRÁFICOS                           -->
+    <!-- ======================================================== -->
+    <div class="graficos">
+
+      <!-- CACHE MISS -->
+      <div class="box_grafico">
+        <div class="header">
+          <div class="label">
+            <h1>Cache Miss</h1>
+            <h2>Último dia selecionado</h2>
+          </div>
+
+          <div class="configuracoes">
+            <a class="tooltip icone_ampliar" onclick="expandirGrafico(this)">
+              <span class="tooltiptext">Ampliar</span>
+            </a>
+            <a class="tooltip icone_tooltip"
+              onclick="pop_up_info('Cache Miss (%)\n\nPercentual de requisições que não foram atendidas pelo cache e precisaram buscar o conteúdo no servidor de origem.\n\nPor que é importante:\n• Aumenta a latência.\n• Eleva o uso e custo da origem.\n• Indica baixa eficiência do cache.\n\nComo interpretar:\n• Valores altos são indesejáveis.\n• Linha vermelha = crítico.\n• Linha amarela = atenção.')">
+              <span class="tooltiptext">O que é isso?</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="grafico">
+          <div id="graficoCacheMiss" class="chart-container" data-chart="cacheMiss"></div>
+        </div>
+      </div>
+
+
+      <!-- CACHE HIT -->
+      <div class="box_grafico">
+        <div class="header">
+          <div class="label">
+            <h1>Cache Hit</h1>
+            <h2>Último dia selecionado</h2>
+          </div>
+
+          <div class="configuracoes">
+            <a class="tooltip icone_ampliar" onclick="expandirGrafico(this)">
+              <span class="tooltiptext">Ampliar</span>
+            </a>
+
+            <a class="tooltip icone_tooltip"
+              onclick="pop_up_info('Cache Hit (%)\n\nPercentual de requisições entregues diretamente pelo cache.\n\nPor que é importante:\n• Reduz a latência.\n• Reduz carga na origem.\n• Melhora a experiência do usuário.\n\nComo interpretar:\n• Quanto maior, melhor.\n• Linha vermelha indica valor crítico.\n• Linha amarela indica tendência negativa.')">
+              <span class="tooltiptext">O que é isso?</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="grafico">
+          <div id="graficoCacheHit" class="chart-container" data-chart="cacheHit"></div>
+        </div>
+      </div>
+
+
+      <!-- VOLUME DE REQUISIÇÕES -->
+      <div class="box_grafico">
+        <div class="header">
+          <div class="label">
+            <h1>Volume de Requisições</h1>
+            <h2>Último dia selecionado</h2>
+          </div>
+
+          <div class="configuracoes">
+            <a class="tooltip icone_ampliar" onclick="expandirGrafico(this)">
+              <span class="tooltiptext">Ampliar</span>
+            </a>
+
+            <a class="tooltip icone_tooltip"
+              onclick="pop_up_info('Volume de Requisições\n\nQuantidade total de requisições processadas pelo CDN.\n\nPor que é importante:\n• Revela padrões de uso.\n• Identifica picos e comportamento dos usuários.\n• Auxilia no planejamento de capacidade.\n\nComo interpretar:\n• Picos podem indicar eventos ou aumento de consumo.\n• Quedas podem indicar baixa demanda ou falhas.')">
+              <span class="tooltiptext">O que é isso?</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="grafico">
+          <div id="graficoRequisicoes" class="chart-container" data-chart="req"></div>
+        </div>
+      </div>
+
+
+      <!-- LATÊNCIA PERCENTIL -->
+      <div class="box_grafico">
+        <div class="header">
+          <div class="label">
+            <h1>Latência por Percentil</h1>
+            <h2>Último dia selecionado</h2>
+          </div>
+
+          <div class="configuracoes">
+            <a class="tooltip icone_ampliar" onclick="expandirGrafico(this)">
+              <span class="tooltiptext">Ampliar</span>
+            </a>
+
+            <a class="tooltip icone_tooltip"
+              onclick="pop_up_info('Latência por Percentil\n\nMede o tempo de resposta do CDN separando p50, p90 e p99.\n\nPor que é importante:\n• Avalia experiência real dos usuários.\n• Mostra estabilidade e consistência.\n• Ajuda a identificar gargalos.\n\nComo interpretar:\n• p50 = maioria das requisições.\n• p90 = usuários mais lentos.\n• p99 = casos extremos.')">
+              <span class="tooltiptext">O que é isso?</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="grafico">
+          <div id="graficoPercentil" class="chart-container" data-chart="percentil"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="dashButtons">
+      <a href="./home.html"><img style="border-radius:0" src="../../Images/home.svg"></a>
+      <a href="./Ally.html"><img src="../../Images/Colaboradores/Colaborador1.svg"></a>
+      <a href="./Gustavo.html"><img src="../../Images/Colaboradores/Colaborador2.svg"></a>
+      <a href="./Leonardo.html"><img src="../../Images/Colaboradores/Colaborador3.svg"></a>
+      <a href="./Maria.html"><img src="../../Images/Colaboradores/Colaborador4.svg"></a>
+      <a href="./Pedro.html"><img src="../../Images/Colaboradores/Colaborador5.svg"></a>
+    </div>
+    <p>Developed by Pedro Claudino Barbosa</p>
+  </footer>
 
 </body>
+
 </html>
 
 <script src="../../js/sidebar.js"></script>
 <script src="../../js/popups.js"></script>
 <script src="../../js/verificacaoPermissoes.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script>
+<!-- APEXCHARTS -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 <!-- ======================================================= -->
 <!--              POPUP DE EXPLICAÇÃO (OFICIAL)             -->
 <!-- ======================================================= -->
 <script>
-function pop_up_info(texto) {
+  function pop_up_info(texto) {
     const f = texto.replace(/\n/g, "<br>");
 
     document.getElementById("popup_screen").innerHTML = `
@@ -296,24 +277,32 @@ function pop_up_info(texto) {
                 </div>
             </div>
         </div>`;
-}
+  }
 </script>
 
 <!-- ======================================================= -->
 <!--                 EXPANDIR / FECHAR GRÁFICO              -->
 <!-- ======================================================= -->
 <script>
-function fecharPopupGrafico() {
+  function fecharPopupGrafico() {
     const overlay = document.getElementById("grafico_overlay");
     overlay.style.display = "none";
     overlay.innerHTML = "";
-}
+  }
 
-document.getElementById("grafico_overlay").addEventListener("click", function(e) {
+  document.getElementById("grafico_overlay").addEventListener("click", function (e) {
     if (e.target.id === "grafico_overlay") fecharPopupGrafico();
-});
+  });
 
-function expandirGrafico(element) {
+  let chartConfigs = {};
+  let charts = {
+    cacheMiss: null,
+    cacheHit: null,
+    req: null,
+    percentil: null
+  };
+
+  function expandirGrafico(element) {
     const boxOriginal = element.closest(".box_grafico");
     const overlay = document.getElementById("grafico_overlay");
 
@@ -327,311 +316,432 @@ function expandirGrafico(element) {
     btnFechar.classList.add("btn_fechar_popup_grafico");
     btnFechar.innerHTML = "&times;";
     btnFechar.onclick = fecharPopupGrafico;
-
     clone.prepend(btnFechar);
+
     overlay.appendChild(clone);
 
-    const canvasOriginal = boxOriginal.querySelector("canvas");
-    const canvasClone = clone.querySelector("canvas");
+    const chartDivOriginal = boxOriginal.querySelector(".grafico .chart-container");
+    const chartKey = chartDivOriginal.dataset.chart;   // cacheMiss, cacheHit, req, percentil
+    const chartIdOriginal = chartDivOriginal.id;
 
-    const chartInstance = Chart.getChart(canvasOriginal);
+    const graficoClone = clone.querySelector(".grafico");
+    graficoClone.innerHTML = `<div id="${chartIdOriginal}_popup"></div>`;
 
-    new Chart(canvasClone.getContext("2d"), {
-        type: chartInstance.config.type,
-        data: JSON.parse(JSON.stringify(chartInstance.data)),
-        options: JSON.parse(JSON.stringify(chartInstance.options))
-    });
-}
-</script>
+    const baseOptions = chartConfigs[chartKey];
+    if (!baseOptions) return;
+
+    const popupOptions = JSON.parse(JSON.stringify(baseOptions));
+
+    popupOptions.chart = popupOptions.chart || {};
+
+    popupOptions.chart.height = 600;   // aumenta a altura real
+    popupOptions.chart.width = 1200; // força largura total no popup
+    popupOptions.chart.toolbar = popupOptions.chart.toolbar || {};
+    popupOptions.chart.toolbar.offsetY = 0;
 
 
-<script>
-let PERIODO = "24h"; // Padrão ao abrir a página
-
-/* ============================================================
-   PLUGIN — LINHA VERTICAL NO HOVER (CROSSHAIR)
-============================================================ */
-const verticalLinePlugin = {
-  id: "verticalLineHover",
-  afterDraw(chart) {
-
-    if (!chart._active || chart._active.length === 0) return;
-
-    const ctx = chart.ctx;
-    const activePoint = chart._active[0];
-    const x = activePoint.element.x;
-    const topY = chart.chartArea.top;
-    const bottomY = chart.chartArea.bottom;
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(x, topY);
-    ctx.lineTo(x, bottomY);
-    ctx.lineWidth = 1.5;
-    ctx.strokeStyle = "rgba(0,0,0,0.35)";
-    ctx.setLineDash([4, 4]);
-    ctx.stroke();
-    ctx.restore();
+    const popupChart = new ApexCharts(
+      document.querySelector(`#${chartIdOriginal}_popup`),
+      popupOptions
+    );
+    popupChart.render();
   }
-};
+</script>
+<!-- ======================================================= -->
+<!--              LÓGICA PRINCIPAL / APEXCHARTS             -->
+<!-- ======================================================= -->
+<script>
+  let dataCSV = [];
+  let DATA_SELECIONADA = null;
 
-Chart.register(verticalLinePlugin);
+  // ===============================
+  //    SELEÇÃO DE DATA
+  // ===============================
+  function selecionarData() {
+    const data = document.getElementById("dataFiltro").value;
+    if (!data) return;
+    DATA_SELECIONADA = data;
+    buscarCSVsPorData(data);
+  }
 
+  // ===============================
+  //    BUSCAR CSVs DO DIA
+  // ===============================
+  async function buscarCSVsPorData(dataCompleta) {
+    const [ano, mes, dia] = dataCompleta.split("-");
 
-/* ============================================================
-   VARIÁVEIS GLOBAIS
-============================================================ */
-let dataCSV = [];
-let chartMiss = null;
-let chartHit = null;
-let chartReq = null;
-let chartPercentil = null;
-
-
-/* ============================================================
-   FUNÇÃO — DESTRUIR GRÁFICOS ANTIGOS
-============================================================ */
-function destruirGraficos() {
-    if (chartMiss) chartMiss.destroy();
-    if (chartHit) chartHit.destroy();
-    if (chartReq) chartReq.destroy();
-    if (chartPercentil) chartPercentil.destroy();
-}
-
-
-/* ============================================================
-   FUNÇÃO — TROCAR PERÍODO (24h / 7d / 30d)
-============================================================ */
-function trocarPeriodo(periodo, elemento) {
-    PERIODO = periodo;
-
-    document.querySelectorAll(".filtro_periodo a")
-        .forEach(a => a.classList.remove("active"));
-
-    elemento.classList.add("active");
-
-    buscarUltimosCSVs();
-}
-
-
-
-/* ============================================================
-   BUSCAR CSVs DO BUCKET
-============================================================ */
-async function buscarUltimosCSVs() {
     const empresaId = 2;
     const categoria = "eficiencia_entrega";
     const servidorId = "87cbdc6a-8bb1-4be8-b881-dd7d847bb256";
-
-    const ano = "2025";
-    const mes = "12";
-    const dia = "02";
 
     const prefixo = `${empresaId}/${categoria}/${servidorId}/${ano}/${mes}/${dia}/`;
     const pURL = encodeURIComponent(prefixo);
 
     let linhas = [];
 
-    // Quantidade por período
-    let qtd = 10;
-    if (PERIODO === "7d") qtd = 70;
-    if (PERIODO === "30d") qtd = 300;
-
-    for (let i = 0; i < qtd; i++) {
-        const url = `/bucket/read/${pURL}/${i}`;
-        try {
-            const resp = await fetch(url);
-            if (!resp.ok) break;
-            const json = await resp.json();
-            linhas = linhas.concat(json.rows);
-        } catch {
-            break;
-        }
+    for (let i = 0; i < 500; i++) {
+      const url = `/bucket/read/${pURL}/${i}`;
+      try {
+        const resp = await fetch(url);
+        if (!resp.ok) break;
+        const json = await resp.json();
+        linhas = linhas.concat(json.rows);
+      } catch {
+        break;
+      }
     }
 
-    if (!linhas.length) return;
+    if (!linhas.length) {
+      console.warn("Nenhum CSV encontrado para:", dataCompleta);
+      dataCSV = [];
+      destruirGraficos();
+      return;
+    }
 
     dataCSV = linhas;
-
     atualizarKPIs();
     atualizarGraficos();
-}
+  }
 
+  // ===============================
+  //    DESTRUIR GRÁFICOS APEX
+  // ===============================
+  function destruirGraficos() {
+    if (charts.cacheMiss) { charts.cacheMiss.destroy(); charts.cacheMiss = null; }
+    if (charts.cacheHit) { charts.cacheHit.destroy(); charts.cacheHit = null; }
+    if (charts.req) { charts.req.destroy(); charts.req = null; }
+    if (charts.percentil) { charts.percentil.destroy(); charts.percentil = null; }
+  }
 
-/* ============================================================
-   KPIs (último registro)
-============================================================ */
-function atualizarKPIs() {
+  // ===============================
+  //           KPIs
+  // ===============================
+  function atualizarKPIs() {
+    if (!dataCSV.length) return;
+
     const u = dataCSV[dataCSV.length - 1];
 
-    document.getElementById("metrica_saude").innerText =
-        `${Number(u.saude).toFixed(2)}%`;
+    const cards = document.querySelectorAll(".card_kpi");
 
-    document.getElementById("metrica_disponibilidade").innerText =
-        `${Number(u.disponibilidade).toFixed(2)}%`;
+    const txtSaude = document.getElementById("metrica_saude");
+    const txtDisp = document.getElementById("metrica_disponibilidade");
+    const txtLat = document.getElementById("metrica_latencia");
+    const txtEfic = document.getElementById("metrica_entrega");
 
-    document.getElementById("metrica_entrega").innerText =
-        `${Number(u.eficiencia).toFixed(2)}%`;
+    const cardSaude = cards[0];
+    const cardDisp = cards[1];
+    const cardLat = cards[2];
+    const cardEfic = cards[3];
 
-    document.getElementById("metrica_latencia").innerText =
-        `${Number(u.latencia_media).toFixed(3)} ms`;
-}
+    const iconSaude = cardSaude.querySelector(".card_kpi_status img");
+    const iconDisp = cardDisp.querySelector(".card_kpi_status img");
+    const iconLat = cardLat.querySelector(".card_kpi_status img");
+    const iconEfic = cardEfic.querySelector(".card_kpi_status img");
 
+    const valSaude = Number(u.saude || 0);
+    const valDisp = Number(u.disponibilidade || 0);
+    const valLat = Number(u.latencia_media || 0);
+    const valEfic = Number(u.eficiencia || 0);
 
-/* ============================================================
-   ATUALIZAR GRÁFICOS
-============================================================ */
-function atualizarGraficos() {
+    txtSaude.textContent = `${valSaude.toFixed(2)}%`;
+    txtDisp.textContent = `${valDisp.toFixed(2)}%`;
+    txtLat.textContent = `${valLat.toFixed(2)} ms`;
+    txtEfic.textContent = `${valEfic.toFixed(2)}%`;
 
+    aplicarEstadoKPI(valSaude, "saude", cardSaude, txtSaude, iconSaude);
+    aplicarEstadoKPI(valDisp, "disponibilidade", cardDisp, txtDisp, iconDisp);
+    aplicarEstadoKPI(valLat, "latencia", cardLat, txtLat, iconLat);
+    aplicarEstadoKPI(valEfic, "eficiencia", cardEfic, txtEfic, iconEfic);
+  }
+
+  // ===============================
+  //       APLICAR ESTADOS KPI
+  // ===============================
+  function aplicarEstadoKPI(valor, tipo, cardElemento, textoElemento, iconElemento) {
+    const statusElemento = cardElemento.querySelector(".card_kpi_status");
+
+    statusElemento.classList.remove("estavel", "atencao", "critico");
+    textoElemento.classList.remove("estavel_texto", "atencao_texto", "critico_texto");
+
+    let estado = "";
+    let icone = "";
+
+    if (tipo === "saude") {
+      if (valor >= 80) { estado = "estavel"; icone = "icone_positivo.svg"; }
+      else if (valor >= 50) { estado = "atencao"; icone = "icone_atencao.svg"; }
+      else { estado = "critico"; icone = "icone_negativo.svg"; }
+    }
+
+    if (tipo === "disponibilidade") {
+      if (valor >= 99) { estado = "estavel"; icone = "icone_positivo.svg"; }
+      else if (valor >= 97) { estado = "atencao"; icone = "icone_atencao.svg"; }
+      else { estado = "critico"; icone = "icone_negativo.svg"; }
+    }
+
+    if (tipo === "eficiencia") {
+      if (valor >= 90) { estado = "estavel"; icone = "icone_positivo.svg"; }
+      else if (valor >= 70) { estado = "atencao"; icone = "icone_atencao.svg"; }
+      else { estado = "critico"; icone = "icone_negativo.svg"; }
+    }
+
+    if (tipo === "latencia") {
+      if (valor <= 50) { estado = "estavel"; icone = "icone_positivo.svg"; }
+      else if (valor <= 150) { estado = "atencao"; icone = "icone_atencao.svg"; }
+      else { estado = "critico"; icone = "icone_negativo.svg"; }
+    }
+
+    statusElemento.classList.add(estado);
+    textoElemento.classList.add(estado + "_texto");
+    iconElemento.src = `../../assets/icons/${icone}`;
+  }
+
+  // ===============================
+  //        ATUALIZAR GRÁFICOS
+  // ===============================
+  function atualizarGraficos() {
     destruirGraficos();
+    if (!dataCSV.length) return;
 
     // Ordenar cronologicamente
     dataCSV.sort(
-        (a, b) => new Date(a.data.replace(" ", "T")) - new Date(b.data.replace(" ", "T"))
+      (a, b) => new Date(a.data.replace(" ", "T")) - new Date(b.data.replace(" ", "T"))
     );
 
-    // Labels formatados
-    const labels = dataCSV.map(d => {
-        const dt = new Date(d.data.replace(" ", "T"));
-        return dt.toLocaleString("pt-BR", {
-            day: "2-digit",
-            month: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit"
-        });
+    const xValues = dataCSV.map(d => {
+      return new Date(d.data.replace(" ", "T")).getTime();
     });
 
-    // Cálculo de Miss / Hit %
+    // ================================
+    // 🔥 DEFINIR ZOOM INICIAL NOS ÚLTIMOS 5 PONTOS
+    // ================================
+    let zoomInicio = null;
+    let zoomFim = null;
+
+    if (xValues.length > 5) {
+      zoomInicio = xValues[xValues.length - 5];
+      zoomFim = xValues[xValues.length - 1];
+    } else if (xValues.length > 1) {
+      zoomInicio = xValues[0];
+      zoomFim = xValues[xValues.length - 1];
+    }
+
     const missPercent = dataCSV.map(d => {
-        const miss = Number(d.cache_miss_total || 0);
-        const req = Number(d.total_requisicoes || 1);
-        return (miss / req) * 100;
+      const miss = Number(d.cache_miss_total || 0);
+      const req = Number(d.total_requisicoes || 1);
+      return (miss / req) * 100;
     });
 
     const hitPercent = dataCSV.map(d => {
-        const hit = Number(d.cache_hit_total || 0);
-        const req = Number(d.total_requisicoes || 1);
-        return (hit / req) * 100;
+      const hit = Number(d.cache_hit_total || 0);
+      const req = Number(d.total_requisicoes || 1);
+      return (hit / req) * 100;
     });
+
+    const reqValues = dataCSV.map(d => Number(d.total_requisicoes || 0));
+
+    const p50 = dataCSV.map(d => Number(d.p50 || 0));
+    const p90 = dataCSV.map(d => Number(d.p90 || 0));
+    const p99 = dataCSV.map(d => Number(d.p99 || 0));
 
     const limitesMiss = { alert: 70, critical: 75 };
     const limitesHit = { alert: 30, critical: 25 };
 
-    const criarLinhas = (lim) => ({
-        alertLine: {
-            type: "line",
-            yMin: lim.alert,
-            yMax: lim.alert,
-            borderColor: "#ffc917",
-            borderWidth: 2,
-            borderDash: [6, 6],
-            label: {
-                display: true, content: "Atenção", backgroundColor: "#ffc917",
-                color: "#000", padding: 6, borderRadius: 6
-            }
+    const baseChart = {
+      animations: {
+        enabled: true,
+        easing: 'easeinout',
+        speed: 600
+      },
+      zoom: {
+        enabled: true,
+        type: 'x',
+        autoScaleYaxis: true
+      },
+      toolbar: {
+        show: true,
+        tools: {
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: true
         },
-        criticalLine: {
-            type: "line",
-            yMin: lim.critical,
-            yMax: lim.critical,
-            borderColor: "#ff3b3b",
-            borderWidth: 2,
-            borderDash: [6, 6],
-            label: {
-                display: true, content: "Crítico", backgroundColor: "#ff3b3b",
-                color: "#fff", padding: 6, borderRadius: 6
-            }
+        autoSelected: 'zoom'
+      }
+    };
+
+    const baseXAxis = {
+      type: 'datetime',
+      labels: { datetimeUTC: false }
+    };
+
+    // ====================================
+    // CACHE MISS
+    // ====================================
+    chartConfigs.cacheMiss = {
+      chart: Object.assign({ type: 'line', height: "100%", width: "100%" }, baseChart),
+      series: [{
+        name: 'Cache Miss (%)',
+        data: xValues.map((x, i) => [x, missPercent[i]])
+      }],
+      stroke: { curve: 'smooth', width: 3 },
+      dataLabels: { enabled: false },
+      xaxis: {
+        ...baseXAxis,
+        min: zoomInicio,
+        max: zoomFim
+      },
+      yaxis: {
+        max: 100,
+        min: 0,
+        labels: { formatter: val => `${val.toFixed(0)}%` }
+      },
+      tooltip: {
+        x: { format: 'dd/MM HH:mm' },
+        y: { formatter: val => `${val.toFixed(2)}%` }
+      },
+      annotations: {
+        yaxis: [
+          { y: limitesMiss.alert, borderColor: "#ffc917", label: { text: "Atenção", style: { background: "#ffc917", color: "#000" } } },
+          { y: limitesMiss.critical, borderColor: "#ff3b3b", label: { text: "Crítico", style: { background: "#ff3b3b", color: "#fff" } } }
+        ]
+      },
+      colors: ['#FF0267']
+    };
+
+    charts.cacheMiss = new ApexCharts(
+      document.querySelector("#graficoCacheMiss"),
+      chartConfigs.cacheMiss
+    );
+
+    charts.cacheMiss.render().then(() => {
+      // 🔥 APLICA O ZOOM APÓS O RENDER — solução do bug
+      charts.cacheMiss.updateOptions({
+        xaxis: {
+          min: zoomInicio,
+          max: zoomFim
         }
+      }, false, false);
+    });
+
+    // ================== CACHE HIT ==================
+    chartConfigs.cacheHit = {
+      chart: Object.assign({ type: 'line', height: "100%", width: "100%" }, baseChart),
+      series: [{
+        name: 'Cache Hit (%)',
+        data: xValues.map((x, i) => [x, hitPercent[i]])
+      }],
+      stroke: { curve: 'smooth', width: 3 },
+      dataLabels: { enabled: false },
+      xaxis: {
+        ...baseXAxis,
+        min: zoomInicio,
+        max: zoomFim
+      },
+      yaxis: {
+        max: 100,
+        min: 0,
+        labels: { formatter: val => `${val.toFixed(0)}%` }
+      },
+      tooltip: {
+        x: { format: 'dd/MM HH:mm' },
+        y: { formatter: val => `${val.toFixed(2)}%` }
+      },
+      annotations: {
+        yaxis: [
+          { y: limitesHit.alert, borderColor: "#ffc917", label: { text: "Atenção", style: { background: "#ffc917", color: "#000" } } },
+          { y: limitesHit.critical, borderColor: "#ff3b3b", label: { text: "Crítico", style: { background: "#ff3b3b", color: "#fff" } } }
+        ]
+      },
+      colors: ['#6DF8A4']
+    };
+
+    charts.cacheHit = new ApexCharts(
+      document.querySelector("#graficoCacheHit"),
+      chartConfigs.cacheHit
+    );
+
+    charts.cacheHit.render().then(() => {
+      charts.cacheHit.updateOptions({
+        xaxis: {
+          min: zoomInicio,
+          max: zoomFim
+        }
+      }, false, false);
     });
 
 
-    /* ============================================================
-       GRÁFICO — CACHE MISS
-    =========================================================== */
-    chartMiss = new Chart(document.getElementById("graficoCacheMiss"), {
-        type: "line",
-        data: {
-            labels,
-            datasets: [{
-                label: "Cache Miss (%)",
-                data: missPercent,
-                borderColor: "#FF0267",
-                backgroundColor: "#FF0267",
-                tension: 0.4
-            }]
-        },
-        options: {
-            plugins: { annotation: { annotations: criarLinhas(limitesMiss) } },
-            scales: { y: { min: 0, max: 100 } }
-        }
-    });
+    // ================== REQUISIÇÕES ==================
+    chartConfigs.req = {
+      chart: Object.assign({ type: 'bar', height: "100%", width: "100%" }, baseChart),
+      series: [{
+        name: 'Requisições',
+        data: xValues.map((x, i) => ({ x, y: reqValues[i] }))
+      }],
+      plotOptions: { bar: { borderRadius: 6, columnWidth: '60%' } },
+      dataLabels: { enabled: false },
+      xaxis: {
+        ...baseXAxis,
+        min: zoomInicio,
+        max: zoomFim
+      },
+      tooltip: {
+        x: { format: 'dd/MM HH:mm' },
+        y: { formatter: val => `${val.toFixed(0)} req` }
+      },
+      colors: ['#8979FF']
+    };
+
+    charts.req = new ApexCharts(
+      document.querySelector("#graficoRequisicoes"),
+      chartConfigs.req
+    );
+    charts.req.render();
+
+    // ================== PERCENTIL ==================
+    chartConfigs.percentil = {
+      chart: Object.assign({ type: 'line', height: "100%", width: "100%" }, baseChart),
+      series: [
+        { name: 'p50', data: xValues.map((x, i) => [x, p50[i]]) },
+        { name: 'p90', data: xValues.map((x, i) => [x, p90[i]]) },
+        { name: 'p99', data: xValues.map((x, i) => [x, p99[i]]) }
+      ],
+      stroke: { curve: 'smooth', width: 3 },
+      dataLabels: { enabled: false },
+      xaxis: {
+        ...baseXAxis,
+        min: zoomInicio,
+        max: zoomFim
+      },
+      yaxis: {
+        labels: { formatter: val => `${val.toFixed(0)} ms` }
+      },
+      tooltip: {
+        x: { format: 'dd/MM HH:mm' },
+        y: { formatter: val => `${val.toFixed(2)} ms` }
+      },
+      colors: ['#5A6CF3', '#54D5E4', '#FF7AD9']
+    };
+
+    charts.percentil = new ApexCharts(
+      document.querySelector("#graficoPercentil"),
+      chartConfigs.percentil
+    );
+    charts.percentil.render();
+  }
 
 
-    /* ============================================================
-       GRÁFICO — CACHE HIT
-    =========================================================== */
-    chartHit = new Chart(document.getElementById("graficoCacheHit"), {
-        type: "line",
-        data: {
-            labels,
-            datasets: [{
-                label: "Cache Hit (%)",
-                data: hitPercent,
-                borderColor: "#6DF8A4",
-                backgroundColor: "#6DF8A4",
-                tension: 0.4
-            }]
-        },
-        options: {
-            plugins: { annotation: { annotations: criarLinhas(limitesHit) } },
-            scales: { y: { min: 0, max: 100 } }
-        }
-    });
-
-
-    /* ============================================================
-       GRÁFICO — REQUISIÇÕES
-    =========================================================== */
-    chartReq = new Chart(document.getElementById("graficoRequisicoes"), {
-        type: "bar",
-        data: {
-            labels,
-            datasets: [{
-                label: "Requisições",
-                data: dataCSV.map(d => Number(d.total_requisicoes || 0)),
-                backgroundColor: "#8979FF",
-                borderRadius: 8
-            }]
-        }
-    });
-
-
-    /* ============================================================
-       GRÁFICO — PERCENTIS
-    =========================================================== */
-    chartPercentil = new Chart(document.getElementById("graficoPercentil"), {
-        type: "line",
-        data: {
-            labels,
-            datasets: [
-                { label: "p50", data: dataCSV.map(d => Number(d.p50 || 0)), borderColor: "#5A6CF3" },
-                { label: "p90", data: dataCSV.map(d => Number(d.p90 || 0)), borderColor: "#54D5E4" },
-                { label: "p99", data: dataCSV.map(d => Number(d.p99 || 0)), borderColor: "#FF7AD9" }
-            ]
-        }
-    });
-}
-
-
-/* ============================================================
-   INÍCIO — Carregar Permissões e Dados
-============================================================ */
-window.onload = () => {
-    listarPermissoesReload();
-
-    // Definir o botão inicial como ativo
-    document.querySelector(".filtro_periodo a").classList.add("active");
-
-    buscarUltimosCSVs();
-};
+  // ===============================
+  //   SETAR DATA AO CARREGAR
+  // ===============================
+  window.addEventListener("load", () => {
+    // já chama listarPermissoesReload pelo onload do body
+    const hoje = new Date().toISOString().split("T")[0];
+    const inputData = document.getElementById("dataFiltro");
+    if (inputData) {
+      inputData.value = hoje;
+      selecionarData();
+    }
+  });
 </script>
