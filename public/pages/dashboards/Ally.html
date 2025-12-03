@@ -142,7 +142,8 @@
           Disco: Number(d.disco).toFixed(2),
           IdDataCenter: d.idDataCenter,
           Ram: Number(d.ram).toFixed(2),
-          Rede: Number(d.rede).toFixed(2),
+          RedeMb: Number(d.redeMb).toFixed(2),
+          RedeMbS: Number(d.redeMbS).toFixed(2),
           Saude: Number(d.saude).toFixed(2),
           Timestamp: d.timestamp,
           up: Boolean(d.up)
@@ -163,7 +164,8 @@
           Disco: Number(d.disco).toFixed(2),
           IdDataCenter: d.idDataCenter,
           Ram: Number(d.ram).toFixed(2),
-          Rede: Number(d.rede).toFixed(2),
+          RedeMb: Number(d.redeMb).toFixed(2),
+          RedeMbS: Number(d.redeMbS).toFixed(2),
           Saude: Number(d.saude).toFixed(2),
           Timestamp: d.timestamp,
           up: Boolean(d.up)
@@ -348,7 +350,7 @@
     const dc = datacenters[index];
     const anterior = datacentersAnteriores[index];
     document.getElementById("Saude").innerText = dc.Saude;
-    document.getElementById("Rede").innerText = dc.Rede;
+    document.getElementById("Rede").innerText = dc.RedeMbS;
     document.getElementById("Disco").innerText = dc.Disco;
     document.getElementById("Cpu").innerText = dc.Cpu;
     document.getElementById("Ram").innerText = dc.Ram;
@@ -363,7 +365,7 @@
       dc.Disco,
       dc.Ram,
       dc.Cpu,
-      dc.Rede
+      dc.RedeMbS
     ];
 
     radarChartInstance.data.datasets[1].data = [
@@ -371,7 +373,7 @@
       anterior.Disco,
       anterior.Ram,
       anterior.Cpu,
-      anterior.Rede
+      anterior.RedeMbS
     ];
 
     radarChartInstance.data.datasets[0].backgroundColor = dc.cor + "33";
@@ -457,8 +459,8 @@
       </div>
 
       <div class="popup-row">
-        <span>Rede</span>
-        <p>${dc.Rede}%</p>
+        <span>Uso de rede</span>
+        <p>${dc.RedeMb}Mb</p>
       </div>
 
       <div class="popup-row">

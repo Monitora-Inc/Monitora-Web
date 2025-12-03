@@ -47,7 +47,7 @@
           <h2 id="latencia">0.032s</h2>
         </div>
         <div class="card tooltip">
-          <p>Rede</p>
+          <p>Uso de rede</p>
           <span class="tooltip-text">Média de tráfego de rede atual dos servidores.</span>
           <h2 id="rede">2.8 MB</h2>
         </div>
@@ -154,7 +154,8 @@
           Cpu: Number(d.cpu),
           Ram: Number(d.ram),
           Disco: Number(d.disco),
-          Rede: Number(d.rede),
+          RedeMb: Number(d.redeMb),
+          RedeMbS: Number(d.redeMbS),
           latencia: Number(d.latencia),
           processos: Number(d.processos),
           Saude: Number(d.saude),
@@ -187,7 +188,8 @@
           Cpu: Number(d.cpu).toFixed(2),
           Ram: Number(d.ram).toFixed(2),
           Disco: Number(d.disco).toFixed(2),
-          Rede: Number(d.rede).toFixed(2),
+          RedeMb: Number(d.redeMb),
+          RedeMbS: Number(d.redeMbS), 
           latencia: Number(d.latencia).toFixed(2),
           processos: Number(d.processos).toFixed(2),
           Saude: Number(d.saude).toFixed(2),
@@ -259,7 +261,7 @@
     ram.innerHTML = `${dadosDc.Ram}%`;
     disco.innerHTML = `${dadosDc.Disco}%`;
     latencia.innerHTML = `${dadosDc.Latencia}S`;
-    rede.innerHTML = `${dadosDc.Rede}mb`;
+    rede.innerHTML = `${dadosDc.RedeMb}mb`;
     processos.innerHTML = `${dadosDc.Processos}`;
   }
 
@@ -384,7 +386,7 @@
     const server = Servidores[index];
     const serverAnterior = ServidoresAnteriores[index];
     document.getElementById("Saude").innerText = server.Saude;
-    document.getElementById("Rede").innerText = server.Rede;
+    document.getElementById("Rede").innerText = server.RedeMbS;
     document.getElementById("Disco").innerText = server.Disco;
     document.getElementById("Cpu").innerText = server.Cpu;
     document.getElementById("Ram").innerText = server.Ram;
@@ -399,7 +401,7 @@
       server.Disco,
       server.Ram,
       server.Cpu,
-      server.Rede
+      server.RedeMbS
     ];
 
     radarChartInstance.data.datasets[1].data = [
@@ -407,7 +409,7 @@
       serverAnterior.Disco,
       serverAnterior.Ram,
       serverAnterior.Cpu,
-      serverAnterior.Rede
+      serverAnterior.RedeMbS
     ];
 
     radarChartInstance.data.datasets[0].backgroundColor = server.cor + "33";
