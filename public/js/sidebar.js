@@ -83,9 +83,6 @@ if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
                   <a href="./datacenters.html" class="tooltipNav icone_datacenters" onclick="fechar_popups()">
                         <span class="tooltiptextNav"">Data Centers</span>
                   </a>
-                  <a href="" class="tooltipNav icone_logs" onclick="fechar_popups()">
-                        <span class="tooltiptextNav"">Logs</span>
-                  </a>
                   <a href="./usuarios.html" class="tooltipNav icone_usuarios" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Usuários</span>
                   </a>
@@ -117,9 +114,6 @@ if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
                   </a>
                   <a href="./datacenters.html" id="linkDataCenters" class="tooltipNav icone_datacenters" onclick="fechar_popups()">
                         <span class="tooltiptextNav"">Data Centers</span>
-                  </a>
-                  <a href="" class="tooltipNav icone_logs" onclick="fechar_popups()">
-                        <span class="tooltiptextNav"">Logs</span>
                   </a>
                   <a href="./usuarios.html" id="linkUsuarios" class="tooltipNav icone_usuarios" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Usuários</span>
