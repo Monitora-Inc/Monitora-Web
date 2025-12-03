@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../../style/popup.css">
 </head>
 
-<body onload="listarServidores(), listarPermissoesReload()">
+<body onload="listarServidores(), listarPermissoesReload(), preencherKpisServidoresAlertas()">
     <nav id="id_sidebar"></nav>
     <div id="id_info_kpis"></div>
     <div id="popup_screen"></div>
@@ -161,12 +161,12 @@
         let ramCriticoVar = document.getElementById("RAMCritico%").value;
         let discoAlertaVar = document.getElementById("DiscoAlerta%").value;
         let discoCriticoVar = document.getElementById("DiscoCritico%").value;
-        let redeAlertaPercentVar = document.getElementById("RedeAlerta%").value;
-        let redeCriticoPercentVar = document.getElementById("RedeCritico%").value;        
+        let redeAlertaMbVar = document.getElementById("RedeAlertamb").value;
+        let redeCriticoMbVar = document.getElementById("RedeCriticomb").value;        
         let redeAlertaMsVar = document.getElementById("RedeAlertams").value;
         let redeCriticoMsVar = document.getElementById("RedeCriticoms").value;
 
-        if (nomeServidorVar == null || idDatacenterVar == null || cpuAlertaVar == null || cpuCriticoVar == null || ramAlertaVar == null || ramCriticoVar == null || discoAlertaVar == null || discoCriticoVar == null || redeAlertaPercentVar == null || redeCriticoPercentVar == null || redeAlertaMsVar == null || redeCriticoMsVar == null) {
+        if (nomeServidorVar == null || idDatacenterVar == null || cpuAlertaVar == null || cpuCriticoVar == null || ramAlertaVar == null || ramCriticoVar == null || discoAlertaVar == null || discoCriticoVar == null || redeAlertaMbVar == null || redeCriticoMbVar == null || redeAlertaMsVar == null || redeCriticoMsVar == null) {
             mensagem_erro.innerHTML = `Todos os campos precisam ser preenchidos!`;
             return;
         }
@@ -184,8 +184,8 @@
                 ramCriticoServer: ramCriticoVar,
                 discoAlertaServer: discoAlertaVar,
                 discoCriticoServer: discoCriticoVar,
-                redeAlertaPercentServer: redeAlertaPercentVar,
-                redeCriticoPercentServer: redeCriticoPercentVar,
+                redeAlertaMbServer: redeAlertaMbVar,
+                redeCriticoMbServer: redeCriticoMbVar,
                 redeAlertaMsServer: redeAlertaMsVar,
                 redeCriticoMsServer: redeCriticoMsVar
             })

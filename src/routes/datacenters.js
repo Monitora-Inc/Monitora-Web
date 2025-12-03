@@ -23,4 +23,8 @@ router.get("/buscarDatacenter/:idEmpresa", function(req, res) {
     DatacenterController.buscarDatacenter(req, res);
 });
 
+router.get("/buscarLngLatNomeDatacenter/:idDatacenter", function(req, res){
+    DatacenterController.buscarLngLatNomeDatacenter(req, res);
+});
+
 module.exports = router;

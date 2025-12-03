@@ -21,31 +21,57 @@
   <nav id="id_sidebar"></nav>
   <div id="id_info_kpis"></div>
   <div id="popup_screen"></div>
-  <h1 class="titulo">Mapeamento global</h1>
+  <h1 class="titulo tooltip">
+    Mapeamento global
+    <span class="tooltip-text">Visão geral da operação global dos datacenters em tempo real.</span>
+  </h1>
   <div class="container">
 
     <div class="rankingDataCenter">
-      <h2 class="tituloRank">Ranking Datacenters</h2>
+      <h2 class="subtitulo tooltip">
+        Ranking Datacenters
+        <span class="tooltip-text">Lista os datacenters ordenados pela saúde operacional.</span>
+      </h2>
+
       <div id="rankDatacenter" class="rankDatacenter">
       </div>
     </div>
 
     <div class="direita">
+      <h2 class="subtitulo tooltip">
+        Mapa dos datacenters
+        <span class="tooltip-text">Cada ponto representa um datacenter e sua cor indica o estado atual.</span>
+      </h2>
       <div id="map" class="mapLeaflet">
+        <div id="popupFixo" class="popup-fixo"></div>
       </div>
 
       <div id="grafico_radar" class="grafico_radar">
         <div class="grafico_esquerda">
-          <h3>Gráfico comparativo</h3>
+          <h3 class="tooltip">
+            Gráfico comparativo
+            <span class="tooltip-text">Compara a saúde atual do datacenter versus a última leitura.</span>
+          </h3>
           <div class="card">
             <select id="selectDataCenter" onchange="mudarDatacenter()">
             </select>
             <div class="kpis">
-              <p>Saude: <span id="Saude"></span>%</p>
-              <p>Rede: <span id="Rede"></span>%</p>
-              <p>Disco: <span id="Disco"></span>%</p>
-              <p>CPU: <span id="Cpu"></span>%</p>
-              <p>RAM: <span id="Ram"></span>%</p>
+              <p class="tooltip">Saúde:<span id="Saude"></span>%
+                <span class="tooltip-text">Indicador geral que combina CPU, RAM, Disco e Rede.</span>
+              </p>
+              <p class="tooltip">Rede: <span id="Rede"></span>%
+                <span class="tooltip-text">Uso da banda de rede em relação ao limite máximo.</span>
+              </p>
+              <p class="tooltip">Disco: <span id="Disco"></span>%
+                <span class="tooltip-text">Uso do armazenamento físico do datacenter.</span>
+              </p>
+              <p class="tooltip">CPU: <span id="Cpu"></span>%
+                <span class="tooltip-text">Carga atual de processamento do datacenter.</span>
+              </p>
+              <p class="tooltip">RAM: <span id="Ram"></span>%
+                <span class="tooltip-text">Porcentagem da memória sendo utilizada.</span>
+              </p>
+
             </div>
           </div>
         </div>
@@ -53,24 +79,19 @@
       </div>
     </div>
   </div>
-  <button onclick="popUp_IA()" class="logo_Ia"><img src="../../assets/logos/logo_vetorizada_branca.svg" alt=""></button>
-  <div class="popup_IA">
+  <button onclick="popUp_IA()" class="logo_Ia tooltip" id="logoIa">
+    <img src="../../assets/logos/logo_vetorizada.svg" alt="">
+    <span class="tooltip-text">Dicas da IA.</span>
+  </button>
+  <div class="popup_IA desativada" id="popUpIA">
+    <button onclick="popUp_fechar()" class="fechar_popUp"><img src="../../Images/voltar-branco.svg" alt=""></button>
     <h2>Dicas IA Monitora</h2>
-    <div class="MensagemIA">
-      <p> 🔄 Redistribuição recomendada: mover 20% da carga do DC Paulista para o DC Orlando</p>
-      <p>⚠ Anomalia detectada: aumento de 12% de latência no DC Rússia nas últimas 3h</p>
-      <p>🟩 Orlando está apto para receber novas instâncias</p>
-      <p>🪫 Paulista perto do limite de disco (82%)</p>
+    <div class="MensagemIA" id="MensagemIA">
     </div>
   </div>
+
   <footer>
-    <div class="dashButtons">
-      <a href="./home.html"><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
-      <a href="./Ally.html"><img src="../../Images/Colaboradores/Colaborador1.svg" alt=""></a>
-      <a href="./Gustavo.html"><img src="../../Images/Colaboradores/Colaborador2.svg" alt=""></a>
-      <a href="./Leonardo.html"><img src="../../Images/Colaboradores/Colaborador3.svg" alt=""></a>
-      <a href="./Maria.html"><img src="../../Images/Colaboradores/Colaborador4.svg" alt=""></a>
-      <a href="./Pedro.html"><img src="../../Images/Colaboradores/Colaborador5.svg" alt=""></a>
+    <div class="dashButtons" id="footerButons">
     </div>
     <p>Developed by <a href="https://www.linkedin.com/in/ally-awada">AllyAwada</a></p>
   </footer>
@@ -101,52 +122,118 @@
 
 
   var radarChartInstance;
+  var datacenters = [];
+  var datacentersAnteriores = [];
+  var mensagemdaia = "";
+  async function buscarDados() {
+    try {
+      const caminho = `${sessionStorage.empresaId}%2Fglobal%2Fsnapshots%2F`;
+      const resAnterior = await fetch(`/bucket/read/${caminho}/1`);
+      if (!resAnterior.ok) throw new Error("Erro ao buscar snapshot anterior: " + resAnterior.status);
 
-  const datacenters = [{
-    nome: "Datacenter Orlando",
-    Saude: 99.54,
-    diferenca: 1.54,
-    up: true,
-    lat: 28.5383,
-    lng: -81.3792,
-    cor: "#00D4C4",
-    Rede: 85,
-    Disco: 70,
-    Cpu: 65,
-    Ram: 80
-  }, {
-    nome: "Datacenter Paulista",
-    Saude: 72,
-    diferenca: 5,
-    up: true,
-    lat: -23.5505,
-    lng: -46.6333,
-    cor: "#FFB94A",
-    Rede: 65,
-    Disco: 60,
-    Cpu: 70,
-    Ram: 85
-  }, {
-    nome: "Datacenter Russia",
-    Saude: 65.98,
-    diferenca: 5.4,
-    up: false,
-    lat: 55.7558,
-    lng: 37.6173,
-    cor: "#FF3F72",
-    Rede: 55,
-    Disco: 50,
-    Cpu: 60,
-    Ram: 70
-  }];
+      const jsonAnterior = await resAnterior.json();
+      const rowsAnt = jsonAnterior.rows;
 
+      for (let d of rowsAnt) {
+        datacentersAnteriores.push({
+          cor: d.cor,
+          Cpu: Number(d.cpu).toFixed(2),
+          diferenca: Number(d.diferenca).toFixed(2),
+          Disco: Number(d.disco).toFixed(2),
+          IdDataCenter: d.idDataCenter,
+          Ram: Number(d.ram).toFixed(2),
+          RedeMb: Number(d.redeMb).toFixed(2),
+          RedeMbS: Number(d.redeMbS).toFixed(2),
+          Saude: Number(d.saude).toFixed(2),
+          Timestamp: d.timestamp,
+          up: Boolean(d.up)
+        });
+      }
 
+      const resAtual = await fetch(`/bucket/read/${caminho}/0`);
+      if (!resAtual.ok) throw new Error("Erro ao buscar snapshot atual: " + resAtual.status);
+
+      const jsonAtual = await resAtual.json();
+      const rowsAtual = jsonAtual.rows;
+
+      for (let d of rowsAtual) {
+        datacenters.push({
+          cor: d.cor,
+          Cpu: Number(d.cpu).toFixed(2),
+          diferenca: Number(d.diferenca).toFixed(2),
+          Disco: Number(d.disco).toFixed(2),
+          IdDataCenter: d.idDataCenter,
+          Ram: Number(d.ram).toFixed(2),
+          RedeMb: Number(d.redeMb).toFixed(2),
+          RedeMbS: Number(d.redeMbS).toFixed(2),
+          Saude: Number(d.saude).toFixed(2),
+          Timestamp: d.timestamp,
+          up: Boolean(d.up)
+        });
+      }
+
+      await Promise.all(
+        datacenters.map(async (dc, idx) => {
+          try {
+            const res = await fetch(`/datacenters/buscarLngLatNomeDatacenter/${dc.IdDataCenter}`);
+            if (!res.ok) throw new Error("Erro ao buscar info do datacenter: " + res.status);
+
+            const info = await res.json();
+
+            datacenters[idx].nome = info[0].nome;
+            datacenters[idx].lat = info[0].latitude;
+            datacenters[idx].lng = info[0].longitude;
+
+          } catch (erro) {
+            console.log("Erro ao buscar detalhe do DC:", erro);
+          }
+        })
+      );
+
+      const resIA = await fetch(`/bobia/perguntar`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: `
+          Você é uma inteligência especializada em análise de infraestrutura distribuída. 
+          Os dados recebidos são snapshots globais.
+          Métricas atuais: ${JSON.stringify(datacenters)}
+          Métricas da última leitura: ${JSON.stringify(datacentersAnteriores)}
+          Com base nisso, faça:
+          1. Análise completa do estado geral da operação global.
+          2. Identificação de datacenters com risco iminente.
+          3. Anomalias e comportamento fora do padrão.
+          4. Recomendação de redistribuição de carga.
+          5. Comparação entre datacenters: melhor e pior.
+          6. Sugestões para melhorar performance e capacidade.
+          7. Riscos operacionais prováveis nas próximas horas.
+          8. Oportunidades de otimização (CPU/Disco/Rede).
+          9. Pontos críticos com ação imediata.
+          10. Insight final geral.
+          Use linguagem clara, objetiva e curta.
+          
+          Para pular linhas ultilize de <br>
+          para deixar algo em negrito ultilize <b>
+          Não ultilize nada alem disso e responda de maneira mais simples para uma visualização rápida
+          `
+        })
+      });
+
+      if (!resIA.ok) throw new Error("Erro IA: " + resIA.status);
+
+      const respostaIA = await resIA.json();
+      mensagemdaia = respostaIA.resultado;
+      popUp_IA();
+    } catch (erro) {
+      console.error("Erro geral:", erro);
+    }
+  }
   function rankingDataCenter() {
     rankDatacenter.innerHTML = "";
 
 
     for (let i = 0; i < datacenters.length; i++) {
-
+      console.log(datacenters[i])
       let estado = "";
       let iconStatus = "";
 
@@ -164,28 +251,36 @@
       let iconComparativo = datacenters[i].up ? "lineUp.svg" : "lineDown.svg";
 
       rankDatacenter.innerHTML += `
-      <div class="popup">
+      <div class="popup-dc" onclick="dashDC(${i})">
         <div class="status status_${estado}">
           <img src="../../Images/PopUpsDash/${iconStatus}" alt="">
-        </div>
-        <div class="contentDc">
-          <div class="first">
-            <img class="icon" src="../../Images/PopUpsDash/iconDc.svg" alt="">
-              <p>${datacenters[i].nome}</p>
           </div>
-          <div class="seccond seccond_${estado}">
-            <h3 class="kpi">${datacenters[i].Saude}%</h3>
-            <section class="comparativo ${clsComparativo}">
-              <p class="kpi">
-                <img src="../../Images/PopUpsDash/${iconComparativo}" alt="">
+          <div class="contentDc">
+            <div class="first">
+              <img class="icon" src="../../Images/PopUpsDash/iconDc.svg" alt="">
+              <p>${datacenters[i].nome}</p>
+              </div>
+              <div class="seccond seccond_${estado}">
+                <h3 class="kpi tooltip">${datacenters[i].Saude}%
+                  <span class="tooltip-text">Saúde do datacenter.</span>
+                </h3>
+                <section class="comparativo ${clsComparativo}">
+                  <p class="kpi tooltip">
+                  <span class="tooltip-text">Diferença da ultima leitura da saúde do datacenter.</span>
+                    <img src="../../Images/PopUpsDash/${iconComparativo}" alt="">
                   ${datacenters[i].diferenca}%
               </p>
-              <p>vs última semana</p>
+              <p>vs última leitura</p>
             </section>
           </div>
         </div>
       </div>`;
     }
+  }
+
+  function dashDC(index) {
+    sessionStorage.datacenter = JSON.stringify(datacenters[index]);
+    window.location = "./Ally2.html";
   }
 
   function carregarSelectRadar() {
@@ -216,7 +311,7 @@
             borderWidth: 2
           },
           {
-            label: "Limites",
+            label: "Ultima Leitura",
             data: [82, 70, 68, 80, 88],
             backgroundColor: "rgba(31, 84, 126, 0.15)",
             borderColor: "#1F547E",
@@ -253,24 +348,32 @@
   function mudarDatacenter() {
     const index = document.getElementById("selectDataCenter").value;
     const dc = datacenters[index];
-
+    const anterior = datacentersAnteriores[index];
     document.getElementById("Saude").innerText = dc.Saude;
-    document.getElementById("Rede").innerText = dc.Rede;
+    document.getElementById("Rede").innerText = dc.RedeMbS;
     document.getElementById("Disco").innerText = dc.Disco;
     document.getElementById("Cpu").innerText = dc.Cpu;
     document.getElementById("Ram").innerText = dc.Ram;
 
-    atualizarRadar(dc);
+    atualizarRadar(dc, anterior);
   }
 
-  function atualizarRadar(dc) {
+  function atualizarRadar(dc, anterior) {
     radarChartInstance.data.datasets[0].label = dc.nome;
     radarChartInstance.data.datasets[0].data = [
       dc.Saude,
       dc.Disco,
       dc.Ram,
       dc.Cpu,
-      dc.Rede
+      dc.RedeMbS
+    ];
+
+    radarChartInstance.data.datasets[1].data = [
+      anterior.Saude,
+      anterior.Disco,
+      anterior.Ram,
+      anterior.Cpu,
+      anterior.RedeMbS
     ];
 
     radarChartInstance.data.datasets[0].backgroundColor = dc.cor + "33";
@@ -279,13 +382,32 @@
     radarChartInstance.update();
   }
 
+  function popUp_IA() {
+    MensagemIA.innerHTML = `<p>${mensagemdaia}</p>`;
+    popUpIA.classList.remove("desativada");
+    popUpIA.classList.add("ativada");
+    setTimeout(() => { logoIa.onclick = popUp_fechar }, 800)
+  }
+
+  function popUp_fechar() {
+    MensagemIA.innerHTML = "";
+    popUpIA.classList.remove("ativada");
+    popUpIA.classList.add("desativada");
+    setTimeout(() => { logoIa.onclick = popUp_IA }, 800)
+  }
 
   window.onload = () => {
+    popup_carregar();
+    preencherKpisServidoresAlertas();
     listarPermissoesReload();
+    buscarDados().then(() => {
+      popup_screen.innerHTML = ``;
+      rankingDataCenter();
+      criarRadarInicial();
+      carregarSelectRadar();
+      popUpMapa();
+    });
   };
-  rankingDataCenter();
-  criarRadarInicial();
-  carregarSelectRadar();
 </script>
 
 <script>
@@ -296,24 +418,84 @@
   }).setView([20, 0], 2);
 
   // Tile minimalista igual ao mockup
-  L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+  L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png&api_key=dbc98e17-507a-49d3-b23e-7b7d5c8c68cf', {
     maxZoom: 20
   }).addTo(map);
 
   // Função dos marcadores estilo bolinha colorida
-  function marker(color) {
+  function marker(color, nome) {
     return L.divIcon({
       className: "",
-      html: `<div class="marker-dot" style="background:${color}"></div>`,
+      html: `<div class="marker-dot tooltip" style="background:${color}">
+          <span class="tooltip-text">${nome}</span>
+        </div>`,
       iconSize: [16, 16],
       iconAnchor: [8, 8]
     });
   }
 
-  // Adiciona os marcadores
-  datacenters.forEach(dc => {
-    L.marker([dc.lat, dc.lng], { icon: marker(dc.cor) })
-      .addTo(map)
-      .bindPopup(`<b>${dc.nome}</b>`);
-  });
+
+
+  // POPUP MODERNO E BONITO PARA O MAPA
+  function criarPopupBonito(dc) {
+    return `
+    <div class="popup-card">
+      <div class="popup-header">
+        <div class="popup-icon">📡</div>
+        <div>
+          <h3 class="popup-title">${dc.nome}</h3>
+          <p class="popup-sub ${dc.Saude >= 90 ? "ok" : dc.Saude >= 70 ? "alerta" : "critico"}">${dc.Saude}% de saúde</p>
+        </div>
+      </div>
+
+      <div class="popup-row">
+        <span>CPU</span>
+        <p>${dc.Cpu}%</p>
+      </div>
+
+      <div class="popup-row">
+        <span>RAM</span>
+        <p>${dc.Ram}%</p>
+      </div>
+
+      <div class="popup-row">
+        <span>Uso de rede</span>
+        <p>${dc.RedeMb}Mb</p>
+      </div>
+
+      <div class="popup-row">
+        <span>Disco</span>
+        <p>${dc.Disco}%</p>
+      </div>
+
+      <div class="popup-status ${dc.Saude >= 90 ? "ok" : dc.Saude >= 70 ? "alerta" : "critico"}">
+        ${dc.Saude >= 90 ? "Operando normalmente" :
+        dc.Saude >= 70 ? "Atenção — alta carga" :
+          "Crítico — risco de falhas"}
+      </div>
+    </div>
+  `;
+  }
+
+  const popupOptions = {
+    className: "popup-custom",
+    closeButton: false,
+    offset: [0, -5]
+  };
+
+  function popUpMapa() {
+    datacenters.forEach(dc => {
+      const markerInstance = L.marker([dc.lat, dc.lng], { icon: marker(dc.cor, dc.nome) }).addTo(map);
+
+      markerInstance.on("click", () => {
+        const html = criarPopupBonito(dc);
+
+        const divFixa = document.getElementById("popupFixo");
+        divFixa.innerHTML = html;
+        divFixa.classList.remove("ok", "alerta", "critico")
+        divFixa.classList.add(`${dc.Saude >= 90 ? "ok" : dc.Saude >= 70 ? "alerta" : "critico"}`)
+        divFixa.style.display = "block";
+      });
+    });
+  }
 </script>

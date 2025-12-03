@@ -20,11 +20,10 @@
 }
 
 .container {
-  margin-inline: 6vw;
+  margin-left: 6vw;
   padding-top: 15vh;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   height: 90vh;
 }
 
@@ -32,6 +31,34 @@
   color: #1F547E;
   font-size: clamp(1rem, 1vw, 1.5rem);
   font-weight: 300;
+  margin-left: 55px;
+}
+
+/* 
+__  ______ ___ _ ____  
+| |/ /  _ \_ _( ) ___| 
+| ' /| |_) | ||/\___ \ 
+| . \|  __/| |   ___) |
+|_|\_\_|  |___| |____/ 
+ */
+
+.cards_kpi {
+  width: 98%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cards_kpi .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 14vw;
+  height: fit-content;
+  padding-block: 1rem;
+  border-radius: 5px;
 }
 
 /*
@@ -42,40 +69,45 @@ ____             _    _
 |_| \_\__,_|_| |_|_|\_\_|_| |_|\__, |
                               |___/ */
 
-.rankingDataCenter {
-  width: 20vw;
-  min-width: 250px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.rankDatacenter {
+.rankingServidores {
+  margin-block: 1vh;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  height: 280px;
+}
+
+.rankServer {
+  width: 98%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   overflow-y: auto;
   overflow-x: hidden;
+  border-radius: 22px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+  background-color: transparent;
 }
 
-.popup-dc {
-  width: 100%;
+.popup-Server {
+  margin-block: 1vh;
+  width: 22%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
   background: #ffffff;
   border-radius: 10px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-  transition: 0.24s;
+  transition: .24s ease;
 }
 
-.popup-dc:hover {
+.popup-Server:hover {
   transition: .24s;
   transform: scale(0.9);
   cursor: pointer;
 }
+
 
 .status {
   width: 100%;
@@ -99,7 +131,7 @@ ____             _    _
 }
 
 /* Conteúdo interno */
-.contentDc {
+.contentServer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -117,6 +149,7 @@ ____             _    _
 .first .icon {
   width: 22px;
   height: 22px;
+  z-index: 100;
 }
 
 .first p {
@@ -191,157 +224,6 @@ ____             _    _
 }
 
 /* 
-__  __    _    ____   _
-|  \/  |  / \  |  _ \ / \
-| |\/| | / _ \ | |_) / _ \
-| |  | |/ ___ \|  __/ ___ \
-|_|  |_/_/   \_\_| /_/   \_\
-*/
-.direita {
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  height: 100%;
-}
-
-.mapLeaflet {
-  display: flex;
-  flex-direction: row;
-  border-radius: 22px;
-  padding: 0;
-  overflow: hidden;
-  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.08);
-  width: 100%;
-  height: 48%;
-  margin-bottom: 1%;
-}
-
-/* Marcadores do mapa */
-.marker-dot {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 3px solid white;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-}
-
-.popup-fixo {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: fit-content;
-  max-width: 40%;
-  max-width: 300px;
-  height: 100%;
-  background: #ffffffd8;
-  padding: 20px 22px;
-  z-index: 999;
-  display: none;
-  overflow-y: auto;
-}
-
-.popup-fixo.ok {
-  border-top: solid 5px #00c46a;
-}
-
-.popup-fixo.alerta {
-  border-top: solid 5px #ffca3a;
-}
-
-.popup-fixo.critico {
-  border-top: solid 5px #ff415b;
-}
-
-.popup-header {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  width: 5vw;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.popup-icon {
-  color: white;
-  width: 42px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  font-size: 22px;
-}
-
-.popup-title {
-  margin: 0;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #1F547E;
-}
-
-.popup-sub {
-  margin: 0;
-  font-size: 0.9rem;
-  margin-top: 2px;
-}
-.popup-sub.ok {
-  color: #00c46a;
-}
-
-.popup-sub.alerta {
-  color: #ffca3a;
-}
-
-.popup-sub.critico {
-  color: #ff415b;
-}
-
-.popup-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-  font-size: 0.95rem;
-}
-
-.popup-row span {
-  color: #1F547E;
-  font-weight: 500;
-}
-
-.popup-row p {
-  margin: 0;
-  font-weight: 600;
-  color: #2a2a2a;
-}
-
-.popup-status {
-  margin-top: 18px;
-  padding: 10px;
-  text-align: center;
-  border-radius: 14px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: white;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
-}
-
-.popup-status.ok {
-  background: linear-gradient(90deg, #00c46a, #05e38b);
-}
-
-.popup-status.alerta {
-  background: linear-gradient(90deg, #ffca3a, #ffd86b);
-  color: #6f5200;
-}
-
-.popup-status.critico {
-  background: linear-gradient(90deg, #ff415b, #ff6b7a);
-}
-
-
-
-/* 
  ____      _    ____    _    ____  
 |  _ \    / \  |  _ \  / \  |  _ \ 
 | |_) |  / _ \ | | | |/ _ \ | |_) |
@@ -353,39 +235,30 @@ __  __    _    ____   _
   display: flex;
   flex-direction: row;
   justify-content: center;
+  gap: 8%;
   border-radius: 22px;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   background-color: transparent;
-  width: 100%;
-  height: 48%;
+  width: 98%;
+  height: 40%;
 }
 
-.grafico_radar .grafico_esquerda {
+.grafico_radar .kpi {
   display: flex;
   flex-direction: column;
   margin-top: 3vh;
   margin-right: 5vw;
 }
 
-.grafico_radar .grafico_esquerda h3 {
+.grafico_radar .kpi h3{
   color: #1F547E;
   font-size: clamp(1.5rem, 1.5vw, 2.5rem);
   font-weight: 500;
 }
 
-.grafico_radar .grafico_esquerda .card {
-  width: 15vw;
-  height: fit-content;
-  border-radius: 2vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 3vh;
-}
-
-.grafico_radar .grafico_esquerda .card select {
+.grafico_radar .kpi select {
+  margin-top: 1vh;
   border: none;
-
   border-radius: 1px;
   background-color: transparent;
   font-size: 1.1vw;
@@ -394,9 +267,24 @@ __  __    _    ____   _
   cursor: pointer;
 }
 
+.grafico_radar .kpi .kpis {
+  margin-top: 1vh;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 30%;
+}
+
+.grafico_radar .kpi .kpis p{
+  color: #000;
+  font-size: clamp(.5rem, .9vw, 1rem);
+  font-weight: 500;
+}
+
 .grafico_radar .grafico {
-  width: 30% !important;
-  height: 100% !important;
+  width: 20% !important;
+  height: 80% !important;
 }
 
 /*

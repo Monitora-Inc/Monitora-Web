@@ -83,9 +83,6 @@ if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
                   <a href="./datacenters.html" class="tooltipNav icone_datacenters" onclick="fechar_popups()">
                         <span class="tooltiptextNav"">Data Centers</span>
                   </a>
-                  <a href="" class="tooltipNav icone_logs" onclick="fechar_popups()">
-                        <span class="tooltiptextNav"">Logs</span>
-                  </a>
                   <a href="./usuarios.html" class="tooltipNav icone_usuarios" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Usuários</span>
                   </a>
@@ -117,9 +114,6 @@ if (sessionStorage.empresaNome === "admin" && sessionStorage.fotoUser == null) {
                   </a>
                   <a href="./datacenters.html" id="linkDataCenters" class="tooltipNav icone_datacenters" onclick="fechar_popups()">
                         <span class="tooltiptextNav"">Data Centers</span>
-                  </a>
-                  <a href="" class="tooltipNav icone_logs" onclick="fechar_popups()">
-                        <span class="tooltiptextNav"">Logs</span>
                   </a>
                   <a href="./usuarios.html" id="linkUsuarios" class="tooltipNav icone_usuarios" onclick="fechar_popups()">
                         <span class="tooltiptextNav">Usuários</span>
@@ -160,11 +154,11 @@ if (sessionStorage.empresaNome != "admin") {
 
                   <div class="kpi_servidores_status">
                   <img src="../../assets/icons/icone_sino_info.svg" alt="">
-                  <h1 class="servidores_criticos tooltipKPI" onclick="dashboard_home()">0
-                        <span class="tooltiptextKPI">Servidores em Risco</span>
+                  <h1 id="qtdAlertasCriticos" class="servidores_criticos tooltipKPI" onclick="dashboard_home()">
+                        <span class="tooltiptextKPI">Alertas críticos</span>
                   </h1>
-                  <h1 class="servidores_alertas tooltipKPI" onclick="dashboard_home()">0
-                        <span class="tooltiptextKPI">Servidores em Alerta</span>
+                  <h1 id="qtdAlertasAtencao" class="servidores_alertas tooltipKPI" onclick="dashboard_home()">
+                        <span class="tooltiptextKPI">Alertas de atenção</span>
                   </h1>
             </div>`;
 
