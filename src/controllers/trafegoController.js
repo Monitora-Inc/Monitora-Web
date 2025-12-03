@@ -81,7 +81,7 @@ async function carregarDadosTrafego(empresaId, servidorId, periodo, usarHeader) 
           if (!row.timestamp) return;
           const ts = new Date(row.timestamp);
           if (isNaN(ts) || ts < dataInicio || ts > agora) return;
-          if (idx === 0) console.log('header csv', Object.keys(row));
+          if (idx === 0) console.log('[CSV HEADER]', Object.keys(row));
           linhas.push({ ts, row });
         });
       } else {
@@ -98,6 +98,7 @@ async function carregarDadosTrafego(empresaId, servidorId, periodo, usarHeader) 
     }
   }
 
+  console.log(`[PROCESSADO] ${linhas.length} linhas de ${selecionados.length} arquivos`);
 
   return { linhas, agora, dataInicio, arquivosFiltrados: arquivos };
 }
@@ -115,6 +116,7 @@ async function getKPITrafego(req, res) {
     const cacheKey = getCacheKey(empresaId, servidorId, `kpi_${periodo}`);
     const cached = getCached(cacheKey);
     if (cached) {
+      console.log(`[CACHE HIT] KPI ${periodo}`);
       return res.json(cached);
     }
 
@@ -130,6 +132,7 @@ async function getKPITrafego(req, res) {
 
     if (linhas.length > 0) {
       const firstRow = linhas[0].row;
+      console.log('[DEBUG] Chaves disponíveis:', Object.keys(firstRow));
 
       bytesEnvCol = Object.keys(firstRow).find(k => k.toLowerCase().includes('bytes') && k.toLowerCase().includes('env')) || bytesEnvCol;
       bytesRecbCol = Object.keys(firstRow).find(k => k.toLowerCase().includes('bytes') && k.toLowerCase().includes('recb')) || bytesRecbCol;
@@ -137,6 +140,7 @@ async function getKPITrafego(req, res) {
       pacotesRecbCol = Object.keys(firstRow).find(k => k.toLowerCase().includes('pacot') && k.toLowerCase().includes('recb')) || pacotesRecbCol;
       pacotesPerdCol = Object.keys(firstRow).find(k => k.toLowerCase().includes('pacot') && k.toLowerCase().includes('perd')) || pacotesPerdCol;
 
+      console.log(`[AUTO-DETECT] Colunas detectadas: env=${bytesEnvCol}, recb=${bytesRecbCol}, pacotes_env=${pacotesEnvCol}`);
     }
 
     const todosDados = linhas.map(({ ts, row }) => {
@@ -153,7 +157,11 @@ async function getKPITrafego(req, res) {
       };
     });
 
-    const kpis = calcularKPIs(todosDados);
+    console.log(`totalLinhas processadas: ${todosDados.length}, totalArquivos: ${totalArquivosProcessados}`);
+    console.log('Amostra de dados (primeiros 3):', todosDados.slice(0, 3));
+    const deltas = gerarDeltas(todosDados);
+
+    const kpis = calcularKPIs(deltas);
 
     const response = {
       success: true,
@@ -177,14 +185,44 @@ async function getKPITrafego(req, res) {
     });
   }
 }
+function gerarDeltas(dados) {
+    let anterior = null;
+    let lista = [];
+
+    for (const d of dados.sort((a, b) => a.timestamp - b.timestamp)) {
+
+        if (anterior) {
+            const deltaEnv = Math.max(0, d.bytesEnv - anterior.bytesEnv);
+            const deltaRecb = Math.max(0, d.bytesRecb - anterior.bytesRecb);
+
+            const deltaPacEnv = Math.max(0, d.pacotes_enviados - anterior.pacotes_enviados);
+            const deltaPacRecb = Math.max(0, d.pacotes_recebidos - anterior.pacotes_recebidos);
+            const deltaPacPerd = Math.max(0, d.pacotes_perdidos - anterior.pacotes_perdidos);
+
+            lista.push({
+                timestamp: d.timestamp,
+                bytesEnv_delta: deltaEnv,
+                bytesRecb_delta: deltaRecb,
+                pacotesEnv_delta: deltaPacEnv,
+                pacotesRecb_delta: deltaPacRecb,
+                pacotesPerd_delta: deltaPacPerd
+            });
+        }
+
+        anterior = d;
+    }
+
+    return lista;
+}
+
 
 function calcularKPIs(dados) {
   if (dados.length === 0) {
     return {
-      trafegoMedioUltimaHora: "0 Gbps",
+      trafegoMedioUltimaHora: "0 Mbps",
       perdaPacotes: "0%",
-      dadosEnviados: "0 GB",
-      dadosRecebidos: "0 GB"
+      dadosEnviados: "0 MB",
+      dadosRecebidos: "0 MB"
     };
   }
 
@@ -195,53 +233,55 @@ function calcularKPIs(dados) {
   let totalPerdidos = 0;
   let totalBytesEnv = 0;
   let totalBytesRecb = 0;
+
   let bytesUltimaHoraEnv = 0;
   let bytesUltimaHoraRecb = 0;
   let primeiroTimestampUltimaHora = null;
   let ultimoTimestampUltimaHora = null;
 
   for (const d of dados) {
-    const env = Number(d.bytesEnv) || 0;
-    const recb = Number(d.bytesRecb) || 0;
+    const env = Number(d.bytesEnv_delta) || 0;
+    const recb = Number(d.bytesRecb_delta) || 0;
 
-    totalEnviados += Number(d.pacotes_enviados) || 0;
-    totalPerdidos += Number(d.pacotes_perdidos) || 0;
+    totalEnviados += Number(d.pacotesEnv_delta) || 0;
+    totalPerdidos += Number(d.pacotesPerd_delta) || 0;
+
     totalBytesEnv += env;
     totalBytesRecb += recb;
 
     if (d.timestamp > umaHoraAtras) {
       bytesUltimaHoraEnv += env;
       bytesUltimaHoraRecb += recb;
-      if (!primeiroTimestampUltimaHora || d.timestamp < primeiroTimestampUltimaHora) {
+
+      if (!primeiroTimestampUltimaHora || d.timestamp < primeiroTimestampUltimaHora)
         primeiroTimestampUltimaHora = d.timestamp;
-      }
-      if (!ultimoTimestampUltimaHora || d.timestamp > ultimoTimestampUltimaHora) {
+
+      if (!ultimoTimestampUltimaHora || d.timestamp > ultimoTimestampUltimaHora)
         ultimoTimestampUltimaHora = d.timestamp;
-      }
     }
   }
 
-  console.log(` totalBytesEnv: ${totalBytesEnv}, totalBytesRecb: ${totalBytesRecb}, bytesUltimaHora: ${bytesUltimaHoraEnv + bytesUltimaHoraRecb}`);
-
   const perdaPacotes = totalEnviados > 0
-    ? ((totalPerdidos / totalEnviados) * 100).toFixed(2) + '%'
-    : '0%';
+    ? ((totalPerdidos / totalEnviados) * 100).toFixed(2) + "%"
+    : "0%";
 
-  // Convertendo para MB  para simular GB
-  const enviadosMB = (totalBytesEnv / (1024 * 1024)).toFixed(2) + ' GB';
-  const recebidosMB = (totalBytesRecb / (1024 * 1024)).toFixed(2) + ' GB';
+  // ⬇️ CORREÇÃO: usar **MB**, não GB
+  const enviadosMB = (totalBytesEnv / (1024 * 1024)).toFixed(2) + " MB";
+  const recebidosMB = (totalBytesRecb / (1024 * 1024)).toFixed(2) + " MB";
 
-  //  intervalo  entre primeiro e último timestamp da ÚLTIMA HORA (em segundos)
-  let intervaloSegundos = 60; 
+  // evitar intervalo zero
+  let intervaloSegundos = 60;
   if (primeiroTimestampUltimaHora && ultimoTimestampUltimaHora) {
     const diff = (ultimoTimestampUltimaHora - primeiroTimestampUltimaHora) / 1000;
     intervaloSegundos = diff > 0 ? diff : 60;
   }
 
-  // Gb da última hora
+  // tráfego total da última hora (ENVI + RECB)
   const bytesUltimaHora = bytesUltimaHoraEnv + bytesUltimaHoraRecb;
-  const mbps = ((bytesUltimaHora * 8) / (intervaloSegundos * 1024 * 1024)).toFixed(2) + ' Gbps';
 
+  // Mbps = (bytes * 8) / (segundos * 1024 * 1024)
+  const mbps = ((bytesUltimaHora * 8) / (intervaloSegundos * 1024 * 1024))
+    .toFixed(2) + " Mbps";
 
   return {
     perdaPacotes,
@@ -257,86 +297,101 @@ async function getDadosTrafego(req, res) {
 
     const cacheKey = getCacheKey(empresaId, servidorId, `dados_${periodo}`);
     const cached = getCached(cacheKey);
-    if (cached) {
-      console.log(`Dados ${periodo}`);
-      return res.json(cached);
-    }
+    if (cached) return res.json(cached);
 
-    const { linhas, arquivosFiltrados, agora } = await carregarDadosTrafego(empresaId, servidorId, periodo, true);
+    const { linhas, agora } = await carregarDadosTrafego(
+      empresaId, servidorId, periodo, true
+    );
 
-    let bytesEnvCol = 'bytesEnv', bytesRecbCol = 'bytesRecb';
-    if (linhas[0]) {
-      const firstRow = linhas[0].row;
-      bytesEnvCol = Object.keys(firstRow).find(k => k.includes('env')) || 'bytesEnv';
-      bytesRecbCol = Object.keys(firstRow).find(k => k.includes('recb')) || 'bytesRecb';
-    }
+    if (!linhas.length)
+      return res.json({ success: true, periodo, labels: [], valores: [] });
 
-    const pontos = linhas.map(({ ts, row }) => ({
-      ts,
-      valor: (parseFloat(row[bytesEnvCol]) || 0) + (parseFloat(row[bytesRecbCol]) || 0)
+    // Detectar colunas
+    const first = linhas[0].row;
+    const colEnv = Object.keys(first).find(k => k.includes("env")) || "bytesEnv";
+    const colRecb = Object.keys(first).find(k => k.includes("recb")) || "bytesRecb";
+
+    // Converter linhas em valores numéricos
+    const dados = linhas.map(l => ({
+      ts: l.ts,
+      env: Number(l.row[colEnv] || 0),
+      recb: Number(l.row[colRecb] || 0)
     }));
 
-    let labels = [], valores = [];
+    // Ordenar e gerar deltas
+    dados.sort((a, b) => a.ts - b.ts);
 
-    if (periodo === '24h') {
+    let anterior = null;
+    const deltas = [];
+
+    for (const d of dados) {
+      if (anterior) {
+        deltas.push({
+          ts: d.ts,
+          delta: Math.max(0, (d.env - anterior.env)) +
+                 Math.max(0, (d.recb - anterior.recb))
+        });
+      }
+      anterior = d;
+    }
+
+    let labels = [];
+    let valores = [];
+
+    if (periodo === "24h") {
+      // Agrupar por hora (9 pontos)
       const horaMap = {};
-      pontos.forEach(p => {
+
+      deltas.forEach(p => {
         const h = new Date(p.ts);
-        h.setMinutes(0, 0, 0, 0);
-        const chave = `${h.getFullYear()}-${String(h.getMonth() + 1).padStart(2, '0')}-${String(h.getDate()).padStart(2, '0')}_${String(h.getHours()).padStart(2, '0')}`;
-        horaMap[chave] = (horaMap[chave] || 0) + p.valor;
+        h.setMinutes(0, 0, 0);
+        const key = h.toISOString();
+        horaMap[key] = (horaMap[key] || 0) + p.delta;
       });
 
-      const horasBase = [];
       for (let i = 8; i >= 0; i--) {
-        const h = new Date(agora.getTime() - i * 60 * 60 * 1000);
-        h.setMinutes(0, 0, 0, 0);
-        horasBase.push(h);
+        const h = new Date(agora - i * 3600 * 1000);
+        h.setMinutes(0, 0, 0);
+        const key = h.toISOString();
+        labels.push(h.getHours().toString().padStart(2, "0") + "h");
+
+        // Conversão correta para Mbps (delta/hora)
+        const bytes = horaMap[key] || 0;
+        const mbps = (bytes * 8) / (3600 * 1024 * 1024);
+
+        valores.push(Number(mbps.toFixed(2)));
       }
 
-      horasBase.forEach(h => {
-        const chave = `${h.getFullYear()}-${String(h.getMonth() + 1).padStart(2, '0')}-${String(h.getDate()).padStart(2, '0')}_${String(h.getHours()).padStart(2, '0')}`;
-        const somaBytes = horaMap[chave] || 0;
-        labels.push(h.getHours().toString().padStart(2, '0') + 'h');
-        valores.push(Number(((somaBytes * 8) / (3600 * 1024 * 1024)).toFixed(2)));
-      });
-    } else if (periodo === '7d') {
-      for (let i = 6; i >= 0; i--) {
-        const dia = new Date(agora.getTime() - i * 24 * 60 * 60 * 1000);
+    } else {
+      // 7d e 30d → exibir MB/dia
+      const dias = periodo === "7d" ? 7 : 30;
+
+      for (let i = dias - 1; i >= 0; i--) {
+        const dia = new Date(agora - i * 86400 * 1000);
         const ini = new Date(dia.getFullYear(), dia.getMonth(), dia.getDate());
-        const fim = new Date(ini.getTime() + 24 * 60 * 60 * 1000);
-        const soma = pontos.filter(p => p.ts >= ini && p.ts < fim)
-          .reduce((s, p) => s + p.valor, 0);
-        labels.push(ini.getDate().toString().padStart(2, '0') + '/' + (ini.getMonth() + 1));
-        valores.push(Number((soma / (1024 * 1024)).toFixed(2)));
-      }
-    } else { 
-      // mostrar total diário em MB (não converter para Mbps)
-      for (let i = 29; i >= 0; i--) {
-        const dia = new Date(agora.getTime() - i * 24 * 60 * 60 * 1000);
-        const ini = new Date(dia.getFullYear(), dia.getMonth(), dia.getDate());
-        const fim = new Date(ini.getTime() + 24 * 60 * 60 * 1000);
-        const soma = pontos.filter(p => p.ts >= ini && p.ts < fim)
-          .reduce((s, p) => s + p.valor, 0);
-        labels.push(ini.getDate().toString().padStart(2, '0') + '/' + (ini.getMonth() + 1));
-      
+        const fim = new Date(ini.getTime() + 86400000);
+
+        const soma = deltas
+          .filter(p => p.ts >= ini && p.ts < fim)
+          .reduce((s, p) => s + p.delta, 0);
+
+        labels.push(
+          ini.getDate().toString().padStart(2, "0") + "/" + (ini.getMonth() + 1)
+        );
         valores.push(Number((soma / (1024 * 1024)).toFixed(2)));
       }
     }
 
     const response = { success: true, periodo, labels, valores };
-
     setCache(cacheKey, response);
     return res.json(response);
 
-  } catch (error) {
-    console.error("Erro na série de tráfego:", error);
-    return res.status(500).json({
-      error: "Erro ao montar série de tráfego",
-      details: error.message
-    });
+  } catch (err) {
+    console.error("Erro na série de tráfego:", err);
+    return res.status(500).json({ error: "Erro ao montar série de tráfego" });
   }
 }
+
 
 async function getDadosPacotes(req, res) {
   try {
@@ -344,80 +399,91 @@ async function getDadosPacotes(req, res) {
 
     const cacheKey = getCacheKey(empresaId, servidorId, `pacotes_${periodo}`);
     const cached = getCached(cacheKey);
-    if (cached) {
-      console.log(`Pacotes ${periodo}`);
-      return res.json(cached);
-    }
+    if (cached) return res.json(cached);
 
-    const { linhas, arquivosFiltrados, agora } = await carregarDadosTrafego(empresaId, servidorId, periodo, true);
+    const { linhas, agora } = await carregarDadosTrafego(
+      empresaId, servidorId, periodo, true
+    );
 
-    let pacotesEnvCol = 'pacotes_enviados', pacotesRecbCol = 'pacotes_recebidos';
-    if (linhas[0]) {
-      const firstRow = linhas[0].row;
-      pacotesEnvCol = Object.keys(firstRow).find(k => k.toLowerCase().includes('pacot') && k.toLowerCase().includes('env')) || pacotesEnvCol;
-      pacotesRecbCol = Object.keys(firstRow).find(k => k.toLowerCase().includes('pacot') && k.toLowerCase().includes('recb')) || pacotesRecbCol;
-      console.log(`Colunas: env=${pacotesEnvCol}, recb=${pacotesRecbCol}`);
-    }
+    if (!linhas.length)
+      return res.json({ success: true, labels: [], pacotes_enviados: [], pacotes_recebidos: [] });
 
-    const pontos = linhas.map(({ ts, row }) => ({
-      ts,
-      pacotes_enviados: parseInt(row[pacotesEnvCol]) || 0,
-      pacotes_recebidos: parseInt(row[pacotesRecbCol]) || 0
+    const first = linhas[0].row;
+
+    const colEnv = Object.keys(first).find(k =>
+      k.toLowerCase().includes("pacot") && k.toLowerCase().includes("env")
+    ) || "pacotes_enviados";
+
+    const colRecb = Object.keys(first).find(k =>
+      k.toLowerCase().includes("pacot") && k.toLowerCase().includes("recb")
+    ) || "pacotes_recebidos";
+
+    const dados = linhas.map(l => ({
+      ts: l.ts,
+      env: Number(l.row[colEnv] || 0),
+      recb: Number(l.row[colRecb] || 0)
     }));
 
-    let labels = [], pacotes_recebidos = [], pacotes_enviados = [];
+    dados.sort((a, b) => a.ts - b.ts);
 
-    if (periodo === '24h') {
-    
-      const horaMapRecb = {}, horaMapEnv = {};
-      pontos.forEach(p => {
+    let anterior = null;
+    const deltas = [];
+
+    for (const d of dados) {
+      if (anterior) {
+        deltas.push({
+          ts: d.ts,
+          env: Math.max(0, d.env - anterior.env),
+          recb: Math.max(0, d.recb - anterior.recb)
+        });
+      }
+      anterior = d;
+    }
+
+    let labels = [];
+    let envArr = [];
+    let recbArr = [];
+
+    if (periodo === "24h") {
+      const horaEnv = {}, horaRecb = {};
+
+      deltas.forEach(p => {
         const h = new Date(p.ts);
-        h.setMinutes(0, 0, 0, 0);
-        const chave = `${h.getFullYear()}-${String(h.getMonth() + 1).padStart(2, '0')}-${String(h.getDate()).padStart(2, '0')}_${String(h.getHours()).padStart(2, '0')}`;
-        horaMapRecb[chave] = (horaMapRecb[chave] || 0) + p.pacotes_recebidos;
-        horaMapEnv[chave] = (horaMapEnv[chave] || 0) + p.pacotes_enviados;
+        h.setMinutes(0, 0, 0);
+        const key = h.toISOString();
+        horaEnv[key] = (horaEnv[key] || 0) + p.env;
+        horaRecb[key] = (horaRecb[key] || 0) + p.recb;
       });
 
-      // Últimas 9 horas 
       for (let i = 8; i >= 0; i--) {
-        const h = new Date(agora.getTime() - i * 60 * 60 * 1000);
-        h.setMinutes(0, 0, 0, 0);
-        const chave = `${h.getFullYear()}-${String(h.getMonth() + 1).padStart(2, '0')}-${String(h.getDate()).padStart(2, '0')}_${String(h.getHours()).padStart(2, '0')}`;
-        labels.push(h.getHours().toString().padStart(2, '0') + 'h');
-        pacotes_recebidos.push(horaMapRecb[chave] || 0);
-        pacotes_enviados.push(horaMapEnv[chave] || 0);
+        const h = new Date(agora - i * 3600 * 1000);
+        h.setMinutes(0, 0, 0);
+        const key = h.toISOString();
+
+        labels.push(h.getHours().toString().padStart(2, "0") + "h");
+        envArr.push(horaEnv[key] || 0);
+        recbArr.push(horaRecb[key] || 0);
       }
-    } else if (periodo === '7d') {
-   
-      for (let i = 6; i >= 0; i--) {
-        const dia = new Date(agora.getTime() - i * 24 * 60 * 60 * 1000);
+
+    } else {
+      const dias = periodo === "7d" ? 7 : 30;
+
+      for (let i = dias - 1; i >= 0; i--) {
+        const dia = new Date(agora - i * 86400 * 1000);
         const ini = new Date(dia.getFullYear(), dia.getMonth(), dia.getDate());
-        const fim = new Date(ini.getTime() + 24 * 60 * 60 * 1000);
-        
-        const somaRecb = pontos.filter(p => p.ts >= ini && p.ts < fim)
-          .reduce((s, p) => s + p.pacotes_recebidos, 0);
-        const somaEnv = pontos.filter(p => p.ts >= ini && p.ts < fim)
-          .reduce((s, p) => s + p.pacotes_enviados, 0);
-        
-        labels.push(ini.getDate().toString().padStart(2, '0') + '/' + (ini.getMonth() + 1));
-        pacotes_recebidos.push(somaRecb);
-        pacotes_enviados.push(somaEnv);
-      }
-    } else { 
-      
-      for (let i = 29; i >= 0; i--) {
-        const dia = new Date(agora.getTime() - i * 24 * 60 * 60 * 1000);
-        const ini = new Date(dia.getFullYear(), dia.getMonth(), dia.getDate());
-        const fim = new Date(ini.getTime() + 24 * 60 * 60 * 1000);
-        
-        const somaRecb = pontos.filter(p => p.ts >= ini && p.ts < fim)
-          .reduce((s, p) => s + p.pacotes_recebidos, 0);
-        const somaEnv = pontos.filter(p => p.ts >= ini && p.ts < fim)
-          .reduce((s, p) => s + p.pacotes_enviados, 0);
-        
-        labels.push(ini.getDate().toString().padStart(2, '0') + '/' + (ini.getMonth() + 1));
-        pacotes_recebidos.push(somaRecb);
-        pacotes_enviados.push(somaEnv);
+        const fim = new Date(ini.getTime() + 86400000);
+
+        const env = deltas.filter(p => p.ts >= ini && p.ts < fim)
+          .reduce((s, p) => s + p.env, 0);
+
+        const recb = deltas.filter(p => p.ts >= ini && p.ts < fim)
+          .reduce((s, p) => s + p.recb, 0);
+
+        labels.push(
+          ini.getDate().toString().padStart(2, "0") + "/" + (ini.getMonth() + 1)
+        );
+        envArr.push(env);
+        recbArr.push(recb);
       }
     }
 
@@ -425,17 +491,16 @@ async function getDadosPacotes(req, res) {
       success: true,
       periodo,
       labels,
-      pacotes_recebidos,
-      pacotes_enviados
+      pacotes_enviados: envArr,
+      pacotes_recebidos: recbArr
     };
 
     setCache(cacheKey, response);
-    console.log(`${labels.length} pontos: recb=${pacotes_recebidos[0]}, env=${pacotes_enviados[0]}`);
     return res.json(response);
 
-  } catch (error) {
-    console.error("Erro pacotes:", error);
-    return res.status(500).json({ error: "Erro ao processar pacotes", details: error.message });
+  } catch (err) {
+    console.error("Erro pacotes:", err);
+    return res.status(500).json({ error: "Erro ao processar pacotes" });
   }
 }
 
@@ -445,5 +510,6 @@ module.exports = {
   getDadosTrafego,
   carregarDadosTrafego,
   getDadosPacotes,
-  setS3Client
+  setS3Client,
+  gerarDeltas
 };

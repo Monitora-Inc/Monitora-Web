@@ -22,7 +22,7 @@
 
 </head>
 
-<body onload="listarPermissoesReload(), preencherKpisServidoresAlertas()">
+<body onload="listarPermissoesReload()">
   <nav id="id_sidebar"></nav>
 
   <div class="sombra_modal" id="sombra_modal">
@@ -52,9 +52,9 @@
   </header>
 
   <div class="row">
-    <button class="btn-primary">Últimas 24h</button>
-    <button>7 dias</button>
-    <button>30 dias</button>
+    <button id="btn-24h" onclick="mudarPeriodo('24h')">Últimas 24h</button>
+    <button id="btn-7d" onclick="mudarPeriodo('7d')">7 dias</button>
+    <button id="btn-30d" onclick="mudarPeriodo('30d')">30 dias</button>
     <!-- <input type="date">Período Customizado <i class="fa-regular fa-calendar"></i> -->
 
 
@@ -112,16 +112,16 @@
 
 
 <script>
-const empresaId = sessionStorage.getItem('empresaId') ;
-const servidorId = sessionStorage.getItem('servidorId') ;
-// const empresaId = 2 ;
-// const servidorId = '87cbdc6a-8bb1-4be8-b881-dd7d847bb256' ;
+// const empresaId = sessionStorage.getItem('empresaId') ;
+// const servidorId = sessionStorage.getItem('servidorId') ;
+const empresaId = 2 ;
+const servidorId = '87cbdc6a-8bb1-4be8-b881-dd7d847bb256' ;
 let periodoAtual = '24h';
 let kpisCarregando = false;
 let graficosCarregando = false;
 
 async function carregarKPIs() {
-  if (kpisCarregando) return; 
+  if (kpisCarregando) return; // Evitar múltiplas requisições simultâneas
   kpisCarregando = true;
 
   try {
@@ -143,17 +143,11 @@ async function carregarKPIs() {
     cards[2].textContent = data.dadosEnviados || '-';
     cards[3].textContent = data.dadosRecebidos || '-';
 
-    console.log('KPIs atualizadas:', data);
+    console.log('✓ KPIs atualizado:', data);
   } catch (error) {
-    console.error('Erro KPIs:', error);
+    console.error('✗ Erro KPIs:', error);
     document.querySelectorAll('.grid-6 .card .value').forEach(el => {
-        
- 
-      if (el.textContent === 'Carregando...') {
-        el.textContent = 'Erro'
-        el.style.color = 'gray';
-        el.style.fontSize = '13px';
-      };
+      if (el.textContent === 'Carregando...') el.textContent = 'Erro';
     });
   } finally {
     kpisCarregando = false;
@@ -166,7 +160,7 @@ async function carregarGraficoTrafego() {
 
   try {
     const response = await fetch(`/bucket/dados/trafego?empresaId=${empresaId}&servidorId=${servidorId}&periodo=${periodoAtual}`, {
-      signal: AbortSignal.timeout(30000)
+      signal: AbortSignal.timeout(15000)
     });
     
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -176,16 +170,9 @@ async function carregarGraficoTrafego() {
 
     const labels = data.labels || [];
     const valores = data.valores || [];
-    
-    // Muda a label período
-    let yAxisLabel = 'Velocidade do Tráfego (Gbps)';
-    if (periodoAtual === '7d' || periodoAtual === '30d') {
-      yAxisLabel = 'Tráfego Total (GB)';
-    }
 
     graficoTrafego.updateOptions({
       xaxis: { categories: labels },
-      yaxis: { title: { text: yAxisLabel } },
       series: [{ name: 'Tráfego', data: valores }]
     });
 
@@ -331,10 +318,9 @@ const graficoPacotes = new ApexCharts(document.querySelector("#graficoPacotes"),
   tooltip: { shared: false, y: { formatter: val => val.toFixed(0) } }
 });
 
-
 async function carregarGraficoPacotes() {
   try {
-
+    // ✅ CAMBIO: endpoint CORRETO para pacotes
     const response = await fetch(`/bucket/dados/pacotes?empresaId=${empresaId}&servidorId=${servidorId}&periodo=${periodoAtual}`, { 
       signal: AbortSignal.timeout(15000) 
     });
@@ -346,7 +332,8 @@ async function carregarGraficoPacotes() {
       console.warn('Dados de pacotes não disponíveis');
       return;
     }
-   
+    
+    // ✅ Atualiza gráfico com dados REAIS
     graficoPacotes.updateOptions({
       xaxis: { categories: data.labels || ['1h','2h','3h','4h','5h','6h','7h','8h','9h'] },
       series: [
