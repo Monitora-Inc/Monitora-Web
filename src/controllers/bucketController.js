@@ -46,6 +46,7 @@ const uploadToS3 = async (req, res) => {
     const conteudoTexto = fs.readFileSync(filePath, "utf-8");
     const linhas = conteudoTexto.trim().split("\n");
 
+
     if (linhas.length < 2)
       return res.status(400).json({ error: "CSV inválido: dados insuficientes" });
 
@@ -64,6 +65,7 @@ const uploadToS3 = async (req, res) => {
     // -------------------------
     const fileStream = fs.createReadStream(filePath);
 
+
     const key = `${empresaPasta}/${servidorId}/${ano}/${mes}/${dia}/${nomeArquivo}`;
 
     const uploadParams = {
@@ -72,6 +74,7 @@ const uploadToS3 = async (req, res) => {
       Body: fileStream,
       ContentType: "text/csv",
     };
+
 
     console.log(`Uploading S3: bucket=monitora-raw key=${key}`);
     await s3.send(new PutObjectCommand(uploadParams));
