@@ -292,7 +292,6 @@ body {
     width: 93.4vw !important;
 }
 
-/* OVERLAY COM BLUR E DEGRADE AZUL */
 #grafico_overlay {
     position: fixed;
     top: 0;
@@ -315,7 +314,7 @@ body {
     z-index: 9999;
 }
 
-/* MODAL DO GRAFICO */
+
 .box_grafico.popup_mode {
     width: 100%;
     max-width: 1150px;
@@ -330,7 +329,6 @@ body {
     animation: abrirGrafico 0.30s ease-in-out;
 }
 
-/* ANIMAÇÃO: escala + fade */
 @keyframes abrirGrafico {
     0% {
         opacity: 0;
@@ -342,18 +340,15 @@ body {
     }
 }
 
-/* AUMENTA O CANVAS */
 .box_grafico.popup_mode .grafico {
     height: 65vh !important; 
     width: 90% !important;
 }
-/* REMOVE BOTÃO DE AJUSTAR E TOOLTIP NO POPUP */
 .box_grafico.popup_mode .icone_ampliar,
 .box_grafico.popup_mode .icone_tooltip {
     display: none !important;
 }
 
-/* BOTÃO X */
 .btn_fechar_popup_grafico {
     position: absolute;
     top: 12px;
@@ -375,7 +370,6 @@ body {
     background: rgba(0,0,0,0.55);
 }
 
-/* HEADER MAIS ESPAÇADO NO POPUP */
 .box_grafico.popup_mode .header {
     padding: 30px 40px;
 }

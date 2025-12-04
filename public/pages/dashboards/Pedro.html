@@ -22,9 +22,9 @@
   <div class="page_content">
     <div id="grafico_overlay"></div>
 
-    <!-- ======================================================== -->
+    <!-- <><><><><<><><><><><><><><><><><><><><><><><><><><><><><><><><>< -->
     <!--                       HEADER                             -->
-    <!-- ======================================================== -->
+    <!-- <><><><><<><><><><><><><><><><><><><><><><><><><><><><><><><><>< -->
     <div class="header">
       <div class="server_info">
         <h1 id="server_nome"></h1>
@@ -36,9 +36,9 @@
 
     </div>
 
-    <!-- ======================================================== -->
+    <!-- <><><><><<><><><><><><><><><><><><><><><><><><><><><><><><><><>< -->
     <!--                       KPIS                               -->
-    <!-- ======================================================== -->
+    <!-- <><><><><<><><><><><><><><><><><><><><><><><><><><><><><><><><>< -->
     <div class="kpis">
 
       <!-- SAÚDE -->
@@ -122,9 +122,9 @@
 
     </div>
 
-    <!-- ======================================================== -->
+    <!-- <><><><><<><><><><><><><><><><><><><><><><><><><><><><><><><><>< -->
     <!--                       GRÁFICOS                           -->
-    <!-- ======================================================== -->
+    <!-- <><><><><<><><><><><><><><><><><><><><><><><><><><><><><><><><>< -->
     <div class="graficos">
 
       <!-- CACHE MISS -->
@@ -236,8 +236,8 @@
   <footer>
     <div class="dashButtons" id="footerButonsUnico">
       <a href="./home.html"><img style="border-radius:0" src="../../Images/home.svg"></a>
-      <a href="./Gustavo.html"><img src="../../Images/Colaboradores/Colaborador2.svg"></a>
-      <a href="./Pedro.html"><img src="../../Images/Colaboradores/Colaborador5.svg"></a>
+      <a href="./Pedro.html" class="tooltip"><span class="tooltip-text">Dashboard de eficiência de entrega.</span><img src="../../assets/icons/pedro_dashboard.svg" alt=""></a>
+      <a href="./Gustavo.html" class="tooltip"><span class="tooltip-text">Dashboard de eficiência de RAM.</span><img src="../../assets/icons/anthony_dashboard.svg" alt=""></a>
     </div>
     <p>Developed by Pedro Claudino Barbosa</p>
   </footer>
@@ -383,10 +383,8 @@ if (popupOptions.tooltip) {
   };
 }
 
-// 🔥 FORÇAR FORMATTER DO EIXO Y NO POPUP (sem bug de decimais)
 if (popupOptions.yaxis) {
 
-  // Se for múltiplos eixos
   if (Array.isArray(popupOptions.yaxis)) {
     popupOptions.yaxis = popupOptions.yaxis.map(axis => ({
       ...axis,
@@ -404,7 +402,6 @@ if (popupOptions.yaxis) {
     }));
   }
 
-  // Y único
   else {
     popupOptions.yaxis.labels = {
       formatter: function (val) {
@@ -468,7 +465,7 @@ if (popupOptions.yaxis) {
 
     let linhas = [];
 
-// pegar no máximo os últimos 5 arquivos
+// pegar no máximo os últimos 10 arquivos
 for (let i = 0; i < 10; i++) {
   const url = `/bucket/read/${pURL}/${i}`;
   try {
@@ -645,9 +642,6 @@ function zerarKPIsSemDados() {
       return new Date(d.data.replace(" ", "T")).getTime();
     });
 
-    // ================================
-    // 🔥 DEFINIR ZOOM INICIAL NOS ÚLTIMOS 5 PONTOS
-    // ================================
     let zoomInicio = null;
     let zoomFim = null;
 
@@ -750,7 +744,6 @@ function zerarKPIsSemDados() {
     );
 
     charts.cacheMiss.render().then(() => {
-      // 🔥 APLICA O ZOOM APÓS O RENDER — solução do bug
       charts.cacheMiss.updateOptions({
         xaxis: {
           min: zoomInicio,
