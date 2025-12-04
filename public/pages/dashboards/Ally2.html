@@ -175,9 +175,20 @@
 
       for (let i = 0; i < rowsAtual.length; i++) {
         let d = rowsAtual[i];
+        let diffVar;
+        let upVar;
+        try {
+          console.log("hufshfjskdbrskf")
+          let saude_anterior = ServidoresAnteriores[i].Saude;
+          let saude_atual = Number(d.saude);
+          diffVar = saude_atual - saude_anterior;
+          upVar = diffVar >= 0;
+        } catch (e) {
+          console.log("EU TO AQUI")
+          diffVar = 0;
+          upVar = diffVar >= 0;
+        }
 
-        let diffVar = Number(d.saude) - ServidoresAnteriores[i].Saude;
-        let upVar = diffVar >= 0;
 
         somaLatencia += Number(d.latencia);
         somaProcessos += Number(d.processos);
@@ -201,7 +212,7 @@
 
       dadosDc.Latencia = (somaLatencia / rowsAtual.length).toFixed(2);
       dadosDc.Processos = somaProcessos.toFixed(2);
-
+      
       await Promise.all(
         Servidores.map(async (server, idx) => {
           try {
@@ -255,7 +266,7 @@
     }
 
     let listaServidores = await fetch(`/servidores/listar/${sessionStorage.empresaId}`);
-    
+
     listaServidores = await listaServidores.json();
 
     const mapaLocal = {};
@@ -474,5 +485,5 @@
     });
   };
 
-  
+
 </script>
