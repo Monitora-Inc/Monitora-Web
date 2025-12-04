@@ -394,6 +394,14 @@ __  __    _    ____   _
   cursor: pointer;
 }
 
+.grafico_radar .card .kpis {
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 30%;
+}
+
 .grafico_radar .grafico {
   width: 30% !important;
   height: 100% !important;

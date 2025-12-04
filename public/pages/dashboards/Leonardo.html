@@ -21,13 +21,7 @@
     <div id="popup_screen"></div>
 
     <div class="page_content">
-      <div class="dashButtons" style="margin-top: -2vh; margin-bottom: 2vh;">
-        <a href="./home.html"><img style="border-radius: 0 !important" src="../../Images/home.svg" alt=""></a>
-        <a href="./Ally.html"><img src="../../Images/Colaboradores/Colaborador1.svg" alt=""></a>
-        <a href="./Gustavo.html "><img src="../../Images/Colaboradores/Colaborador2.svg" alt=""></a>
-        <a href="./Leonardo.html"><img src="../../Images/Colaboradores/Colaborador3.svg" alt=""></a>
-        <a href="./Maria.html"><img src="../../Images/Colaboradores/Colaborador4.svg" alt=""></a>
-        <a href="./Pedro.html"><img src="../../Images/Colaboradores/Colaborador5.svg" alt=""></a>
+      <div class="dashButtons" id="footerButons" style="margin-bottom: 2vh;">
       </div>
       <div class="cards">
         <section class="cards_kpi1">
@@ -39,12 +33,14 @@
             </div>
             <div class="card" style="width: 30%;">
               <p class="titulo">Registrados</p>
-              <div style="display: flex; align-items: center; justify-content: space-around; width: 100%; padding-top: 3.5vh;">
+              <div
+                style="display: flex; align-items: center; justify-content: space-around; width: 100%; padding-top: 3.5vh;">
                 <div style="width: 50%; text-align: center; border-right: solid 0.3px #072F4E;">
                   <h2 id="incidentesRegistrados" style="padding-top: 0;"></h2>
                   <p>Totais</p>
                 </div>
-                <div style="border-left: solid 0.3px #072F4E; border-right: solid 0.3px #072F4E; width: 50%; text-align: center;">
+                <div
+                  style="border-left: solid 0.3px #072F4E; border-right: solid 0.3px #072F4E; width: 50%; text-align: center;">
                   <h2 id="incidentesCriticosTotais" style="padding-top: 0;"></h2>
                   <p>Críticos</p>
                 </div>
@@ -56,7 +52,8 @@
             </div>
             <div class="card" style="width: 30%;">
               <p class="titulo">Em aberto</p>
-              <div style="display: flex; align-items: center; justify-content: space-around; width: 100%; padding-top: 3.5vh;">
+              <div
+                style="display: flex; align-items: center; justify-content: space-around; width: 100%; padding-top: 3.5vh;">
                 <div style="width: 50%; text-align: center; border-right: solid 0.3px #072F4E;">
                   <h2 id="incidentesAbertos" style="padding-top: 0;"></h2>
                   <p>Totais</p>
@@ -168,36 +165,36 @@
   iniciarDashboard();
 
   async function iniciarDashboard() {
-  try {
-    incidentesAbertos.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
-    incidentesCriticosAbertos.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
-    incidentesCriticosTotais.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
-    incidentesAtencaoAbertos.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
-    incidentesAtencaoTotais.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
-    incidentesFechados.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
-    incidentesRegistrados.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
-    conteudoMTBF.innerHTML = `<img src="../../assets/icons/loading.gif">`;
-    conteudoMTTRCritico.innerHTML = `<img src="../../assets/icons/loading.gif">`;
-    conteudoMTTRAtencao.innerHTML = `<img src="../../assets/icons/loading.gif">`;
-    conteudoSLA.innerHTML = `<img src="../../assets/icons/loading.gif">`;
-    componentesComMaisIncidentes.innerHTML = `<img style="height: 3vh;" src="../../assets/icons/loading.gif">`;
+    try {
+      incidentesAbertos.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+      incidentesCriticosAbertos.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+      incidentesCriticosTotais.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+      incidentesAtencaoAbertos.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+      incidentesAtencaoTotais.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+      incidentesFechados.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+      incidentesRegistrados.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+      conteudoMTBF.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+      conteudoMTTRCritico.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+      conteudoMTTRAtencao.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+      conteudoSLA.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+      componentesComMaisIncidentes.innerHTML = `<img style="height: 3vh;" src="../../assets/icons/loading.gif">`;
 
-    const incidentesPromise = buscarKpisIncidentes();
-    const componentesPromise = buscarDadosComponentes();
-    const performancePromise = buscarKpisPerformance();
-    const graficoPromise = carregarGrafico();
+      const incidentesPromise = buscarKpisIncidentes();
+      const componentesPromise = buscarDadosComponentes();
+      const performancePromise = buscarKpisPerformance();
+      const graficoPromise = carregarGrafico();
 
-    await Promise.all([
-      incidentesPromise,
-      componentesPromise,
-      performancePromise,
-      graficoPromise
-    ]);
+      await Promise.all([
+        incidentesPromise,
+        componentesPromise,
+        performancePromise,
+        graficoPromise
+      ]);
 
-  } catch (erro) {
-    console.error("Erro ao carregar dados da dashboard:", erro);
+    } catch (erro) {
+      console.error("Erro ao carregar dados da dashboard:", erro);
+    }
   }
-}
 
   let jsonKpisIncidentes;
 
@@ -213,7 +210,7 @@
         incidentesCriticosAbertos.innerHTML = `${data.criticosAbertos}`;
         if (data.criticosAbertos > 0) {
           incidentesCriticosAbertos.style.color = '#FF0267';
-        } 
+        }
         incidentesCriticosTotais.innerHTML = `${data.criticosTotais}`;
         incidentesAtencaoAbertos.innerHTML = `${data.atencaoAbertos}`;
         if (data.atencaoAbertos > 0 && data.atencaoAbertos <= 5) {
