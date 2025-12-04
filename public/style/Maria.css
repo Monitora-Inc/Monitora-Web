@@ -35,9 +35,9 @@ header {
     align-items: center;
     justify-content: space-between;
     padding: 16px;
-    background: var(--surface);
+    background: #072F4E;
     border-bottom: 1px solid var(--subtle);
-    width: 95.2%;
+    width: 97%;
     position: relative;
     top: 0;
     z-index: 10;
@@ -56,13 +56,13 @@ h1 {
     display: flex;
     font-size: large;
     align-self: flex-end;
-    color: var(--on-surface);
+    color: #fff;
 }
 
 header,
 .fa-chart-simple {
     padding-right: 15px;
-    color: var(--primary-text);
+    color: #ececec;
     font-size: 1.5rem;
 }
 
