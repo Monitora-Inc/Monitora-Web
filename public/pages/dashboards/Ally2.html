@@ -212,7 +212,7 @@
 
       dadosDc.Latencia = (somaLatencia / rowsAtual.length).toFixed(2);
       dadosDc.Processos = somaProcessos.toFixed(2);
-      
+
       await Promise.all(
         Servidores.map(async (server, idx) => {
           try {
@@ -485,5 +485,5 @@
     });
   };
 
-
+  
 </script>
