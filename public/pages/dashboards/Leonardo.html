@@ -214,9 +214,9 @@
         incidentesCriticosTotais.innerHTML = `${data.criticosTotais}`;
         incidentesAtencaoAbertos.innerHTML = `${data.atencaoAbertos}`;
         if (data.atencaoAbertos > 0 && data.atencaoAbertos <= 5) {
-          incidentesCriticosAbertos.style.color = '#FFCA67';
+          incidentesAtencaoAbertos.style.color = '#FFCA67';
         } else if (data.atencaoAbertos > 5) {
-          incidentesCriticosAbertos.style.color = '#FF0267';
+          incidentesAtencaoAbertos.style.color = '#FF0267';
         }
         incidentesAtencaoTotais.innerHTML = `${data.atencaoTotais}`;
         incidentesFechados.innerHTML = `${data.fechados}`;
