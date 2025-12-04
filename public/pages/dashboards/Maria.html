@@ -5,17 +5,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Monitoramento de Tráfego de Rede</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
+  <link rel="stylesheet" href="../../style/popup.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../style/popup.css">
   <link rel="stylesheet" href="../../style/sidebar.css">
   <link rel="stylesheet" href="../../style/essencial.css">
   <link rel="stylesheet" href="../../style/tela_home.css">
   <link rel="stylesheet" href="../../style/filtros.css">
-  <link rel="stylesheet" href="../../style/popup.css">
   <link rel="stylesheet" href="../../style/Maria.css">
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
@@ -47,25 +47,27 @@
   <div class="page_content main">
 
     <div class="grid grid-6">
-      <div class="card">
+      <div class="card tooltip" data-tooltip="Valores muito altos podem sugerir possível ataque, valores baixos podem indicar ociosidade.">
         <p class="text-kpi">Tráfego Médio na <br> Última Hora
+          
           <i class="fa-solid fa-arrow-right-arrow-left"></i>
         </p>
+
         <p class="value">Carregando...</p>
       </div>
-      <div class="card">
+      <div class="card tooltip" data-tooltip="Perda alta indica lentidão, quedas de conexão ou erros em aplicações.">
         <p class="text-kpi">Perda de Pacotes
           <i class="fa-solid fa-box-archive"></i>
         </p>
         <p class="value">Carregando...</p>
       </div>
-      <div class="card">
+      <div class="card tooltip" data-tooltip="Quantidade total de dados enviados pelo servidor no período.">
         <p class="text-kpi">Dados Enviados
           <i class="fa-solid fa-database"></i>
         </p>
         <p class="value">Carregando...</p>
       </div>
-      <div class="card">
+      <div class="card tooltip" data-tooltip="Valores muito altos podem indicar ataques volumétricos.">
         <p class="text-kpi">Dados Recebidos
           <i class="fa-solid fa-database"></i>
         </p>
@@ -89,13 +91,17 @@
     
 
   </div>
-
+  <footer
+  <div class="dashButtons" id="footerButons">
+    </div>
+    
+  </footer>
 
   <script>
-    // const empresaId = sessionStorage.getItem('empresaId') ;
-    // const servidorId = sessionStorage.getItem('servidorId') ;
-    const empresaId = 2;
-    const servidorId = '87cbdc6a-8bb1-4be8-b881-dd7d847bb256';
+    const empresaId = sessionStorage.getItem('empresaId') ;
+    const servidorId = sessionStorage.getItem('servidorId') ;
+    // const empresaId = 2;
+    // const servidorId = '87cbdc6a-8bb1-4be8-b881-dd7d847bb256';
     let periodoAtual = '24h';
     let kpisCarregando = false;
     let graficosCarregando = false;
@@ -382,15 +388,7 @@
   <script src="../../js/sidebar.js"></script>
   <script src="../../js/popups.js"></script>
   <script src="../../js/verificacaoPermissoes.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
-    integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
-    crossorigin="anonymous"></script>
+  
 </body>
 
 </html>
