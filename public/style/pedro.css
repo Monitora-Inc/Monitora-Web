@@ -118,6 +118,13 @@ body {
     border-radius: 0px 0px 5px 5px;
 }
 
+.kpis .card_kpi .card_kpi_info:hover {
+    background-color: #072F4E;
+    color: white;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+}
+
 .kpis .card_kpi .card_kpi_info .card_kpi_label{
     display: flex;
     align-items: center;
@@ -395,4 +402,16 @@ body {
 .chart-container {
     width: 100% !important;   /* largura realmente usada pelo Apex */
     min-width: 500px !important;
+}
+
+
+.sem-dados-grafico {
+  width: 100%;
+  height: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: #777;
+  font-weight: 500;
 }

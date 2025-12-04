@@ -151,14 +151,14 @@
         ServidoresAnteriores.push({
           idServidor: d.idServidor,
           timestamp: d.timestamp,
-          Cpu: Number(d.cpu),
-          Ram: Number(d.ram),
-          Disco: Number(d.disco),
-          RedeMb: Number(d.redeMb),
-          RedeMbS: Number(d.redeMbS),
-          latencia: Number(d.latencia),
-          processos: Number(d.processos),
-          Saude: Number(d.saude),
+          Cpu: Number(d.cpu).toFixed(2),
+          Ram: Number(d.ram).toFixed(2),
+          Disco: Number(d.disco).toFixed(2),
+          RedeMb: Number(d.redeMb).toFixed(2),
+          RedeMbS: Number(d.redeMbS).toFixed(2), 
+          latencia: Number(d.latencia).toFixed(2),
+          processos: Number(d.processos).toFixed(2),
+          Saude: Number(d.saude).toFixed(2),
           up: d.up,
           cor: d.cor
         });
@@ -188,8 +188,8 @@
           Cpu: Number(d.cpu).toFixed(2),
           Ram: Number(d.ram).toFixed(2),
           Disco: Number(d.disco).toFixed(2),
-          RedeMb: Number(d.redeMb),
-          RedeMbS: Number(d.redeMbS), 
+          RedeMb: Number(d.redeMb).toFixed(2),
+          RedeMbS: Number(d.redeMbS).toFixed(2), 
           latencia: Number(d.latencia).toFixed(2),
           processos: Number(d.processos).toFixed(2),
           Saude: Number(d.saude).toFixed(2),
@@ -253,6 +253,26 @@
     } catch (erro) {
       console.error("Erro geral:", erro);
     }
+
+    let listaServidores = await fetch(`/servidores/listar/${sessionStorage.empresaId}`);
+    
+    listaServidores = await listaServidores.json();
+
+    const mapaLocal = {};
+    listaServidores.forEach(s => mapaLocal[s.idServidor] = s);
+
+    Servidores.forEach((srv, idx) => {
+      const info = mapaLocal[srv.idServidor];
+      if (info) {
+        Servidores[idx].rua = info.rua;
+        Servidores[idx].numero = info.numero;
+        Servidores[idx].bairro = info.bairro;
+        Servidores[idx].cidade = info.cidade;
+        Servidores[idx].estado = info.estado;
+        Servidores[idx].pais = info.pais;
+      }
+    });
+
   }
 
   function inicial() {
@@ -315,9 +335,17 @@
     }
   }
   function dashServer(index) {
-    sessionStorage.servidor = JSON.stringify(Servidores[index]);
+    const s = Servidores[index];
+
+    sessionStorage.servidorNome = s.nome;
+    sessionStorage.servidorUuid = s.idServidor;
+
+    sessionStorage.servidorLocalizacao =
+      `R. ${s.rua}, ${s.numero} - ${s.bairro}, ${s.cidade}, ${s.estado}, ${s.pais}`;
+
     window.location = "./Pedro.html";
   }
+
 
   function carregarSelectRadar() {
     const select = document.getElementById("selectServer");
@@ -445,4 +473,6 @@
       carregarSelectRadar();
     });
   };
+
+  
 </script>
