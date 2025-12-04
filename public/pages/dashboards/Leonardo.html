@@ -169,6 +169,19 @@
 
   async function iniciarDashboard() {
   try {
+    incidentesAbertos.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+    incidentesCriticosAbertos.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+    incidentesCriticosTotais.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+    incidentesAtencaoAbertos.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+    incidentesAtencaoTotais.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+    incidentesFechados.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+    incidentesRegistrados.innerHTML = `<img style="height: 5vh;" src="../../assets/icons/loading.gif">`;
+    conteudoMTBF.innerHTML = `<img src="../../assets/icons/loading.gif">`;
+    conteudoMTTRCritico.innerHTML = `<img src="../../assets/icons/loading.gif">`;
+    conteudoMTTRAtencao.innerHTML = `<img src="../../assets/icons/loading.gif">`;
+    conteudoSLA.innerHTML = `<img src="../../assets/icons/loading.gif">`;
+    componentesComMaisIncidentes.innerHTML = `<img style="height: 3vh;" src="../../assets/icons/loading.gif">`;
+
     const incidentesPromise = buscarKpisIncidentes();
     const componentesPromise = buscarDadosComponentes();
     const performancePromise = buscarKpisPerformance();
@@ -349,21 +362,21 @@
       if (listaJsonsKpisPerformance[0].MTBFhoras < 4) {
         divIconeMTBF.style.background = '#FF0267';
         divIconeMTBF.innerHTML = `<img src="../../Images/PopUpsDash/critico.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMTBF()">`;
-        conteudoMTBF.innerHTML = `<p class="titulo">Mean Time Between Failures (MTBF)</p>
+        conteudoMTBF.innerHTML = `<p class="titulo">Tempo Médio Entre Falhas (MTBF)</p>
                 <h2 id="mtbf">${listaJsonsKpisPerformance[0].MTBFhoras}h${listaJsonsKpisPerformance[0].MTBFminutos}min</h2>
                 <p class="descricao"><i>Tempo médio que o sistema opera antes de falhas.</i></p>`
         mtbf.style.color = '#B4044B';
       } else if (4 <= listaJsonsKpisPerformance[0].MTBFhoras && listaJsonsKpisPerformance[0].MTBFhoras <= 24) {
         divIconeMTBF.style.background = '#FFCA67';
         divIconeMTBF.innerHTML = `<img src="../../Images/PopUpsDash/alerta.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMTBF()">`;
-        conteudoMTBF.innerHTML = `<p class="titulo">Mean Time Between Failures (MTBF)</p>
+        conteudoMTBF.innerHTML = `<p class="titulo">Tempo Médio Entre Falhas (MTBF)</p>
                 <h2 id="mtbf">${listaJsonsKpisPerformance[0].MTBFhoras}h${listaJsonsKpisPerformance[0].MTBFminutos}min</h2>
                 <p class="descricao"><i>Tempo médio que o sistema opera antes de falhas.</i></p>`
         mtbf.style.color = '#D2A043';
       } else if (listaJsonsKpisPerformance[0].MTBFhoras > 24) {
         divIconeMTBF.style.background = '#00F2B9';
         divIconeMTBF.innerHTML = `<img src="../../Images/PopUpsDash/ok.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMTBF()">`;
-        conteudoMTBF.innerHTML = `<p class="titulo">Mean Time Between Failures (MTBF)</p>
+        conteudoMTBF.innerHTML = `<p class="titulo">Tempo Médio Entre Falhas (MTBF)</p>
                 <h2 id="mtbf">${listaJsonsKpisPerformance[0].MTBFhoras}h${listaJsonsKpisPerformance[0].MTBFminutos}min</h2>
                 <p class="descricao"><i>Tempo médio que o sistema opera antes de falhas.</i></p>`
         mtbf.style.color = '#219A7E';
@@ -383,21 +396,21 @@
       if (listaJsonsKpisPerformance[1].MTTRCriticosHoras > 18) {
         divIconeMTTRCritico.style.background = '#FF0267';
         divIconeMTTRCritico.innerHTML = `<img src="../../Images/PopUpsDash/critico.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrCritico()">`;
-        conteudoMTTRCritico.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Críticos</p>
+        conteudoMTTRCritico.innerHTML = `<p class="titulo">Tempo Médio de Resolução (MTTR) - Críticos</p>
                             <h2 id="mttrCritico">${listaJsonsKpisPerformance[1].MTTRCriticosHoras}h${listaJsonsKpisPerformance[1].MTTRCriticosMinutos}min</h2>
                             <p class="descricao"><i>Tempo médio gasto para resolução de um incidente crítico.</i></p>`;
         mttrCritico.style.color = '#B4044B';
       } else if (12 <= listaJsonsKpisPerformance[1].MTTRCriticosHoras && listaJsonsKpisPerformance[1].MTTRCriticosHoras <= 18) {
         divIconeMTTRCritico.style.background = '#FFCA67';
         divIconeMTTRCritico.innerHTML = `<img src="../../Images/PopUpsDash/alerta.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrCritico()">`;
-        conteudoMTTRCritico.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Críticos</p>
+        conteudoMTTRCritico.innerHTML = `<p class="titulo">Tempo Médio de Resolução (MTTR) - Críticos</p>
                             <h2 id="mttrCritico">${listaJsonsKpisPerformance[1].MTTRCriticosHoras}h${listaJsonsKpisPerformance[1].MTTRCriticosMinutos}min</h2>
                             <p class="descricao"><i>Tempo médio gasto para resolução de um incidente crítico.</i></p>`;
         mttrCritico.style.color = '#D2A043';
       } else if (listaJsonsKpisPerformance[1].MTTRCriticosHoras < 12) {
         divIconeMTTRCritico.style.background = '#00F2B9';
         divIconeMTTRCritico.innerHTML = `<img src="../../Images/PopUpsDash/ok.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrCritico()">`;
-        conteudoMTTRCritico.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Críticos</p>
+        conteudoMTTRCritico.innerHTML = `<p class="titulo">Tempo Médio de Resolução (MTTR) - Críticos</p>
                             <h2 id="mttrCritico">${listaJsonsKpisPerformance[1].MTTRCriticosHoras}h${listaJsonsKpisPerformance[1].MTTRCriticosMinutos}min</h2>
                             <p class="descricao"><i>Tempo médio gasto para resolução de um incidente crítico.</i></p>`;
         mttrCritico.style.color = '#219A7E';
@@ -417,21 +430,21 @@
       if (listaJsonsKpisPerformance[1].MTTRAtencaoHoras > 36) {
         divIconeMTTRAtencao.style.background = '#FF0267';
         divIconeMTTRAtencao.innerHTML = `<img src="../../Images/PopUpsDash/critico.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrAtencao()">`;
-        conteudoMTTRAtencao.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Atenção</p>
+        conteudoMTTRAtencao.innerHTML = `<p class="titulo">Tempo Médio de Resolução (MTTR) - Atenção</p>
                             <h2 id="mttrAtencao">${listaJsonsKpisPerformance[1].MTTRAtencaoHoras}h${listaJsonsKpisPerformance[1].MTTRAtencaoMinutos}min</h2>
                             <p class="descricao"><i>Tempo médio gasto para resolução de um incidente de atenção.</i></p>`;
         mttrAtencao.style.color = '#B4044B';
       } else if (24 <= listaJsonsKpisPerformance[1].MTTRAtencaoHoras && listaJsonsKpisPerformance[1].MTTRAtencaoHoras <= 36) {
         divIconeMTTRAtencao.style.background = '#FFCA67';
         divIconeMTTRAtencao.innerHTML = `<img src="../../Images/PopUpsDash/alerta.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrAtencao()">`;
-        conteudoMTTRAtencao.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Atenção</p>
+        conteudoMTTRAtencao.innerHTML = `<p class="titulo">Tempo Médio de Resolução (MTTR) - Atenção</p>
                             <h2 id="mttrAtencao">${listaJsonsKpisPerformance[1].MTTRAtencaoHoras}h${listaJsonsKpisPerformance[1].MTTRAtencaoMinutos}min</h2>
                             <p class="descricao"><i>Tempo médio gasto para resolução de um incidente de atenção.</i></p>`;
         mttrAtencao.style.color = '#D2A043';
       } else if (listaJsonsKpisPerformance[1].MTTRAtencaoHoras < 24) {
         divIconeMTTRAtencao.style.background = '#00F2B9';
         divIconeMTTRAtencao.innerHTML = `<img src="../../Images/PopUpsDash/ok.svg"> <img id="iconeInfo" src="../../assets/icons/icone_info_cards.svg" onclick="verInfoMttrAtencao()">`;
-        conteudoMTTRAtencao.innerHTML = `<p class="titulo">Mean Time to Resolve (MTTR) - Atenção</p>
+        conteudoMTTRAtencao.innerHTML = `<p class="titulo">Tempo Médio de Resolução (MTTR) - Atenção</p>
                             <h2 id="mttrAtencao">${listaJsonsKpisPerformance[1].MTTRAtencaoHoras}h${listaJsonsKpisPerformance[1].MTTRAtencaoMinutos}min</h2>
                             <p class="descricao"><i>Tempo médio gasto para resolução de um incidente de atenção.</i></p>`;
         mttrAtencao.style.color = '#219A7E';
