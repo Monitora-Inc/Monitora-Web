@@ -5,44 +5,27 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Monitoramento de Tráfego de Rede</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="../../assets/logos/logo_vetorizada.svg" type="image/x-icon">
+  <link rel="stylesheet" href="../../style/popup.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../style/popup.css">
   <link rel="stylesheet" href="../../style/sidebar.css">
   <link rel="stylesheet" href="../../style/essencial.css">
   <link rel="stylesheet" href="../../style/tela_home.css">
   <link rel="stylesheet" href="../../style/filtros.css">
-  <link rel="stylesheet" href="../../style/popup.css">
   <link rel="stylesheet" href="../../style/Maria.css">
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 
 </head>
 
-<body onload="listarPermissoesReload(), preencherKpisServidoresAlertas()">
+<body onload="listarPermissoesReload()">
   <nav id="id_sidebar"></nav>
 
-  <div class="sombra_modal" id="sombra_modal">
-    <div class="modal">
-      <h2>Interpretação do Gráfico <i class="fa-regular fa-circle-xmark" onclick="fecharModal()"></i> </h2>
-      <p>
-        <li>Cada célula mostra o quanto duas variáveis estão relacionadas, de -1 a 1.</li>
 
-        <li>Cor mais escura = relação mais forte.</li>
-
-        <li> Valor positivo: quando uma sobe, a outra tende a subir.</li>
-
-        <li>Valor negativo: quando uma sobe, a outra tende a cair.</li>
-
-        <li>Valor próximo ou igual à zero: pouca ou nenhuma relação.</li>
-
-        <li> Linhas e colunas representam os eventos; a célula mostra a força da relação entre eles.</li>
-      </p>
-    </div>
-  </div>
   <header>
     <div class="titulo-dash">
       <i class="fa-solid fa-chart-simple"></i>
@@ -52,9 +35,9 @@
   </header>
 
   <div class="row">
-    <button class="btn-primary">Últimas 24h</button>
-    <button>7 dias</button>
-    <button>30 dias</button>
+    <button id="btn-24h" onclick="mudarPeriodo('24h')">Últimas 24h</button>
+    <button id="btn-7d" onclick="mudarPeriodo('7d')">7 dias</button>
+    <button id="btn-30d" onclick="mudarPeriodo('30d')">30 dias</button>
     <!-- <input type="date">Período Customizado <i class="fa-regular fa-calendar"></i> -->
 
 
@@ -64,29 +47,31 @@
   <div class="page_content main">
 
     <div class="grid grid-6">
-      <div class="card">
+      <div class="card tooltip" data-tooltip="Valores muito altos podem sugerir possível ataque, valores baixos podem indicar ociosidade.">
         <p class="text-kpi">Tráfego Médio na <br> Última Hora
+          
           <i class="fa-solid fa-arrow-right-arrow-left"></i>
         </p>
-        <p class="value">1.2 Gbit/s</p>
+
+        <p class="value">Carregando...</p>
       </div>
-      <div class="card">
+      <div class="card tooltip" data-tooltip="Perda alta indica lentidão, quedas de conexão ou erros em aplicações.">
         <p class="text-kpi">Perda de Pacotes
           <i class="fa-solid fa-box-archive"></i>
         </p>
-        <p class="value">0.05%</p>
+        <p class="value">Carregando...</p>
       </div>
-      <div class="card">
+      <div class="card tooltip" data-tooltip="Quantidade total de dados enviados pelo servidor no período.">
         <p class="text-kpi">Dados Enviados
           <i class="fa-solid fa-database"></i>
         </p>
-        <p class="value">850 GB</p>
+        <p class="value">Carregando...</p>
       </div>
-      <div class="card">
+      <div class="card tooltip" data-tooltip="Valores muito altos podem indicar ataques volumétricos.">
         <p class="text-kpi">Dados Recebidos
-          <i class="fa-solid fa-bars-progress"></i>
+          <i class="fa-solid fa-database"></i>
         </p>
-        <p class="value">80 GB</p>
+        <p class="value">Carregando...</p>
 
 
       </div>
@@ -98,59 +83,312 @@
       <div class="grafico-card">
         <div class="grafico-header">
           <h3>Quantidade de Pacotes Enviados e Recebidos</h3>
-          <i class="fa-regular fa-circle-question" onclick="abrirModal()"></i>
+         
         </div>
         <div id="graficoPacotes"></div>
       </div>
     </div>
-    <div class="container-graficos second">
-      <div id="previsao"></div>
     
-    </div>
 
   </div>
+  <footer
+  <div class="dashButtons" id="footerButons">
+    </div>
+    
+  </footer>
 
+  <script>
+    const empresaId = sessionStorage.getItem('empresaId') ;
+    const servidorId = sessionStorage.getItem('servidorId') ;
+    // const empresaId = 2;
+    // const servidorId = '87cbdc6a-8bb1-4be8-b881-dd7d847bb256';
+    let periodoAtual = '24h';
+    let kpisCarregando = false;
+    let graficosCarregando = false;
 
-<script>
-const empresaId = sessionStorage.getItem('empresaId');
-const servidorId = sessionStorage.getItem('servidorId');
+    async function carregarKPIs() {
+      if (kpisCarregando) return; 
+      kpisCarregando = true;
 
+      try {
+        const response = await fetch(`/bucket/kpi/trafego?empresaId=${empresaId}&servidorId=${servidorId}&periodo=${periodoAtual}`, {
+          signal: AbortSignal.timeout(15000) // timeout de 15 segundos
+        });
 
-async function carregarKPIs() {
-    try {
-        const response = await fetch(`/bucket/kpi/trafego/24h?empresaId=${empresaId}&servidorId=${servidorId}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
-        
-        //atualizando os cards
-        document.querySelector('.grid-6 .card:nth-child(1) .value').textContent = data.trafegoMedioUltimaHora;
-        document.querySelector('.grid-6 .card:nth-child(2) .value').textContent = data.perdaPacotes;
-        document.querySelector('.grid-6 .card:nth-child(3) .value').textContent = data.dadosEnviados;
-        document.querySelector('.grid-6 .card:nth-child(4) .value').textContent = data.dadosRecebidos;
-        
+
+        if (!data.success) {
+          console.error('Resposta sem sucesso:', data);
+          return;
+        }
+
+        const cards = document.querySelectorAll('.grid-6 .card .value');
+        cards[0].textContent = data.trafegoMedio || '-';
+        cards[1].textContent = data.perdaPacotes || '-';
+        cards[2].textContent = data.dadosEnviados || '-';
+        cards[3].textContent = data.dadosRecebidos || '-';
+
         console.log('KPIs atualizadas:', data);
-    } catch (error) {
+      } catch (error) {
         console.error('Erro KPIs:', error);
-       
-        document.querySelectorAll('.grid-6 .card .value').forEach(el => el.textContent = 'Erro');
+        document.querySelectorAll('.grid-6 .card .value').forEach(el => {
+          if (el.textContent === 'Carregando...') el.textContent = 'Erro';
+        });
+      } finally {
+        kpisCarregando = false;
+      }
     }
-}
+    function atualizarTituloKPI(periodo) {
+      const el = document.querySelector('.grid-6 .card:first-child .text-kpi');
+      if (!el) return;
+
+      if (periodo === '24h') {
+        el.innerHTML = 'Tráfego Médio na <br> Última Hora';
+      } else if (periodo === '7d') {
+        el.innerHTML = 'Tráfego Médio nos <br> Últimos 7 dias';
+      } else if (periodo === '30d') {
+        el.innerHTML = 'Tráfego Médio nos <br> Últimos 30 dias';
+      }
+    }
+
+    async function carregarGraficoTrafego() {
+      if (graficosCarregando) return;
+      graficosCarregando = true;
+
+      try {
+        const response = await fetch(`/bucket/dados/trafego?empresaId=${empresaId}&servidorId=${servidorId}&periodo=${periodoAtual}`, {
+          signal: AbortSignal.timeout(15000)
+        });
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+
+        if (!data.success) return;
+
+        const labels = data.labels || [];
+        const valores = data.valores || [];
+
+        let titleText;
+        let yText;
+        let xText;
+
+        if (periodoAtual === '24h') {
+          titleText = 'Tráfego nas Últimas Horas';
+          yText = 'Velocidade do Tráfego (Gbps)';
+          xText = 'Horário';
+        } else if (periodoAtual === '7d') {
+          titleText = 'Tráfego Diário nos Últimos 7 dias';
+          yText = 'Tráfego Diário (GB)';
+          xText = 'Dia';
+        } else {
+          titleText = 'Tráfego Diário nos Últimos 30 dias';
+          yText = 'Tráfego Diário (GB)';
+          xText = 'Dia';
+
+        }
+
+        graficoTrafego.updateOptions({
+          title: { text: titleText },
+          xaxis: { categories: labels, title: { text: xText } },
+          yaxis: { title: { text: yText } },
+          series: [{ name: 'Tráfego', data: valores }]
+        });
+
+        console.log('Gráfico de tráfego atualizado');
+      } catch (error) {
+        console.error('Erro gráfico tráfego:', error);
+      } finally {
+        graficosCarregando = false;
+      }
+    }
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    carregarKPIs();
-    setInterval(carregarKPIs, 300000); //atualizando a cada 5 minutos
-});
-</script>
+    function mudarPeriodo(novoPeriodo) {
+      periodoAtual = novoPeriodo;
+      marcarBotaoAtivo(novoPeriodo);
+      atualizarTituloKPI(novoPeriodo);
+      carregarKPIs();
+      carregarGraficoTrafego();
+      carregarGraficoPacotes();
+    }
 
-<script src="../../js/sidebar.js"></script>
-<script src="../../js/popups.js"></script>
-<script src="../../js/verificacaoPermissoes.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-  integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
-  integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+    function marcarBotaoAtivo(periodo) {
+      document.getElementById('btn-24h').classList.remove('btn-primary');
+      document.getElementById('btn-7d').classList.remove('btn-primary');
+      document.getElementById('btn-30d').classList.remove('btn-primary');
+
+      if (periodo === '24h') document.getElementById('btn-24h').classList.add('btn-primary');
+      if (periodo === '7d') document.getElementById('btn-7d').classList.add('btn-primary');
+      if (periodo === '30d') document.getElementById('btn-30d').classList.add('btn-primary');
+    }
+
+    function mostrarLoading() {
+      document.querySelectorAll('.value').forEach(el => el.textContent = 'Carregando...');
+    }
+    //----------------------------------------------------------------------------
+    // Grafico Trafego Últimas Horas
+    var graficoTrafego = new ApexCharts(document.querySelector("#chart"), {
+      series: [{
+        name: "Tráfego",
+        data: []
+      }],
+      chart: {
+        height: 350,
+        type: 'line',
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: false
+        }
+      },
+
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'straight'
+      },
+      title: {
+        text: 'Tráfego nas Últimas Horas',
+        align: 'left',
+        style: {
+          fontFamily: "'Inter', sans-serif",
+          fontWeight: 'bold',
+          fontSize: 14,
+          color: '#1f2937'
+
+        }
+      },
+      grid: {
+        row: {
+          colors: ['#f3f3f3', 'transparent'],
+          opacity: 0.5
+        },
+      },
+      xaxis: {
+        categories: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h'],
+        title: {
+          text: 'Horário',
+          style: {
+            fontWeight: 'bold',
+            color: '#475569',
+
+          }
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'Velocidade do Tráfego (Gbps)',
+          style: {
+            fontWeight: 'bold',
+            color: '#475569',
+
+          }
+        }
+      }
+    });
+
+
+    //buscar dados do CSV
+    async function fetchCSV(prefix, index = 0) {
+      try {
+        const response = await fetch(`/csv/${encodeURIComponent(prefix)}/${index}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        return data.rows;
+      } catch (error) {
+        console.error('Erro ao buscar CSV:', error);
+        return [];
+      }
+    }
+
+
+    async function listCSVFiles(prefix) {
+      try {
+        const response = await fetch(`/csv/${encodeURIComponent(prefix)}/0`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        return {
+          total: data.totalArquivos,
+          prefix: data.prefix,
+          key: data.key
+        };
+      } catch (error) {
+        console.error('Erro ao listar CSVs:', error);
+        return { total: 0, prefix, key: '' };
+      }
+    }
+
+
+
+
+    const graficoPacotes = new ApexCharts(document.querySelector("#graficoPacotes"), {
+      series: [
+        { name: 'Pacotes Recebidos', data: [0, 0, 0, 0, 0, 0, 0, 0, 0] },
+        { name: 'Pacotes Enviados', data: [0, 0, 0, 0, 0, 0, 0, 0, 0] }
+      ],
+      chart: { type: 'area', stacked: false, height: 350, toolbar: { show: false } },
+      dataLabels: { enabled: false },
+      markers: { size: 0 },
+      fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] } },
+      yaxis: { title: { text: 'Quantidade de Pacotes' } },
+      xaxis: { categories: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h'] },
+      tooltip: { shared: false, y: { formatter: val => val.toFixed(0) } }
+    });
+
+    async function carregarGraficoPacotes() {
+      try {
+
+        const response = await fetch(`/bucket/dados/pacotes?empresaId=${empresaId}&servidorId=${servidorId}&periodo=${periodoAtual}`, {
+          signal: AbortSignal.timeout(15000)
+        });
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+
+        if (!data.success) {
+          console.log('Dados de pacotes não encontrados');
+          return;
+        }
+
+
+        graficoPacotes.updateOptions({
+          xaxis: { categories: data.labels || ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h'] },
+          series: [
+            { name: 'Pacotes Recebidos', data: data.pacotes_recebidos || [] },
+            { name: 'Pacotes Enviados', data: data.pacotes_enviados || [] }
+          ]
+        });
+
+        console.log('Gráfico pacotes atualizado:', data.pacotes_recebidos?.length, 'pontos');
+      } catch (error) {
+        console.error('Erro pacotes:', error.message);
+
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      graficoTrafego.render();
+      graficoPacotes.render();
+      marcarBotaoAtivo('24h');
+      carregarKPIs();
+      carregarGraficoTrafego();
+      carregarGraficoPacotes()
+      setInterval(() => {
+        carregarKPIs();
+        carregarGraficoTrafego();
+      }, 300000);
+    });
+
+
+  </script>
+
+  <script src="../../js/sidebar.js"></script>
+  <script src="../../js/popups.js"></script>
+  <script src="../../js/verificacaoPermissoes.js"></script>
+  
 </body>
 
 </html>
@@ -175,271 +413,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sessionStorage.empresaCnpj == undefined) {
     verificarPermissoesSideBar();
   }
-
-//buscar dados do CSV
-async function fetchCSV(prefix, index = 0) {
-    try {
-        const response = await fetch(`/csv/${encodeURIComponent(prefix)}/${index}`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        return data.rows; // array de objetos com os campos do CSV
-    } catch (error) {
-        console.error('Erro ao buscar CSV:', error);
-        return [];
-    }
-}
-
-//listar arquivos de um prefixo (últimos N dias)
-async function listCSVFiles(prefix) {
-    try {
-        const response = await fetch(`/csv/${encodeURIComponent(prefix)}/0`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        return {
-            total: data.totalArquivos,
-            prefix: data.prefix,
-            key: data.key
-        };
-    } catch (error) {
-        console.error('Erro ao listar CSVs:', error);
-        return { total: 0, prefix, key: '' };
-    }
-}
-
-
-
-
-  function abrirModal() {
-    document.getElementById("sombra_modal").style.display = "flex";
-  }
-
-  function fecharModal() {
-    document.getElementById("sombra_modal").style.display = "none";
-  }
-
-  //-------------------------------------------------------------------
-  // Grafico Previsão de Pico
- var options = {
-          series: [{
-          name: 'Probalidade de Pico (%)',
-          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
-        }],
-          chart: {
-          height: 350,
-          type: 'bar',
-        },
-         toolbar:{
-          show: false
-        },
-        plotOptions: {
-          bar: {
-            borderRadius: 10,
-            dataLabels: {
-              position: 'top', 
-            },
-          }
-        },
-        dataLabels: {
-          enabled: true,
-          formatter: function (val) {
-            return val + "%";
-          },
-          offsetY: -20,
-          style: {
-            fontSize: '12px',
-            colors: ["#304758"]
-          }
-        },
-        
-        xaxis: {
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-          position: 'bottom',
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          crosshairs: {
-            fill: {
-              type: 'gradient',
-              gradient: {
-                colorFrom: '#D8E3F0',
-                colorTo: '#BED1E6',
-                stops: [0, 100],
-                opacityFrom: 0.4,
-                opacityTo: 0.5,
-              }
-            }
-          },
-          tooltip: {
-            enabled: true,
-          }
-        },
-       
-        yaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false,
-          },
-          labels: {
-            show: false,
-            formatter: function (val) {
-              return val + "%";
-            }
-          }
-        
-        },
-        title: {
-          text: 'Probabilidade de pico',
-          position: 'top',
-          floating: true,
-          
-          align: 'center',
-          style: {
-            color: '#444'
-          }
-        }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#previsao"), options);
-        chart.render();
-
-  //---------------------------------------------------
-  // Grafico Pacotes Enviados e Recebidos
-  var options = {
-    series: [{
-      name: 'Pacotes Recebidos',
-      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-
-    },
-    {
-      name: 'Pacotes Enviados',
-      data: [10, 31, 65, 51, 49, 62, 69, 91, 148]
-    }
-    ],
-    chart: {
-      type: 'area',
-      stacked: false,
-      
-      toolbar: {
-
-        show: false
-      }
-    },
-    dataLabels: {
-      enabled: false
-    },
-    markers: {
-      size: 0,
-    },
-
-    fill: {
-      type: 'gradient',
-      gradient: {
-        shadeIntensity: 1,
-        inverseColors: false,
-        opacityFrom: 0.5,
-        opacityTo: 0,
-        stops: [0, 90, 100]
-      },
-    },
-    yaxis: {
-      labels: {
-        formatter: function (val) {
-          return (val)
-        },
-      },
-      title: {
-        text: 'Quantidade de Pacotes'
-      },
-    },
-    xaxis: {
-      categories: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h']
-    },
-    tooltip: {
-      shared: false,
-
-      y: {
-        formatter: function (val) {
-          return (val.toFixed(0))
-        }
-      }
-    }
-  };
-
-  var chart = new ApexCharts(document.querySelector("#graficoPacotes"), options);
-  chart.render();
-
-
-  //----------------------------------------------------------------------------
-  // Grafico Trafego Últimas Horas
-  var options = {
-    series: [{
-      name: "Desktops",
-      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-    }],
-    chart: {
-      height: 350,
-      type: 'line',
-      zoom: {
-        enabled: false
-      },
-      toolbar: {
-        show: false
-      }
-    },
-
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      curve: 'straight'
-    },
-    title: {
-      text: 'Tráfego nas Últimas Horas',
-      align: 'left',
-      style: {
-        fontFamily: "'Inter', sans-serif",
-        fontWeight: 'bold',
-        fontSize: 14,
-        color: '#1f2937'
-
-      }
-    },
-    grid: {
-      row: {
-        colors: ['#f3f3f3', 'transparent'],
-        opacity: 0.5
-      },
-    },
-    xaxis: {
-      categories: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h'],
-      title: {
-        text: 'Horário',
-        style: {
-          fontWeight: 'bold',
-          color: '#475569',
-
-        }
-      }
-    },
-    yaxis: {
-      title: {
-        text: 'Velocidade do Tráfego (Taxa de Transferência)',
-        style: {
-          fontWeight: 'bold',
-          color: '#475569',
-
-        }
-      }
-    }
-  };
-
-  var chart = new ApexCharts(document.querySelector("#chart"), options);
-  chart.render();
 
 
 
