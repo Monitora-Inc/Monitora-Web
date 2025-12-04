@@ -104,7 +104,6 @@ function popup_deletar(usuario_id) {
 
 function fechar_popup() {
     popup_screen.innerHTML = ``;
-    location.reload();
 }
 
 function sair() {

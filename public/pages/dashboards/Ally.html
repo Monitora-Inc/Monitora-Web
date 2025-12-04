@@ -134,6 +134,7 @@
       const jsonAnterior = await resAnterior.json();
       const rowsAnt = jsonAnterior.rows;
 
+      console.log("Rows anteriores:", rowsAnt);
       for (let d of rowsAnt) {
         datacentersAnteriores.push({
           cor: d.cor,
@@ -171,6 +172,7 @@
           up: Boolean(d.up)
         });
       }
+      console.log("Datacenters atuais:", datacenters);
 
       await Promise.all(
         datacenters.map(async (dc, idx) => {
@@ -418,7 +420,7 @@
   }).setView([20, 0], 2);
 
   // Tile minimalista igual ao mockup
-  L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png&api_key=dbc98e17-507a-49d3-b23e-7b7d5c8c68cf', {
+  L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=dbc98e17-507a-49d3-b23e-7b7d5c8c68cf', {
     maxZoom: 20
   }).addTo(map);
 

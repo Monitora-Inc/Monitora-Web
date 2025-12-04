@@ -42,79 +42,83 @@
     <div class="kpis">
 
       <!-- SAÚDE -->
-      <div class="card_kpi">
-        <div class="card_kpi_status atencao">
-          <img src="../../assets/icons/icone_atencao.svg">
-        </div>
+<div class="card_kpi" onclick="info_kpi_saude()">
+  <div class="card_kpi_status neutro">
+    <img src="../../assets/icons/icone_neutro.svg">
+  </div>
 
-        <div class="card_kpi_info">
-          <div class="card_kpi_label">
-            <img src="../../assets/icons/icone_coracao.svg" class="saude">
-            <h3>Saúde do CDN</h3>
-          </div>
+  <div class="card_kpi_info">
+    <div class="card_kpi_label">
+      <img src="../../assets/icons/icone_coracao.svg" class="saude">
+      <h3>Saúde do CDN</h3>
+    </div>
 
-          <div class="card_kpi_metrica">
-            <h1 class="atencao_texto" id="metrica_saude">62%</h1>
+    <div class="card_kpi_metrica">
+      <h1 class="neutro_texto" id="metrica_saude">—</h1>
+    </div>
+  </div>
+</div>
 
-          </div>
-        </div>
-      </div>
 
       <!-- DISPONIBILIDADE -->
-      <div class="card_kpi">
-        <div class="card_kpi_status estavel">
-          <img src="../../assets/icons/icone_positivo.svg">
-        </div>
+<div class="card_kpi" onclick="info_kpi_disponibilidade()">
+  <div class="card_kpi_status neutro">
+    <img src="../../assets/icons/icone_neutro.svg">
+  </div>
 
-        <div class="card_kpi_info">
-          <div class="card_kpi_label">
-            <img src="../../assets/icons/icone_disponibilidade.svg" class="disponibilidade">
-            <h3>Disponibilidade de Serviço</h3>
-          </div>
+  <div class="card_kpi_info">
+    <div class="card_kpi_label">
+      <img src="../../assets/icons/icone_disponibilidade.svg" class="disponibilidade">
+      <h3>Disponibilidade de Serviço</h3>
+    </div>
 
-          <div class="card_kpi_metrica">
-            <h1 class="estavel_texto" id="metrica_disponibilidade">99.4%</h1>
-          </div>
-        </div>
-      </div>
+    <div class="card_kpi_metrica">
+      <h1 class="neutro_texto" id="metrica_disponibilidade">—</h1>
+    </div>
+  </div>
+</div>
+
+
 
       <!-- LATÊNCIA -->
-      <div class="card_kpi">
-        <div class="card_kpi_status estavel">
-          <img src="../../assets/icons/icone_positivo.svg">
-        </div>
+<div class="card_kpi" onclick="info_kpi_latencia()">
+  <div class="card_kpi_status neutro">
+    <img src="../../assets/icons/icone_neutro.svg">
+  </div>
 
-        <div class="card_kpi_info">
-          <div class="card_kpi_label">
-            <img src="../../assets/icons/icone_latencia.svg" class="latencia">
-            <h3>Latência Média de Origem</h3>
-          </div>
+  <div class="card_kpi_info">
+    <div class="card_kpi_label">
+      <img src="../../assets/icons/icone_latencia.svg" class="latencia">
+      <h3>Latência Média de Origem</h3>
+    </div>
 
-          <div class="card_kpi_metrica">
-            <h1 class="estavel_texto" id="metrica_latencia">3ms</h1>
-          </div>
-        </div>
-      </div>
+    <div class="card_kpi_metrica">
+      <h1 class="neutro_texto" id="metrica_latencia">—</h1>
+    </div>
+  </div>
+</div>
+
+
 
       <!-- EFICIÊNCIA -->
-      <div class="card_kpi">
-        <div class="card_kpi_status critico">
-          <img src="../../assets/icons/icone_negativo.svg">
-        </div>
+<div class="card_kpi" onclick="info_kpi_eficiencia()">
+  <div class="card_kpi_status neutro">
+    <img src="../../assets/icons/icone_neutro.svg">
+  </div>
 
-        <div class="card_kpi_info">
-          <div class="card_kpi_label">
-            <img src="../../assets/icons/icone_transferencia.svg" class="eficiencia">
-            <h3>Eficiência de Entrega</h3>
-          </div>
+  <div class="card_kpi_info">
+    <div class="card_kpi_label">
+      <img src="../../assets/icons/icone_transferencia.svg" class="eficiencia">
+      <h3>Eficiência de Entrega</h3>
+    </div>
 
-          <div class="card_kpi_metrica">
-            <h1 class="critico_texto" id="metrica_entrega">65.98%</h1>
-            <div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="card_kpi_metrica">
+      <h1 class="neutro_texto" id="metrica_entrega">—</h1>
+    </div>
+  </div>
+</div>
+
+
 
     </div>
 
@@ -253,32 +257,52 @@
 <!--              POPUP DE EXPLICAÇÃO (OFICIAL)             -->
 <!-- ======================================================= -->
 <script>
-  server_nome.innerHTML= `${sessionStorage.servidorNome}`;
-  server_localizacao.innerHTML= `${sessionStorage.servidorLocalizacao}`;
+  // Preenche nome e localização do servidor
+  server_nome.innerHTML = `${sessionStorage.servidorNome}`;
+  server_localizacao.innerHTML = `${sessionStorage.servidorLocalizacao}`;
 
+  // Abre o popup
   function pop_up_info(texto) {
     const f = texto.replace(/\n/g, "<br>");
 
-    document.getElementById("popup_screen").innerHTML = `
-        <div class="popup_container">
-            <div class="popup">
-                <h1 style="margin-bottom: 10px;">Informações</h1>
+    const popup = document.getElementById("popup_screen");
+    popup.style.display = "flex";
 
-                <div class="subtitulo_popup" style="text-align:center; margin-bottom:10px; font-weight:bold;">
-                    ${f.split("<br>")[0]}
-                </div>
+    popup.innerHTML = `
+      <div class="popup_container">
+        <div class="popup">
+          <h1 style="margin-bottom: 10px;">Informações</h1>
 
-                <div class="inputs" style="text-align:justify; line-height:22px; padding:40px;">
-                    <div>${f.substring(f.indexOf("<br>") + 4)}</div>
-                </div>
+          <div class="subtitulo_popup" style="text-align:center; margin-bottom:10px; font-weight:bold;">
+              ${f.split("<br>")[0]}
+          </div>
 
-                <div class="btns_popup">
-                    <button onclick="fechar_popup()">Fechar</button>
-                </div>
-            </div>
-        </div>`;
+          <div class="inputs" style="text-align:justify; line-height:22px; padding:40px;">
+              <div>${f.substring(f.indexOf("<br>") + 4)}</div>
+          </div>
+
+          <div class="btns_popup">
+              <button onclick="fechar_popup()">Fechar</button>
+          </div>
+        </div>
+      </div>`;
   }
+
+  // Fecha o popup (botão ou clique fora)
+  function fechar_popup() {
+    const popup = document.getElementById("popup_screen");
+    popup.style.display = "none";
+    popup.innerHTML = "";
+  }
+
+  // Clique fora fecha o popup
+  document.getElementById("popup_screen").addEventListener("click", function (e) {
+    if (e.target.id === "popup_screen") {
+      fechar_popup();
+    }
+  });
 </script>
+
 
 <!-- ======================================================= -->
 <!--                 EXPANDIR / FECHAR GRÁFICO              -->
@@ -444,24 +468,36 @@ if (popupOptions.yaxis) {
 
     let linhas = [];
 
-    for (let i = 0; i < 500; i++) {
-      const url = `/bucket/read/${pURL}/${i}`;
-      try {
-        const resp = await fetch(url);
-        if (!resp.ok) break;
-        const json = await resp.json();
-        linhas = linhas.concat(json.rows);
-      } catch {
-        break;
-      }
-    }
+// pegar no máximo os últimos 5 arquivos
+for (let i = 0; i < 10; i++) {
+  const url = `/bucket/read/${pURL}/${i}`;
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) break;
 
-    if (!linhas.length) {
-      console.warn("Nenhum CSV encontrado para:", dataCompleta);
-      dataCSV = [];
-      destruirGraficos();
-      return;
-    }
+    const json = await resp.json();
+    linhas = linhas.concat(json.rows);
+
+  } catch {
+    break;
+  }
+}
+
+
+if (!linhas.length) {
+  console.warn("Nenhum CSV encontrado para:", dataCompleta);
+
+  dataCSV = [];
+
+  zerarKPIsSemDados();      // ← KPIs ficam neutras
+  destruirGraficos();       // ← remove gráficos existentes
+  exibirMensagemSemDados(); // ← coloca "Sem dados..." nos gráficos
+
+  return;
+}
+
+
+
 
     dataCSV = linhas;
     atualizarKPIs();
@@ -481,6 +517,39 @@ if (popupOptions.yaxis) {
   // ===============================
   //           KPIs
   // ===============================
+
+function zerarKPIsSemDados() {
+  const cards = document.querySelectorAll(".card_kpi");
+
+  // Seletores dos textos
+  const txtSaude = document.getElementById("metrica_saude");
+  const txtDisp = document.getElementById("metrica_disponibilidade");
+  const txtLat  = document.getElementById("metrica_latencia");
+  const txtEfic = document.getElementById("metrica_entrega");
+
+  txtSaude.textContent = "—";
+  txtDisp.textContent = "—";
+  txtLat.textContent  = "—";
+  txtEfic.textContent = "—";
+
+  // Reseta cores e ícones
+  cards.forEach(card => {
+    const status = card.querySelector(".card_kpi_status");
+    const texto  = card.querySelector(".card_kpi_metrica h1");
+    const icon   = card.querySelector(".card_kpi_status img");
+
+    status.classList.remove("estavel", "atencao", "critico");
+    texto.classList.remove("estavel_texto", "atencao_texto", "critico_texto");
+
+    // Estado neutro (cinza)
+    status.classList.add("neutro");
+    texto.classList.add("neutro_texto");
+
+    icon.src = "../../assets/icons/icone_neutro.svg"; // Ícone neutro que você já usa no sistema
+  });
+}
+
+
   function atualizarKPIs() {
     if (!dataCSV.length) return;
 
@@ -809,4 +878,90 @@ if (popupOptions.yaxis) {
       selecionarData();
     }
   });
+
+  function info_kpi_saude() {
+  pop_up_info(
+    "Saúde do CDN\n\n" +
+    "Representa a condição geral do CDN combinando eficiência, disponibilidade, latência e estabilidade.\n\n" +
+    "Por que é importante:\n" +
+    "• Resume todo o comportamento do CDN.\n" +
+    "• Indica risco operacional.\n" +
+    "• Facilita visão rápida para gestores.\n\n" +
+    "Como interpretar:\n" +
+    "• ≥ 80% = Estável\n" +
+    "• 50% a 79% = Atenção\n" +
+    "• < 50% = Crítico"
+  );
+}
+
+function info_kpi_disponibilidade() {
+  pop_up_info(
+    "Disponibilidade de Serviço\n\n" +
+    "Percentual do tempo em que o CDN respondeu sem falhas.\n\n" +
+    "Por que é importante:\n" +
+    "• Indica qualidade do serviço.\n" +
+    "• Baixa disponibilidade geralmente aponta incidentes.\n\n" +
+    "Como interpretar:\n" +
+    "• ≥ 99% = Estável\n" +
+    "• 97% a 98.99% = Atenção\n" +
+    "• < 97% = Crítico"
+  );
+}
+
+function info_kpi_latencia() {
+  pop_up_info(
+    "Latência Média de Origem\n\n" +
+    "Tempo médio que o CDN leva para buscar conteúdo na origem.\n\n" +
+    "Por que é importante:\n" +
+    "• Afeta a experiência do usuário.\n" +
+    "• Impacta no tempo de entrega.\n\n" +
+    "Como interpretar:\n" +
+    "• ≤ 50 ms = Estável\n" +
+    "• 51 a 150 ms = Atenção\n" +
+    "• > 150 ms = Crítico"
+  );
+}
+
+function info_kpi_eficiencia() {
+  pop_up_info(
+    "Eficiência de Entrega\n\n" +
+    "Percentual de conteúdo entregue diretamente pelo cache do CDN.\n\n" +
+    "Por que é importante:\n" +
+    "• Quanto maior, menos dependência da origem.\n" +
+    "• Reduz custo, latência e riscos de sobrecarga.\n\n" +
+    "Como interpretar:\n" +
+    "• ≥ 90% = Estável\n" +
+    "• 70% a 89% = Atenção\n" +
+    "• < 70% = Crítico"
+  );
+}
+
+function exibirMensagemSemDados() {
+  const ids = [
+    "graficoCacheMiss",
+    "graficoCacheHit",
+  ];
+
+  ids.forEach(id => {
+    const chartContainer = document.getElementById(id);
+    if (!chartContainer) return;
+
+    const wrapper = chartContainer.closest(".grafico");
+    if (!wrapper) return;
+
+    // REMOVE TUDO que o ApexCharts cria
+    wrapper.querySelectorAll(".apexcharts-canvas").forEach(e => e.remove());
+    wrapper.querySelectorAll("svg").forEach(e => e.remove());
+    wrapper.querySelectorAll("foreignObject").forEach(e => e.remove());
+
+    // AGORA limpa a div interna onde o gráfico deveria ser
+    chartContainer.innerHTML = `
+      <div class="sem-dados-grafico">Sem dados para esta data</div>
+    `;
+  });
+}
+
+
+
+
 </script>
