@@ -3,7 +3,10 @@ const Papa = require("papaparse");
 
 const fs = require("fs");
 const empresaModel = require("../models/empresaModel");
+const trafegoController = require("./trafegoController");
 var s3;
+
+
 
 if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
   s3 = new S3Client({
@@ -14,9 +17,12 @@ if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
       sessionToken: process.env.AWS_SESSION_TOKEN
     }
   });
-}else {
+} else {
   s3 = new S3Client({ region: "us-east-1" });
 }
+
+// Passar S3 client para trafegoController
+trafegoController.setS3Client(s3);
 
 const uploadToS3 = async (req, res) => {
   let filePath;
@@ -172,13 +178,13 @@ function readCSV(req, res) {
 
           // Formatando o json
           const header = parsed[0];
-          const formated = []; 
-          for(var i = 1; i < parsed.length; i++) {
+          const formated = [];
+          for (var i = 1; i < parsed.length; i++) {
             const thread = parsed[i];
-            if(!thread || thread.length == 0) continue;
+            if (!thread || thread.length == 0) continue;
             let object = {};
 
-            for(let j = 0; j < header.length; j++){
+            for (let j = 0; j < header.length; j++) {
               object[header[j]] = thread[j];
             }
             formated.push(object);
@@ -202,134 +208,12 @@ function readCSV(req, res) {
 
 
 
-//----------------MARIA-----------------
-
-async function getKPITrafego24h(req, res) {
-    try {
-        const { empresaId, servidorId } = req.query;
-        if (!empresaId || !servidorId) {
-            return res.status(400).json({ 
-                error: "empresaId e servidorId são obrigatórios" 
-            });
-        }
-
-        const agora = new Date();
-        const dataInicio = new Date(agora.getTime() - 24 * 60 * 60 * 1000);
-
-        // prefixo base
-        const basePrefix = `${empresaId}/${servidorId}/trafegoRede/`;
-
-        //todos os arquivos do servidor
-        const listar = await s3.send(new ListObjectsV2Command({
-            Bucket: "monitora-client",
-            Prefix: basePrefix
-        }));
-
-        const arquivos = (listar.Contents || [])
-            .filter(a => a.Key.endsWith(".csv"))
-            .filter(a => a.LastModified >= dataInicio) // <--filtro 24h
-            .sort((a, b) => b.LastModified - a.LastModified)
-            .slice(0, 24); // máximo 24 arquivos (1 por hora)
-
-        let todosDados = [];
-
-        for (const obj of arquivos) {
-            const file = await s3.send(new GetObjectCommand({
-                Bucket: "monitora-client",
-                Key: obj.Key
-            }));
-
-            const text = await streamToString(file.Body);
-
-            const parsed = Papa.parse(text, {
-                delimiter: ";",
-                skipEmptyLines: true
-            }).data;
-
-            for (let i = 1; i < parsed.length; i++) {
-                const linha = parsed[i];
-
-                todosDados.push({
-                    timestamp: new Date(linha[1]),
-                    bytesEnv: parseFloat(linha[2]) || 0,
-                    bytesRecb: parseFloat(linha[3]) || 0,
-                    pacotes_enviados: parseInt(linha[5]) || 0,
-                    pacotes_recebidos: parseInt(linha[6]) || 0,
-                    pacotes_perdidos: parseInt(linha[7]) || 0
-                });
-            }
-        }
-
-        const kpis = calcularKPIs(todosDados);
-
-        return res.json({
-            success: true,
-            timestamp: new Date().toISOString(),
-            totalLinhas: todosDados.length,
-            totalArquivos: arquivos.length,
-            ...kpis
-        });
-
-    } catch (error) {
-        console.error("Erro no KPI:", error);
-        return res.status(500).json({ 
-            error: "Erro ao calcular KPIs", 
-            details: error.message 
-        });
-    }
-}
-
-
-function calcularKPIs(dados) {
-    if (dados.length === 0) {
-        return {
-            trafegoMedioUltimaHora: "0 Gbit/s",
-            perdaPacotes: "0%",
-            dadosEnviados: "0 GB",
-            dadosRecebidos: "0 GB"
-        };
-    }
-
-    const agora = new Date();
-    const umaHoraAtras = new Date(agora.getTime() - 3600 * 1000);
-
-    const dadosUltimaHora = dados.filter(d => d.timestamp > umaHoraAtras);
-
-    const totalEnviados = dados.reduce((s, d) => s + d.pacotes_enviados, 0);
-    const totalPerdidos = dados.reduce((s, d) => s + d.pacotes_perdidos, 0);
-
-    const perdaPacotes = totalEnviados > 0
-        ? ((totalPerdidos / totalEnviados) * 100).toFixed(2) + '%'
-        : '0%';
-
-    const totalBytesEnv = dados.reduce((s, d) => s + d.bytesEnv, 0);
-    const totalBytesRecb = dados.reduce((s, d) => s + d.bytesRecb, 0);
-
-    const enviadosGB = (totalBytesEnv / (1024 * 1024)).toFixed(1) + ' GB'; //deixando em MB só para os valores não ficarem muito pequenos
-    const recebidosGB = (totalBytesRecb / (1024 * 1024)).toFixed(1) + ' GB';
-
-    const bytesUltimaHora = dadosUltimaHora
-        .reduce((s, d) => s + d.bytesEnv + d.bytesRecb, 0);
-
-    const intervaloSegundos = dadosUltimaHora.length > 0
-        ? (agora - dadosUltimaHora[0].timestamp) / 1000
-        : 3600;
-
-    const gbps = ((bytesUltimaHora * 8) / intervaloSegundos / 1e9)
-        .toFixed(1) + ' Gbit/s';
-
-    return {
-        perdaPacotes,
-        dadosEnviados: enviadosGB,
-        dadosRecebidos: recebidosGB,
-        trafegoMedioUltimaHora: gbps
-    };
-}
-
 
 module.exports = {
   uploadToS3,
   readCSV,
-  getKPITrafego24h,
-  calcularKPIs
+  // funções do trafegoController
+  getKPITrafego: trafegoController.getKPITrafego,
+  getDadosTrafego: trafegoController.getDadosTrafego,
+  getDadosPacotes: trafegoController.getDadosPacotes
 };

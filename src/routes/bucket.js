@@ -12,7 +12,10 @@ router.get("/read/:prefix/:index", function(req, res) {
 });
 
 
-router.get('/kpi/trafego/24h', bucketController.getKPITrafego24h);
+router.get('/kpi/trafego/', bucketController.getKPITrafego);
+router.get('/dados/trafego/', bucketController.getDadosTrafego);
+router.get('/dados/pacotes', bucketController.getDadosPacotes);
+
 
 
 module.exports = router;
