@@ -25,24 +25,7 @@
 <body onload="listarPermissoesReload()">
   <nav id="id_sidebar"></nav>
 
-  <div class="sombra_modal" id="sombra_modal">
-    <div class="modal">
-      <h2>Interpretação do Gráfico <i class="fa-regular fa-circle-xmark" onclick="fecharModal()"></i> </h2>
-      <p>
-        <li>Cada célula mostra o quanto duas variáveis estão relacionadas, de -1 a 1.</li>
 
-        <li>Cor mais escura = relação mais forte.</li>
-
-        <li> Valor positivo: quando uma sobe, a outra tende a subir.</li>
-
-        <li>Valor negativo: quando uma sobe, a outra tende a cair.</li>
-
-        <li>Valor próximo ou igual à zero: pouca ou nenhuma relação.</li>
-
-        <li> Linhas e colunas representam os eventos; a célula mostra a força da relação entre eles.</li>
-      </p>
-    </div>
-  </div>
   <header>
     <div class="titulo-dash">
       <i class="fa-solid fa-chart-simple"></i>
@@ -84,7 +67,7 @@
       </div>
       <div class="card">
         <p class="text-kpi">Dados Recebidos
-          <i class="fa-solid fa-bars-progress"></i>
+          <i class="fa-solid fa-database"></i>
         </p>
         <p class="value">Carregando...</p>
 
@@ -98,282 +81,316 @@
       <div class="grafico-card">
         <div class="grafico-header">
           <h3>Quantidade de Pacotes Enviados e Recebidos</h3>
-          <i class="fa-regular fa-circle-question" onclick="abrirModal()"></i>
+         
         </div>
         <div id="graficoPacotes"></div>
       </div>
     </div>
-    <div class="container-graficos second">
-      <div id="previsao"></div>
     
-    </div>
 
   </div>
 
 
-<script>
-// const empresaId = sessionStorage.getItem('empresaId') ;
-// const servidorId = sessionStorage.getItem('servidorId') ;
-const empresaId = 2 ;
-const servidorId = '87cbdc6a-8bb1-4be8-b881-dd7d847bb256' ;
-let periodoAtual = '24h';
-let kpisCarregando = false;
-let graficosCarregando = false;
+  <script>
+    // const empresaId = sessionStorage.getItem('empresaId') ;
+    // const servidorId = sessionStorage.getItem('servidorId') ;
+    const empresaId = 2;
+    const servidorId = '87cbdc6a-8bb1-4be8-b881-dd7d847bb256';
+    let periodoAtual = '24h';
+    let kpisCarregando = false;
+    let graficosCarregando = false;
 
-async function carregarKPIs() {
-  if (kpisCarregando) return; // Evitar múltiplas requisições simultâneas
-  kpisCarregando = true;
+    async function carregarKPIs() {
+      if (kpisCarregando) return; 
+      kpisCarregando = true;
 
-  try {
-    const response = await fetch(`/bucket/kpi/trafego?empresaId=${empresaId}&servidorId=${servidorId}&periodo=${periodoAtual}`, {
-      signal: AbortSignal.timeout(15000) // timeout de 15 segundos
-    });
-    
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
-    
-    if (!data.success) {
-      console.error('Resposta sem sucesso:', data);
-      return;
+      try {
+        const response = await fetch(`/bucket/kpi/trafego?empresaId=${empresaId}&servidorId=${servidorId}&periodo=${periodoAtual}`, {
+          signal: AbortSignal.timeout(15000) // timeout de 15 segundos
+        });
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+
+        if (!data.success) {
+          console.error('Resposta sem sucesso:', data);
+          return;
+        }
+
+        const cards = document.querySelectorAll('.grid-6 .card .value');
+        cards[0].textContent = data.trafegoMedio || '-';
+        cards[1].textContent = data.perdaPacotes || '-';
+        cards[2].textContent = data.dadosEnviados || '-';
+        cards[3].textContent = data.dadosRecebidos || '-';
+
+        console.log('KPIs atualizadas:', data);
+      } catch (error) {
+        console.error('Erro KPIs:', error);
+        document.querySelectorAll('.grid-6 .card .value').forEach(el => {
+          if (el.textContent === 'Carregando...') el.textContent = 'Erro';
+        });
+      } finally {
+        kpisCarregando = false;
+      }
+    }
+    function atualizarTituloKPI(periodo) {
+      const el = document.querySelector('.grid-6 .card:first-child .text-kpi');
+      if (!el) return;
+
+      if (periodo === '24h') {
+        el.innerHTML = 'Tráfego Médio na <br> Última Hora';
+      } else if (periodo === '7d') {
+        el.innerHTML = 'Tráfego Médio nos <br> Últimos 7 dias';
+      } else if (periodo === '30d') {
+        el.innerHTML = 'Tráfego Médio nos <br> Últimos 30 dias';
+      }
     }
 
-    const cards = document.querySelectorAll('.grid-6 .card .value');
-    cards[0].textContent = data.trafegoMedioUltimaHora || '-';
-    cards[1].textContent = data.perdaPacotes || '-';
-    cards[2].textContent = data.dadosEnviados || '-';
-    cards[3].textContent = data.dadosRecebidos || '-';
+    async function carregarGraficoTrafego() {
+      if (graficosCarregando) return;
+      graficosCarregando = true;
 
-    console.log('✓ KPIs atualizado:', data);
-  } catch (error) {
-    console.error('✗ Erro KPIs:', error);
-    document.querySelectorAll('.grid-6 .card .value').forEach(el => {
-      if (el.textContent === 'Carregando...') el.textContent = 'Erro';
-    });
-  } finally {
-    kpisCarregando = false;
-  }
-}
+      try {
+        const response = await fetch(`/bucket/dados/trafego?empresaId=${empresaId}&servidorId=${servidorId}&periodo=${periodoAtual}`, {
+          signal: AbortSignal.timeout(15000)
+        });
 
-async function carregarGraficoTrafego() {
-  if (graficosCarregando) return;
-  graficosCarregando = true;
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
 
-  try {
-    const response = await fetch(`/bucket/dados/trafego?empresaId=${empresaId}&servidorId=${servidorId}&periodo=${periodoAtual}`, {
-      signal: AbortSignal.timeout(15000)
-    });
-    
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
+        if (!data.success) return;
 
-    if (!data.success) return;
+        const labels = data.labels || [];
+        const valores = data.valores || [];
 
-    const labels = data.labels || [];
-    const valores = data.valores || [];
+        let titleText;
+        let yText;
+        let xText;
 
-    graficoTrafego.updateOptions({
-      xaxis: { categories: labels },
-      series: [{ name: 'Tráfego', data: valores }]
-    });
+        if (periodoAtual === '24h') {
+          titleText = 'Tráfego nas Últimas Horas';
+          yText = 'Velocidade do Tráfego (Gbps)';
+          xText = 'Horário';
+        } else if (periodoAtual === '7d') {
+          titleText = 'Tráfego Diário nos Últimos 7 dias';
+          yText = 'Tráfego Diário (GB)';
+          xText = 'Dia';
+        } else {
+          titleText = 'Tráfego Diário nos Últimos 30 dias';
+          yText = 'Tráfego Diário (GB)';
+          xText = 'Dia';
 
-    console.log('Gráfico de tráfego atualizado');
-  } catch (error) {
-    console.error('Erro gráfico tráfego:', error);
-  } finally {
-    graficosCarregando = false;
-  }
-}
+        }
+
+        graficoTrafego.updateOptions({
+          title: { text: titleText },
+          xaxis: { categories: labels, title: { text: xText } },
+          yaxis: { title: { text: yText } },
+          series: [{ name: 'Tráfego', data: valores }]
+        });
+
+        console.log('Gráfico de tráfego atualizado');
+      } catch (error) {
+        console.error('Erro gráfico tráfego:', error);
+      } finally {
+        graficosCarregando = false;
+      }
+    }
 
 
-function mudarPeriodo(novoPeriodo) {
-  periodoAtual = novoPeriodo;
-  marcarBotaoAtivo(novoPeriodo);
-  carregarKPIs();
-  carregarGraficoTrafego();
-  carregarGraficoPacotes();
-}
+    function mudarPeriodo(novoPeriodo) {
+      periodoAtual = novoPeriodo;
+      marcarBotaoAtivo(novoPeriodo);
+      atualizarTituloKPI(novoPeriodo);
+      carregarKPIs();
+      carregarGraficoTrafego();
+      carregarGraficoPacotes();
+    }
 
-function marcarBotaoAtivo(periodo) {
-  document.getElementById('btn-24h').classList.remove('btn-primary');
-  document.getElementById('btn-7d').classList.remove('btn-primary');
-  document.getElementById('btn-30d').classList.remove('btn-primary');
+    function marcarBotaoAtivo(periodo) {
+      document.getElementById('btn-24h').classList.remove('btn-primary');
+      document.getElementById('btn-7d').classList.remove('btn-primary');
+      document.getElementById('btn-30d').classList.remove('btn-primary');
 
-  if (periodo === '24h') document.getElementById('btn-24h').classList.add('btn-primary');
-  if (periodo === '7d')  document.getElementById('btn-7d').classList.add('btn-primary');
-  if (periodo === '30d') document.getElementById('btn-30d').classList.add('btn-primary');
-}
+      if (periodo === '24h') document.getElementById('btn-24h').classList.add('btn-primary');
+      if (periodo === '7d') document.getElementById('btn-7d').classList.add('btn-primary');
+      if (periodo === '30d') document.getElementById('btn-30d').classList.add('btn-primary');
+    }
 
-function mostrarLoading() {
-  document.querySelectorAll('.value').forEach(el => el.textContent = 'Carregando...');
-}
-  //----------------------------------------------------------------------------
-  // Grafico Trafego Últimas Horas
-  var graficoTrafego = new ApexCharts(document.querySelector("#chart"), {
-    series: [{
-      name: "Tráfego",
-      data: []
-    }],
-    chart: {
-      height: 350,
-      type: 'line',
-      zoom: {
+    function mostrarLoading() {
+      document.querySelectorAll('.value').forEach(el => el.textContent = 'Carregando...');
+    }
+    //----------------------------------------------------------------------------
+    // Grafico Trafego Últimas Horas
+    var graficoTrafego = new ApexCharts(document.querySelector("#chart"), {
+      series: [{
+        name: "Tráfego",
+        data: []
+      }],
+      chart: {
+        height: 350,
+        type: 'line',
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: false
+        }
+      },
+
+      dataLabels: {
         enabled: false
       },
-      toolbar: {
-        show: false
-      }
-    },
-
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      curve: 'straight'
-    },
-    title: {
-      text: 'Tráfego nas Últimas Horas',
-      align: 'left',
-      style: {
-        fontFamily: "'Inter', sans-serif",
-        fontWeight: 'bold',
-        fontSize: 14,
-        color: '#1f2937'
-
-      }
-    },
-    grid: {
-      row: {
-        colors: ['#f3f3f3', 'transparent'],
-        opacity: 0.5
+      stroke: {
+        curve: 'straight'
       },
-    },
-    xaxis: {
-      categories: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h'],
       title: {
-        text: 'Horário',
+        text: 'Tráfego nas Últimas Horas',
+        align: 'left',
         style: {
+          fontFamily: "'Inter', sans-serif",
           fontWeight: 'bold',
-          color: '#475569',
+          fontSize: 14,
+          color: '#1f2937'
 
         }
-      }
-    },
-    yaxis: {
-      title: {
-        text: 'Velocidade do Tráfego (Gbps)',
-        style: {
-          fontWeight: 'bold',
-          color: '#475569',
+      },
+      grid: {
+        row: {
+          colors: ['#f3f3f3', 'transparent'],
+          opacity: 0.5
+        },
+      },
+      xaxis: {
+        categories: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h'],
+        title: {
+          text: 'Horário',
+          style: {
+            fontWeight: 'bold',
+            color: '#475569',
 
+          }
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'Velocidade do Tráfego (Gbps)',
+          style: {
+            fontWeight: 'bold',
+            color: '#475569',
+
+          }
         }
       }
-    }
-  });
+    });
 
-  
-//buscar dados do CSV
-async function fetchCSV(prefix, index = 0) {
-    try {
+
+    //buscar dados do CSV
+    async function fetchCSV(prefix, index = 0) {
+      try {
         const response = await fetch(`/csv/${encodeURIComponent(prefix)}/${index}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
-        return data.rows; 
-    } catch (error) {
+        return data.rows;
+      } catch (error) {
         console.error('Erro ao buscar CSV:', error);
         return [];
+      }
     }
-}
 
 
-async function listCSVFiles(prefix) {
-    try {
+    async function listCSVFiles(prefix) {
+      try {
         const response = await fetch(`/csv/${encodeURIComponent(prefix)}/0`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         return {
-            total: data.totalArquivos,
-            prefix: data.prefix,
-            key: data.key
+          total: data.totalArquivos,
+          prefix: data.prefix,
+          key: data.key
         };
-    } catch (error) {
+      } catch (error) {
         console.error('Erro ao listar CSVs:', error);
         return { total: 0, prefix, key: '' };
+      }
     }
-}
 
 
 
 
-const graficoPacotes = new ApexCharts(document.querySelector("#graficoPacotes"), {
-  series: [
-    { name: 'Pacotes Recebidos', data: [0,0,0,0,0,0,0,0,0] },
-    { name: 'Pacotes Enviados', data: [0,0,0,0,0,0,0,0,0] }
-  ],
-  chart: { type: 'area', stacked: false, height: 350, toolbar: { show: false } },
-  dataLabels: { enabled: false },
-  markers: { size: 0 },
-  fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] } },
-  yaxis: { title: { text: 'Quantidade de Pacotes' } },
-  xaxis: { categories: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h'] },
-  tooltip: { shared: false, y: { formatter: val => val.toFixed(0) } }
-});
-
-async function carregarGraficoPacotes() {
-  try {
-    // ✅ CAMBIO: endpoint CORRETO para pacotes
-    const response = await fetch(`/bucket/dados/pacotes?empresaId=${empresaId}&servidorId=${servidorId}&periodo=${periodoAtual}`, { 
-      signal: AbortSignal.timeout(15000) 
-    });
-    
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
-    
-    if (!data.success) {
-      console.warn('Dados de pacotes não disponíveis');
-      return;
-    }
-    
-    // ✅ Atualiza gráfico com dados REAIS
-    graficoPacotes.updateOptions({
-      xaxis: { categories: data.labels || ['1h','2h','3h','4h','5h','6h','7h','8h','9h'] },
+    const graficoPacotes = new ApexCharts(document.querySelector("#graficoPacotes"), {
       series: [
-        { name: 'Pacotes Recebidos', data: data.pacotes_recebidos || [] },
-        { name: 'Pacotes Enviados', data: data.pacotes_enviados || [] }
-      ]
+        { name: 'Pacotes Recebidos', data: [0, 0, 0, 0, 0, 0, 0, 0, 0] },
+        { name: 'Pacotes Enviados', data: [0, 0, 0, 0, 0, 0, 0, 0, 0] }
+      ],
+      chart: { type: 'area', stacked: false, height: 350, toolbar: { show: false } },
+      dataLabels: { enabled: false },
+      markers: { size: 0 },
+      fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] } },
+      yaxis: { title: { text: 'Quantidade de Pacotes' } },
+      xaxis: { categories: ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h'] },
+      tooltip: { shared: false, y: { formatter: val => val.toFixed(0) } }
     });
-    
-    console.log('✓ Gráfico pacotes atualizado:', data.pacotes_recebidos?.length, 'pontos');
-  } catch (error) {
-    console.error('✗ Erro pacotes:', error.message);
-    // Mantém gráfico zerado graciosamente
-  }
-}
 
-document.addEventListener('DOMContentLoaded', () => {
-  graficoTrafego.render(); 
-  graficoPacotes.render();
-  marcarBotaoAtivo('24h');
-  carregarKPIs();
-  carregarGraficoTrafego();
-  carregarGraficoPacotes()
-   setInterval(() => {
-    carregarKPIs();
-    carregarGraficoTrafego();
-  }, 300000);
-});
-  
+    async function carregarGraficoPacotes() {
+      try {
 
-</script>
+        const response = await fetch(`/bucket/dados/pacotes?empresaId=${empresaId}&servidorId=${servidorId}&periodo=${periodoAtual}`, {
+          signal: AbortSignal.timeout(15000)
+        });
 
-<script src="../../js/sidebar.js"></script>
-<script src="../../js/popups.js"></script>
-<script src="../../js/verificacaoPermissoes.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-  integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
-  integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+
+        if (!data.success) {
+          console.log('Dados de pacotes não encontrados');
+          return;
+        }
+
+
+        graficoPacotes.updateOptions({
+          xaxis: { categories: data.labels || ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h'] },
+          series: [
+            { name: 'Pacotes Recebidos', data: data.pacotes_recebidos || [] },
+            { name: 'Pacotes Enviados', data: data.pacotes_enviados || [] }
+          ]
+        });
+
+        console.log('Gráfico pacotes atualizado:', data.pacotes_recebidos?.length, 'pontos');
+      } catch (error) {
+        console.error('Erro pacotes:', error.message);
+
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      graficoTrafego.render();
+      graficoPacotes.render();
+      marcarBotaoAtivo('24h');
+      carregarKPIs();
+      carregarGraficoTrafego();
+      carregarGraficoPacotes()
+      setInterval(() => {
+        carregarKPIs();
+        carregarGraficoTrafego();
+      }, 300000);
+    });
+
+
+  </script>
+
+  <script src="../../js/sidebar.js"></script>
+  <script src="../../js/popups.js"></script>
+  <script src="../../js/verificacaoPermissoes.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+    integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>

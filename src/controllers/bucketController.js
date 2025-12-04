@@ -6,27 +6,7 @@ const empresaModel = require("../models/empresaModel");
 const trafegoController = require("./trafegoController");
 var s3;
 
-// Simple in-memory cache
-const cache = new Map();
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutos
 
-function getCacheKey(empresaId, servidorId, periodo) {
-  return `${empresaId}:${servidorId}:${periodo}`;
-}
-
-function getCached(key) {
-  const entry = cache.get(key);
-  if (!entry) return null;
-  if (Date.now() - entry.timestamp > CACHE_TTL) {
-    cache.delete(key);
-    return null;
-  }
-  return entry.data;
-}
-
-function setCache(key, data) {
-  cache.set(key, { data, timestamp: Date.now() });
-}
 
 if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
   s3 = new S3Client({

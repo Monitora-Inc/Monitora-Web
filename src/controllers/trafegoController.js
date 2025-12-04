@@ -78,19 +78,16 @@ async function carregarDadosTrafego(empresaId, servidorId, periodo, usarHeader) 
 
       if (usarHeader) {
         resultado.forEach((row, idx) => {
-          if (!row.timestamp) return;
-          const ts = new Date(row.timestamp);
-          if (isNaN(ts) || ts < dataInicio || ts > agora) return;
-          if (idx === 0) console.log('[CSV HEADER]', Object.keys(row));
-          linhas.push({ ts, row });
+          if (idx === 0) console.log('header do csv', Object.keys(row));
+          linhas.push({ row });
         });
       } else {
         for (let i = 1; i < resultado.length; i++) {
           const linha = resultado[i];
           if (!linha || linha.length < 4) continue;
           const ts = new Date(linha[1]);
-          if (isNaN(ts) || ts < dataInicio || ts > agora) continue;
-          linhas.push({ ts, linha });
+
+          linhas.push({ linha });
         }
       }
     } catch (err) {
@@ -98,7 +95,18 @@ async function carregarDadosTrafego(empresaId, servidorId, periodo, usarHeader) 
     }
   }
 
-  console.log(`[PROCESSADO] ${linhas.length} linhas de ${selecionados.length} arquivos`);
+  console.log(`${linhas.length} linhas de ${selecionados.length} arquivos`);
+  if (linhas.length > 0) {
+    const inicio = dataInicio.getTime();
+    const fim = agora.getTime();
+    const intervalo = fim - inicio;
+
+    linhas.forEach((item, idx) => {
+      const fator = linhas.length === 1 ? 1 : idx / (linhas.length - 1);
+      const tsMs = inicio + intervalo * fator;
+      item.ts = new Date(tsMs);
+    });
+  }
 
   return { linhas, agora, dataInicio, arquivosFiltrados: arquivos };
 }
@@ -106,6 +114,7 @@ async function carregarDadosTrafego(empresaId, servidorId, periodo, usarHeader) 
 async function getKPITrafego(req, res) {
   try {
     const { empresaId, servidorId, periodo = '24h' } = req.query;
+    
     if (!empresaId || !servidorId) {
       return res.status(400).json({
         error: "empresaId e servidorId são obrigatórios"
@@ -116,7 +125,6 @@ async function getKPITrafego(req, res) {
     const cacheKey = getCacheKey(empresaId, servidorId, `kpi_${periodo}`);
     const cached = getCached(cacheKey);
     if (cached) {
-      console.log(`[CACHE HIT] KPI ${periodo}`);
       return res.json(cached);
     }
 
@@ -132,7 +140,7 @@ async function getKPITrafego(req, res) {
 
     if (linhas.length > 0) {
       const firstRow = linhas[0].row;
-      console.log('[DEBUG] Chaves disponíveis:', Object.keys(firstRow));
+      console.log('Chaves disponíveis:', Object.keys(firstRow));
 
       bytesEnvCol = Object.keys(firstRow).find(k => k.toLowerCase().includes('bytes') && k.toLowerCase().includes('env')) || bytesEnvCol;
       bytesRecbCol = Object.keys(firstRow).find(k => k.toLowerCase().includes('bytes') && k.toLowerCase().includes('recb')) || bytesRecbCol;
@@ -140,7 +148,7 @@ async function getKPITrafego(req, res) {
       pacotesRecbCol = Object.keys(firstRow).find(k => k.toLowerCase().includes('pacot') && k.toLowerCase().includes('recb')) || pacotesRecbCol;
       pacotesPerdCol = Object.keys(firstRow).find(k => k.toLowerCase().includes('pacot') && k.toLowerCase().includes('perd')) || pacotesPerdCol;
 
-      console.log(`[AUTO-DETECT] Colunas detectadas: env=${bytesEnvCol}, recb=${bytesRecbCol}, pacotes_env=${pacotesEnvCol}`);
+      console.log(`Colunas: env=${bytesEnvCol}, recb=${bytesRecbCol}, pacotes_env=${pacotesEnvCol}`);
     }
 
     const todosDados = linhas.map(({ ts, row }) => {
@@ -157,9 +165,15 @@ async function getKPITrafego(req, res) {
       };
     });
 
-    console.log(`totalLinhas processadas: ${todosDados.length}, totalArquivos: ${totalArquivosProcessados}`);
-    console.log('Amostra de dados (primeiros 3):', todosDados.slice(0, 3));
     const deltas = gerarDeltas(todosDados);
+    deltas.forEach(d => {
+      d.bytesEnv_delta = d.bytesEnv_delta * 1024;
+      d.bytesRecb_delta = d.bytesRecb_delta * 1024;
+      d.pacotesEnv_delta = d.pacotesEnv_delta * 1024;
+      d.pacotesRecb_delta = d.pacotesRecb_delta * 1024;
+      d.pacotesPerd_delta = d.pacotesPerd_delta * 1024;
+    });
+
 
     const kpis = calcularKPIs(deltas);
 
@@ -186,108 +200,92 @@ async function getKPITrafego(req, res) {
   }
 }
 function gerarDeltas(dados) {
-    let anterior = null;
-    let lista = [];
+  let anterior = null;
+  let lista = [];
 
-    for (const d of dados.sort((a, b) => a.timestamp - b.timestamp)) {
+  for (const d of dados.sort((a, b) => a.timestamp - b.timestamp)) {
 
-        if (anterior) {
-            const deltaEnv = Math.max(0, d.bytesEnv - anterior.bytesEnv);
-            const deltaRecb = Math.max(0, d.bytesRecb - anterior.bytesRecb);
+    if (anterior) {
+      const deltaEnv = Math.max(0, d.bytesEnv - anterior.bytesEnv);
+      const deltaRecb = Math.max(0, d.bytesRecb - anterior.bytesRecb);
 
-            const deltaPacEnv = Math.max(0, d.pacotes_enviados - anterior.pacotes_enviados);
-            const deltaPacRecb = Math.max(0, d.pacotes_recebidos - anterior.pacotes_recebidos);
-            const deltaPacPerd = Math.max(0, d.pacotes_perdidos - anterior.pacotes_perdidos);
+      const deltaPacEnv = Math.max(0, d.pacotes_enviados - anterior.pacotes_enviados);
+      const deltaPacRecb = Math.max(0, d.pacotes_recebidos - anterior.pacotes_recebidos);
+      const deltaPacPerd = Math.max(0, d.pacotes_perdidos - anterior.pacotes_perdidos);
 
-            lista.push({
-                timestamp: d.timestamp,
-                bytesEnv_delta: deltaEnv,
-                bytesRecb_delta: deltaRecb,
-                pacotesEnv_delta: deltaPacEnv,
-                pacotesRecb_delta: deltaPacRecb,
-                pacotesPerd_delta: deltaPacPerd
-            });
-        }
-
-        anterior = d;
+      lista.push({
+        timestamp: d.timestamp,
+        bytesEnv_delta: deltaEnv,
+        bytesRecb_delta: deltaRecb,
+        pacotesEnv_delta: deltaPacEnv,
+        pacotesRecb_delta: deltaPacRecb,
+        pacotesPerd_delta: deltaPacPerd
+      });
     }
 
-    return lista;
+    anterior = d;
+  }
+
+  return lista;
 }
 
 
-function calcularKPIs(dados) {
+function calcularKPIs(dados, periodo = '24h') {
   if (dados.length === 0) {
     return {
-      trafegoMedioUltimaHora: "0 Mbps",
+      trafegoMedio: "0 Gbps",
       perdaPacotes: "0%",
-      dadosEnviados: "0 MB",
-      dadosRecebidos: "0 MB"
+      dadosEnviados: "0 GB",
+      dadosRecebidos: "0 GB"
     };
   }
-
-  const agora = new Date();
-  const umaHoraAtras = new Date(agora.getTime() - 3600 * 1000);
 
   let totalEnviados = 0;
   let totalPerdidos = 0;
   let totalBytesEnv = 0;
   let totalBytesRecb = 0;
 
-  let bytesUltimaHoraEnv = 0;
-  let bytesUltimaHoraRecb = 0;
-  let primeiroTimestampUltimaHora = null;
-  let ultimoTimestampUltimaHora = null;
-
   for (const d of dados) {
-    const env = Number(d.bytesEnv_delta) || 0;
+    const env  = Number(d.bytesEnv_delta)  || 0;
     const recb = Number(d.bytesRecb_delta) || 0;
 
-    totalEnviados += Number(d.pacotesEnv_delta) || 0;
+    totalEnviados += Number(d.pacotesEnv_delta)  || 0;
     totalPerdidos += Number(d.pacotesPerd_delta) || 0;
 
-    totalBytesEnv += env;
+    totalBytesEnv  += env;
     totalBytesRecb += recb;
-
-    if (d.timestamp > umaHoraAtras) {
-      bytesUltimaHoraEnv += env;
-      bytesUltimaHoraRecb += recb;
-
-      if (!primeiroTimestampUltimaHora || d.timestamp < primeiroTimestampUltimaHora)
-        primeiroTimestampUltimaHora = d.timestamp;
-
-      if (!ultimoTimestampUltimaHora || d.timestamp > ultimoTimestampUltimaHora)
-        ultimoTimestampUltimaHora = d.timestamp;
-    }
   }
 
   const perdaPacotes = totalEnviados > 0
     ? ((totalPerdidos / totalEnviados) * 100).toFixed(2) + "%"
     : "0%";
 
-  // ⬇️ CORREÇÃO: usar **MB**, não GB
-  const enviadosMB = (totalBytesEnv / (1024 * 1024)).toFixed(2) + " MB";
-  const recebidosMB = (totalBytesRecb / (1024 * 1024)).toFixed(2) + " MB";
+  const enviadosMB  = (totalBytesEnv  / (1024 * 1024)).toFixed(2) + " GB";
+  const recebidosMB = (totalBytesRecb / (1024 * 1024)).toFixed(2) + " GB";
 
-  // evitar intervalo zero
-  let intervaloSegundos = 60;
-  if (primeiroTimestampUltimaHora && ultimoTimestampUltimaHora) {
-    const diff = (ultimoTimestampUltimaHora - primeiroTimestampUltimaHora) / 1000;
-    intervaloSegundos = diff > 0 ? diff : 60;
+  let janelaSegundos;
+  if (periodo === '24h') {
+    janelaSegundos = 3600;
+  } else if (periodo === '7d') {
+   
+    janelaSegundos = 7 * 24 * 3600;
+  } else if (periodo === '30d') {
+    
+    janelaSegundos = 30 * 24 * 3600;
+  } else {
+    // padrao: assume 24h
+    janelaSegundos = 24 * 3600;
   }
 
-  // tráfego total da última hora (ENVI + RECB)
-  const bytesUltimaHora = bytesUltimaHoraEnv + bytesUltimaHoraRecb;
-
-  // Mbps = (bytes * 8) / (segundos * 1024 * 1024)
-  const mbps = ((bytesUltimaHora * 8) / (intervaloSegundos * 1024 * 1024))
-    .toFixed(2) + " Mbps";
+  const bytesTotaisPeriodo = totalBytesEnv + totalBytesRecb;
+  const mbpsMedio = ((bytesTotaisPeriodo * 8) / (janelaSegundos * 1024 * 1024))
+    .toFixed(2) + " Gbps";  
 
   return {
     perdaPacotes,
     dadosEnviados: enviadosMB,
     dadosRecebidos: recebidosMB,
-    trafegoMedioUltimaHora: mbps
+    trafegoMedio: mbpsMedio
   };
 }
 
@@ -306,19 +304,19 @@ async function getDadosTrafego(req, res) {
     if (!linhas.length)
       return res.json({ success: true, periodo, labels: [], valores: [] });
 
-    // Detectar colunas
+   
     const first = linhas[0].row;
     const colEnv = Object.keys(first).find(k => k.includes("env")) || "bytesEnv";
     const colRecb = Object.keys(first).find(k => k.includes("recb")) || "bytesRecb";
 
-    // Converter linhas em valores numéricos
+
     const dados = linhas.map(l => ({
       ts: l.ts,
       env: Number(l.row[colEnv] || 0),
       recb: Number(l.row[colRecb] || 0)
     }));
 
-    // Ordenar e gerar deltas
+  
     dados.sort((a, b) => a.ts - b.ts);
 
     let anterior = null;
@@ -329,41 +327,39 @@ async function getDadosTrafego(req, res) {
         deltas.push({
           ts: d.ts,
           delta: Math.max(0, (d.env - anterior.env)) +
-                 Math.max(0, (d.recb - anterior.recb))
+            Math.max(0, (d.recb - anterior.recb))
         });
       }
       anterior = d;
     }
 
+
+    deltas.forEach(d => {
+      d.delta = d.delta * 1024;
+    });
+
     let labels = [];
     let valores = [];
 
     if (periodo === "24h") {
-      // Agrupar por hora (9 pontos)
-      const horaMap = {};
+      const horaCount = 9;
 
-      deltas.forEach(p => {
-        const h = new Date(p.ts);
-        h.setMinutes(0, 0, 0);
-        const key = h.toISOString();
-        horaMap[key] = (horaMap[key] || 0) + p.delta;
-      });
+      for (let i = horaCount - 1; i >= 0; i--) {
+        const h = new Date(agora.getTime() - i * 3600 * 1000);
+        const ini = new Date(h);
+        ini.setMinutes(0, 0, 0);
+        const fim = new Date(ini.getTime() + 3600 * 1000);
 
-      for (let i = 8; i >= 0; i--) {
-        const h = new Date(agora - i * 3600 * 1000);
-        h.setMinutes(0, 0, 0);
-        const key = h.toISOString();
-        labels.push(h.getHours().toString().padStart(2, "0") + "h");
+        const soma = deltas
+          .filter(p => p.ts >= ini && p.ts < fim)
+          .reduce((s, p) => s + p.delta, 0);
 
-        // Conversão correta para Mbps (delta/hora)
-        const bytes = horaMap[key] || 0;
-        const mbps = (bytes * 8) / (3600 * 1024 * 1024);
-
+        labels.push(ini.getHours().toString().padStart(2, "0") + "h");
+        const mbps = (soma * 8) / (3600 * 1024 * 1024);
         valores.push(Number(mbps.toFixed(2)));
       }
-
     } else {
-      // 7d e 30d → exibir MB/dia
+  
       const dias = periodo === "7d" ? 7 : 30;
 
       for (let i = dias - 1; i >= 0; i--) {
@@ -387,7 +383,7 @@ async function getDadosTrafego(req, res) {
     return res.json(response);
 
   } catch (err) {
-    console.error("Erro na série de tráfego:", err);
+    console.error("Erro nos valores de tráfego:", err);
     return res.status(500).json({ error: "Erro ao montar série de tráfego" });
   }
 }
