@@ -165,10 +165,26 @@
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-  buscarKpisIncidentes();
-  buscarDadosComponentes();
-  buscarKpisPerformance();
-  carregarGrafico();
+  iniciarDashboard();
+
+  async function iniciarDashboard() {
+  try {
+    const incidentesPromise = buscarKpisIncidentes();
+    const componentesPromise = buscarDadosComponentes();
+    const performancePromise = buscarKpisPerformance();
+    const graficoPromise = carregarGrafico();
+
+    await Promise.all([
+      incidentesPromise,
+      componentesPromise,
+      performancePromise,
+      graficoPromise
+    ]);
+
+  } catch (erro) {
+    console.error("Erro ao carregar dados da dashboard:", erro);
+  }
+}
 
   let jsonKpisIncidentes;
 
@@ -428,8 +444,11 @@
   function verInfoSLA() {
     if (displayInfoSLA == false) {
       divIconeSLA.innerHTML = `<img id="iconeInfo" src="../../Images/voltar.svg" onclick="verInfoSLA()">`;
-      conteudoSLA.innerHTML = `<p class="explicacao">Representa a porcentagem total de incidentes que foram resolvidos dentro do prazo acordado. É o principal indicador de compromisso com o nível de serviço.<br><br>
-            Parâmetros de Saúde:<br> 🟢 Ideal: Acima de 95%<br> 🟡 Atenção: Entre 90% e 95%<br> 🔴 Crítico: Abaixo de 90%</p>`;
+      conteudoSLA.innerHTML = `<p class="explicacao">Representa a porcentagem total de incidentes que foram resolvidos dentro do prazo acordado.<br><br>
+            Parâmetros de Saúde:<br> 🟢 Ideal: Acima de 95%<br> 🟡 Atenção: Entre 90% e 95%<br> 🔴 Crítico: Abaixo de 90%</p><br>
+            SLA:<br>
+            Críticos - até 12h<br>
+            Atenção - até 24h`;
       displayInfoSLA = true;
     } else if (displayInfoSLA == true) {
       if (listaJsonsKpisPerformance[2].porcentagemSLA < 90) {
