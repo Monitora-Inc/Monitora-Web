@@ -29,6 +29,15 @@ function setS3Client(s3Client) {
   s3 = s3Client;
 }
 
+ function formatarGBouTB(valorGB) {
+      if (valorGB >= 1024) {
+        const valorTB = (valorGB / 1024).toFixed(2);
+        return `${valorTB} TB`;
+      }
+      return `${valorGB.toFixed(2)} GB`;
+    }
+
+    
 async function streamToString(stream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
@@ -114,7 +123,7 @@ async function carregarDadosTrafego(empresaId, servidorId, periodo, usarHeader) 
 async function getKPITrafego(req, res) {
   try {
     const { empresaId, servidorId, periodo = '24h' } = req.query;
-    
+
     if (!empresaId || !servidorId) {
       return res.status(400).json({
         error: "empresaId e servidorId são obrigatórios"
@@ -175,6 +184,7 @@ async function getKPITrafego(req, res) {
     });
 
 
+   
     const kpis = calcularKPIs(deltas);
 
     const response = {
@@ -246,13 +256,13 @@ function calcularKPIs(dados, periodo = '24h') {
   let totalBytesRecb = 0;
 
   for (const d of dados) {
-    const env  = Number(d.bytesEnv_delta)  || 0;
+    const env = Number(d.bytesEnv_delta) || 0;
     const recb = Number(d.bytesRecb_delta) || 0;
 
-    totalEnviados += Number(d.pacotesEnv_delta)  || 0;
+    totalEnviados += Number(d.pacotesEnv_delta) || 0;
     totalPerdidos += Number(d.pacotesPerd_delta) || 0;
 
-    totalBytesEnv  += env;
+    totalBytesEnv += env;
     totalBytesRecb += recb;
   }
 
@@ -260,17 +270,23 @@ function calcularKPIs(dados, periodo = '24h') {
     ? ((totalPerdidos / totalEnviados) * 100).toFixed(2) + "%"
     : "0%";
 
-  const enviadosMB  = (totalBytesEnv  / (1024 * 1024)).toFixed(2) + " GB";
-  const recebidosMB = (totalBytesRecb / (1024 * 1024)).toFixed(2) + " GB";
+
+  const enviadosGB = totalBytesEnv / (1024 * 1024);
+  const recebidosGB = totalBytesRecb / (1024 * 1024);
+
+
+  const enviadosFmt = formatarGBouTB(enviadosGB);
+  const recebidosFmt = formatarGBouTB(recebidosGB);
+
 
   let janelaSegundos;
   if (periodo === '24h') {
     janelaSegundos = 3600;
   } else if (periodo === '7d') {
-   
+
     janelaSegundos = 7 * 24 * 3600;
   } else if (periodo === '30d') {
-    
+
     janelaSegundos = 30 * 24 * 3600;
   } else {
     // padrao: assume 24h
@@ -279,12 +295,12 @@ function calcularKPIs(dados, periodo = '24h') {
 
   const bytesTotaisPeriodo = totalBytesEnv + totalBytesRecb;
   const mbpsMedio = ((bytesTotaisPeriodo * 8) / (janelaSegundos * 1024 * 1024))
-    .toFixed(2) + " Gbps";  
+    .toFixed(2) + " Gbps";
 
   return {
     perdaPacotes,
-    dadosEnviados: enviadosMB,
-    dadosRecebidos: recebidosMB,
+    dadosEnviados: enviadosFmt,
+    dadosRecebidos: recebidosFmt,
     trafegoMedio: mbpsMedio
   };
 }
@@ -304,7 +320,7 @@ async function getDadosTrafego(req, res) {
     if (!linhas.length)
       return res.json({ success: true, periodo, labels: [], valores: [] });
 
-   
+
     const first = linhas[0].row;
     const colEnv = Object.keys(first).find(k => k.includes("env")) || "bytesEnv";
     const colRecb = Object.keys(first).find(k => k.includes("recb")) || "bytesRecb";
@@ -316,7 +332,7 @@ async function getDadosTrafego(req, res) {
       recb: Number(l.row[colRecb] || 0)
     }));
 
-  
+
     dados.sort((a, b) => a.ts - b.ts);
 
     let anterior = null;
@@ -359,7 +375,7 @@ async function getDadosTrafego(req, res) {
         valores.push(Number(mbps.toFixed(2)));
       }
     } else {
-  
+
       const dias = periodo === "7d" ? 7 : 30;
 
       for (let i = dias - 1; i >= 0; i--) {
@@ -507,5 +523,6 @@ module.exports = {
   carregarDadosTrafego,
   getDadosPacotes,
   setS3Client,
-  gerarDeltas
+  gerarDeltas,
+  formatarGBouTB
 };
